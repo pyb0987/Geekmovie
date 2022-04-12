@@ -1,6 +1,75 @@
+<head>
 <style>
-h1{color : red;}
-</style>
+#header{
+    border : solid 1px red; 
+    width: 100%;
+    height: 90px;
+}
+#img{
+    width: 80px;
+    height: 80px;
+}
+#searchbox{
+    border : solid 1px red;
+    width: 500px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 35px;
+    text-align: center;
+}
 
-<h1>Header</h1>
-<p>abcdefjhijklmnopqrstuvwxyzabcdefjhijklmnopqrstuvwxyzabcdefjhijklmnopqrstuvwxyzabcdefjhijklmnopqrstuvwxyz</p>
+#inputbox{
+    border: none;
+    height: 35px;
+    width: 300px;
+    font-size: 1.2rem;
+}
+
+#searchbutton-container{
+    width: 70px;
+    height: 40px;
+}
+
+#searchbox-container{
+    width: 700px;
+    height: 100%;
+    
+}
+
+#searchbutton{
+    width: 100%;
+    height: 100%;
+    background-color: blueviolet;
+}
+
+.flex{
+    display: flex;
+    
+}
+
+
+
+
+</style>
+</head>
+<body>
+<div id="header" class="flex">
+    <div id="img">
+        <img src="" alt="logo">
+    </div>
+    <div id="searchbox-container">
+        <div id="searchbox" class="flex">
+            <div id="searchicon">
+                <img src="" alt="searchicon">
+            </div>
+            <input type="text" id="inputbox">
+            <div id="searchbutton-container">
+                <div id="searchbutton" onclick="" onmouseover="this.style.cursor='pointer'" value></div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+</body>
