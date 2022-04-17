@@ -16,7 +16,7 @@ String language = "ko-KR";
 <title>GeekMovie</title>
 <style>
 body {
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 .movie-container {
