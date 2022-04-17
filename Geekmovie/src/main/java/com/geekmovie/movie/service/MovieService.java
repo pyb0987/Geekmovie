@@ -2,22 +2,22 @@ package com.geekmovie.movie.service;
 
 import java.util.List;
 
-import com.geekmovie.movie.vo.MovieVo;
+import com.geekmovie.movie.vo.MovieDetailVo;
 
 
 public interface MovieService {
 	
 	public int index();
 	
-	public int create(MovieVo vo);
+	public int create(MovieDetailVo vo);
 
-	public List<MovieVo> list();
+	public List<MovieDetailVo> list();
 
-	public MovieVo detail(MovieVo vo);
+	public MovieDetailVo detail(MovieDetailVo vo);
 	
-	public int update(MovieVo vo);
+	public int update(MovieDetailVo vo);
 	
-	public int delete(MovieVo vo);
+	public int delete(MovieDetailVo vo);
 
 
 

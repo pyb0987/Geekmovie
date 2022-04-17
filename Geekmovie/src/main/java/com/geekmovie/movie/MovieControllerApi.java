@@ -10,21 +10,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.geekmovie.movie.common.UrlRead;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.geekmovie.movie.dao.MovieDao;
+import com.geekmovie.movie.json.MovieUrlGetter;
+import com.geekmovie.movie.json.UrlRead;
 
 @RestController
 public class MovieControllerApi {
 	
 	@Autowired
 	MovieDao movieDao;
+	@Autowired
+	MovieUrlGetter movieUrlGetter;
+	@Autowired
+	ObjectMapper mapper;
 	
-	@GetMapping("/test2")
-	public String test2() {
-	String url = movieDao.getPopularMovieInfo(1, "ko-KR");
+	
+	@GetMapping("/test1")
+	public String test1() {
 		JSONObject rs = new JSONObject();
 		try {
-			rs = UrlRead.readJsonFromUrl(url);
+			rs = UrlRead.readJsonFromUrl(movieUrlGetter.getMovieData(550, "ko-KR"));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -32,17 +38,53 @@ public class MovieControllerApi {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return rs.toString();
 	}
 	
+	
+	
+	
 
 	
-	@GetMapping("/popularMovie")
-	public String popularMovie(HttpServletRequest request){
-		int page = (Integer)request.getAttribute("page");
-		String language = (String)request.getAttribute("language");
-		String rs = movieDao.getPopularMovieInfo(page, language);
-		return rs;
+	@GetMapping("/getPopularMovieList")
+	public String getPopularMovieList(HttpServletRequest request){
+		int page = 1;
+		String language = "";
+		String rs = "";
+		
+		try {
+			page = Integer.parseInt((String)request.getParameter("page"));
+			language = (String)request.getParameter("language");
+			rs = UrlRead.readStringFromUrl(movieUrlGetter.getPopularMovieList(page, language));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		  return rs;
 	}
 	
+	
+	@GetMapping("/getTrendingMovieList")
+	public String getTrendingMovieList(HttpServletRequest request){
+		String timewindow = "";
+		String rs = "";
+		
+		try {
+			timewindow = (String)request.getParameter("timewindow");
+			rs = UrlRead.readStringFromUrl(movieUrlGetter.getTrendingMovieList(timewindow));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		  return rs;
+	}
 }

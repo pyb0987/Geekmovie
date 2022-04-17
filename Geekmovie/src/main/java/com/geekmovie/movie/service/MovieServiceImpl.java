@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.geekmovie.movie.dao.MovieDao;
-import com.geekmovie.movie.vo.MovieVo;
+import com.geekmovie.movie.vo.MovieDetailVo;
 
 @Service
 public class MovieServiceImpl implements MovieService{
@@ -23,31 +23,31 @@ public class MovieServiceImpl implements MovieService{
 	
 	
 	@Override
-	public int create(MovieVo vo) {
+	public int create(MovieDetailVo vo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public List<MovieVo> list() {
+	public List<MovieDetailVo> list() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public MovieVo detail(MovieVo vo) {
+	public MovieDetailVo detail(MovieDetailVo vo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int update(MovieVo vo) {
+	public int update(MovieDetailVo vo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int delete(MovieVo vo) {
+	public int delete(MovieDetailVo vo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
