@@ -5,13 +5,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="userVO">
 	
-	<insert id="insertVO" parameterType="bookVO"
-		useGeneratedKeys="true" keyProperty="book_id">
+	<select id="list_test">
 		<![CDATA[
-			 insert into book (title, category, price)
-			 values (#{title}, #{category}, #{price})			 
+			select * from user
 		]]>
-	</insert>
+	</select>
 
 	
 
