@@ -21,9 +21,10 @@
 	<h4><p>이름<br></h4>
 	<input type="text" name="name"></p> <!-- 이름 입력창 -->
 	<!-- -------------------------------------- -->
+	
+	
 	<h4><p>생년월일<br></h4></p>
 	<input type="text" name="year"> <!-- 년도 입력창 -->
-	
 	<!-- -------------------------------------- -->
 	<select name="month" id="month"> 
     	<option value="month">월</option> <!-- 월 입력창 -->
