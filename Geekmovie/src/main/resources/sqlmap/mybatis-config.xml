@@ -3,9 +3,10 @@
 PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-
-
-    <mappers>
+	<typeAliases>
+		<typeAlias type="com.geekmovie.movie.vo.userVO" alias="userVO"/>
+	</typeAliases>
+	<mappers>
         <mapper resource="/sqlmap/mapper/movieDetail-mapper.xml"/>
     </mappers>
 </configuration>
