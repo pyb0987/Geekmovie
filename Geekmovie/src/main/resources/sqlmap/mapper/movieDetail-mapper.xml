@@ -5,12 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="MovieDetail">
 
-
-
-
-
-    
-    <select id="select_list" resultType="hashMap">
+	<select id="select_list" resultType="hashMap">
         <![CDATA[
         select * from book order by seq desc
         ]]>
