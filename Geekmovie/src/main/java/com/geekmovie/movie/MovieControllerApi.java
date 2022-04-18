@@ -25,12 +25,15 @@ public class MovieControllerApi {
 	@Autowired
 	ObjectMapper mapper;
 	
-	
-	@GetMapping("/test1")
-	public String test1() {
-		JSONObject rs = new JSONObject();
+	@GetMapping("/getMovieData")
+	public String getMovieData(HttpServletRequest request){
+		int movieId = 1;
+		String language = "";
+		String rs = "";	
 		try {
-			rs = UrlRead.readJsonFromUrl(movieUrlGetter.getMovieData(550, "ko-KR"));
+			movieId = Integer.parseInt((String)request.getParameter("movieId"));
+			language = (String)request.getParameter("language");
+			rs = UrlRead.readStringFromUrl(movieUrlGetter.getMovieData(movieId, language));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -38,10 +41,9 @@ public class MovieControllerApi {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return rs.toString();
+		  return rs;
 	}
-	
+
 	
 	
 	
