@@ -1,5 +1,4 @@
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
@@ -217,8 +216,25 @@ body {
 </head>
 
 <body>
-	<h1>ABCDEFG</h1>
 
+	<a href="boardList"></a>
+
+	<h1>ABCDEFG</h1>
+	
+	<!-- 회원 로그인 및 가입 공간 -->
+	
+	<form action="join" id="join" method="post">
+	<p>아이디 : <input type = "text" name="id"></p>
+	<p>패스워드 : <input type = "text" name="password"></p>
+	<p><input type = "submit" value="로그인"></p>
+	
+	<!-- 가입 -->
+	</form>
+	<form action="create" id="create" method="get">
+	<p><input type = "submit" value="회원가입"></p>
+	</form>
+	
+	
 	<div id="trend-movie">
 		<div class="movie-BigPicture"></div>
 		<h3>지금 트렌드는</h3>

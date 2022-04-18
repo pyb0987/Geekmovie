@@ -22,6 +22,7 @@ public class MovieController {
 	
 	@Autowired
 	MovieDao movieDao;
+	BoardDao boardDao;
 	
 	@Autowired
 	MovieService MovieService;
@@ -31,6 +32,7 @@ public class MovieController {
 		 return "index";
 	}
 	
+
 	
 	@GetMapping("/movieDetail")            //home
 	public ModelAndView movieDetail(HttpServletRequest request) {
@@ -49,6 +51,11 @@ public class MovieController {
 		return mav;
 	}
 
+	@GetMapping("/boardList")            //게시판
+	public String boardList() {
+		 return "boardList";
+	}
+	
 	
 	
 }
