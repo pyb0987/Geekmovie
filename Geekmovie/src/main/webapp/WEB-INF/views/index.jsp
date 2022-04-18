@@ -194,6 +194,9 @@ img { /*이미지 전부 채우게 함*/
 </head>
 
 <body>
+
+	<a href="boardList"></a>
+
 	<h1>ABCDEFG</h1>
 	
 	<!-- 회원 로그인 및 가입 공간 -->
