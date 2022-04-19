@@ -1,4 +1,4 @@
-package com.geekmovie.movie.vo;
+package com.geekmovie.user.vo;
 
 public class userVO {
 	

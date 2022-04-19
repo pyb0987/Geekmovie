@@ -5,12 +5,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="userVO">
 	
-	<select id="list_test">
+	
+	<!-- 리스트로 목록보기 -->
+	<select id="list_test" parameterType="userVO" resultType="userVO">
 		<![CDATA[
-			select * from user
+			select * from users
 		]]>
 	</select>
-
-	
-
 </mapper>

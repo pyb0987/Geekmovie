@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.geekmovie.board.service.BoardService;
@@ -16,6 +17,7 @@ import com.geekmovie.movie.dao.MovieDao;
 import com.geekmovie.movie.json.MovieUrlGetter;
 import com.geekmovie.movie.json.UrlRead;
 import com.geekmovie.movie.service.MovieService;
+import com.geekmovie.user.vo.userVO;
 
 /**
  * Handles requests for the application home page.
@@ -29,7 +31,7 @@ public class MovieController {
 	//BoardDao boardDao;
 	
 	@Autowired
-	MovieService MovieService;
+	MovieService movieService;
 	
 	@GetMapping("/")            //home
 	public String index() {
@@ -65,4 +67,5 @@ public class MovieController {
 //	}
 	
 	
+
 }
