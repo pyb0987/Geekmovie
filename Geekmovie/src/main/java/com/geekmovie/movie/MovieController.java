@@ -29,9 +29,6 @@ public class MovieController {
 	//BoardDao boardDao;
 	
 	@Autowired
-	BoardService boardService;
-	
-	@Autowired
 	MovieService MovieService;
 	
 	@GetMapping("/")            //home

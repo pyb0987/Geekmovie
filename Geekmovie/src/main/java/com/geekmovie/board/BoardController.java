@@ -17,17 +17,11 @@ import com.geekmovie.movie.json.MovieUrlGetter;
 import com.geekmovie.movie.json.UrlRead;
 import com.geekmovie.movie.service.MovieService;
 
-/**
- * Handles requests for the application home page.
- */
 @Controller
 public class BoardController {
 	
-	
-	
 	@Autowired
 	BoardService boardService;
-	
 
 	@GetMapping("/boardList")          //게시판
 	public ModelAndView boardList(BoardVo boardVo) {
