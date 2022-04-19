@@ -217,7 +217,7 @@ body {
 
 <body>
 
-	<a href="boardList"></a>
+	<a href="boardList">게시판</a>
 
 	<h1>ABCDEFG</h1>
 	
