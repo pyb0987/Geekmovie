@@ -1,5 +1,7 @@
 package com.geekmovie.board.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +19,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
-	public int create(BoardVo boardVo) {
-		return dao.insert(boardVo);
+	public List<BoardVo> bList(BoardVo boardVo) {
+		return dao.boardList(boardVo);
 	}
+	
+	//@Override
+	//public int create(BoardVo boardVo) {
+	//	return dao.insert(boardVo);
+	//}
 
 }

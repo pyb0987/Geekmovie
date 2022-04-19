@@ -15,6 +15,8 @@ String language = "ko-KR";
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css"
 	rel="stylesheet">
+
+
 <style>
 
 @import
@@ -212,6 +214,7 @@ box-sizing: border-box;
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/movieHover.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/movieSlide.css"/>
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieSlide.js" ></script>
 <script>
 
@@ -406,9 +409,10 @@ box-sizing: border-box;
 	<p>패스워드 : <input type = "text" name="password"></p>
 	<p><input type = "submit" value="로그인"></p>
 	
-	<!-- 가입 -->
+	<!-- 가입  -->
 	</form>
-	<form action="createUser" id="create" method="get">
+
+	<form action="createUser" id="createUser" method="get">
 	<p><input type = "submit" value="회원가입"></p>
 	</form>
 	
