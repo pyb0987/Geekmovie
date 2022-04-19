@@ -45,10 +45,6 @@ public class MovieControllerApi {
 	}
 
 	
-	
-	
-
-	
 	@GetMapping("/getPopularMovieList")
 	public String getPopularMovieList(HttpServletRequest request){
 		int page = 1;
@@ -79,6 +75,28 @@ public class MovieControllerApi {
 		try {
 			timewindow = (String)request.getParameter("timewindow");
 			rs = UrlRead.readStringFromUrl(movieUrlGetter.getTrendingMovieList(timewindow));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		  return rs;
+	}
+	
+	@GetMapping("/searchMovieList")
+	public String searchMovieList(HttpServletRequest request){
+		String rs = "";
+		String language = ""; 
+		String query = ""; 
+		int page = 1;
+		try {
+			language = (String)request.getParameter("language");
+			query = (String)request.getParameter("query");
+			page = Integer.parseInt(request.getParameter("query"));
+			rs = UrlRead.readStringFromUrl(movieUrlGetter.SearchMovieList(language, query, page));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
