@@ -4,15 +4,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.geekmovie.board.vo.BoardVo" alias="BoardVo"/>
-	</typeAliases>
-	<typeAliases>
+		<!-- <typeAlias type="com.geekmovie.board.vo.BoardVo" alias="BoardVo"/> -->
 		<typeAlias type="com.geekmovie.movie.vo.userVO" alias="userVO"/>
 	</typeAliases>
 	<mappers>
-
-    <mappers>
         <mapper resource="/sqlmap/mapper/movieDetail-mapper.xml"/>
-        <mapper resource="/sqlmap/mapper/BoardVO-mapper.xml"/>
+        <!-- <mapper resource="/sqlmap/mapper/BoardVO-mapper.xml"/> -->
     </mappers>
 </configuration>

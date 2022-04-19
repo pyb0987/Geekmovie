@@ -22,7 +22,7 @@ public class MovieController {
 	
 	@Autowired
 	MovieDao movieDao;
-	BoardDao boardDao;
+	//BoardDao boardDao;
 	
 	@Autowired
 	MovieService MovieService;
