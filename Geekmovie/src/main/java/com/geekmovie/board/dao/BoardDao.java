@@ -1,5 +1,7 @@
 package com.geekmovie.board.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,8 +18,12 @@ public class BoardDao {
 		System.out.println("@Repository 스프링 자동 생성");
 	}
 	
-	public int insert(BoardVo boardvo) {
-		return sqlSessionTemplate.insert("boardvo.insert", boardvo);
+	public List<BoardVo> boardList(BoardVo boardvo) {
+		return sqlSessionTemplate.selectList("boardVo.board_list", boardvo);
 	}
+	
+	//public int insert(BoardVo boardvo) {
+	//	return sqlSessionTemplate.insert("boardVo.insert", boardvo);
+	//}
 
 }

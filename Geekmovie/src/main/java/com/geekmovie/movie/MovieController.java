@@ -1,6 +1,8 @@
 package com.geekmovie.movie;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.geekmovie.board.service.BoardService;
+import com.geekmovie.board.vo.BoardVo;
 import com.geekmovie.movie.dao.MovieDao;
 import com.geekmovie.movie.json.MovieUrlGetter;
 import com.geekmovie.movie.json.UrlRead;
@@ -34,9 +38,7 @@ public class MovieController {
 		 return "index";
 	}
 	
-
-	
-	@GetMapping("/movieDetail")            //home
+	@GetMapping("/movieDetail")     //home
 	public ModelAndView movieDetail(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();	
 		
@@ -52,5 +54,18 @@ public class MovieController {
 		mav.setViewName("movieDetail");
 		return mav;
 	}
-		
+
+//	@GetMapping("/boardList")          //게시판
+//	public ModelAndView boardList(BoardVo boardVo) {
+//		System.out.println("list : " + boardVo); 
+//		List<BoardVo> list = boardService.bList(boardVo);
+//		
+//		ModelAndView mav = new ModelAndView();
+//		mav.addObject("data", list);
+//		mav.setViewName("boardList");
+//		return mav;
+//	}
+	
+	
+
 }
