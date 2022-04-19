@@ -196,7 +196,7 @@ img { /*이미지 전부 채우게 함*/
 
 <body>
 
-	<a href="boardList"></a>
+	<a href="boardList">게시판</a>
 
 	<h1>ABCDEFG</h1>
 
