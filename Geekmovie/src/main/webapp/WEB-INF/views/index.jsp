@@ -1,7 +1,6 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<c:set var="path" value="${pageContext.request.contextPath}" />
 
 
 <%
@@ -16,7 +15,7 @@ String language = "ko-KR";
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css"
 	rel="stylesheet">
-<link rel="stylesheet" href="${path}/resources/css/movieHover.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/movieHover.css">
 <style>
 @import
 	url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
@@ -228,9 +227,9 @@ body {
 	<p>패스워드 : <input type = "text" name="password"></p>
 	<p><input type = "submit" value="로그인"></p>
 	
-	<!-- 가입 -->
+	<!-- 가입  -->
 	</form>
-	<form action="create" id="create" method="get">
+	<form action="createUser" id="createUser" method="get">
 	<p><input type = "submit" value="회원가입"></p>
 	</form>
 	
