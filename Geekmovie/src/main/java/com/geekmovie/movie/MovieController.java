@@ -25,7 +25,7 @@ public class MovieController {
 	//BoardDao boardDao;
 	
 	@Autowired
-	MovieService MovieService;
+	MovieService movieService;
 	
 	@GetMapping("/")            //home
 	public String index() {
@@ -56,6 +56,11 @@ public class MovieController {
 		 return "boardList";
 	}
 	
+	
+	@GetMapping("/createUser")            //회원가입
+	public String createUser() {
+		 return "createUser";
+	}
 	
 	
 }
