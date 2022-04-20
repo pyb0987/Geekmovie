@@ -66,11 +66,6 @@ public class MovieController {
 //		return mav;
 //	}
 	
-	@GetMapping("/createUser")            //회원가입
-	public String createUser() {
-		 return "createUser";
-	}
-	
-	
+
 
 }
