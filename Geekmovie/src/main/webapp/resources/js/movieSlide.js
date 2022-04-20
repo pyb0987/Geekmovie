@@ -1,3 +1,4 @@
+
     $(document).ready(function(){			 
 		    	
 		let movieContainerWidth = 8000-window.innerWidth;		
@@ -56,4 +57,5 @@
 			TrendIsDragging = false;
 			PopularIsDragging = false;
 		})
+
 		})

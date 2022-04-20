@@ -390,7 +390,9 @@ box-sizing: border-box;
 		<div id="foldMenu">
 		<div class="menuButton">최신영화</div>
 		<div class="menuButton">인기영화</div>
-		<div class="menuButton onclick="location.href='boardList';">최신게시글</div>
+
+		<div class="menuButton" onclick="location.href='boardList';">최신게시글</div>
+
 		<div class="menuButton">마이페이지</div>
 		</div>
 	</div>
