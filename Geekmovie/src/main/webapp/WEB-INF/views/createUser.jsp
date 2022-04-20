@@ -6,93 +6,51 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입 페이지</title>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/signup.js?ver=2"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/signup.js?ver=1"></script>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/createUserstyle.css?ver=1">
 </head>
 <body>
-	<h1>회원가입</h1>
-	<!-- 전체 class  -->
-	<div class="wrapper">
-		<!-- form method : post 방식 -->
-		<!-- id 적용 -->
-		<form name='user_form' id="user_form" method="post">
-		<div class="id">
-		<h4>아이디</h4>
-		<input type="text" id="id" placeholder="아이디를 입력해주세요.">
-			<div id="idError" class="error"></div>
-		</div>
-		
-		<!-- password 적용 -->
-		<div class="password">
-		<h4>비밀번호</h4>
-		<input type="text" id="password" placeholder="비밀번호를 입력해주세요.">
+	<div id="regist_wrap" class="wrap">
+		<div>
+			<h1>회원가입</h1>
+			<!-- form method : post 방식 -->
+			<form method="post" name="regiform" id="regist_form" class="form" onsubmit="return signUpCheck()">
+			
+			<!-- id 적용 -->
+			<div>
+			<p><input type="text" name="id" id="id" placeholder="ID"></p>
+			<div id="idError" class="error">&nbsp;</div>
+			</div>
+			
+			<!-- password 적용 -->
+			<div>
+			<p><input type="text" name="password" id="password" placeholder="Password"></p>
 			<div id="passwordError" class="error"></div>
-		</div>
-		
-		<!-- password 재확인 적용 -->
-		<div class="passwordCheck">
-		<h4>비밀번호 재확인</h4>
-		<input type="text" id="passwordCheck" placeholder="비밀번호를 다시 입력해주세요.">
-			<div id="passwordCheckError" class="error"></div>
-		</div>
-		
-		<!-- 이름 적용 -->
-		<div class="name">
-			<h4>이름</h4>
-			<input type="text" id="name" placeholder="이름을 입력해주세요.">
-			<div id="nameError" class="error"></div>
-		</div>
-		
-		<!-- 생년월일 적용 -->
-		<div class="birthday">
-			<h4>생년월일</h4>
-			
-			<!-- 년도 -->
-			<div class ="year">
-			<input type="text" id="year" placeholder="년(4자)">
-			<div id="yearError" class="error"></div>
 			</div>
 			
-			<!-- 월 -->
-			<div class = "month">
-			<select id="month"> 
-    			<option selected disabled>월</option> <!-- 월 입력창 -->
-	    		<option>1</option>
-	    		<option>2</option>
-	    		<option>3</option>
-	    		<option>4</option>
-	    		<option>5</option>
-	    		<option>6</option>
-	    		<option>7</option>
-	    		<option>8</option>
-	    		<option>9</option>
-	    		<option>10</option>
-	    		<option>11</option>
-	    		<option>12</option>
-			</select>
-			<div class="monthError" class="error"></div>
+			<!-- passwordCheck 적용 -->
+			<div>
+			<p><input type="text" name="passwordCheck" id="passwordCheck" placeholder="Password Check"></p>
+			<div id="passwordCheckError" class="error">&nbsp;</div>
 			</div>
 			
-			<!-- 일 -->
-			<div class ="day">
-			<input type="text" id="day" placeholder="일">
-			<div id="dayError" class="error"></div>
+			<!-- name 적용 -->
+			<div>
+			<p><input type="text" name="name" id="name" placeholder="Name"></p>
+			<div id="nameError" class="error">&nbsp;</div>
 			</div>
-			
-			<!-- 성별 -->
-			<div class ="gender">
-			<h4>성별</h4>
-			<select id="gender">
-				<option>남자</option>
-				<option>여자</option>
-			</select>
-			<div id="genderError" class="error"></div>
-			</div>
+			<!-- 생년 월일 -->
+			<!-- pass -->
+			<p><select name="gender" id="gender">
+				<option value="남자">남자</option>
+				<option value="여자">여자</option>
+			</select></p>
+			<p><input type="submit" value="Sign Up" class="signup_btn"></p>
+            <p class="pre_btn">Are you join? <a href="join">Login.</a></p>
+		</form>	
 		</div>
-		<hr>
-		<div class = "signUp">
-			<input type="button" id="signUpButton" onclick="signUpCheck()" value="가입하기"></input>	
-		</div>
-		</form>
 	</div>
 </body>
 </html>

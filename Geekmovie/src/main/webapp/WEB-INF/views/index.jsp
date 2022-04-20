@@ -396,7 +396,9 @@ box-sizing: border-box;
 		<div id="foldMenu">
 		<div class="menuButton">최신영화</div>
 		<div class="menuButton">인기영화</div>
-		<div class="menuButton onclick="location.href='boardList';">최신게시글</div>
+
+		<div class="menuButton" onclick="location.href='boardList';">최신게시글</div>
+
 		<div class="menuButton">마이페이지</div>
 		</div>
 	</div>
@@ -410,7 +412,7 @@ box-sizing: border-box;
 	
 	<!-- 회원 로그인 및 가입 공간 -->
 	
-	<form action="join" id="join" method="post">
+	<form action="join" id="join" method="get">
 	<p>아이디 : <input type = "text" name="id"></p>
 	<p>패스워드 : <input type = "text" name="password"></p>
 	<p><input type = "submit" value="로그인"></p>

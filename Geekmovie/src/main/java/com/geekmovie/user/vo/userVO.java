@@ -5,19 +5,17 @@ public class userVO {
 	private String id;
 	private String password;
 	private String name;
-	private String birthday;
 	private String gender;
 	
 	public userVO() {
-
+		
 	}
 
-	public userVO(String id, String password, String name, String birthday, String gender) {
+	public userVO(String id, String password, String name, String gender) {
 		super();
 		this.id = id;
 		this.password = password;
 		this.name = name;
-		this.birthday = birthday;
 		this.gender = gender;
 	}
 
@@ -45,14 +43,6 @@ public class userVO {
 		this.name = name;
 	}
 
-	public String getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
-	}
-
 	public String getGender() {
 		return gender;
 	}
@@ -63,8 +53,9 @@ public class userVO {
 
 	@Override
 	public String toString() {
-		return "userVO [id=" + id + ", password=" + password + ", name=" + name + ", birthday=" + birthday + ", gender="
-				+ gender + "]";
+		return "userVo [id=" + id + ", password=" + password + ", name=" + name + ", gender=" + gender + "]";
 	}
+	
+	
 
 }

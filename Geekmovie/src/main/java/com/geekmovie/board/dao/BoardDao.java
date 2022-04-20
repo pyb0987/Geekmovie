@@ -15,15 +15,15 @@ public class BoardDao {
 	SqlSessionTemplate sqlSessionTemplate;
 	
 	public BoardDao() {
-		System.out.println("@Repository 스프링 자동 생성");
+		System.out.println("@Repository DAO 스프링 자동 생성");
 	}
 	
 	public List<BoardVo> boardList(BoardVo boardvo) {
 		return sqlSessionTemplate.selectList("boardVo.board_list", boardvo);
 	}
 	
-	//public int insert(BoardVo boardvo) {
-	//	return sqlSessionTemplate.insert("boardVo.insert", boardvo);
-	//}
+	public int boardInsert(BoardVo boardvo) {
+		return sqlSessionTemplate.insert("boardVo.board_insert", boardvo);
+	}
 
 }
