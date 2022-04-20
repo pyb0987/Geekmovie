@@ -13,11 +13,11 @@ public class userVODao {
 	SqlSessionTemplate sqlSessionTemplate;
 	
 	public userVODao() {
-	
+		System.out.println("@Repository UserVODaa 스프링 자동 생성");
 	}
 	
 	public int insert(userVO userVO) {
-		return sqlSessionTemplate.insert("",userVO);
+		return sqlSessionTemplate.insert("userVO.insertVO",userVO);
 	}
 	
 }
