@@ -22,10 +22,10 @@ public class userVOController {
 		System.out.println("@Create GET 호출");
 		return "createUser";
 	}
-	@PostMapping("/createUser")
-	public String createPOST() {
-		System.out.println("@Create POST 호출");
-		return "index";
-	}
+//	@PostMapping("/createUser")
+//	public String createPOST() {
+//		System.out.println("@Create POST 호출");
+//		return "index";
+//	}
 
 }
