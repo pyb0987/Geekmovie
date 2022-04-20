@@ -6,13 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입 페이지</title>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/signup.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/signup.js?ver=2"></script>
 </head>
 <body>
 	<h1>회원가입</h1>
 	<!-- 전체 class  -->
 	<div class="wrapper">
+		<!-- form method : post 방식 -->
 		<!-- id 적용 -->
+		<form name='user_form' id="user_form" method="post">
 		<div class="id">
 		<h4>아이디</h4>
 		<input type="text" id="id" placeholder="아이디를 입력해주세요.">
@@ -88,8 +90,9 @@
 		</div>
 		<hr>
 		<div class = "signUp">
-			<button id="signUpButton" onclick="signUpCheck()">가입하기</button>
+			<input type="button" id="signUpButton" onclick="signUpCheck()" value="가입하기"></input>	
 		</div>
+		</form>
 	</div>
 </body>
 </html>

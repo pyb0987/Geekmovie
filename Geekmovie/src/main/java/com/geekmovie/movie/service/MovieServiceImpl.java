@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.geekmovie.movie.dao.MovieDao;
 import com.geekmovie.movie.vo.MovieDetailVo;
+import com.geekmovie.user.vo.userVO;
 
 @Service
 public class MovieServiceImpl implements MovieService{
@@ -16,40 +17,7 @@ public class MovieServiceImpl implements MovieService{
 	
 	@Override
 	public int index() {					//home(index) 표시
-		// TODO Auto-generated method stu
+		
 		return 0;
 	}
-	
-	
-	
-	@Override
-	public int create(MovieDetailVo vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<MovieDetailVo> list() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public MovieDetailVo detail(MovieDetailVo vo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int update(MovieDetailVo vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int delete(MovieDetailVo vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }
