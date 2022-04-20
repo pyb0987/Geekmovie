@@ -32,6 +32,12 @@ body {
 	margin : 0;
 }
 
+#credit{
+	margin: 0 auto;
+	max-width : 1400px;
+	min-width : 620px;
+}
+
 #userSpace{
  display : flex;
 }
@@ -42,7 +48,6 @@ display : flex;
 flex-direction: column;
 width : 50%;
 padding : 30px;
-border : solid 1px red;
 }
 
 .board{
@@ -61,6 +66,8 @@ background-color : white;
 	<script type="text/javascript" src="${path}/resources/js/movieSlideOne.js" ></script>
 <script>
 	$(document).ready(function() {
+		
+		
 		var colorMap = new Map([[28,["#44c76750","#18ab2950", "#ffffff", "#2f6627"]],	//genreColorMap
 			[12, ["#7892c250","#4e609650", "#ffffff", "#283966"]],
 			[16, ["#33bdef50","#057fd050", "#ffffff","#5b6178"]],
@@ -80,6 +87,22 @@ background-color : white;
 			[53, ["#fc8d8350","#d8352650", "#ffffff", "#b23e35"]],
 			[10752, ["#768d8750","#56696350", "#ffffff", "#2b665e"]],
 			[37, ["#77b55a50","#4b8f2950", "#ffffff", "#5b8a3c"]]]);  
+		
+		
+		
+		var windowResize_noDebounce = function(){					//리사이징 함수
+			document.getElementById("detail-bigPicture").style.backgroundSize = window.innerWidth+'px';
+			document.getElementById("detail-bigPicture").style.height = window.innerWidth*0.5+'px'
+		}
+		
+		windowResize_noDebounce();
+		var timer;
+		window.addEventListener('resize', function() {				//리사이징에 debounce 적용
+			  if (timer) { clearTimeout(timer); }
+				  timer = setTimeout(windowResize_noDebounce, 0);
+				}, true);	
+		
+		
 		
 		$.ajax({							//받아온 영화 정보 디테일로 만들기
         	type: 'GET',
@@ -108,7 +131,7 @@ background-color : white;
             		}else{
             			str8 = ""
             		}       		
-        		$("#detail-bigPicture").css({"background":"linear-gradient(to bottom,rgba(0,0,0,0) 80%,rgba(0,0,0,0.5) 90%,rgba(0,0,0,1) 100%), url("+ str1 +")"});   //배경화면 및 그라데이션 
+        		$("#detail-bigPicture").css({"background":"linear-gradient(to bottom,rgba(0,0,0,0) 80%,rgba(0,0,0,0.5) 90%,rgba(0,0,0,1) 100%), url("+ str1 +")", "background-repeat": "no-repeat", "background-size": "cover"});   //배경화면 및 그라데이션 
         		$("#detail-poster").html(str2);
         		$("#detail-title").html(str3)
         		if (data.title!=data.original_title){
@@ -212,11 +235,11 @@ background-color : white;
         
         $.ajax({							//getSimilarMovieList 출력
         	type: 'GET',
-        	url: '/movie/getSimilarMovieList?movieId=${movieId}?page=1&language=${language}',
+        	url: `/movie/getSimilarMovieList?movieId=${movieId}&page=1&language=${language}`,
         	dataType : 'json',
         	contentType : 'application/json', 
         	success: function(data){
-        		$("#similar-movie .movie-container .movie").each(function(index, element){
+        		$("#similar-movie .movies-container .movie").each(function(index, element){
         			if(data.results[index].poster_path){
         			str = "<div class='movie-image'><img src='https://image.tmdb.org/t/p/w185/"+data.results[index].poster_path+"'></div>" ;
         			}else{
@@ -292,17 +315,20 @@ background-color : white;
 			</div>
 		</div>
 	</div>
+	<div id="credit-container">
 	<div id="credit">
 		<h5 style="padding-left: 30px">출연진</h5>
 		<div id="casts"></div>
 		<div class="credit-button-container">
 			<div id="moreCasts">더 보기</div>
 		</div>
+	
 
 		<h5 style="padding-left: 30px">제작진</h5>
 		<div id="crews"></div>
 		<div class="credit-button-container">
 			<div id="moreCrews">더 보기</div>
+		</div>
 		</div>
 	</div>
 	<div id="userSpace">
@@ -318,32 +344,60 @@ background-color : white;
 	
 	<div id="similar-movie">
 		<h3>비슷한 영화</h3>
-		<div class="movie-container">
-			<div class="movie-innerContainer">
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
+		<div class="movies-container">
+			<div class="movies-innerContainer">
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
 			</div>
 		</div>
 	</div>
 
+
+<div id="recommend-movie">
+		<h3>추천 영화</h3>
+		<div class="movies-container">
+			<div class="movies-innerContainer">
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+			</div>
+		</div>
+	</div>
 
 
 

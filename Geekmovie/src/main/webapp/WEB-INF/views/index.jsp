@@ -56,7 +56,7 @@ body {
     /*-- menu button --*/
 #menu-container{
     width: 140px;
-    min-width: 80px;
+    min-width: 70px;
     height: 30px;
     display: flex;
     justify-content: center;
@@ -69,8 +69,8 @@ body {
 }
 .menubar{
     position: absolute;
-    width: 40px;
-    height: 4px;
+    width: 100%;
+    height: 13%;
     background-color: #f8efc5;
     border-radius: 4px;
     transition : all 0.2s;
@@ -86,10 +86,12 @@ body {
 
     /*-- logo --*/
 #logo-img{
-    width: 150px;
-    height: 40px;
+    
 }
 #logo{
+	width: 150px;
+    min-width : 100px;
+    height: 40px;
     font-family: 'Square Peg', cursive;
     font-size: 1.9rem;
     color : #f8efc5;
@@ -105,29 +107,31 @@ body {
     /*-- searchbox --*/    
 #searchbox{
 	display: flex;
-    width: 520px;
+    min-width : 430px;
     height: 40px;
-    line-height: 40px;
     border-radius: 35px;
-    text-align: center;
-        background-color: white;
+    align-items: center;
+    background-color: white;
     border: 3px solid red;
+
 }
+
 #inputbox{
     border: none;
     height: 35px;
-    width: 350px;
     font-size: 1.2rem;
+    flex-grow : 1;
 }
 #searchbutton-container{
     width: 70px;
     height: 40px;
+    flex-grow : 0;
 }
 #searchbox-container{
-    width: 600px;
-    text-align: center;
-    padding: 25px;
-    padding-left: 50px;
+    width: 650px;
+    padding-left : 25px;
+    padding-right : 25px;
+    margin : auto;
         
 }
 #searchbutton{
@@ -146,7 +150,17 @@ body {
 font-family: 'NanumSquareRound';
 margin-left : 20px;
     border: none;
+    flex-grow : 0;
+
 }
+#keywordSearch{
+display : flex;
+flex-grow : 1;
+align-items : center;
+margin : auto;
+}
+
+
 
 #user-menu1, #user-menu2{
  color : #f8efc5e0;
@@ -195,7 +209,7 @@ box-sizing: border-box;
  font-family: 'NanumSquareRound';
  text-align : center;
  font-size: 1.1rem;
-           
+ cursor : pointer;          
  border-right: 1px solid #323235;
  border-left: 1px solid rgba(255, 255, 255, 0.2);
  background-image: -moz-linear-gradient(top, #535357, #3c3c3f);
@@ -207,6 +221,15 @@ box-sizing: border-box;
  -moz-box-shadow: inset 0 1px 0px rgba(255, 255, 255, 0.2), 0 1px 0px #292929;
  box-shadow: inset 0 1px 0px rgba(255, 255, 255, 0.2), 0 1px 0px #292929;
 }
+.menuButton:hover{
+background-image: -moz-linear-gradient(top, #484852, #383839);
+ background-image: -ms-linear-gradient(top, #484852, #383839);
+ background-image: -webkit-linear-gradient(top, #484852, #383839);
+ background-image: linear-gradient(top, #484852, #383839);        
+box-shadow: -2px 2px 16px rgba(0, 0, 0, 0.6);
+box-shadow: -1px 1px 16px rgba(0, 0, 0, 0.6);
+}
+
 
 </style>
 
@@ -224,10 +247,97 @@ box-sizing: border-box;
     	
 		session_check();
 		
-		const TrendMovieContainer = document.querySelector("#trend-movie .movie-container");	
-		movieSlideOne(TrendMovieContainer)
-		const PopularMovieContainer = document.querySelector("#popular-movie .movie-container");	
-		movieSlideOne(PopularMovieContainer)
+	
+		
+		let movieContainerWidth;	
+		let movieInnerContainerWidth;
+
+    	var movieContainerResize = function() {						//movieContainer 리사이징 함수
+		if(window.innerWidth>1050){
+			movieWidth=210;
+		}else if(window.innerWidth>=800){
+		movieWidth = window.innerWidth/5
+		}else if(window.innerWidth >=600){
+		movieWidth = window.innerWidth/4
+		}else{
+		movieWidth = window.innerWidth/3
+		}
+		movieContainerWidth = movieWidth*40-window.innerWidth;	
+		movieInnerContainerWidth = movieWidth*20;
+		$(".movies-container").width(movieContainerWidth+'px');
+		$(".movies-container").offset({left:-movieWidth*20+window.innerWidth});
+		$(".movies-innerContainer").width(movieInnerContainerWidth);
+		$(".movies-innerContainer").each(function(index, item){
+			console.log(Number(item.style.left.replace('px','')), movieWidth*20-window.innerWidth)
+			if(Number(item.style.left.replace('px',''))>movieWidth*20-window.innerWidth){
+				item.style.left=movieWidth*20-window.innerWidth+'px'; 
+			}
+		})
+		$(".movie-container").width(movieWidth+'px');	
+		  }
+    		
+		movieContainerResize();
+		$(".movies-innerContainer").each(function(index, item){item.style.left=movieWidth*20-window.innerWidth;})//최초 1회 리사이징 실행 및 위치 초기화
+
+		var timer;
+		window.addEventListener('resize', function() {
+			  if (timer) { clearTimeout(timer); }
+				  timer = setTimeout(movieContainerResize, 100);
+				}, true);										//윈도우 사이즈 변경때마다 리사이징 실행 - debounce
+
+				
+			
+		const TrendMovieContainer = document.querySelector("#trend-movie .movies-container");	
+		const PopularMovieContainer = document.querySelector("#popular-movie .movies-container");
+		const TrendMovieInnerContainer = document.querySelector("#trend-movie .movies-container .movies-innerContainer");	
+		const PopularMovieInnerContainer = document.querySelector("#popular-movie .movies-container .movies-innerContainer");	
+				
+				
+						
+				
+				
+		let TrendIsDragging = null;		//moviebox drag 변수 설정
+		let TrendOriginLeft = null;
+		let TrendOriginX = null;
+		let PopularIsDragging = null;	
+		let PopularOriginLeft = null;
+		let PopularOriginX = null;
+		
+		TrendMovieInnerContainer.addEventListener("mousedown",(e) => {				//마우스 클릭시 드래그 실행
+			TrendIsDragging = true;
+			TrendOriginX = e.clientX;
+			TrendOriginLeft = TrendMovieInnerContainer.offsetLeft;
+		});
+		PopularMovieInnerContainer.addEventListener("mousedown",(e) => {				//마우스 클릭시 드래그 실행
+			PopularIsDragging = true;
+			PopularOriginX = e.clientX;
+			PopularOriginLeft = PopularMovieInnerContainer.offsetLeft;
+		});
+		
+
+		document.addEventListener("mousemove", (e) => {					//마우스 클릭 후 드래그 중 실행
+			if(TrendIsDragging){
+				const diffX = e.clientX - TrendOriginX;
+				const endOfXPoint = movieContainerWidth - movieInnerContainerWidth;
+				let dragging = Math.min(Math.max(0, TrendOriginLeft+diffX),endOfXPoint)
+				TrendMovieInnerContainer.style.left = dragging+"px";
+			}
+			if(PopularIsDragging){
+				const diffX = e.clientX - PopularOriginX;
+				const endOfXPoint = movieContainerWidth - movieInnerContainerWidth;
+				let dragging = Math.min(Math.max(0, PopularOriginLeft+diffX),endOfXPoint)
+				PopularMovieInnerContainer.style.left = dragging+"px";
+			}
+		});
+
+		document.addEventListener("mouseup", (e) => {			//드래그 후 마우스 놓을때 실행
+			TrendIsDragging = false;
+			PopularIsDragging = false;
+		})
+
+		
+		
+		
 		
 		
 		$.ajax({							//TrendMovieList 출력
@@ -236,7 +346,7 @@ box-sizing: border-box;
         	dataType : 'json',
         	contentType : 'application/json', 
         	success: function(data){
-        		$("#trend-movie .movie-container .movie").each(function(index, element){
+        		$("#trend-movie .movies-container .movie").each(function(index, element){
         			if(data.results[index].poster_path){
         			str = "<div class='movie-image'><img src='https://image.tmdb.org/t/p/w342/"+data.results[index].poster_path+"'></div>" ;
         			}else{
@@ -272,7 +382,7 @@ box-sizing: border-box;
         	dataType : 'json',
         	contentType : 'application/json', 
         	success: function(data){
-        		$("#popular-movie .movie-container .movie").each(function(index, element){
+        		$("#popular-movie .movies-container .movie").each(function(index, element){
         			if(data.results[index].poster_path){
         			str = "<div class='movie-image'><img src='https://image.tmdb.org/t/p/w342/"+data.results[index].poster_path+"'></div>" ;
         			}else{
@@ -428,28 +538,29 @@ box-sizing: border-box;
 	<div id="trend-movie">
 		<div class="movie-BigPicture"></div>
 		<h3>지금 트렌드는</h3>
-		<div class="movie-container">
-			<div class="movie-innerContainer">
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
+		<div class="movies-container">
+			<div class="movies-innerContainer">
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+
 			</div>
 		</div>
 	</div>
@@ -457,28 +568,28 @@ box-sizing: border-box;
 
 	<div id="popular-movie">
 		<h3>사람들이 많이 보는 영화</h3>
-		<div class="movie-container">
-			<div class="movie-innerContainer">
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
+		<div class="movies-container">
+			<div class="movies-innerContainer">
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
 			</div>
 		</div>
 	</div>
