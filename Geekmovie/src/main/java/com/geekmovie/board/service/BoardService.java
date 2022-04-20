@@ -8,6 +8,6 @@ public interface BoardService {
 	
 	public List<BoardVo> bList(BoardVo boardVo);
 	
-	//public int create(BoardVo boardvo);
+	public int bCreate(BoardVo boardvo);
 	
 }

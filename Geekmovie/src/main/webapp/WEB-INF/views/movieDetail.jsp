@@ -38,27 +38,27 @@ body {
 
 #detail-movieContainer { /*영화정보 위치 지정*/
 	width: 100%;
-	position: absolute;
 	display: flex;
-	top: 80%;
-	border: solid 1px red;
+	padding-top : 400px;
 }
 
 #detail-poster {
 	flex : 0 0 250px;
 	left: 100px;
 	top: 300px;
+	margin-left : 30px;
 }
 
 #detail-nonPoster{		
 	display: flex;
+	min-width : 400px;
 	flex-wrap: wrap;
 	align-content : flex-start;
 	padding-left : 20px;
 	}
 
 #detail-poster img { /*이미지 전부 채우게 함*/
-	border: solid #eee 5px;
+	border: ridge #eee 8px;
 	padding: 2px;
 	width: 100%;
 	object-fit: cover;
@@ -97,7 +97,9 @@ h1,h5,h6 {
 #overview {
 	font-family: 'NanumSquareRound';
 	color: #fff;
-	padding : 10px 20px 0px 30px;}
+	padding : 10px 20px 0px 30px;
+	line-height : 130%;
+	}
 
 
 
@@ -130,7 +132,56 @@ h1,h5,h6 {
 	background-color: #000000;
 }
 
+#detail-vote {
+	display: flex;
+	align-items: center;
+	width: 180px;
+ 	height : 70px;
+  padding: 10px;
+  outline: none;
+  text-align: center;
+  color: hsla(0,0%,20%,1);
+  text-shadow: hsla(0,0%,40%,.5) 0 -1px 0, hsla(0,0%,100%,.6) 0 2px 1px;
+  font: bold "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+  box-shadow: inset hsla(0,0%,15%,  1) 0  0px 0px 4px, /* border */
+  inset hsla(0,0%,0%, .25) 0 -1px 0px 7px, /* bottom SD */
+  
+  hsla(0,0%, 0%,.15) 0 -5px 6px 4px, /* outer SD */
+  hsla(0,0%,100%,.5) 0  5px 6px 4px; /* outer HL */ 
+  border-radius: 8px;
+  background-color: hsl(0,0%,90%);
+  background-image: -webkit-repeating-linear-gradient(left, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0)   6%, hsla(0,0%,100%, .1) 7.5%),
+    -webkit-repeating-linear-gradient(left, hsla(0,0%,  0%,0) 0%, hsla(0,0%,  0%,0)   4%, hsla(0,0%,  0%,.03) 4.5%),
+    -webkit-repeating-linear-gradient(left, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0) 1.2%, hsla(0,0%,100%,.15) 2.2%),
+    linear-gradient(180deg, hsl(0,0%,78%)  0%, 
+    hsl(0,0%,90%) 47%, 
+    hsl(0,0%,78%) 53%,
+    hsl(0,0%,70%) 100%);
+}
+#scoreGeek{
+	width: 60%;
+}
 
+#scoreGeek .siteName{
+	font-size: 1em;
+	font-weight: 600;
+}
+
+#scoreGeek .Score{
+	font-size: 2.3em;
+	font-weight: 600;
+}
+#scoreImdb{
+	width: 40%;
+}
+#scoreImdb .siteName{
+	font-size: 0.8em;
+	font-weight: 600;
+}
+
+#scoreImdb .Score{
+	font-size: 1.7em;
+}
 
 
 
@@ -170,11 +221,22 @@ h1,h5,h6 {
         	contentType : 'application/json', 
         	success: function(data){
         		console.log(data);
-        		let str1 = 'https://image.tmdb.org/t/p/original/'+data.backdrop_path ;
-        		let str2 = "<img src='https://image.tmdb.org/t/p/w500/"+data.poster_path+"'>"    //포스터
+        		let str1;
+        		let str2;
+        		if(data.backdrop_path!=null){
+        		str1 = 'https://image.tmdb.org/t/p/original/'+data.backdrop_path ;			//백드랍 이미지
+        		}else{        		
+        			str1 = '${pageContext.request.contextPath}/resources/img/wall.jpg' ;	
+        		}
+        		if(data.poster_path!=null){
+        		str2 = "<img src='https://image.tmdb.org/t/p/w500/"+data.poster_path+"'>"    //포스터
+        		}else{
+        			str2 = "<img src='${pageContext.request.contextPath}/resources/img/noImage.jpg'>"
+        		}
         		let str3 = "<h1 style='text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;'>"+data.title+"</h1>"      //제목
         		let str5 = "<p id='overview'>"+data.overview+"</p>";				//오버뷰
-        		let str7 = "<h6 id='release_date'>"+data.release_date+" 개봉</h6>"
+        		let str7 = "<h6 id='release_date'>"+data.release_date+" 개봉/"+data.runtime+"mins</h6>"
+
         		
         		$("#detail-bigPicture").css({"background":"linear-gradient(to bottom,rgba(0,0,0,0) 80%,rgba(0,0,0,0.5) 90%,rgba(0,0,0,1) 100%), url("+ str1 +")"});   //배경화면 및 그라데이션 
         		$("#detail-poster").html(str2);
@@ -189,6 +251,7 @@ h1,h5,h6 {
         		})
         		$("#detail-genres").html(str6);
         		$("#detail-release").html(str7);
+        		$("#scoreImdb .Score").html(data.vote_average);    //imdb 점수 표시
         	}
         	,
         	error: function(request, status, error){
@@ -218,6 +281,18 @@ h1,h5,h6 {
 				<div id="detail-overview"></div>
 				<div id="detail-genres"></div>
 				<div id="detail-release"></div>
+				<div class="spacing" style="width: 95%; height: 120px; display:flex; flex-direction: row-reverse;">
+					<div id="detail-vote">
+						<div id="scoreGeek">
+							<div class="siteName">GeekScore</div>
+							<div class="Score">7.5</div>
+						</div>
+						<div id="scoreImdb">
+							<div class="siteName">IMDB</div>
+							<div class="Score"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

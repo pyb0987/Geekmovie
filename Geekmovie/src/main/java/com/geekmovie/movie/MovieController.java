@@ -28,10 +28,6 @@ public class MovieController {
 	
 	@Autowired
 	MovieDao movieDao;
-	//BoardDao boardDao;
-	
-	@Autowired
-	MovieService movieService;
 	
 	@GetMapping("/")            //home
 	public String index() {

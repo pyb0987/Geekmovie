@@ -21,5 +21,6 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<a href="boardCreate">create</a>
 </body>
 </html>

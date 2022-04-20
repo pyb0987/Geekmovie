@@ -31,6 +31,7 @@ public class userVOController {
 		System.out.println("@Create GET 호출");
 		return "createUser";
 	}
+
 	@PostMapping("/createUser")
 	public ModelAndView createPost(userVO userVO) {
 		System.out.println("@Create POST 호출");
@@ -47,6 +48,7 @@ public class userVOController {
 		return mav;
 	}
 	
+
 }
 
 

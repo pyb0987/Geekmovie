@@ -11,12 +11,13 @@ public class BoardVo {
 	private Date regdate;
 	private int cnt; // 조회수
 	private int likes; // 추천수
+	private String movie_id;
 	
 	public BoardVo() {
 
 	}
 
-	public BoardVo(int seq, String title, String writer, String contents, String reply, Date regdate, int cnt, int likes) {
+	public BoardVo(int seq, String title, String writer, String contents, String reply, Date regdate, int cnt, int likes, String movie_id) {
 		super();
 		this.seq = seq;
 		this.title = title;
@@ -26,6 +27,7 @@ public class BoardVo {
 		this.regdate = regdate;
 		this.cnt = cnt;
 		this.likes = likes;
+		this.movie_id = movie_id;
 	}
 
 	public int getSeq() {
@@ -91,11 +93,19 @@ public class BoardVo {
 	public void setLikes(int likes) {
 		this.likes = likes;
 	}
+	
+	public String getMovie_id() {
+		return movie_id;
+	}
+
+	public void setMovie_id(String movie_id) {
+		this.movie_id = movie_id;
+	}
 
 	@Override
 	public String toString() {
 		return "BoardVo [seq=" + seq + ", title=" + title + ", writer=" + writer + ", contents=" + contents + ", reply="
-				+ reply + ", regdate=" + regdate + ", cnt=" + cnt + ", likes=" + likes + "]";
+				+ reply + ", regdate=" + regdate + ", cnt=" + cnt + ", likes=" + likes + ", movie_id=" + movie_id + "]";
 	}
 	
 }
