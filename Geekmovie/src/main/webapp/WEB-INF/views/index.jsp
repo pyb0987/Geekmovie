@@ -215,7 +215,7 @@ box-sizing: border-box;
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/movieHover.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/movieSlide.css"/>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieSlide.js" ></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieSlideOne.js" ></script>
 <script>
 
     
@@ -223,6 +223,12 @@ box-sizing: border-box;
 		
     	
 		session_check();
+		
+		const TrendMovieContainer = document.querySelector("#trend-movie .movie-container");	
+		movieSlideOne(TrendMovieContainer)
+		const PopularMovieContainer = document.querySelector("#popular-movie .movie-container");	
+		movieSlideOne(PopularMovieContainer)
+		
 		
 		$.ajax({							//TrendMovieList 출력
         	type: 'GET',
@@ -268,7 +274,7 @@ box-sizing: border-box;
         	success: function(data){
         		$("#popular-movie .movie-container .movie").each(function(index, element){
         			if(data.results[index].poster_path){
-        			str = "<div class='movie-image'><img src='https://image.tmdb.org/t/p/w185/"+data.results[index].poster_path+"'></div>" ;
+        			str = "<div class='movie-image'><img src='https://image.tmdb.org/t/p/w342/"+data.results[index].poster_path+"'></div>" ;
         			}else{
         			str = "<div class='movie-image' style='color : white; text-align: center; '>"+data.results[index].title+"</p></div>"			//이미지 없으면 제목 출력
         			}

@@ -107,4 +107,48 @@ public class MovieControllerApi {
 
 		  return rs;
 	}
+	
+	@GetMapping("/getMovieCredit")
+	public String getMovieCredit(HttpServletRequest request){
+		String rs = "";
+		int movieId = 0; 
+		String language = ""; 
+		try {
+			movieId = Integer.parseInt(request.getParameter("movieId"));
+			language = (String)request.getParameter("language");
+			rs = UrlRead.readStringFromUrl(movieUrlGetter.getMovieCredit(movieId ,language));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		  return rs;
+	}
+	
+	
+	@GetMapping("/getSimilarMovieList")
+	public String getSimilarMovieList(HttpServletRequest request){
+		String rs = "";
+		int movieId = 0; 
+		String language = "";
+		int page = 1; 
+		try {
+			movieId = Integer.parseInt(request.getParameter("movieId"));
+			language = (String)request.getParameter("language");
+			page = Integer.parseInt(request.getParameter("page"));
+			rs = UrlRead.readStringFromUrl(movieUrlGetter.getSimilarMovieList(movieId, language, page));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		  return rs;
+	}
+	
 }
