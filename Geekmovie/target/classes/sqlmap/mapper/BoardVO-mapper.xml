@@ -1,14 +1,29 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace : package + classname -->
 <mapper namespace="boardVo">
+
 	<select id="board_list" parameterType="boardVo" resultType="boardVo">
 		<![CDATA[
 			select seq, title, writer, regdate, cnt, likes
 			from review_board  
 		]]>
 	</select>
- 
+
+	<insert id="board_insert" parameterType="boardVo">
+		<![CDATA[
+			 insert into review_board (title, writer, contents)
+			 values (#{title}, #{writer}, #{contents})			 
+		]]>
+	</insert>
+	
+	<select id="board_detail" parameterType="boardVo" resultType="boardVo">
+		<![CDATA[
+			select title, writer, contents
+			from review_board  
+			where seq = #{seq}
+		]]>
+	</select> 
+
 </mapper>

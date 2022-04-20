@@ -23,9 +23,9 @@ public class BoardServiceImpl implements BoardService{
 		return dao.boardList(boardVo);
 	}
 	
-	//@Override
-	//public int create(BoardVo boardVo) {
-	//	return dao.insert(boardVo);
-	//}
+	@Override
+	public int bCreate(BoardVo boardVo) {
+		return dao.boardInsert(boardVo);
+	}
 
 }
