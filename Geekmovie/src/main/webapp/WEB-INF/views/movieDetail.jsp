@@ -19,171 +19,37 @@ String language = "ko-KR";
 	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css"
 	rel="stylesheet">
 <link rel="stylesheet" href="${path}/resources/css/movieHover.css">
+<link rel="stylesheet" href="${path}/resources/css/movieDetail.css"/>
+<link rel="stylesheet" href="${path}/resources/css/movieSlide.css"/>
+<link rel="stylesheet" href="${path}/resources/css/movieCast.css"/>
+<link rel="stylesheet" href="${path}/resources/css/movieCrew.css"/>
 <style>
 @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 
 body {
 	overflow-x: hidden;
 	background-color: #000000;
+	margin : 0;
 }
 
-#detail-bigPicture { /*detail 맨위 배경화면 */
-	position: relative;
-	margin: 0;
-	height: 500px;
-	background-repeat: no-repeat;
-	background-size: contain;
-	z-index: -1;
-}
-
-#detail-movieContainer { /*영화정보 위치 지정*/
-	width: 100%;
-	display: flex;
-	padding-top : 400px;
-}
-
-#detail-poster {
-	flex : 0 0 250px;
-	left: 100px;
-	top: 300px;
-	margin-left : 30px;
-}
-
-#detail-nonPoster{		
-	display: flex;
-	min-width : 400px;
-	flex-wrap: wrap;
-	align-content : flex-start;
-	padding-left : 20px;
-	}
-
-#detail-poster img { /*이미지 전부 채우게 함*/
-	border: ridge #eee 8px;
-	padding: 2px;
-	width: 100%;
-	object-fit: cover;
-	max-width: 100%;
-	opacity: 1;
-	box-sizing: border-box;
-}
-
-#detail-title {	height : 60px;}
-#detail-originalTitle {	height : 60px;} 	 /*제목 위치 지정*/
-#detail-overview {width: 100%;}
-#release_date{padding-left : 20px; }
-
-#detail-genre {			 /*장르 박스*/
-	border-radius:8px;
-	display:inline-block;
-	font-family: 'NanumSquareRound';
-	font-size:14px;
-	padding:6px 13px;
-	margin : 5px;
-}
-
-.movie img { /*이미지 전부 채우게 함*/
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	max-width: 100%;
-	backface-visibility: hidden;
-	vertical-align: top;
+#userSpace{
+ display : flex;
 }
 
 
-h1,h5,h6 {
-	font-family: 'NanumSquareRoundBold';				/*글꼴*/
-	color: #fff;}
-#overview {
-	font-family: 'NanumSquareRound';
-	color: #fff;
-	padding : 10px 20px 0px 30px;
-	line-height : 130%;
-	}
-
-
-
-.movie-container {
-	width: 100%;
-	height: 320px;
-	margin: 0 auto;
-	position: relative;
+.board-container{
+display : flex;
+flex-direction: column;
+width : 50%;
+padding : 30px;
+border : solid 1px red;
 }
 
-.movie-innerContainer {
-	display: flex;
-	height: 100%;
-	width: 4000px;
-	align-items: center;
-	position: absolute;
+.board{
+width : 100%;
+height : 100%;
+background-color : white;
 }
-
-.movie {
-	position: relative;
-	padding: 0px;
-	height: 270px;
-	margin-right: 15px;
-	flex-shrink: 0;
-	flex-basis: 185px;
-	overflow: hidden;
-	color: #ffffff;
-	text-align: left;
-	font-size: 16px;
-	background-color: #000000;
-}
-
-#detail-vote {
-	display: flex;
-	align-items: center;
-	width: 180px;
- 	height : 70px;
-  padding: 10px;
-  outline: none;
-  text-align: center;
-  color: hsla(0,0%,20%,1);
-  text-shadow: hsla(0,0%,40%,.5) 0 -1px 0, hsla(0,0%,100%,.6) 0 2px 1px;
-  font: bold "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
-  box-shadow: inset hsla(0,0%,15%,  1) 0  0px 0px 4px, /* border */
-  inset hsla(0,0%,0%, .25) 0 -1px 0px 7px, /* bottom SD */
-  
-  hsla(0,0%, 0%,.15) 0 -5px 6px 4px, /* outer SD */
-  hsla(0,0%,100%,.5) 0  5px 6px 4px; /* outer HL */ 
-  border-radius: 8px;
-  background-color: hsl(0,0%,90%);
-  background-image: -webkit-repeating-linear-gradient(left, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0)   6%, hsla(0,0%,100%, .1) 7.5%),
-    -webkit-repeating-linear-gradient(left, hsla(0,0%,  0%,0) 0%, hsla(0,0%,  0%,0)   4%, hsla(0,0%,  0%,.03) 4.5%),
-    -webkit-repeating-linear-gradient(left, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0) 1.2%, hsla(0,0%,100%,.15) 2.2%),
-    linear-gradient(180deg, hsl(0,0%,78%)  0%, 
-    hsl(0,0%,90%) 47%, 
-    hsl(0,0%,78%) 53%,
-    hsl(0,0%,70%) 100%);
-}
-#scoreGeek{
-	width: 60%;
-}
-
-#scoreGeek .siteName{
-	font-size: 1em;
-	font-weight: 600;
-}
-
-#scoreGeek .Score{
-	font-size: 2.3em;
-	font-weight: 600;
-}
-#scoreImdb{
-	width: 40%;
-}
-#scoreImdb .siteName{
-	font-size: 0.8em;
-	font-weight: 600;
-}
-
-#scoreImdb .Score{
-	font-size: 1.7em;
-}
-
-
 
 
 
@@ -192,6 +58,7 @@ h1,h5,h6 {
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="${path}/resources/js/movieSlideOne.js" ></script>
 <script>
 	$(document).ready(function() {
 		var colorMap = new Map([[28,["#44c76750","#18ab2950", "#ffffff", "#2f6627"]],	//genreColorMap
@@ -214,13 +81,12 @@ h1,h5,h6 {
 			[10752, ["#768d8750","#56696350", "#ffffff", "#2b665e"]],
 			[37, ["#77b55a50","#4b8f2950", "#ffffff", "#5b8a3c"]]]);  
 		
-		$.ajax({							//받아온 영화 정보
+		$.ajax({							//받아온 영화 정보 디테일로 만들기
         	type: 'GET',
         	url: `/movie/getMovieData?movieId=${movieId}&language=${language}`,
         	dataType : 'json',
         	contentType : 'application/json', 
         	success: function(data){
-        		console.log(data);
         		let str1;
         		let str2;
         		if(data.backdrop_path!=null){
@@ -234,10 +100,14 @@ h1,h5,h6 {
         			str2 = "<img src='${pageContext.request.contextPath}/resources/img/noImage.jpg'>"
         		}
         		let str3 = "<h1 style='text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;'>"+data.title+"</h1>"      //제목
-        		let str5 = "<p id='overview'>"+data.overview+"</p>";				//오버뷰
+        		let str5 = "<p id='overview' style='font-size:1.05rem;'>"+data.overview+"</p>";				//오버뷰
         		let str7 = "<h6 id='release_date'>"+data.release_date+" 개봉/"+data.runtime+"mins</h6>"
+        		if(data.homepage!=null){
+            		str8 = "<div style='background-color: gold; height: 20px; cursor: pointer; text-align : center;' onclick='window.open(\""+data.homepage+"\");'>홈페이지 이동</div>"     //홈페이지
 
-        		
+            		}else{
+            			str8 = ""
+            		}       		
         		$("#detail-bigPicture").css({"background":"linear-gradient(to bottom,rgba(0,0,0,0) 80%,rgba(0,0,0,0.5) 90%,rgba(0,0,0,1) 100%), url("+ str1 +")"});   //배경화면 및 그라데이션 
         		$("#detail-poster").html(str2);
         		$("#detail-title").html(str3)
@@ -251,7 +121,9 @@ h1,h5,h6 {
         		})
         		$("#detail-genres").html(str6);
         		$("#detail-release").html(str7);
+        		$("#detail-homepage").html(str8);
         		$("#scoreImdb .Score").html(data.vote_average);    //imdb 점수 표시
+        		return false;
         	}
         	,
         	error: function(request, status, error){
@@ -259,7 +131,127 @@ h1,h5,h6 {
         	}
         	
         })
+        
+        
+        printCast();				//최초 1회 캐스트 받아오기
+		document.getElementById("moreCasts").onclick = function(){printCast(); return false;}
+        printCrew();				//최초 1회 크루 받아오기
+		document.getElementById("moreCrews").onclick = function(){printCrew(); return false;}
+        function printCast(){
+        $.ajax({							//출연진 정보 출력 함수
+        	type: 'GET',
+        	url: `/movie/getMovieCredit?movieId=${movieId}&language=${language}`,
+        	dataType : 'json',
+        	contentType : 'application/json', 
+        	success: function(data){
+        		let CastReadNum = $("#casts").children().length		//이미 불러들인 cast의 수
+        		let index=0;
+        		while(index<8 && CastReadNum+index<data.cast.length){
+        			let imageUrl;
+        			if(data.cast[CastReadNum+index].profile_path!=null){
+        				imageUrl = "https://image.tmdb.org/t/p/w185"+data.cast[CastReadNum+index].profile_path;
+        			}else{
+        				imageUrl = '${pageContext.request.contextPath}/resources/img/noPersonImage.png'       		//사진이 없을때 이미지			
+        			}       			
+        			let str = "<div class='cast'>"
+					str += "<div class='cast-picture' style='background: url(\""+imageUrl+"\"); background-repeat: no-repeat; background-size : contain'></div>"
+					str += "<div class='cast-info'><div class='cast-name'><h5>"+data.cast[CastReadNum+index].name+"</h5></div><div class='cast-character'><h6>"+data.cast[CastReadNum+index].character+" 역</h6></div></div>"
+					$("#casts").append(str);
+					index+=1;
+        		}
+        		if (CastReadNum+index>=data.cast.length){
+        			$("#moreCasts").remove();				//더이상 없으면 버튼을 삭제
+        		}
+        	},
+            error: function(request, status, error){
+            	console.log(request, status, error)
+            }
+        		
+
+        			
+        })
+        return false;
+		}
 		
+        function printCrew(){
+            $.ajax({							//제작진 정보 출력 함수
+            	type: 'GET',
+            	url: `/movie/getMovieCredit?movieId=${movieId}&language=${language}`,
+            	dataType : 'json',
+            	contentType : 'application/json', 
+            	success: function(data){
+            		let CrewReadNum = $("#crews").children().length		//이미 불러들인 crew의 수
+            		let index=0;
+            		while(index<8 && CrewReadNum+index<data.crew.length){
+            			let imageUrl;
+            			if(data.crew[CrewReadNum+index].profile_path!=null){
+            				imageUrl = "https://image.tmdb.org/t/p/w185"+data.crew[CrewReadNum+index].profile_path;
+            			}else{
+            				imageUrl = '${pageContext.request.contextPath}/resources/img/noPersonImage.png'       				
+            			}       			
+            			let str = "<div class='crew'>"
+    					str += "<div class='crew-picture' style='background: url(\""+imageUrl+"\"); background-repeat: no-repeat; background-size : contain'></div>"
+    					str += "<div class='crew-info'><div class='crew-name'><h5>"+data.crew[CrewReadNum+index].name+"</h5></div><div class='crew-character'><h6>"+data.crew[CrewReadNum+index].known_for_department+"<br>"+data.crew[CrewReadNum+index].job+"</h6></div></div>"
+    					$("#crews").append(str);
+    					index+=1;
+            		}	
+            		if (CrewReadNum+index>=data.crew.length){
+            			$("#moreCrews").remove();
+            		}
+            	},
+                error: function(request, status, error){
+                	console.log(request, status, error)
+                }		
+            			
+            })
+            return false;
+    		}
+        
+        
+        
+        
+        $.ajax({							//getSimilarMovieList 출력
+        	type: 'GET',
+        	url: '/movie/getSimilarMovieList?movieId=${movieId}?page=1&language=${language}',
+        	dataType : 'json',
+        	contentType : 'application/json', 
+        	success: function(data){
+        		$("#similar-movie .movie-container .movie").each(function(index, element){
+        			if(data.results[index].poster_path){
+        			str = "<div class='movie-image'><img src='https://image.tmdb.org/t/p/w185/"+data.results[index].poster_path+"'></div>" ;
+        			}else{
+        			str = "<div class='movie-image' style='color : white; text-align: center; '>"+data.results[index].title+"</p></div>"			//이미지 없으면 제목 출력
+        			}
+        			let title = data.results[index].title;
+        			let overview = data.results[index].overview;
+        			if(title.length>20){
+        				title = title.substr(0, 20)+"..."					// 제목 20자 넘으면 자르기
+            		}
+        			if(overview.length>120){
+        			overview = overview.substr(0, 120)+"..."					//overview 120자 넘으면 자르기
+        			}
+        			str += "<figcaption><h3>"+title +"</h3><p>"+overview +"</p><p>"+ data.results[index].release_date +"</p><i class='ion-ios-arrow-right'><a href='/movie/movieDetail?movieId="+data.results[index].id+"&language=<%=language%>'></a></i></figcaption>" 
+        			$(this).html(str);
+        		})
+        		
+        	
+        	}
+        
+        	,
+        	error: function(request, status, error){
+        		console.log(request, status, error)
+        	}
+        })
+        
+                
+
+				
+
+		
+		
+		
+
+        
 		
 	})
 </script>
@@ -272,37 +264,60 @@ h1,h5,h6 {
 <body>
 
 
-	<div id="detail-bigPicture">
-		<div id="detail-MovieContainer">
+	<div id="detail-bigPicture"></div>
+	<div id="detail-MovieContainer">
+		<div id="onleft">
 			<div id="detail-poster"></div>
-			<div id="detail-nonPoster">
-				<div id="detail-title"></div>
-				<div id="detail-originalTitle"></div>
-				<div id="detail-overview"></div>
-				<div id="detail-genres"></div>
-				<div id="detail-release"></div>
-				<div class="spacing" style="width: 95%; height: 120px; display:flex; flex-direction: row-reverse;">
-					<div id="detail-vote">
-						<div id="scoreGeek">
-							<div class="siteName">GeekScore</div>
-							<div class="Score">7.5</div>
-						</div>
-						<div id="scoreImdb">
-							<div class="siteName">IMDB</div>
-							<div class="Score"></div>
-						</div>
+			<div id="detail-homepage"></div>
+		</div>
+		<div id="detail-nonPoster">
+			<div id="detail-title"></div>
+			<div id="detail-originalTitle"></div>
+			<div id="detail-overview"></div>
+			<div id="detail-genres"></div>
+			<div id="detail-release"></div>
+			<div class="spacing"
+				style="width: 95%; height: 120px; display: flex; flex-direction: row-reverse;">
+				<div id="detail-vote">
+					<div id="scoreGeek">
+						<div class="siteName">GeekScore</div>
+						<div class="Score">7.5</div>
+					</div>
+					<div id="scoreImdb">
+						<div class="siteName">IMDB</div>
+						<div class="Score"></div>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
+	<div id="credit">
+		<h5 style="padding-left: 30px">출연진</h5>
+		<div id="casts"></div>
+		<div class="credit-button-container">
+			<div id="moreCasts">더 보기</div>
+		</div>
 
-
-	<div class="spacing" style="width: 100%; height: 500px;"></div>
-
-
-	<div id="related-movie">
-		<h3>관련있는 영화</h3>
+		<h5 style="padding-left: 30px">제작진</h5>
+		<div id="crews"></div>
+		<div class="credit-button-container">
+			<div id="moreCrews">더 보기</div>
+		</div>
+	</div>
+	<div id="userSpace">
+	<div class="board-container">
+	<h3>게시판</h3>
+	<div class="board"><div>게시판이 들어갈 곳</div></div>
+	</div>
+	<div class="board-container">
+	<h3>영화리뷰</h3>
+	<div class="board"><div>리뷰가 들어갈 곳</div></div>
+	</div>
+	</div>
+	
+	<div id="similar-movie">
+		<h3>비슷한 영화</h3>
 		<div class="movie-container">
 			<div class="movie-innerContainer">
 				<div class="movie"></div>
@@ -328,6 +343,8 @@ h1,h5,h6 {
 			</div>
 		</div>
 	</div>
+
+
 
 
 </body>
