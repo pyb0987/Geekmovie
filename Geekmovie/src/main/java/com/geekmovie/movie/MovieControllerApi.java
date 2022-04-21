@@ -95,7 +95,7 @@ public class MovieControllerApi {
 		try {
 			language = (String)request.getParameter("language");
 			query = (String)request.getParameter("query");
-			page = Integer.parseInt(request.getParameter("query"));
+			page = Integer.parseInt(request.getParameter("page"));
 			rs = UrlRead.readStringFromUrl(movieUrlGetter.SearchMovieList(language, query, page));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

@@ -33,9 +33,5 @@
 	height:100%;
 	width: 40%;
 	}
-.cast-picture img { /*이미지 전부 채우게 함*/
-	height : 150px;
-	background-repeat: no-repeat;
-	background-size: contain;
-}
+
 

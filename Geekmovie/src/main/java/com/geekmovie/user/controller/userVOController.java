@@ -43,7 +43,7 @@ public class userVOController {
 		if(rs ==1 ) {
 			mav.setViewName("join");
 		}else {
-			mav.setViewName("redircet/createUser");
+			mav.setViewName("redirect/createUser");
 		}
 		return mav;
 	}

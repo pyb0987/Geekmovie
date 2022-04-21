@@ -14,19 +14,18 @@
 	display: flex;
 	margin-top : -100px;
 	margin-bottom : 100px;
+	justify-content: space-evenly;
 }
 
 #onleft {
 	flex : 0 0 250px;
-	left: 100px;
-	top: 300px;
 	margin-left : 30px;
 }
 
 #detail-nonPoster{		
 	display: flex;
 	min-width : 300px;
-	width : calc(100%-280px);
+	width : 1000px;
 	flex-wrap: wrap;
 	align-content : flex-start;
 	padding-left : 20px;
@@ -43,18 +42,11 @@
 	
 }
 
-#detail-title {	height : 60px;
-width : 100%;
- border : solid 1px red;
-}
-
-#detail-originalTitle {	height : 60px;
- border : solid 1px red;
-} 	 /*제목 위치 지정*/
+#detail-title {width : 100%;} /*제목 위치 지정*/
 #detail-overview {width: 100%;}
 #release_date{padding-left : 20px; }
 
-#detail-genre {			 /*장르 박스*/
+.detail-genre {			 /*장르 박스*/
 	border-radius:8px;
 	display:inline-block;
 	font-family: 'NanumSquareRound';
@@ -72,11 +64,15 @@ width : 100%;
 	vertical-align: top;
 }
 
-
-h1,h3, h5,h6 {
+h1,h3,h5,h6 {
 	font-family: 'NanumSquareRoundBold';				/*글꼴*/
-	color: #fff;}
-h1{font-size : 2.4rem;}
+	color: #fff;
+	}
+	
+	
+	
+h1{font-size : 2.4rem;
+white-space : pre-line;}
 h3{font-size : 1.6rem;}
 h5{font-size : 1rem;}
 #overview {

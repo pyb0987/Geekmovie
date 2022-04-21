@@ -19,17 +19,17 @@ String language = "ko-KR";
 	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css"
 	rel="stylesheet">
 <link rel="stylesheet" href="${path}/resources/css/movieHover.css">
-<link rel="stylesheet" href="${path}/resources/css/movieDetail.css"/>
+<link rel="stylesheet" href="${path}/resources/css/movieDetail.css?ver=2"/>
 <link rel="stylesheet" href="${path}/resources/css/movieSlide.css"/>
 <link rel="stylesheet" href="${path}/resources/css/movieCast.css"/>
 <link rel="stylesheet" href="${path}/resources/css/movieCrew.css"/>
 <style>
-@import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 
 body {
 	overflow-x: hidden;
 	background-color: #000000;
 	margin : 0;
+	padding-top : 100px;
 }
 
 #credit{
@@ -56,14 +56,17 @@ height : 100%;
 background-color : white;
 }
 
-
+.creditName{
+padding-left: 30px;
+}
 
 </style>
 
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script type="text/javascript" src="${path}/resources/js/movieSlideOne.js" ></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/throttle.js"></script>
+	
 <script>
 	$(document).ready(function() {
 		
@@ -90,17 +93,16 @@ background-color : white;
 		
 		
 		
-		var windowResize_noDebounce = function(){					//리사이징 함수
+		var windowResize = function(){					//리사이징 함수
 			document.getElementById("detail-bigPicture").style.backgroundSize = window.innerWidth+'px';
 			document.getElementById("detail-bigPicture").style.height = window.innerWidth*0.5+'px'
 		}
 		
-		windowResize_noDebounce();
-		var timer;
-		window.addEventListener('resize', function() {				//리사이징에 debounce 적용
-			  if (timer) { clearTimeout(timer); }
-				  timer = setTimeout(windowResize_noDebounce, 0);
-				}, true);	
+		windowResize();
+		var ResizeTimer;
+		window.addEventListener('resize', throttle(function() {				//리사이징에 throttle 적용
+			 windowResize();
+		}, 20), true);	
 		
 		
 		
@@ -122,7 +124,7 @@ background-color : white;
         		}else{
         			str2 = "<img src='${pageContext.request.contextPath}/resources/img/noImage.jpg'>"
         		}
-        		let str3 = "<h1 style='text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;'>"+data.title+"</h1>"      //제목
+        		let str3 = "<h1 style='text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000; margin-bottom: 0;'>"+data.title+"</h1>"      //제목
         		let str5 = "<p id='overview' style='font-size:1.05rem;'>"+data.overview+"</p>";				//오버뷰
         		let str7 = "<h6 id='release_date'>"+data.release_date+" 개봉/"+data.runtime+"mins</h6>"
         		if(data.homepage!=null){
@@ -135,12 +137,12 @@ background-color : white;
         		$("#detail-poster").html(str2);
         		$("#detail-title").html(str3)
         		if (data.title!=data.original_title){
-        			let	str4 = "<h5 style='text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;'>"+data.original_title+"</h5>" 
+        			let	str4 = "<h5 style='text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000; margin-top: 0.9rem; margin-bottom: 0;'>"+data.original_title+"</h5>" 
             		$("#detail-originalTitle").html(str4)}
         		$("#detail-overview").html(str5);
         		let str6 = "";
         		data.genres.forEach(function(item){
-        			str6 += "<div id='detail-genre' style='background-color:"+colorMap.get(item.id)[0]+"; border:4px solid "+colorMap.get(item.id)[1]+"; color:"+colorMap.get(item.id)[2]+"; 	text-shadow:0px 1px 0px "+colorMap.get(item.id)[3]+";'>"+item.name+"</div>"
+        			str6 += "<div class='detail-genre' style='background-color:"+colorMap.get(item.id)[0]+"; border:4px solid "+colorMap.get(item.id)[1]+"; color:"+colorMap.get(item.id)[2]+"; 	text-shadow:0px 1px 0px "+colorMap.get(item.id)[3]+";'>"+item.name+"</div>"
         		})
         		$("#detail-genres").html(str6);
         		$("#detail-release").html(str7);
@@ -285,7 +287,10 @@ background-color : white;
 </head>
 
 <body>
-
+	<jsp:include page="./common/header.jsp">  
+<jsp:param name="session" value='<%=(String)session.getAttribute("UserVo")%>'/>  
+<jsp:param name="language" value="<%=language%>"/>  
+</jsp:include>  
 
 	<div id="detail-bigPicture"></div>
 	<div id="detail-MovieContainer">
@@ -317,14 +322,14 @@ background-color : white;
 	</div>
 	<div id="credit-container">
 	<div id="credit">
-		<h5 style="padding-left: 30px">출연진</h5>
+		<h5 class="creditName">출연진</h5>
 		<div id="casts"></div>
 		<div class="credit-button-container">
 			<div id="moreCasts">더 보기</div>
 		</div>
 	
 
-		<h5 style="padding-left: 30px">제작진</h5>
+		<h5 class="creditName">제작진</h5>
 		<div id="crews"></div>
 		<div class="credit-button-container">
 			<div id="moreCrews">더 보기</div>

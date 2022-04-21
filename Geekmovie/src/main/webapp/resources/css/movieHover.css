@@ -7,6 +7,7 @@
 }
 .movie img {					/*이미지 전부 채우게 함*/
 	-webkit-user-drag: none; /*드래그 못하게 함*/
+	backface-visibility: hidden;
 }
 .movie:after,
 .movie figcaption {
