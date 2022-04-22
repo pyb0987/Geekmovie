@@ -27,5 +27,19 @@ public class BoardServiceImpl implements BoardService{
 	public int bCreate(BoardVo boardVo) {
 		return dao.boardInsert(boardVo);
 	}
-
+	
+	@Override
+	public BoardVo bDetail(BoardVo boardvo) {
+		return dao.boardDetail(boardvo);
+	}
+	
+	@Override
+	public int bUpdate(BoardVo boardvo) {
+		return dao.boardUpdate(boardvo);
+	}
+	
+	@Override
+	public int bDelete(BoardVo boardvo) {
+		return dao.boardDelete(boardvo);
+	}
 }

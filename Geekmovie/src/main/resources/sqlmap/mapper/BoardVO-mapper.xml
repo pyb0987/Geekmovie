@@ -20,10 +20,26 @@
 	
 	<select id="board_detail" parameterType="boardVo" resultType="boardVo">
 		<![CDATA[
-			select title, writer, contents
+			select seq, title, writer, contents, regdate
 			from review_board  
 			where seq = #{seq}
 		]]>
-	</select> 
+	</select>
+	
+	<update id="board_update" parameterType="boardVo">  
+	    <![CDATA[  
+	        update review_board set  
+	        title = #{title}, contents = #{contents}  
+	        where  
+	        seq = #{seq}  
+		    ]]>  
+	</update>
+	
+	<delete id="board_delete" parameterType="boardVo">
+		<![CDATA[
+			delete from review_board
+			where seq = #{seq}
+		]]>
+	</delete>
 
 </mapper>

@@ -10,4 +10,9 @@ public interface BoardService {
 	
 	public int bCreate(BoardVo boardvo);
 	
+	public BoardVo bDetail(BoardVo boardVo);
+	
+	public int bUpdate(BoardVo boardVo);
+	
+	public int bDelete(BoardVo boardVo);
 }

@@ -13,7 +13,7 @@
 		<c:forEach var="b" items="${data}">
 			<tr>
 				<td>${b.seq}</td>
-				<td>${b.title}</td>
+				<td><a href="boardDetail?seq=${b.seq }">${b.title}</a></td>
 				<td>${b.writer}</td>
 				<td>${b.regdate}</td>
 				<td>${b.cnt}</td>
@@ -21,6 +21,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<a href="boardCreate">create</a>
+	<a href="boardCreate">게시글 작성</a>
 </body>
 </html>
