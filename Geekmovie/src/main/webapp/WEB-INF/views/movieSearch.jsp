@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -5,10 +6,6 @@
 <html lang="en">
 
 <%
-String searchMode =request.getParameter("searchMode");
-String query =request.getParameter("query");
-String language =request.getParameter("language");
-
 
 %>
 
@@ -28,13 +25,105 @@ body {
 	margin : 0;
 	padding-top : 100px;
 }
+h1{
+	font-family: 'NanumSquareRoundBold';				/*글꼴*/
+	color: #fff;
+	font-size : 1.8rem;
+	}
 
-#credit{
-	margin: 0 auto;
-	max-width : 1400px;
-	min-width : 620px;
+
+
+.movies-searchContainer{
+    width :  100%;
+    max-width : 1800px;
+    display: flex;
+    border : solid 1px yellow;
+}
+.movies-searchInnerContainer-padding{
+	width : 80%;
+    padding-bottom : 60%;
+    box-sizing: border-box;
+    position: relative;
+    border : solid 1px green;
+}
+.movies-searchInnerContainer{
+    width: 100%;
+    height: 90%;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-rows: 1fr;
+    row-gap: 1%;
+    column-gap: 1%;
+}
+.side{width : 10%;}
+.movie-searchContainer{
+    border : solid 1px red;
+    display : grid;   
+    grid-template-columns: 2fr 3fr;
+    grid-template-rows: 3fr 1fr 1fr 2fr;
+	column-gap: 3%;
+}
+.movie-pictureContainer{
+	grid-row: 1 / span 4;
+	width: 100%;
+    height: 100%;
+}
+.movie-picture{
+	width: 100%;
+    height: 100%;
+	box-sizing: border-box;
+}
+.movie-content{	border : solid 1px green;}
+.movie-title{
+	
+	font-family: 'NanumSquareRoundBold';
+	color : white;
+	font-size: 1.2rem;
+	word-wrap: break-word;
+  display : -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  max-height : 3.2rem;
+}
+.prevent-flow {
+  overflow: hidden;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  /*white-space: nowrap; */
+  text-overflow: ellipsis;
+}
+.movie-year, .movie-genre, .movie-vote{
+	font-family: 'NanumSquareRound';
+	color : white;
+	font-size: 1rem;
+	white-space: nowrap;
 }
 
+
+
+
+.pagination {						/*페이지 처리*/
+  display: inline-block;
+}
+
+.pagination a {
+  color: whitesmoke;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+}
+
+.pagination a.active {
+  background-color: #ddd;
+  color: black;
+  border: 1px solid #ddd;
+}
+
+.pagination a:hover:not(.active) {background-color: #555;}
 
 
 </style>
@@ -46,42 +135,143 @@ body {
 <script>
 	$(document).ready(function() {
 			
-		var colorMap = new Map([[28,["#44c76750","#18ab2950", "#ffffff", "#2f6627"]],	//genreColorMap
-			[12, ["#7892c250","#4e609650", "#ffffff", "#283966"]],
-			[16, ["#33bdef50","#057fd050", "#ffffff","#5b6178"]],
-			[35, ["#dbe6c450","#b2b8ad50", "#ffffff", "#ced9bf"]],
-			[80, ["#f2453750","#d0271850", "#ffffff", "#810e05"]],
-			[99, ["#ffffff50","#dcdcdc50", "ffffff", "#ffffff"]],
-			[18, ["#e4685d50","#ffffff50", "#ffffff", "#b23e35"]],
-			[10751, ["#ffec6450","#ffaa2250", "#ffffff", "#ffee66"]],
-			[14, ["#599bb350","#29668f50", "#ffffff", "#3d768a"]],
-			[36, ["#2dabf950","#0b0e0750", "#ffffff", "#263666"]],
-			[27, ["#d0451b50","#94291150", "#ffffff", "#854629"]],
-			[10402, ["#ededed50","#d6bcd650", "ffffff", "#e1e2ed"]],
-			[9648, ["#2e466e50","#1f2f4750", "#ffffff", "#263666"]],
-			[10749, ["#79bbff50","#337bc450", "#ffffff", "#5b8a3c"]],
-			[878, ["#5d53ed50","#84bbf350", "#ffffff", "#2a67a3"]],
-			[10770, ["#7d5d3b50","#54381e50", "#ffffff", "#4d3534"]],
-			[53, ["#fc8d8350","#d8352650", "#ffffff", "#b23e35"]],
-			[10752, ["#768d8750","#56696350", "#ffffff", "#2b665e"]],
-			[37, ["#77b55a50","#4b8f2950", "#ffffff", "#5b8a3c"]]]);  
-		
-		console.log('<%=searchMode %>')
-		console.log('<%=language %>')
-		console.log('<%=query %>')
+		var genreMap = new Map([[28,'액션'],	//genreMap
+			[12, '모험'],
+			[16, '애니메이션'],
+			[35, '코미디'],
+			[80, '범죄'],
+			[99, '다큐멘터리'],
+			[18, '드라마'],
+			[10751, '가족'],
+			[14, '판타지'],
+			[36, '역사'],
+			[27, '공포'],
+			[10402, '음악'],
+			[9648, '미스터리'],
+			[10749, '로맨스'],
+			[878, 'SF'],
+			[10770, 'TV영화'],
+			[53, '스릴러'],
+			[10752, '전쟁'],
+			[37, '서부']]); 
+
 		
 		var windowResize = function(){					//리사이징 함수
-			//리사이징 할거
+			console.log(window.innerWidth)
+			if(window.innerWidth>1800){   //폰트 리사이징
+				$("html").css("fontSize", "16px")
+			}else if(window.innerWidth>1500){
+				$("html").css("fontSize", "14.5px")
+			}else if(window.innerWidth>1000){
+				$("html").css("fontSize", "13px")
+			}else if(window.innerWidth>700){
+				$("html").css("fontSize", "11.5px")
+			}
+			else if(window.innerWidth>500){
+				$("html").css("fontSize", "10px")
+			}else{
+				$("html").css("fontSize", "8px")
+
+		}
 		}
 		
 		windowResize();
 		var ResizeTimer;
 		window.addEventListener('resize', throttle(function() {				//리사이징에 throttle 적용
 			 windowResize();
-		}, 20), true);	
+		}, 400), true);	
 		
-	
-  	
+		
+		if('${data.searchMode}'==='movie'){								//분류 작업
+			var searchUrl = `/movie/searchMovieList?query=${data.query}&language=${data.language}&page=${data.page}`
+			var searchText = "<h1>\'${data.query}\'로 검색한 결과입니다.</h1>"
+		}else{
+			var searchUrl = `<%=request.getParameter("page") %>`
+			var searchText = `<h1>\'${query}\'로 검색안한 결과입니다.</h1>`
+		}
+		
+		
+		
+
+  		$.ajax({							//받아온 영화 정보 표에 나열
+        	type: 'GET',
+        	url: searchUrl,
+        	dataType : 'json',
+        	contentType : 'application/json', 
+        	success: function(data){
+        		$("#searchText").html(searchText)
+        		var str = ""
+        			
+        		data.results.forEach(function(item,index){
+					var genreAry = [];
+					item.genre_ids.forEach(function(item){
+	        			genreAry.push(genreMap.get(item))
+					})
+					var imageUrl = '';
+					if(!!item.poster_path){
+        				imageUrl = "https://image.tmdb.org/t/p/w185"+item.poster_path;
+        			}else{
+        				imageUrl = `${pageContext.request.contextPath}/resources/img/noImage.jpg`       		//사진이 없을때 이미지			
+        			}
+					var year = '';
+					if(!!item.release_date){
+						year = item.release_date.substr(0,4);
+					}else{
+						year = "Year Unknown"
+					}
+					
+
+        			str += '<div class="movie-searchContainer"><div class="movie-pictureContainer"><div class="movie-picture" style="background: url(\'';
+        			str +=	imageUrl+'\'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>';
+					str += '</div><div class="movie-title-container"><div class="movie-title prevent-flow">';
+					str += item.title+'</div></div><div class="movie-year prevent-flow">'
+					str += year+'</div><div class="movie-genre prevent-flow">'
+					str += genreAry.join(' ,')+'</div><div class="movie-vote prevent-flow">'+item.vote_average+'</div>'					//나중에 geekmovie자체점수로 변경필요
+						
+					str += '</div>'
+
+					})
+        		
+        		$(".movies-searchInnerContainer").html(str)
+				makePagination(data.total_pages);
+        		return false;
+        	}
+        	,
+        	error: function(request, status, error){
+        		console.log(request, status, error)
+        	}
+        	
+        	
+        	
+        	
+        })
+        function makePagination(pageNum){
+        console.log(pageNum)
+        var pageNow = ${data.page}
+        var pageFirst = parseInt((pageNow-1)/10)*10
+        var str ='';
+        if (pageNow<11){
+        str += '<a>&laquo;</a>'
+        }else{
+            str += `<a href=\"/movie/search?searchMode=${data.searchMode}&query=${data.query}&language=${data.language}&page=`+pageFirst+`\">&laquo;</a>`
+        }
+        var index = 1
+        while(pageFirst+index<=pageNum && index<11){
+        	if(pageFirst+index==pageNow){
+        		str += `<a class="active" href=\"/movie/search?searchMode=${data.searchMode}&query=${data.query}&language=${data.language}&page=`+(pageFirst+index)+`\">`+(pageFirst+index)+'</a>'
+        	}else{
+        	str += `<a href=\"/movie/search?searchMode=${data.searchMode}&query=${data.query}&language=${data.language}&page=`+(pageFirst+index)+`\">`+(pageFirst+index)+'</a>'
+        	}
+        		index +=1
+        }
+        if(pageFirst+10>=pageNum){
+        	str += '<a>&raquo;</a>'
+        }else{
+        	str += `<a href=\"/movie/search?searchMode=${data.searchMode}&query=${data.query}&language=${data.language}&page=`+(pageFirst+11)+`\">&raquo;</a>`
+        }
+        $('.pagination').html(str);
+  		}
+       
 		
 		
 
@@ -98,36 +288,22 @@ body {
 <body>
 	<jsp:include page="./common/header.jsp">  
 <jsp:param name="session" value='<%=(String)session.getAttribute("UserVo")%>'/>  
-<jsp:param name="language" value="<%=language%>"/>  
-</jsp:include>  
+<jsp:param name="language" value="${data.language}"/>  
+</jsp:include>
 
 
+	<div id="searchText"></div>
 
-		<div class="movies-container">
-			<div class="movies-innerContainer">
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
-				<div class="movie-container"><div class="movie"></div></div>
+			<div class="movies-searchInnerContainer">
+
+				
 			</div>
-		</div>
 
+	
+	
+		<div class="pagination">
+
+</div>	
 
 
 </body>

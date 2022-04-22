@@ -355,7 +355,7 @@ document.querySelector("#screen").onclick=function(){
 	            		while(index<5 && data.total_results>index){
 	            			str +='<div class="search-result-container">';
 							str += '<div class="search-result" tabindex:"'+(index+1)+'" onclick="location.href=\'/movie/movieDetail?movieId='+data.results[index].id+'&language='+language+'\'">';
-							if(data.results[index].poster_path){
+							if(!!data.results[index].poster_path){
 		        				imageUrl = "https://image.tmdb.org/t/p/w92"+data.results[index].poster_path;
 		        			}else{
 		        				imageUrl = `${pageContext.request.contextPath}/resources/img/noImage.jpg`       		//사진이 없을때 이미지			
@@ -426,6 +426,7 @@ document.querySelector("#screen").onclick=function(){
 						<div id="inputbox-container">  
 						<input type="text" id="inputbox" name="query" maxlength=50 placeholder="검색할 키워드를 입력하세요">
 						<input type="hidden" name="language" value="<%=request.getParameter("language") %>">
+						<input type="hidden" name="page" value="1">
 						<div id="search-results-container">
 						</div>
 						</div>
