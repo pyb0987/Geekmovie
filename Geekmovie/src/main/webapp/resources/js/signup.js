@@ -6,15 +6,14 @@ const signUpCheck = () => {
 	const passwordCheck = document.regiform.passwordCheck;
 	const name = document.regiform.name;
 	const gender = document.regiform.gender.value;
-
+	
+	var error = document.querySelectorAll('.error_next_box');
+	
 	//id 값이 비어 있으면 실행.
 	if (id.value == '') {
-		// alert('아이디를 입력해주세요.');
-		document.getElementById("idError").innerHTML = "아이디 입력은 필수 입니다."
+		document.getElementById("idError").innerHTML = "필수 정보입니다.";
 		id.focus();
 		return false;
-	} else {
-		document.getElementById("idError").innerHTML = "멋진 아이디네요!"
 	}
 	if (id.value.includes('~') || id.value.includes("!") ||
 		id.value.includes('@') || id.value.includes("#") ||
@@ -28,15 +27,17 @@ const signUpCheck = () => {
 		id.value.includes('-') || id.value.includes("+") ||
 		id.value.includes('~') || id.value.includes(" ")) {
 		//let id_false = ["~","!","@","#","$","%","^", "&" ,"*" ,"(" ,")","?","/","."];
-		document.getElementById("idError").innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다."
+		//document.getElementById("idError").innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다."
 		return false;
 	}
 	// id 값이 4자이상 12자 이하를 벗어나면 실행.
+	/*
 	if (id.value.length < 4 || id.value.length > 12) {
 		alert("아이디는 4자 이상 12자 이하로 입력해주세요.");
 		id.focus();
 		return false;
 	}
+	*/
 	// password 값이 비어있으면 실행.
 	if (password.value == '') {
 		alert('비밀번호를 입력해주세요');
