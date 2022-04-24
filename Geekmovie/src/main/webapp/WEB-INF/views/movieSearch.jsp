@@ -34,38 +34,42 @@ h1{
 
 
 .movies-searchContainer{
-    width :  100%;
-    max-width : 1800px;
     display: flex;
-    border : solid 1px yellow;
+    justify-content: center;
+   
 }
 .movies-searchInnerContainer-padding{
 	width : 80%;
-    padding-bottom : 60%;
+    padding-bottom : 70%;
     box-sizing: border-box;
     position: relative;
-    border : solid 1px green;
 }
 .movies-searchInnerContainer{
+	position : absolute;
     width: 100%;
     height: 90%;
-    box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-auto-rows: 1fr;
-    row-gap: 1%;
+    grid-rows: repeat(6, minmax(16%, 20%));
     column-gap: 1%;
+    row-gap : 2%;
 }
 .side{width : 10%;}
 .movie-searchContainer{
-    border : solid 1px red;
+    border : double 4px darkred;
+    box-sizing: border-box;
     display : grid;   
     grid-template-columns: 2fr 3fr;
-    grid-template-rows: 3fr 1fr 1fr 2fr;
+    grid-template-rows: 2.5fr 1fr 1fr 1fr 1fr;
 	column-gap: 3%;
 }
+.movie-searchContainer:hover{
+    border : double 4px aqua;
+
+}
+
 .movie-pictureContainer{
-	grid-row: 1 / span 4;
+	grid-row: 1 / span 5;
 	width: 100%;
     height: 100%;
 }
@@ -74,10 +78,11 @@ h1{
     height: 100%;
 	box-sizing: border-box;
 }
-.movie-content{	border : solid 1px green;}
+
 .movie-title{
 	
 	font-family: 'NanumSquareRoundBold';
+	font-weight: 700;
 	color : white;
 	font-size: 1.2rem;
 	word-wrap: break-word;
@@ -106,6 +111,11 @@ h1{
 
 .pagination {						/*페이지 처리*/
   display: inline-block;
+}
+.pagination-container {						/*페이지 처리*/
+  display: flex;
+  justify-content: center;
+  min-width : 500px;
 }
 
 .pagination a {
@@ -167,7 +177,7 @@ h1{
 			}else if(window.innerWidth>700){
 				$("html").css("fontSize", "11.5px")
 			}
-			else if(window.innerWidth>500){
+			else if(window.innerWidth>600){
 				$("html").css("fontSize", "10px")
 			}else{
 				$("html").css("fontSize", "8px")
@@ -181,15 +191,31 @@ h1{
 			 windowResize();
 		}, 400), true);	
 		
-		
+		var movieNameOn = false;
 		if('${data.searchMode}'==='movie'){								//분류 작업
 			var searchUrl = `/movie/searchMovieList?query=${data.query}&language=${data.language}&page=${data.page}`
-			var searchText = "<h1>\'${data.query}\'로 검색한 결과입니다.</h1>"
-		}else{
-			var searchUrl = `<%=request.getParameter("page") %>`
-			var searchText = `<h1>\'${query}\'로 검색안한 결과입니다.</h1>`
+			var searchText = `\'${data.query}\'로 검색한 결과입니다.`
+		}else if('${data.searchMode}'==='popularmovie'){
+			var searchUrl = `/movie/getPopularMovieList?page=${data.page}&${data.language}`
+			var searchText = `사람들이 많이 보는 영화`
+		}else if('${data.searchMode}'==='nowmovie'){
+			var searchUrl = `/movie/getNowPlayingMovieList?page=${data.page}&${data.language}`
+				var searchText = `현재 상영중인 영화`
+		}else if('${data.searchMode}'==='similarmovie'){
+			var searchUrl = `/movie/getSimilarMovieList?movieId=${data.movieId}&page=${data.page}&language=${data.language}`
+				var searchText = `하고 비슷한 영화`
+				var movieNameOn = true;
+		}else if('${data.searchMode}'==='recommendmovie'){
+			var searchUrl = `/movie/getRecommendMovieList?movieId=${data.movieId}&page=${data.page}&language=${data.language}`
+				var searchText = `에 관련있는 추천 영화`
+				var movieNameOn = true;
 		}
-		
+		var movieTitle='';
+		if(movieNameOn){
+			$.getJSON(`/movie/getMovieData?movieId=${data.movieId}&language=${data.language}`, function(data) {
+				movieTitle = "'"+data.title+"'";
+			});
+		}
 		
 		
 
@@ -199,9 +225,9 @@ h1{
         	dataType : 'json',
         	contentType : 'application/json', 
         	success: function(data){
-        		$("#searchText").html(searchText)
+        		$("#searchText").html('<h1>'+movieTitle+searchText+'</h1>')	
         		var str = ""
-        			
+        		var count = 0;
         		data.results.forEach(function(item,index){
 					var genreAry = [];
 					item.genre_ids.forEach(function(item){
@@ -221,7 +247,7 @@ h1{
 					}
 					
 
-        			str += '<div class="movie-searchContainer"><div class="movie-pictureContainer"><div class="movie-picture" style="background: url(\'';
+        			str += '<div class="movie-searchContainer" OnClick="location.href =\'/movie/movieDetail?movieId='+item.id+`&language=${data.language}\'" style="cursor:pointer;"><div class="movie-pictureContainer"><div class="movie-picture" style="background: url(\'`;
         			str +=	imageUrl+'\'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>';
 					str += '</div><div class="movie-title-container"><div class="movie-title prevent-flow">';
 					str += item.title+'</div></div><div class="movie-year prevent-flow">'
@@ -229,10 +255,11 @@ h1{
 					str += genreAry.join(' ,')+'</div><div class="movie-vote prevent-flow">'+item.vote_average+'</div>'					//나중에 geekmovie자체점수로 변경필요
 						
 					str += '</div>'
-
+					count +=1
 					})
-        		
-        		$(".movies-searchInnerContainer").html(str)
+					str += '<div class="fake-searchContainer"></div>'.repeat(Math.max(20-count, 0))
+					str += '<div class="pagination-container" style="grid-column: 1 / span 4;"><div class="pagination"></div></div>'
+        			$(".movies-searchInnerContainer").html(str)
 				makePagination(data.total_pages);
         		return false;
         	}
@@ -250,25 +277,41 @@ h1{
         var pageNow = ${data.page}
         var pageFirst = parseInt((pageNow-1)/10)*10
         var str ='';
+        if(movieNameOn){
+        	var strUnit = '&movieId=${data.movieId}'
+        }else{
+        	var strUnit = '';
+        }
+        if (pageNow==1){
+            str += '<a>처음</a>'
+            }else{
+                str += `<a href=\"/movie/search?searchMode=${data.searchMode}`+strUnit+`&query=${data.query}&language=${data.language}&page=1\">처음</a>`
+            }
         if (pageNow<11){
         str += '<a>&laquo;</a>'
         }else{
-            str += `<a href=\"/movie/search?searchMode=${data.searchMode}&query=${data.query}&language=${data.language}&page=`+pageFirst+`\">&laquo;</a>`
+            str += `<a href=\"/movie/search?searchMode=${data.searchMode}`+strUnit+`&query=${data.query}&language=${data.language}&page=`+pageFirst+`\">&laquo;</a>`
         }
         var index = 1
         while(pageFirst+index<=pageNum && index<11){
         	if(pageFirst+index==pageNow){
-        		str += `<a class="active" href=\"/movie/search?searchMode=${data.searchMode}&query=${data.query}&language=${data.language}&page=`+(pageFirst+index)+`\">`+(pageFirst+index)+'</a>'
+        		str += `<a class="active" href=\"/movie/search?searchMode=${data.searchMode}`+strUnit+`&query=${data.query}&language=${data.language}&page=`+(pageFirst+index)+`\">`+(pageFirst+index)+'</a>'
         	}else{
-        	str += `<a href=\"/movie/search?searchMode=${data.searchMode}&query=${data.query}&language=${data.language}&page=`+(pageFirst+index)+`\">`+(pageFirst+index)+'</a>'
+        	str += `<a href=\"/movie/search?searchMode=${data.searchMode}`+strUnit+`&query=${data.query}&language=${data.language}&page=`+(pageFirst+index)+`\">`+(pageFirst+index)+'</a>'
         	}
         		index +=1
         }
         if(pageFirst+10>=pageNum){
         	str += '<a>&raquo;</a>'
         }else{
-        	str += `<a href=\"/movie/search?searchMode=${data.searchMode}&query=${data.query}&language=${data.language}&page=`+(pageFirst+11)+`\">&raquo;</a>`
+        	str += `<a href=\"/movie/search?searchMode=${data.searchMode}`+strUnit+`&query=${data.query}&language=${data.language}&page=`+(pageFirst+11)+`\">&raquo;</a>`
         }
+        if(pageNow==pageNum){
+        	str += '<a>끝</a>'
+        }else{
+        	str += `<a href=\"/movie/search?searchMode=${data.searchMode}`+strUnit+`&query=${data.query}&language=${data.language}&page=`+pageNum+`\">&nbsp;끝&nbsp;</a>`
+        }
+        
         $('.pagination').html(str);
   		}
        
@@ -293,17 +336,16 @@ h1{
 
 
 	<div id="searchText"></div>
-
+	<div class="movies-searchContainer">
+<div class="movies-searchInnerContainer-padding">
 			<div class="movies-searchInnerContainer">
 
 				
 			</div>
-
+		</div>
+		</div>
 	
-	
-		<div class="pagination">
 
-</div>	
 
 
 </body>

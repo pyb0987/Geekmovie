@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 	</typeAliases>
 	<mappers>
-        <mapper resource="/sqlmap/mapper/movieDetail-mapper.xml"/>
         <mapper resource="/sqlmap/mapper/BoardVO-mapper.xml"/>
+        <mapper resource="/sqlmap/mapper/userVO-mapper.xml"/>
     </mappers>
 </configuration>

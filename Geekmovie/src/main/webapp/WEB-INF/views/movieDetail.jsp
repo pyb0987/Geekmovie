@@ -18,13 +18,13 @@ String language = "ko-KR";
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css"
 	rel="stylesheet">
-<link rel="stylesheet" href="${path}/resources/css/movieHover.css">
-<link rel="stylesheet" href="${path}/resources/css/movieDetail.css?ver=2"/>
-<link rel="stylesheet" href="${path}/resources/css/movieSlide.css"/>
-<link rel="stylesheet" href="${path}/resources/css/movieCast.css"/>
-<link rel="stylesheet" href="${path}/resources/css/movieCrew.css"/>
+<link rel="stylesheet" href="${path}/resources/css/movieDetail.css?"/>
+<link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=1"/>
+<link rel="stylesheet" href="${path}/resources/css/movieCast.css?"/>
+<link rel="stylesheet" href="${path}/resources/css/movieCrew.css?"/>
 <style>
-
+@import
+	url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);	/*슬라이드 아이콘*/
 body {
 	overflow-x: hidden;
 	background-color: #000000;
@@ -65,7 +65,12 @@ padding-left: 30px;
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/throttle.js"></script>
+	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fontResize.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieSlide.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieListAjax.js?ver=1"></script>
 	
 <script>
 	$(document).ready(function() {
@@ -96,6 +101,12 @@ padding-left: 30px;
 		var windowResize = function(){					//리사이징 함수
 			document.getElementById("detail-bigPicture").style.backgroundSize = window.innerWidth+'px';
 			document.getElementById("detail-bigPicture").style.height = window.innerWidth*0.5+'px'
+			
+			
+			
+			fontResize()
+			movieContainerResize()	
+			
 		}
 		
 		windowResize();
@@ -103,6 +114,12 @@ padding-left: 30px;
 		window.addEventListener('resize', throttle(function() {				//리사이징에 throttle 적용
 			 windowResize();
 		}, 20), true);	
+		
+		const SimilarMovieContainer = document.querySelector("#similar-movie .movies-container");
+		const RecommendMovieContainer = document.querySelector("#recommend-movie .movies-container");
+		movieSlideController(SimilarMovieContainer);					//movieSlide.js
+		movieSlideController(RecommendMovieContainer);				
+		
 		
 		
 		
@@ -114,12 +131,12 @@ padding-left: 30px;
         	success: function(data){
         		let str1;
         		let str2;
-        		if(data.backdrop_path!=null){
+        		if(!!data.backdrop_path){
         		str1 = 'https://image.tmdb.org/t/p/original/'+data.backdrop_path ;			//백드랍 이미지
         		}else{        		
         			str1 = '${pageContext.request.contextPath}/resources/img/wall.jpg' ;	
         		}
-        		if(data.poster_path!=null){
+        		if(!!data.poster_path){
         		str2 = "<img src='https://image.tmdb.org/t/p/w500/"+data.poster_path+"'>"    //포스터
         		}else{
         			str2 = "<img src='${pageContext.request.contextPath}/resources/img/noImage.jpg'>"
@@ -127,6 +144,8 @@ padding-left: 30px;
         		let str3 = "<h1 style='text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000; margin-bottom: 0;'>"+data.title+"</h1>"      //제목
         		let str5 = "<p id='overview' style='font-size:1.05rem;'>"+data.overview+"</p>";				//오버뷰
         		let str7 = "<h6 id='release_date'>"+data.release_date+" 개봉/"+data.runtime+"mins</h6>"
+        		
+        		
         		if(data.homepage!=null){
             		str8 = "<div style='background-color: gold; height: 20px; cursor: pointer; text-align : center;' onclick='window.open(\""+data.homepage+"\");'>홈페이지 이동</div>"     //홈페이지
 
@@ -147,6 +166,12 @@ padding-left: 30px;
         		$("#detail-genres").html(str6);
         		$("#detail-release").html(str7);
         		$("#detail-homepage").html(str8);
+        		let countryAry = [];
+        		data.production_countries.forEach(function(item){
+        			countryAry.push(item.name);
+        		})
+        		let str9 = '<h6>제작국가 : '+countryAry.join(' ,')+'</h6>'
+        		$("#detail-country").html(str9);
         		$("#scoreImdb .Score").html(data.vote_average);    //imdb 점수 표시
         		return false;
         	}
@@ -233,41 +258,9 @@ padding-left: 30px;
     		}
         
         
-        
-        
-        $.ajax({							//getSimilarMovieList 출력
-        	type: 'GET',
-        	url: `/movie/getSimilarMovieList?movieId=${movieId}&page=1&language=${language}`,
-        	dataType : 'json',
-        	contentType : 'application/json', 
-        	success: function(data){
-        		$("#similar-movie .movies-container .movie").each(function(index, element){
-        			if(data.results[index].poster_path){
-        			str = "<div class='movie-image'><img src='https://image.tmdb.org/t/p/w185/"+data.results[index].poster_path+"'></div>" ;
-        			}else{
-        			str = "<div class='movie-image' style='color : white; text-align: center; '>"+data.results[index].title+"</p></div>"			//이미지 없으면 제목 출력
-        			}
-        			let title = data.results[index].title;
-        			let overview = data.results[index].overview;
-        			if(title.length>20){
-        				title = title.substr(0, 20)+"..."					// 제목 20자 넘으면 자르기
-            		}
-        			if(overview.length>120){
-        			overview = overview.substr(0, 120)+"..."					//overview 120자 넘으면 자르기
-        			}
-        			str += "<figcaption><h3>"+title +"</h3><p>"+overview +"</p><p>"+ data.results[index].release_date +"</p><i class='ion-ios-arrow-right'><a href='/movie/movieDetail?movieId="+data.results[index].id+"&language=<%=language%>'></a></i></figcaption>" 
-        			$(this).html(str);
-        		})
-        		
-        	
-        	}
-        
-        	,
-        	error: function(request, status, error){
-        		console.log(request, status, error)
-        	}
-        })
-        
+        movieListAjax('similar-movie', `/movie/getSimilarMovieList?movieId=${movieId}&page=1&language=${language}`, `${language}`);				//getSimilarMovieList 출력
+        movieListAjax('recommend-movie', `/movie/getRecommendMovieList?movieId=${movieId}&page=1&language=${language}`, `${language}`);				//getSimilarMovieList 출력
+
                 
 
 				
@@ -305,7 +298,8 @@ padding-left: 30px;
 			<div id="detail-genres"></div>
 			<div id="detail-release"></div>
 			<div class="spacing"
-				style="width: 95%; height: 120px; display: flex; flex-direction: row-reverse;">
+				style="width: 95%; height: 120px; display: flex; justify-content: space-between; ">
+				<div id="detail-country"></div>
 				<div id="detail-vote">
 					<div id="scoreGeek">
 						<div class="siteName">GeekScore</div>
@@ -348,7 +342,7 @@ padding-left: 30px;
 	</div>
 	
 	<div id="similar-movie">
-		<h3>비슷한 영화</h3>
+	<div class="seeMoreMovies-container"><h3 class="seeMoreMovies">이 영화와 비슷한 영화</h3><h5 class="seeMoreMoviesLink" OnClick="location.href =`/movie/search?searchMode=similarmovie&movieId=${movieId}&page=2&language=${language}`">더 보기 >></h5></div>
 		<div class="movies-container">
 			<div class="movies-innerContainer">
 				<div class="movie-container"><div class="movie"></div></div>
@@ -377,7 +371,7 @@ padding-left: 30px;
 
 
 <div id="recommend-movie">
-		<h3>추천 영화</h3>
+	<div class="seeMoreMovies-container"><h3 class="seeMoreMovies">추천 영화</h3><h5 class="seeMoreMoviesLink" OnClick="location.href =`/movie/search?searchMode=recommendmovie&movieId=${movieId}&page=2&language=${language}`">더 보기 >></h5></div>
 		<div class="movies-container">
 			<div class="movies-innerContainer">
 				<div class="movie-container"><div class="movie"></div></div>

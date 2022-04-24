@@ -14,15 +14,14 @@ String language = "ko-KR";
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GeekMovie</title>
-<link
-	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css"
+<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css"
 	rel="stylesheet">
 
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/movieSlide.css?ver=1"/>
 <style>
-
 @import
-	url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
+	url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);	/*슬라이드 아이콘*/
+	
 body {
 	overflow-x: hidden;
 	background-color: #000000;
@@ -31,12 +30,19 @@ body {
 
 
 .movie-BigPicture { /*index 맨위 사진-구상중 */
-	width: 500px;
-	height: 500px;
-	border: solid red 1px;
+	position: relative;
+	width: 100%;
+	height: 50%;
+	z-index : -1;
 }
 
-
+h1,h3,h5,h6 {
+	font-family: 'NanumSquareRoundBold';				/*글꼴*/
+	color: #fff;
+	}	
+h1{font-size : 2.4rem;}
+h3{font-size : 1.6rem;}
+h5{font-size : 1rem;}
 
 
 
@@ -48,181 +54,71 @@ body {
 
 
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/movieHover.css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/movieSlide.css"/>
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/throttle.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/debounce.js"></script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieSlide.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fontResize.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieListAjax.js?ver=2"></script>
 
 <script>
 
     
     $(document).ready(function(){			 
+    	var language = '<%=language %>'
 		
-    	
 
-		
-	
-		
-		let movieContainerWidth;	
-		let movieInnerContainerWidth;
 
-    	var movieContainerResize = function() {						//movieContainer 리사이징 함수
-		if(window.innerWidth>1050){
-			movieWidth=210;
-		}else if(window.innerWidth>=800){
-		movieWidth = window.innerWidth/5
-		}else if(window.innerWidth >=600){
-		movieWidth = window.innerWidth/4
-		}else{
-		movieWidth = window.innerWidth/3
+		var windowResize = function(){					//리사이징 함수
+			fontResize()		//폰트리사이즈
+			movieContainerResize()			//movieSlide.js
 		}
-		movieContainerWidth = movieWidth*40-window.innerWidth;	
-		movieInnerContainerWidth = movieWidth*20;
-		$(".movies-container").width(movieContainerWidth+'px');
-		$(".movies-container").offset({left:-movieWidth*20+window.innerWidth});
-		$(".movies-innerContainer").width(movieInnerContainerWidth);
-		$(".movies-innerContainer").each(function(index, item){
-			console.log(Number(item.style.left.replace('px','')), movieWidth*20-window.innerWidth)
-			if(Number(item.style.left.replace('px',''))>movieWidth*20-window.innerWidth){
-				item.style.left=movieWidth*20-window.innerWidth+'px'; 
-			}
-		})
-		$(".movie-container").width(movieWidth+'px');	
-		  }
-    		
-		movieContainerResize();
-		$(".movies-innerContainer").each(function(index, item){item.style.left=movieWidth*20-window.innerWidth;})//최초 1회 리사이징 실행 및 위치 초기화
+	
 
-
-		window.addEventListener('resize', debounce(function() {
-			  movieContainerResize();
+		window.addEventListener('resize', throttle(function() {
+			windowResize();
 			  }, 100), true);										//윈도우 사이즈 변경때마다 리사이징 실행 - throttle
 
+			  
+		windowResize();//최초 1회 리사이징 실행		
+			  
 				
-			
 		const TrendMovieContainer = document.querySelector("#trend-movie .movies-container");	
 		const PopularMovieContainer = document.querySelector("#popular-movie .movies-container");
-		const TrendMovieInnerContainer = document.querySelector("#trend-movie .movies-container .movies-innerContainer");	
-		const PopularMovieInnerContainer = document.querySelector("#popular-movie .movies-container .movies-innerContainer");	
-				
-				
-						
-				
-				
-		let TrendIsDragging = null;		//moviebox drag 변수 설정
-		let TrendOriginLeft = null;
-		let TrendOriginX = null;
-		let PopularIsDragging = null;	
-		let PopularOriginLeft = null;
-		let PopularOriginX = null;
-		
-		TrendMovieInnerContainer.addEventListener("mousedown",(e) => {				//마우스 클릭시 드래그 실행
-			TrendIsDragging = true;
-			TrendOriginX = e.clientX;
-			TrendOriginLeft = TrendMovieInnerContainer.offsetLeft;
-		});
-		PopularMovieInnerContainer.addEventListener("mousedown",(e) => {				//마우스 클릭시 드래그 실행
-			PopularIsDragging = true;
-			PopularOriginX = e.clientX;
-			PopularOriginLeft = PopularMovieInnerContainer.offsetLeft;
-		});
-		
+		const NowMovieContainer = document.querySelector("#now-movie .movies-container");
+		movieSlideController(TrendMovieContainer);					//movieSlide.js
+		movieSlideController(PopularMovieContainer);
+		movieSlideController(NowMovieContainer);
 
-		document.addEventListener("mousemove", (e) => {					//마우스 클릭 후 드래그 중 실행
-			if(TrendIsDragging){
-				const diffX = e.clientX - TrendOriginX;
-				const endOfXPoint = movieContainerWidth - movieInnerContainerWidth;
-				let dragging = Math.min(Math.max(0, TrendOriginLeft+diffX),endOfXPoint)
-				TrendMovieInnerContainer.style.left = dragging+"px";
-			}
-			if(PopularIsDragging){
-				const diffX = e.clientX - PopularOriginX;
-				const endOfXPoint = movieContainerWidth - movieInnerContainerWidth;
-				let dragging = Math.min(Math.max(0, PopularOriginLeft+diffX),endOfXPoint)
-				PopularMovieInnerContainer.style.left = dragging+"px";
-			}
-		});
-
-		document.addEventListener("mouseup", (e) => {			//드래그 후 마우스 놓을때 실행
-			TrendIsDragging = false;
-			PopularIsDragging = false;
-		})
 
 		
 		
-		
-		
-		
-		$.ajax({							//TrendMovieList 출력
+		var trendMovieIds = [];
+		$.ajax({							//TrendMovieList id만 가져오기
         	type: 'GET',
         	url: '/movie/getTrendingMovieList?timewindow=week',
         	dataType : 'json',
         	contentType : 'application/json', 
         	success: function(data){
-        		$("#trend-movie .movies-container .movie").each(function(index, element){
-        			if(data.results[index].poster_path){
-        			str = "<div class='movie-image'><img src='https://image.tmdb.org/t/p/w342/"+data.results[index].poster_path+"'></div>" ;
-        			}else{
-        			str = "<div class='movie-image' style='color : white; text-align: center; '>"+data.results[index].title+"</div>"			//이미지 없으면 제목 출력
-        			}
-        			let title = data.results[index].title;
-        			let overview = data.results[index].overview;
-        			if(title.length>20){
-        				title = title.substr(0, 20)+"..."					// 제목 20자 넘으면 자르기
-            		}
-        			if(overview.length>120){
-        			overview = overview.substr(0, 120)+"..."					//overview 120자 넘으면 자르기
-        			}
-        			str += "<figcaption><h3>"+title +"</h3><p>"+overview +"</p><p>"+ data.results[index].release_date +"</p><i class='ion-ios-arrow-right'><a href='/movie/movieDetail?movieId="+data.results[index].id+"&language=<%=language%>'></a></i></figcaption>"         			
-        					$(this).html(str);
-        		})
-        		
-        	
+        		for (var movie of data.results){
+        			trendMovieIds.push(movie.id)
+        		}
         	}
-        
         	,
         	error: function(request, status, error){
         		console.log(request, status, error)
         	}
         })
+		
+		
     	
     	
+        movieListAjax('trend-movie', '/movie/getTrendingMovieList?timewindow=week', language);				//TrendMovieList 출력
+        movieListAjax('popular-movie', '/movie/getPopularMovieList?page=1&language='+language, language);
+		movieListAjax('now-movie', '/movie/getNowPlayingMovieList?page=1&language='+language, language);		//getNowPlayingMovieList 출력
         
-        
-        $.ajax({							//popularMovieList 출력
-        	type: 'GET',
-        	url: '/movie/getPopularMovieList?page=1&language=<%=language%>',
-        	dataType : 'json',
-        	contentType : 'application/json', 
-        	success: function(data){
-        		$("#popular-movie .movies-container .movie").each(function(index, element){
-        			if(data.results[index].poster_path){
-        			str = "<div class='movie-image'><img src='https://image.tmdb.org/t/p/w342/"+data.results[index].poster_path+"'></div>" ;
-        			}else{
-        			str = "<div class='movie-image' style='color : white; text-align: center; '>"+data.results[index].title+"</p></div>"			//이미지 없으면 제목 출력
-        			}
-        			let title = data.results[index].title;
-        			let overview = data.results[index].overview;
-        			if(title.length>20){
-        				title = title.substr(0, 20)+"..."					// 제목 20자 넘으면 자르기
-            		}
-        			if(overview.length>120){
-        			overview = overview.substr(0, 120)+"..."					//overview 120자 넘으면 자르기
-        			}
-        			str += "<figcaption><h3>"+title +"</h3><p>"+overview +"</p><p>"+ data.results[index].release_date +"</p><i class='ion-ios-arrow-right'><a href='/movie/movieDetail?movieId="+data.results[index].id+"&language=<%=language%>'></a></i></figcaption>" 
-        			$(this).html(str);
-        		})
-        		
-        	
-        	}
-        
-        	,
-        	error: function(request, status, error){
-        		console.log(request, status, error)
-        	}
-        })
-        
-        
+
 		 
 		 
         		
@@ -244,28 +140,13 @@ body {
 	
 	<section>
 	
-	<a href="boardList" style="color : white">게시판</a>
-
-	<h1>ABCDEFG</h1>
 	
-	<!-- 회원 로그인 및 가입 공간 -->
+	<div class="movie-BigPicture"></div>
 	
-	<form action="join" id="join" method="get">
-	<p>아이디 : <input type = "text" name="id"></p>
-	<p>패스워드 : <input type = "text" name="password"></p>
-	<p><input type = "submit" value="로그인"></p>
-	
-	<!-- 가입  -->
-	</form>
-
-	<form action="createUser" id="createUser" method="get">
-	<p><input type = "submit" value="회원가입"></p>
-	</form>
 	
 	
 	<div id="trend-movie">
-		<div class="movie-BigPicture"></div>
-		<h3>지금 트렌드는</h3>
+	<div class="seeMoreMovies-container"><h3 class="seeMoreMovies">지금 트렌드는</h3></div>
 		<div class="movies-container">
 			<div class="movies-innerContainer">
 				<div class="movie-container"><div class="movie"></div></div>
@@ -295,7 +176,7 @@ body {
 
 
 	<div id="popular-movie">
-		<h3>사람들이 많이 보는 영화</h3>
+		<div class="seeMoreMovies-container"><h3 class="seeMoreMovies">사람들이 많이 보는 영화</h3><h5 class="seeMoreMoviesLink" OnClick="location.href ='/movie/search?searchMode=popularmovie&page=2&language=<%=language %>'">더 보기 >></h5></div>
 		<div class="movies-container">
 			<div class="movies-innerContainer">
 				<div class="movie-container"><div class="movie"></div></div>
@@ -321,7 +202,37 @@ body {
 			</div>
 		</div>
 	</div>
-
+	
+	
+	
+		<div id="now-movie">
+		<div class="seeMoreMovies-container"><h3 class="seeMoreMovies">현재 상영중인</h3><h5 class="seeMoreMoviesLink" OnClick="location.href ='/movie/search?searchMode=nowmovie&page=2&language=<%=language %>'">더 보기 >></h5></div>
+		<div class="movies-container">
+			<div class="movies-innerContainer">
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+			</div>
+		</div>
+	</div>
+	
 	</section>
 </body>
 </html>

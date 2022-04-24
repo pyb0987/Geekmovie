@@ -23,7 +23,7 @@
 	overflow: hidden;
 	color: #ffffff;
 	text-align: left;
-	font-size: 16px;
+	font-size: 1rem;
 	background-color: #000000;
 }
 
@@ -32,9 +32,138 @@
 	width: auto; height: 100%;
 
 	top: 0; left: 0; right: 0; bottom: 0;
-
-
 }
 
+.movie * {							/*마우스 호버 효과 시작*/
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 0.35s ease;
+  transition: all 0.35s ease;
+}
+.movie img {					/*이미지 전부 채우게 함*/
+	-webkit-user-drag: none; /*드래그 못하게 함*/
+	backface-visibility: hidden;
+}
+.movie:after,
+.movie figcaption {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.movie:after {
+  content: '';
+  background-color: rgba(0, 0, 0, 0.65);
+  -webkit-transition: all 0.35s ease;
+  transition: all 0.35s ease;
+  opacity: 0;
+  
+}
+.movie figcaption {
+  z-index: 1;
+  padding: 30px;
+}
+.movie h3,
+.movie .links {
+  width: 100%;
+  margin: 5px 0;
+  padding: 0;
+}
+.movie h3 {
+    font-family: 'NanumSquareRoundBold';    
+  line-height: 1.2em;
+  font-weight: 700;
+  font-size: 1.4em;
+  text-transform: uppercase;
+  opacity: 0;
+}
+.movie p {
+    font-family: 'NanumSquareRound';
+  font-size: 0.8em;
+  font-weight: 300;
+  letter-spacing: 1px;
+  opacity: 0;
+  top: 50%;
+  -webkit-transform: translateY(40px);
+  transform: translateY(40px);
+}
+
+.movie figcaption p:nth-child(3) {
+  font-size: 0.6em;
+}
+.movie i {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding : 0px;
+  margin: 20px 25px;
+  font-size: 34px;
+  opacity: 0;
+  -webkit-transform: translateX(-10px);
+  transform: translateX(-10px);
+}
+.movie a {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.movie:hover img,
+.movie.hover img {
+  zoom: 1;
+  filter: alpha(opacity=50);
+  -webkit-opacity: 0.5;
+  opacity: 0.5;
+}
+.movie:hover:after,
+.movie.hover:after {
+  opacity: 1;
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+}
+.movie:hover h3,
+.movie.hover h3,
+.movie:hover p,
+.movie.hover p,
+.movie:hover i,
+.movie.hover i {
+  -webkit-transform: translate(0px, 0px);
+  transform: translate(0px, 0px);
+  opacity: 1; 									
+}
+  /*마우스 호버 효과 끝*/
+
+
+
+.seeMoreMovies{
+	font-size : 1.6rem;
+	display : inline-block;
+}
+
+.seeMoreMoviesLink{
+	color : #f8efc5;
+	display : inline-block;
+	 white-space : nowrap;
+	 width : 0;
+	 overflow : hidden;
+	 transform : translateY(1.6rem);
+	 margin-left : 1rem;
+    transition : width 1s;
+    cursor:pointer;
+}
+.seeMoreMovies-container{
+	display : inline;
+	}
+.seeMoreMovies-container:hover .seeMoreMoviesLink{
+
+		 width : 6rem;
+		 
+}
 
 

@@ -64,11 +64,12 @@
     min-width : 100px;
     height: 40px;
     font-family: 'Square Peg', cursive;
-    font-size: 1.9rem;
+    font-size: 30px;
     color : #f8efc5;
     letter-spacing: -4px;
     line-height : 40px;
     text-decoration: none;
+    transfrom : rotate(0.02deg);
 }
 
 
@@ -96,6 +97,11 @@
     height: 35px;
     font-size: 1.2rem;
 }
+
+option{
+	font-size: 1rem;
+} 
+
 #searchbutton-container{
     width: 70px;
     height: 40px;
@@ -201,7 +207,8 @@ color : #555555;
 } 
 
 #foldMenuContainer{						    /*-- hidden menubar --*/    
- width : 240px;
+ width : 20%;
+ max-width : 250px;
  height : 100%;
  top : 100px;
 left : 0;
@@ -236,6 +243,8 @@ box-sizing: border-box;
  font-family: 'NanumSquareRound';
  text-align : center;
  font-size: 1.1rem;
+ white-space : nowrap;
+ overflow : hidden;
  cursor : pointer;          
  border-right: 1px solid #323235;
  border-left: 1px solid rgba(255, 255, 255, 0.2);
@@ -341,7 +350,7 @@ document.querySelector("#screen").onclick=function(){
 		if (!query){
 			$("#search-results-container").empty();	
 		}else{
-		  let inputUrl = '/movie/searchMovieList?language='+language+'&query='+query+'&page=1';
+		  let inputUrl = '/movie/searchMovieList?query='+query+'&language='+language+'&page=1';
 		  $.ajax({							//searchMovieList 출력
 	        	type: 'GET',
 	        	url: inputUrl,
@@ -424,7 +433,7 @@ document.querySelector("#screen").onclick=function(){
 							<option value="keyword">게시글</option>
 						</select> 
 						<div id="inputbox-container">  
-						<input type="text" id="inputbox" name="query" maxlength=50 placeholder="검색할 키워드를 입력하세요">
+						<input type="text" id="inputbox" name="query" autocomplete='off' maxlength=50 placeholder="검색할 키워드를 입력하세요">
 						<input type="hidden" name="language" value="<%=request.getParameter("language") %>">
 						<input type="hidden" name="page" value="1">
 						<div id="search-results-container">
@@ -450,7 +459,7 @@ document.querySelector("#screen").onclick=function(){
 		<div class="menuButton">인기영화</div>
 
 		<div class="menuButton" onclick="location.href='boardList';">최신게시글</div>
-
+		<div class="menuButton">랜덤영화</div>
 		<div class="menuButton">마이페이지</div>
 		</div>
 	</div>

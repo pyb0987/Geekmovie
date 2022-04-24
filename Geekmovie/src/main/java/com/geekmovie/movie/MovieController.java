@@ -53,7 +53,7 @@ public class MovieController {
 	public ModelAndView search(@RequestParam Map<String, String> map) {
 		ModelAndView mav = new ModelAndView();	
 		String searchMode = map.get("searchMode"); 
-		mav.addObject("data", map); // request.setAttribute  searchMode, query, language, page
+		mav.addObject("data", map); // request.setAttribute  search기능 -> searchMode, query, language, page / seeMore -> searchMode, language, page  [movieId]
 
 
 		if(searchMode.contains("movie")) {
