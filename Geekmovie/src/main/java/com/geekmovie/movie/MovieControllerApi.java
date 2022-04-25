@@ -108,6 +108,28 @@ public class MovieControllerApi {
 		  return rs;
 	}
 	
+	
+	@GetMapping("/getTopRatedMovieList")																//평점이 높은 영화 20개의 목록반환
+	public String getTopRatedMovieList(HttpServletRequest request){
+		int page = 1;
+		String language = "";
+		String rs = "";
+		
+		try {
+			page = Integer.parseInt((String)request.getParameter("page"));
+			language = (String)request.getParameter("language");
+			rs = UrlRead.readStringFromUrl(movieUrlGetter.getTopRatedMovieList(page, language));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		  return rs;
+	}
+	
 
 	
 	@GetMapping("/searchMovieList")														//특정 키워드로 검색한 영화 목록 반환

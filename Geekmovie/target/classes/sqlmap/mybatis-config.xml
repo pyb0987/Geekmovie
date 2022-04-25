@@ -5,12 +5,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.geekmovie.board.vo.BoardVo" alias="boardVo"/>
-
 	    <typeAlias type="com.geekmovie.user.vo.userVO" alias="userVO"/>
-
+		<typeAlias type="com.geekmovie.onelinereview.vo.OneLineReviewVo" alias="oneLineReviewVo"/>
 	</typeAliases>
 	<mappers>
         <mapper resource="/sqlmap/mapper/BoardVO-mapper.xml"/>
         <mapper resource="/sqlmap/mapper/userVO-mapper.xml"/>
+        <mapper resource="/sqlmap/mapper/oneLineReviewVo-mapper.xml"/>
     </mappers>
 </configuration>

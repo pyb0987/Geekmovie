@@ -1,7 +1,8 @@
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="com.geekmovie.user.vo.userVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 
 
 
@@ -17,24 +18,19 @@ String language = "ko-KR";
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css"
 	rel="stylesheet">
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/movieSlide.css?ver=1"/>
+
 <style>
-@import
-	url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);	/*슬라이드 아이콘*/
+@import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);	/*슬라이드 아이콘*/
+@import url('https://fonts.googleapis.com/css2?family=Hahmlet:wght@800&display=swap');	/*함렛 글꼴*/
 	
 body {
 	overflow-x: hidden;
 	background-color: #000000;
+	margin: 0;
 	padding-top : 100px;
+
 }
 
-
-.movie-BigPicture { /*index 맨위 사진-구상중 */
-	position: relative;
-	width: 100%;
-	height: 50%;
-	z-index : -1;
-}
 
 h1,h3,h5,h6 {
 	font-family: 'NanumSquareRoundBold';				/*글꼴*/
@@ -48,20 +44,41 @@ h5{font-size : 1rem;}
 
 
 
+#userSpace{
+ display : flex;
+}
+
+
+.board-container{
+display : flex;
+flex-direction: column;
+width : 50%;
+padding : 30px;
+}
+
+.board{
+width : 100%;
+height : 100%;
+background-color : white;
+}
+
+
 
 
 </style>
-
+<link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=1"/>
+<link rel="stylesheet" href="${path}/resources/css/movieBigSlide.css"/>
 
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/throttle.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/debounce.js"></script>
+<script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
+<script type="text/javascript" src="${path}/resources/js/debounce.js"></script>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieSlide.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fontResize.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieListAjax.js?ver=2"></script>
+<script type="text/javascript" src="${path}/resources/js/movieSlide.js?ver=2"></script>
+<script type="text/javascript" src="${path}/resources/js/fontResize.js"></script>
+<script type="text/javascript" src="${path}/resources/js/movieListAjax.js?ver=2"></script>
 
+<script type="text/javascript" src="${path}/resources/js/movieBigSlide.js"></script>
 <script>
 
     
@@ -70,53 +87,69 @@ h5{font-size : 1rem;}
 		
 
 
+    	const bigMovieSlide = document.querySelector("#movies-BigPictureSlide");
+		var bmc = bigMovieController(bigMovieSlide, language);
+		bmc.initialSet();
+    	
+    	
+    	
 		var windowResize = function(){					//리사이징 함수
 			fontResize()		//폰트리사이즈
+			
+			bmc.adjust();
 			movieContainerResize()			//movieSlide.js
+
+			
 		}
-	
+		windowResize();
 
 		window.addEventListener('resize', throttle(function() {
 			windowResize();
 			  }, 100), true);										//윈도우 사이즈 변경때마다 리사이징 실행 - throttle
 
 			  
-		windowResize();//최초 1회 리사이징 실행		
+	
 			  
-				
+		
 		const TrendMovieContainer = document.querySelector("#trend-movie .movies-container");	
 		const PopularMovieContainer = document.querySelector("#popular-movie .movies-container");
 		const NowMovieContainer = document.querySelector("#now-movie .movies-container");
+		const TopMovieContainer = document.querySelector("#top-movie .movies-container");
 		movieSlideController(TrendMovieContainer);					//movieSlide.js
 		movieSlideController(PopularMovieContainer);
 		movieSlideController(NowMovieContainer);
+		movieSlideController(TopMovieContainer);
 
 
 		
+
+		windowResize();//최초 1회 리사이징 실행		
 		
-		var trendMovieIds = [];
-		$.ajax({							//TrendMovieList id만 가져오기
-        	type: 'GET',
-        	url: '/movie/getTrendingMovieList?timewindow=week',
-        	dataType : 'json',
-        	contentType : 'application/json', 
-        	success: function(data){
-        		for (var movie of data.results){
-        			trendMovieIds.push(movie.id)
-        		}
-        	}
-        	,
-        	error: function(request, status, error){
-        		console.log(request, status, error)
-        	}
-        })
+		
+		 
+		window.addEventListener('scroll', throttle(function() {
+		        var scrolltop = $(document).scrollTop();
+		        console.log(scrolltop);
+		        var height = $(document).height();
+		        console.log(height);
+		        var height_win = $(window).height();
+		        console.log(height_win);
+		        
+		     if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height()) {
+		        //moreList();
+		        }
+		     }, 200), true);		 
+		
+		
+		
 		
 		
     	
     	
-        movieListAjax('trend-movie', '/movie/getTrendingMovieList?timewindow=week', language);				//TrendMovieList 출력
+        movieListAjax('trend-movie', '/movie/getTrendingMovieList?timewindow=day', language);				//TrendMovieList 출력
         movieListAjax('popular-movie', '/movie/getPopularMovieList?page=1&language='+language, language);
 		movieListAjax('now-movie', '/movie/getNowPlayingMovieList?page=1&language='+language, language);		//getNowPlayingMovieList 출력
+		movieListAjax('top-movie', '/movie/getTopRatedMovieList?page=1&language='+language, language);		
         
 
 		 
@@ -140,13 +173,37 @@ h5{font-size : 1rem;}
 	
 	<section>
 	
-	
-	<div class="movie-BigPicture"></div>
-	
+	<div id="movies-bigPictureSlide">
+	<div class="movies-BigPictureContainer"> 
+
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>	
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	<div class="movie-bigPictureContainer"><div class="movie-bigPicture"></div><div class="movie-bigDetail"></div></div>
+	</div>
+	<div class="movieSlidePrev">&lang;</div>
+	<div class="movieSlideNext">&rang;</div>
+	</div>
 	
 	
 	<div id="trend-movie">
-	<div class="seeMoreMovies-container"><h3 class="seeMoreMovies">지금 트렌드는</h3></div>
+	<div class="seeMoreMovies-container"><h3 class="seeMoreMovies">일일 추천영화</h3></div>
 		<div class="movies-container">
 			<div class="movies-innerContainer">
 				<div class="movie-container"><div class="movie"></div></div>
@@ -204,9 +261,52 @@ h5{font-size : 1rem;}
 	</div>
 	
 	
+		<div id="userSpace">
+	<div class="board-container">
+	<h3>게시판</h3>
+	<div class="board"><div>게시판이 들어갈 곳</div></div>
+	</div>
+	<div class="board-container">
+	<h3>영화리뷰</h3>
+	<div class="board"><div>리뷰가 들어갈 곳</div></div>
+	</div>
+	</div>
+	
+	
+	
+	
 	
 		<div id="now-movie">
 		<div class="seeMoreMovies-container"><h3 class="seeMoreMovies">현재 상영중인</h3><h5 class="seeMoreMoviesLink" OnClick="location.href ='/movie/search?searchMode=nowmovie&page=2&language=<%=language %>'">더 보기 >></h5></div>
+		<div class="movies-container">
+			<div class="movies-innerContainer">
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+			</div>
+		</div>
+	</div>
+	
+	
+			<div id="top-movie">
+		<div class="seeMoreMovies-container"><h3 class="seeMoreMovies">최고의 찬사를 받는</h3><h5 class="seeMoreMoviesLink" OnClick="location.href ='/movie/search?searchMode=topmovie&page=2&language=<%=language %>'">더 보기 >></h5></div>
 		<div class="movies-container">
 			<div class="movies-innerContainer">
 				<div class="movie-container"><div class="movie"></div></div>

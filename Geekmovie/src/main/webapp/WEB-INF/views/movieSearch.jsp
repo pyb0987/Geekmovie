@@ -196,11 +196,14 @@ h1{
 			var searchUrl = `/movie/searchMovieList?query=${data.query}&language=${data.language}&page=${data.page}`
 			var searchText = `\'${data.query}\'로 검색한 결과입니다.`
 		}else if('${data.searchMode}'==='popularmovie'){
-			var searchUrl = `/movie/getPopularMovieList?page=${data.page}&${data.language}`
+			var searchUrl = `/movie/getPopularMovieList?page=${data.page}&language=${data.language}`
 			var searchText = `사람들이 많이 보는 영화`
 		}else if('${data.searchMode}'==='nowmovie'){
-			var searchUrl = `/movie/getNowPlayingMovieList?page=${data.page}&${data.language}`
+			var searchUrl = `/movie/getNowPlayingMovieList?page=${data.page}&language=${data.language}`
 				var searchText = `현재 상영중인 영화`
+		}else if('${data.searchMode}'==='topmovie'){
+			var searchUrl = `/movie/getTopRatedMovieList?page=${data.page}&language=${data.language}`
+				var searchText = `높은 점수를 받은 영화`
 		}else if('${data.searchMode}'==='similarmovie'){
 			var searchUrl = `/movie/getSimilarMovieList?movieId=${data.movieId}&page=${data.page}&language=${data.language}`
 				var searchText = `하고 비슷한 영화`
@@ -266,13 +269,16 @@ h1{
         	,
         	error: function(request, status, error){
         		console.log(request, status, error)
+        		
+        		
+        		$("#searchText").html('<h1>검색결과가 존재하지 않습니다.</h1>')	
         	}
         	
         	
         	
         	
         })
-        function makePagination(pageNum){
+        function makePagination(pageNum){					//아래쪽 페이징 기능 구현
         console.log(pageNum)
         var pageNow = ${data.page}
         var pageFirst = parseInt((pageNow-1)/10)*10
