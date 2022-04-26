@@ -26,7 +26,7 @@ public class BoardDao {
 	}
 	
 	public int boardListCnt() {
-		return sqlSessionTemplate.selectOne("boardListCnt");
+		return sqlSessionTemplate.selectOne("boardVo.boardListCnt");
 	}
 	
 	public int boardInsert(BoardVo boardvo) {

@@ -1,12 +1,12 @@
 package com.geekmovie.board.vo;
 
 public class PageVo {
-	public PageVo() {}
+	
 	private int listSize = 4;                //초기값으로 목록개수를 10으로 셋팅
 	private int rangeSize = 10;            //초기값으로 페이지범위를 10으로 셋팅
-	private int page;
-	private int range;
-	private int listCnt;
+	private int page;						// 현재 페이지
+	private int range;						// 페이지 범위 묶음
+	private int listCnt;					// 전체목록
 	private int pageCnt;
 	private int startPage;
 	private int startList;
@@ -14,7 +14,6 @@ public class PageVo {
 	private boolean prev;
 	private boolean next;
 
-	
 	public int getRangeSize() {
 		return rangeSize;
 	}
@@ -93,11 +92,11 @@ public class PageVo {
 		this.listCnt = listCnt;
 
 		//전체 페이지수 
-		this.pageCnt = (int) Math.ceil(listCnt/listSize);
+		this.pageCnt = (int) Math.ceil(listCnt/(float)listSize);
 
 		//시작 페이지
-		this.startPage = (range - 1) * rangeSize + 1 ;
-
+		this.startPage = (range - 1) * rangeSize + 1;
+		
 		//끝 페이지
 		this.endPage = range * rangeSize;
 

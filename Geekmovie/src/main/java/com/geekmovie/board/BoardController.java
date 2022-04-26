@@ -40,13 +40,10 @@ public class BoardController {
 
 		boardVo.setStartList(pagevo.getStartList());
 		boardVo.setListSize(pagevo.getListSize());
-		
 		List<BoardVo> list = boardService.bList(boardVo);
+		
 		mav.addObject("pagination", pagevo);
 		mav.addObject("data", list);
-		//if(map.containsKey("keyword")) {
-		//	mav.addObject("keyword", map.get("keyword"));
-		//}
 		mav.setViewName("boardList");
 		return mav;
 	}

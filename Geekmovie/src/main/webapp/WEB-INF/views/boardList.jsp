@@ -18,11 +18,11 @@ PageVo pagination = (PageVo)request.getAttribute("pagination");
 	boolean next = pagination.isNext();
 %>
 
-start : <%=startPage %> / end : <%=endPage %> / 현재구간 : <%=range %> / 현재 페이지 : <%=curPage %> /
+start : <%=startPage %> / end : <%=endPage %> / 현재구간 : <%=range %> / 현재 페이지 : <%=curPage %> / 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>BoardList</title>
 </head>
 <body>

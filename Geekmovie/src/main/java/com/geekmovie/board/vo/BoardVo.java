@@ -21,7 +21,6 @@ public class BoardVo {
 	}
 
 
-
 	public BoardVo(int seq, String title, String writer, String contents, String reply, Date regdate, int cnt,
 			int likes, String movie_id, int startList, int listSize) {
 		super();
