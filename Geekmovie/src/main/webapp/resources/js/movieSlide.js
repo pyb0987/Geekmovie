@@ -1,3 +1,4 @@
+
 var movieContainerWidth;	
 var movieInnerContainerWidth;
 var movieWidth;
@@ -59,3 +60,4 @@ function movieSlideController(mc){			//적용하려는 개별 movie-container를
 			
 	return movieSlideCheck(mic);
 }
+

@@ -232,6 +232,7 @@ background-color : white;
 	</div>
 
 
+
 	<div id="popular-movie">
 		<div class="seeMoreMovies-container"><h3 class="seeMoreMovies">사람들이 많이 보는 영화</h3><h5 class="seeMoreMoviesLink" OnClick="location.href ='/movie/search?searchMode=popularmovie&page=2&language=<%=language %>'">더 보기 >></h5></div>
 		<div class="movies-container">
