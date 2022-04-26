@@ -1,9 +1,6 @@
 package com.geekmovie.user.controller;
 
-import java.io.Console;
-import java.lang.System.Logger;
 
-import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +32,7 @@ public class userVOController {
 	// 회원가입 
 	@GetMapping("/createUser")
 	public String createGET() {
-		System.out.println("@Create GET 호출");
+		System.out.println("@CreateUser GET 호출");
 		return "createUser";
 	}
 	@PostMapping("/createUser")
@@ -54,16 +51,18 @@ public class userVOController {
 		}
 		return mav;
 	}
-	// 아이디 체크
+	
+	// 아이디 중복체크
 	@PostMapping("/idCheck")
 	@ResponseBody
 	public int idCheck(@RequestParam("id") String id) {
-		System.out.println("userIdCheck 진입");
-		System.out.println("전달받은 id값 : "+id);
+		System.out.println("idCheck실행");
+		System.out.println(id);
 		int cnt = userService.idCheck(id);
 		System.out.println("확인결과 : "+cnt);
 		return cnt;
 	}
+	
 }
 
 
