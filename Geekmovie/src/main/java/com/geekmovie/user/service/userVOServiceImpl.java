@@ -16,16 +16,12 @@ public class userVOServiceImpl implements userVOService {
 	public int create(userVO userVO) {
 		return dao.insert(userVO);
 	}
-	
-	
-	// 아이디 중복체크
-	// 04-22 수정구문
+
 	@Override
 	public int idCheck(String id) {
 		int cnt = dao.idCheck(id);
 		return cnt;
 	}
-	
 	
 	
 }
