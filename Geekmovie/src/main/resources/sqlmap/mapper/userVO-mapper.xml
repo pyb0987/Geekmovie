@@ -6,14 +6,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="userVO">
 	
 	<!-- insert 회원가입 -->
-	<insert id="insertVO" parameterType="userVO"
-		useGeneratedKeys="true" keyProperty="useridx">
+	<insert id="insertVO" parameterType="userVO">
 		<![CDATA[
 			insert into users(id, password, name, gender)
 			values (#{id},#{password},#{name},#{gender});	
 		]]>	
 	</insert>
 	
+	<!-- 아이디 중복 체크 -->
+	<select id="idCheck" parameterType="String" resultType="int">
+		<![CDATA[
+			select count(id) from users where id = #{id}	
+		]]>
+	</select>
 	<!-- 리스트로 목록보기 -->
 	<select id="list_test">
 		<![CDATA[

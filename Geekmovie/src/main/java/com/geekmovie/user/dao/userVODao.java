@@ -20,4 +20,10 @@ public class userVODao {
 		return sqlSessionTemplate.insert("userVO.insertVO",userVO);
 	}
 	
+	//04-22 수정 구문
+	public int idCheck(String id) {
+		int cnt = sqlSessionTemplate.selectOne("userVO.idCheck",id);
+		return cnt;
+	}
+	
 }
