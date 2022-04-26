@@ -6,8 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="userVO">
 	
 	<!-- insert 회원가입 -->
-	<insert id="insertVO" parameterType="userVO"
-		useGeneratedKeys="true" keyProperty="useridx">
+	<insert id="insertVO" parameterType="userVO">
 		<![CDATA[
 			insert into users(id, password, name, gender)
 			values (#{id},#{password},#{name},#{gender});	

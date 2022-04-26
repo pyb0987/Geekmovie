@@ -1,0 +1,84 @@
+@charset "UTF-8";
+
+.movieSlidePrev, .movieSlideNext {
+  width: 50px;
+  height : 50px;
+  line-height : 50px;
+  border-radius: 20%;
+  font-size: 2rem;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  color: white;
+  transform: translateY(-50%);
+  transition: all 150ms ease;
+  z-index : 2;
+  top : 50%;
+  position: absolute;
+  cursor: pointer; 
+}
+
+
+.movieSlidePrev:hover, .movieSlideNext:hover{
+  background-color: rgba(0, 0, 0, 0.5);
+  text-shadow: 0;
+}
+.movieSlidePrev {left: 10px}
+.movieSlideNext {right: 10px}
+
+
+
+
+
+
+#movies-bigPictureSlide { /*index 맨위 사진 */
+	position: relative;
+	width: 100%;
+
+	padding-bottom : 65%;
+	overflow: hidden;
+}
+
+
+
+.movies-bigPictureContainer{ 
+
+position: absolute; 
+
+left: 0; 
+top: 0; 
+transition: left 0.5s ease-out;
+display : flex;	
+} 
+
+.movie-bigPicture{ 
+width: 100vw;
+padding-bottom : 50%;
+} 
+
+
+.movie-bigDetail{
+display : flex;
+justify-content: space-between;
+align-items: flex-start;
+}
+
+.bigMovieTitle{
+ 	font-family: 'Hahmlet', serif;
+ 	color : white;
+ 	font-size : 7rem;
+ 	width : 80%;
+ 	transform: translateX(4rem) translateY(-9rem);
+ 	line-height : 8rem;
+}
+
+.bigMovieLink{
+ 	font-family: 'Hahmlet', serif;
+ 	 color : white;
+ 	 font-size : 1.5rem;
+ 	 transform: translateX(-3rem);
+ 	  cursor: pointer;  
+}
+.bigMovieLink:hover{
+ 	 color : #999;
+}
+

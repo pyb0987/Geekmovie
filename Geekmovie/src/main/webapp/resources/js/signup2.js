@@ -23,8 +23,7 @@ dd.addEventListener("change", isDateCompleted);
 
 
 //아이디 중복 체크 구문
-function checkIdtest() {
-	var id = $('#id').val();
+function checkIdtest() {	var id = $('#id').val();
 	$.ajax({
 		url: 'idCheck',
 		type: 'post',

@@ -1,19 +1,20 @@
 package com.geekmovie.movie;
 
 
+
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import com.geekmovie.movie.dao.MovieDao;
-import com.geekmovie.movie.json.MovieUrlGetter;
-import com.geekmovie.movie.json.UrlRead;
-import com.geekmovie.movie.service.MovieService;
-import com.geekmovie.user.vo.userVO;
+
 
 /**
  * Handles requests for the application home page.
@@ -24,19 +25,13 @@ public class MovieController {
 	
 	@Autowired
 	MovieDao movieDao;
-	//BoardDao boardDao;
-	
-	@Autowired
-	MovieService movieService;
 	
 	@GetMapping("/")            //home
 	public String index() {
 		 return "index";
 	}
 	
-
-	
-	@GetMapping("/movieDetail")            //home
+	@GetMapping("/movieDetail")     //home
 	public ModelAndView movieDetail(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();	
 		
@@ -52,5 +47,39 @@ public class MovieController {
 		mav.setViewName("movieDetail");
 		return mav;
 	}
+	
+	
+	@GetMapping("/search")     //home
+	public ModelAndView search(@RequestParam Map<String, String> map) {
+		ModelAndView mav = new ModelAndView();	
+		String searchMode = map.get("searchMode"); 
+		mav.addObject("data", map); // request.setAttribute  search기능 -> searchMode, query, language, page / seeMore -> searchMode, language, page  [movieId]
+
+
+		if(searchMode.contains("movie")) {
 		
+			mav.setViewName("movieSearch");
+			return mav;
+		}
+		else {
+			mav.setViewName("boardSearch");
+			return mav;
+			
+		}
+	}
+	
+
+//	@GetMapping("/boardList")          //게시판
+//	public ModelAndView boardList(BoardVo boardVo) {
+//		System.out.println("list : " + boardVo); 
+//		List<BoardVo> list = boardService.bList(boardVo);
+//		
+//		ModelAndView mav = new ModelAndView();
+//		mav.addObject("data", list);
+//		mav.setViewName("boardList");
+//		return mav;
+//	}
+	
+
+
 }

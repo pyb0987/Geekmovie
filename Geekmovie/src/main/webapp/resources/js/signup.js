@@ -107,10 +107,3 @@ const signUpCheck = () => {
 		name.focus();
 		return false;
 	}
-
-	return true;
-}
-
-
-
-

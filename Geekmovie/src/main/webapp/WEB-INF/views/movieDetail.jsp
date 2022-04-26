@@ -18,131 +18,64 @@ String language = "ko-KR";
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css"
 	rel="stylesheet">
-<link rel="stylesheet" href="${path}/resources/css/movieHover.css">
+<link rel="stylesheet" href="${path}/resources/css/movieDetail.css?"/>
+<link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=1"/>
+<link rel="stylesheet" href="${path}/resources/css/movieCast.css?"/>
+<link rel="stylesheet" href="${path}/resources/css/movieCrew.css?"/>
 <style>
-@import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
-
+@import
+	url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);	/*슬라이드 아이콘*/
 body {
 	overflow-x: hidden;
 	background-color: #000000;
+	margin : 0;
+	padding-top : 100px;
 }
 
-#detail-bigPicture { /*detail 맨위 배경화면 */
-	position: relative;
-	margin: 0;
-	height: 500px;
-	background-repeat: no-repeat;
-	background-size: contain;
-	z-index: -1;
-}
-
-#detail-movieContainer { /*영화정보 위치 지정*/
-	width: 100%;
-	position: absolute;
-	display: flex;
-	top: 80%;
-	border: solid 1px red;
-}
-
-#detail-poster {
-	flex : 0 0 250px;
-	left: 100px;
-	top: 300px;
-}
-
-#detail-nonPoster{		
-	display: flex;
-	flex-wrap: wrap;
-	align-content : flex-start;
-	padding-left : 20px;
-	}
-
-#detail-poster img { /*이미지 전부 채우게 함*/
-	border: solid #eee 5px;
-	padding: 2px;
-	width: 100%;
-	object-fit: cover;
-	max-width: 100%;
-	opacity: 1;
-	box-sizing: border-box;
-}
-
-#detail-title {	height : 60px;}
-#detail-originalTitle {	height : 60px;} 	 /*제목 위치 지정*/
-#detail-overview {width: 100%;}
-#release_date{padding-left : 20px; }
-
-#detail-genre {			 /*장르 박스*/
-	border-radius:8px;
-	display:inline-block;
-	font-family: 'NanumSquareRound';
-	font-size:14px;
-	padding:6px 13px;
-	margin : 5px;
-}
-
-.movie img { /*이미지 전부 채우게 함*/
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	max-width: 100%;
-	backface-visibility: hidden;
-	vertical-align: top;
-}
-
-
-h1,h5,h6 {
-	font-family: 'NanumSquareRoundBold';				/*글꼴*/
-	color: #fff;}
-#overview {
-	font-family: 'NanumSquareRound';
-	color: #fff;
-	padding : 10px 20px 0px 30px;}
-
-
-
-.movie-container {
-	width: 100%;
-	height: 320px;
+#credit{
 	margin: 0 auto;
-	position: relative;
+	max-width : 1400px;
+	min-width : 620px;
 }
 
-.movie-innerContainer {
-	display: flex;
-	height: 100%;
-	width: 4000px;
-	align-items: center;
-	position: absolute;
-}
-
-.movie {
-	position: relative;
-	padding: 0px;
-	height: 270px;
-	margin-right: 15px;
-	flex-shrink: 0;
-	flex-basis: 185px;
-	overflow: hidden;
-	color: #ffffff;
-	text-align: left;
-	font-size: 16px;
-	background-color: #000000;
+#userSpace{
+ display : flex;
 }
 
 
+.board-container{
+display : flex;
+flex-direction: column;
+width : 50%;
+padding : 30px;
+}
 
+.board{
+width : 100%;
+height : 100%;
+background-color : white;
+}
 
-
-
+.creditName{
+padding-left: 30px;
+}
 
 </style>
 
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/throttle.js"></script>
+	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fontResize.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieSlide.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieListAjax.js?ver=1"></script>
+	
 <script>
 	$(document).ready(function() {
+		
+		
 		var colorMap = new Map([[28,["#44c76750","#18ab2950", "#ffffff", "#2f6627"]],	//genreColorMap
 			[12, ["#7892c250","#4e609650", "#ffffff", "#283966"]],
 			[16, ["#33bdef50","#057fd050", "#ffffff","#5b6178"]],
@@ -163,32 +96,84 @@ h1,h5,h6 {
 			[10752, ["#768d8750","#56696350", "#ffffff", "#2b665e"]],
 			[37, ["#77b55a50","#4b8f2950", "#ffffff", "#5b8a3c"]]]);  
 		
-		$.ajax({							//받아온 영화 정보
+		
+		
+		var windowResize = function(){					//리사이징 함수
+			document.getElementById("detail-bigPicture").style.backgroundSize = window.innerWidth+'px';
+			document.getElementById("detail-bigPicture").style.height = window.innerWidth*0.5+'px'
+			
+			
+			
+			fontResize()
+			movieContainerResize()	
+			
+		}
+		
+		windowResize();
+		var ResizeTimer;
+		window.addEventListener('resize', throttle(function() {				//리사이징에 throttle 적용
+			 windowResize();
+		}, 20), true);	
+		
+		const SimilarMovieContainer = document.querySelector("#similar-movie .movies-container");
+		const RecommendMovieContainer = document.querySelector("#recommend-movie .movies-container");
+		movieSlideController(SimilarMovieContainer);					//movieSlide.js
+		movieSlideController(RecommendMovieContainer);				
+		
+		
+		
+		
+		$.ajax({							//받아온 영화 정보 디테일로 만들기
         	type: 'GET',
         	url: `/movie/getMovieData?movieId=${movieId}&language=${language}`,
         	dataType : 'json',
         	contentType : 'application/json', 
         	success: function(data){
-        		console.log(data);
-        		let str1 = 'https://image.tmdb.org/t/p/original/'+data.backdrop_path ;
-        		let str2 = "<img src='https://image.tmdb.org/t/p/w500/"+data.poster_path+"'>"    //포스터
-        		let str3 = "<h1 style='text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;'>"+data.title+"</h1>"      //제목
-        		let str5 = "<p id='overview'>"+data.overview+"</p>";				//오버뷰
-        		let str7 = "<h6 id='release_date'>"+data.release_date+" 개봉</h6>"
+        		let str1;
+        		let str2;
+        		if(!!data.backdrop_path){
+        		str1 = 'https://image.tmdb.org/t/p/original/'+data.backdrop_path ;			//백드랍 이미지
+        		}else{        		
+        			str1 = '${pageContext.request.contextPath}/resources/img/wall.jpg' ;	
+        		}
+        		if(!!data.poster_path){
+        		str2 = "<img src='https://image.tmdb.org/t/p/w500/"+data.poster_path+"'>"    //포스터
+        		}else{
+        			str2 = "<img src='${pageContext.request.contextPath}/resources/img/noImage.jpg'>"
+        		}
+        		let str3 = "<h1 style='text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000; margin-bottom: 0;'>"+data.title+"</h1>"      //제목
+        		let str5 = "<p id='overview' style='font-size:1.05rem;'>"+data.overview+"</p>";				//오버뷰
+        		let str7 = "<h6 id='release_date'>"+data.release_date+" 개봉/"+data.runtime+"mins</h6>"
         		
-        		$("#detail-bigPicture").css({"background":"linear-gradient(to bottom,rgba(0,0,0,0) 80%,rgba(0,0,0,0.5) 90%,rgba(0,0,0,1) 100%), url("+ str1 +")"});   //배경화면 및 그라데이션 
+        		
+        		if(data.homepage!=null){
+            		str8 = "<div style='background-color: gold; height: 20px; cursor: pointer; text-align : center;' onclick='window.open(\""+data.homepage+"\");'>홈페이지 이동</div>"     //홈페이지
+
+            		}else{
+            			str8 = ""
+            		}       		
+        		$("#detail-bigPicture").css({"background":"linear-gradient(to bottom,rgba(0,0,0,0) 80%,rgba(0,0,0,0.5) 90%,rgba(0,0,0,1) 100%), url("+ str1 +")", "background-repeat": "no-repeat", "background-size": "cover"});   //배경화면 및 그라데이션 
         		$("#detail-poster").html(str2);
         		$("#detail-title").html(str3)
         		if (data.title!=data.original_title){
-        			let	str4 = "<h5 style='text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;'>"+data.original_title+"</h5>" 
+        			let	str4 = "<h5 style='text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000; margin-top: 0.9rem; margin-bottom: 0;'>"+data.original_title+"</h5>" 
             		$("#detail-originalTitle").html(str4)}
         		$("#detail-overview").html(str5);
         		let str6 = "";
         		data.genres.forEach(function(item){
-        			str6 += "<div id='detail-genre' style='background-color:"+colorMap.get(item.id)[0]+"; border:4px solid "+colorMap.get(item.id)[1]+"; color:"+colorMap.get(item.id)[2]+"; 	text-shadow:0px 1px 0px "+colorMap.get(item.id)[3]+";'>"+item.name+"</div>"
+        			str6 += "<div class='detail-genre' style='background-color:"+colorMap.get(item.id)[0]+"; border:4px solid "+colorMap.get(item.id)[1]+"; color:"+colorMap.get(item.id)[2]+"; 	text-shadow:0px 1px 0px "+colorMap.get(item.id)[3]+";'>"+item.name+"</div>"
         		})
         		$("#detail-genres").html(str6);
         		$("#detail-release").html(str7);
+        		$("#detail-homepage").html(str8);
+        		let countryAry = [];
+        		data.production_countries.forEach(function(item){
+        			countryAry.push(item.name);
+        		})
+        		let str9 = '<h6>제작국가 : '+countryAry.join(' ,')+'</h6>'
+        		$("#detail-country").html(str9);
+        		$("#scoreImdb .Score").html(data.vote_average);    //imdb 점수 표시
+        		return false;
         	}
         	,
         	error: function(request, status, error){
@@ -196,7 +181,95 @@ h1,h5,h6 {
         	}
         	
         })
+        
+        
+        printCast();				//최초 1회 캐스트 받아오기
+		document.getElementById("moreCasts").onclick = function(){printCast(); return false;}
+        printCrew();				//최초 1회 크루 받아오기
+		document.getElementById("moreCrews").onclick = function(){printCrew(); return false;}
+        function printCast(){
+        $.ajax({							//출연진 정보 출력 함수
+        	type: 'GET',
+        	url: `/movie/getMovieCredit?movieId=${movieId}&language=${language}`,
+        	dataType : 'json',
+        	contentType : 'application/json', 
+        	success: function(data){
+        		let CastReadNum = $("#casts").children().length		//이미 불러들인 cast의 수
+        		let index=0;
+        		while(index<8 && CastReadNum+index<data.cast.length){
+        			let imageUrl;
+        			if(data.cast[CastReadNum+index].profile_path!=null){
+        				imageUrl = "https://image.tmdb.org/t/p/w185"+data.cast[CastReadNum+index].profile_path;
+        			}else{
+        				imageUrl = '${pageContext.request.contextPath}/resources/img/noPersonImage.png'       		//사진이 없을때 이미지			
+        			}       			
+        			let str = "<div class='cast'>"
+					str += "<div class='cast-picture' style='background: url(\""+imageUrl+"\"); background-repeat: no-repeat; background-size : contain'></div>"
+					str += "<div class='cast-info'><div class='cast-name'><h5>"+data.cast[CastReadNum+index].name+"</h5></div><div class='cast-character'><h6>"+data.cast[CastReadNum+index].character+" 역</h6></div></div>"
+					$("#casts").append(str);
+					index+=1;
+        		}
+        		if (CastReadNum+index>=data.cast.length){
+        			$("#moreCasts").remove();				//더이상 없으면 버튼을 삭제
+        		}
+        	},
+            error: function(request, status, error){
+            	console.log(request, status, error)
+            }
+        		
+
+        			
+        })
+        return false;
+		}
 		
+        function printCrew(){
+            $.ajax({							//제작진 정보 출력 함수
+            	type: 'GET',
+            	url: `/movie/getMovieCredit?movieId=${movieId}&language=${language}`,
+            	dataType : 'json',
+            	contentType : 'application/json', 
+            	success: function(data){
+            		let CrewReadNum = $("#crews").children().length		//이미 불러들인 crew의 수
+            		let index=0;
+            		while(index<8 && CrewReadNum+index<data.crew.length){
+            			let imageUrl;
+            			if(data.crew[CrewReadNum+index].profile_path!=null){
+            				imageUrl = "https://image.tmdb.org/t/p/w185"+data.crew[CrewReadNum+index].profile_path;
+            			}else{
+            				imageUrl = '${pageContext.request.contextPath}/resources/img/noPersonImage.png'       				
+            			}       			
+            			let str = "<div class='crew'>"
+    					str += "<div class='crew-picture' style='background: url(\""+imageUrl+"\"); background-repeat: no-repeat; background-size : contain'></div>"
+    					str += "<div class='crew-info'><div class='crew-name'><h5>"+data.crew[CrewReadNum+index].name+"</h5></div><div class='crew-character'><h6>"+data.crew[CrewReadNum+index].known_for_department+"<br>"+data.crew[CrewReadNum+index].job+"</h6></div></div>"
+    					$("#crews").append(str);
+    					index+=1;
+            		}	
+            		if (CrewReadNum+index>=data.crew.length){
+            			$("#moreCrews").remove();
+            		}
+            	},
+                error: function(request, status, error){
+                	console.log(request, status, error)
+                }		
+            			
+            })
+            return false;
+    		}
+        
+        
+        movieListAjax('similar-movie', `/movie/getSimilarMovieList?movieId=${movieId}&page=1&language=${language}`, `${language}`);				//getSimilarMovieList 출력
+        movieListAjax('recommend-movie', `/movie/getRecommendMovieList?movieId=${movieId}&page=1&language=${language}`, `${language}`);				//getSimilarMovieList 출력
+
+                
+
+				
+
+		
+		
+		
+
+        
 		
 	})
 </script>
@@ -207,52 +280,124 @@ h1,h5,h6 {
 </head>
 
 <body>
+	<jsp:include page="./common/header.jsp">  
+<jsp:param name="session" value='<%=(String)session.getAttribute("UserVo")%>'/>  
+<jsp:param name="language" value="<%=language%>"/>  
+</jsp:include>  
 
-
-	<div id="detail-bigPicture">
-		<div id="detail-MovieContainer">
+	<div id="detail-bigPicture"></div>
+	<div id="detail-MovieContainer">
+		<div id="onleft">
 			<div id="detail-poster"></div>
-			<div id="detail-nonPoster">
-				<div id="detail-title"></div>
-				<div id="detail-originalTitle"></div>
-				<div id="detail-overview"></div>
-				<div id="detail-genres"></div>
-				<div id="detail-release"></div>
+			<div id="detail-homepage"></div>
+		</div>
+		<div id="detail-nonPoster">
+			<div id="detail-title"></div>
+			<div id="detail-originalTitle"></div>
+			<div id="detail-overview"></div>
+			<div id="detail-genres"></div>
+			<div id="detail-release"></div>
+			<div class="spacing"
+				style="width: 95%; height: 120px; display: flex; justify-content: space-between; ">
+				<div id="detail-country"></div>
+				<div id="detail-vote">
+					<div id="scoreGeek">
+						<div class="siteName">GeekScore</div>
+						<div class="Score">7.5</div>
+					</div>
+					<div id="scoreImdb">
+						<div class="siteName">IMDB</div>
+						<div class="Score"></div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div id="credit-container">
+	<div id="credit">
+		<h5 class="creditName">출연진</h5>
+		<div id="casts"></div>
+		<div class="credit-button-container">
+			<div id="moreCasts">더 보기</div>
+		</div>
+	
+
+		<h5 class="creditName">제작진</h5>
+		<div id="crews"></div>
+		<div class="credit-button-container">
+			<div id="moreCrews">더 보기</div>
+		</div>
+		</div>
+	</div>
+	<div id="userSpace">
+	<div class="board-container">
+	<h3>게시판</h3>
+	<div class="board"><div>게시판이 들어갈 곳</div></div>
+	</div>
+	<div class="board-container">
+	<h3>영화리뷰</h3>
+	<div class="board"><div>리뷰가 들어갈 곳</div></div>
+	</div>
+	</div>
+	
+	<div id="similar-movie">
+	<div class="seeMoreMovies-container"><h3 class="seeMoreMovies">이 영화와 비슷한 영화</h3><h5 class="seeMoreMoviesLink" OnClick="location.href =`/movie/search?searchMode=similarmovie&movieId=${movieId}&page=2&language=${language}`">더 보기 >></h5></div>
+		<div class="movies-container">
+			<div class="movies-innerContainer">
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
 			</div>
 		</div>
 	</div>
 
 
-	<div class="spacing" style="width: 100%; height: 500px;"></div>
-
-
-	<div id="related-movie">
-		<h3>관련있는 영화</h3>
-		<div class="movie-container">
-			<div class="movie-innerContainer">
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
-				<div class="movie"></div>
+<div id="recommend-movie">
+	<div class="seeMoreMovies-container"><h3 class="seeMoreMovies">추천 영화</h3><h5 class="seeMoreMoviesLink" OnClick="location.href =`/movie/search?searchMode=recommendmovie&movieId=${movieId}&page=2&language=${language}`">더 보기 >></h5></div>
+		<div class="movies-container">
+			<div class="movies-innerContainer">
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
+				<div class="movie-container"><div class="movie"></div></div>
 			</div>
 		</div>
 	</div>
+
 
 
 </body>
