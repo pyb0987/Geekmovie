@@ -279,7 +279,11 @@ h1{
         	
         })
         function makePagination(pageNum){					//아래쪽 페이징 기능 구현
-        console.log(pageNum)
+
+  		console.log(pageNum)
+  		if(pageNum>500){
+  			pageNum = 500;
+  		}
         var pageNow = ${data.page}
         var pageFirst = parseInt((pageNow-1)/10)*10
         var str ='';
@@ -301,7 +305,7 @@ h1{
         var index = 1
         while(pageFirst+index<=pageNum && index<11){
         	if(pageFirst+index==pageNow){
-        		str += `<a class="active" href=\"/movie/search?searchMode=${data.searchMode}`+strUnit+`&query=${data.query}&language=${data.language}&page=`+(pageFirst+index)+`\">`+(pageFirst+index)+'</a>'
+        		str += `<a class="active">`+(pageFirst+index)+'</a>'
         	}else{
         	str += `<a href=\"/movie/search?searchMode=${data.searchMode}`+strUnit+`&query=${data.query}&language=${data.language}&page=`+(pageFirst+index)+`\">`+(pageFirst+index)+'</a>'
         	}
@@ -350,6 +354,8 @@ h1{
 			</div>
 		</div>
 		</div>
+		
+
 	
 
 

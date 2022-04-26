@@ -271,11 +271,12 @@ box-shadow: -1px 1px 16px rgba(0, 0, 0, 0.6);
  width : 100vw;
  height : 100vh;
  position : fixed;
- z-index : -2;
+ display : none;
+  z-index : 2;
 }
 
 #screen.active-menu{
- z-index : 2;
+ display : block;
 }
 
 </style>
@@ -347,7 +348,7 @@ document.querySelector("#screen").onclick=function(){
 			
 	function inputBoxSearch(){	
 		const query = $("#inputbox").val();
-		if (!query){
+		if (!query || document.keywordSearch.searchMode.value != "movie"){
 			$("#search-results-container").empty();	
 		}else{
 		  let inputUrl = '/movie/searchMovieList?query='+query+'&language='+language+'&page=1';
@@ -429,7 +430,7 @@ document.querySelector("#screen").onclick=function(){
 				<div id="searchbox">
 					<form id="keywordSearch" name="keywordSearch" accept-charset="utf-8" action="search" method="get">
 						<select name="searchMode" id="searchMode">
-							<option value="movie">영화이름</option>
+							<option value="movie">영화제목</option>
 							<option value="keyword">게시글</option>
 						</select> 
 						<div id="inputbox-container">  
@@ -460,7 +461,7 @@ document.querySelector("#screen").onclick=function(){
 		<div class="menuButton">장르별 영화보기</div>
 
 		<div class="menuButton" onclick="location.href='boardList';">최신게시글</div>
-		<div class="menuButton" onclick="location.href='/movie/oneLineReview';">한줄평</div>
+		<div class="menuButton" onclick="location.href='/movie/oneLineReview?page=1';">한줄평</div>
 		<div class="menuButton">랜덤영화</div>
 		<div class="menuButton">마이페이지</div>
 		<div class="menuButton">lanuguage</div>

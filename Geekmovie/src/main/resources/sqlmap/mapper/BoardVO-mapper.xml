@@ -8,10 +8,11 @@
 		<![CDATA[
 			select seq, title, writer, regdate, cnt, likes
 			from review_board 
-			where 1 = 1 
+			where 1 = 1 	
+			ORDER BY seq DESC
 		]]>
-		ORDER BY seq DESC
-		Limit #{startList}, #{listSize}
+		Limit #{startList}, #{listSize}	
+
 	</select>
 	
 	<select id="boardListCnt" resultType="int">

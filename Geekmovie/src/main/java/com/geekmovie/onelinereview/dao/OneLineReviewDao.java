@@ -1,6 +1,8 @@
 package com.geekmovie.onelinereview.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,16 @@ public class OneLineReviewDao {
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
 	
-	public List<OneLineReviewVo> SelectAll() {
-		return sqlSessionTemplate.selectList("oneLineReviewVo.SelectAll");
+	public List<OneLineReviewVo> SelectAll(int nowPageStart, int nowPageEnd) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("nowPageStart", nowPageStart-1);
+		map.put("Size", nowPageEnd-nowPageStart+1);
+		List<OneLineReviewVo> list = sqlSessionTemplate.selectList("oneLineReviewVo.Select", map);	
+		return list;
+	}
+	
+	public int Count() {
+		return sqlSessionTemplate.selectOne("oneLineReviewVo.Count");
 	}
 	
 }

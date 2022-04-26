@@ -15,9 +15,13 @@ public class OneLineReviewServiceImpl implements OneLineReviewService{
 	OneLineReviewDao oneLineReviewDao;
 
 	@Override
-	public List<OneLineReviewVo> SelectAll() {
-		System.out.println(oneLineReviewDao.SelectAll());
-		return oneLineReviewDao.SelectAll();
+	public List<OneLineReviewVo> SelectAll(int nowPageStart, int nowPageEnd) {
+		return oneLineReviewDao.SelectAll(nowPageStart, nowPageEnd);
+
+	}
+	
+	public int Count() {
+		return oneLineReviewDao.Count();
 
 	}
 	

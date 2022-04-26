@@ -30,20 +30,18 @@ public class BoardController {
 	public ModelAndView boardList(BoardVo boardVo,
 			@RequestParam(required = false, defaultValue = "1") int curPage,
 			@RequestParam(required = false, defaultValue = "1") int range) {
-		System.out.println(boardVo);
-		
-		List<BoardVo> list = boardService.bList(boardVo);
+
 		int listCnt = boardService.boardListCnt();
 		
 		ModelAndView mav = new ModelAndView();
 		PageVo pagevo = new PageVo();
 		
 		pagevo.pageInfo(curPage, range, listCnt);
+
 		boardVo.setStartList(pagevo.getStartList());
 		boardVo.setListSize(pagevo.getListSize());
 		
-		System.out.println(pagevo.getStartList());
-		System.out.println(pagevo.getListSize());
+		List<BoardVo> list = boardService.bList(boardVo);
 		mav.addObject("pagination", pagevo);
 		mav.addObject("data", list);
 		//if(map.containsKey("keyword")) {
