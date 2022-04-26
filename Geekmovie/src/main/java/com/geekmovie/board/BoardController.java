@@ -2,21 +2,19 @@ package com.geekmovie.board;
 
 
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.geekmovie.board.service.BoardService;
 import com.geekmovie.board.vo.BoardVo;
-import com.geekmovie.movie.dao.MovieDao;
-import com.geekmovie.movie.json.MovieUrlGetter;
-import com.geekmovie.movie.json.UrlRead;
-import com.geekmovie.movie.service.MovieService;
+import com.geekmovie.board.vo.PageVo;
 
 @Controller
 public class BoardController {
@@ -28,13 +26,29 @@ public class BoardController {
 		System.out.println("@BoardController 생성");
 	}
 
-	@GetMapping("/boardList")          //게시판
-	public ModelAndView boardList(BoardVo boardVo) {
+	@RequestMapping("/boardList")          //게시판
+	public ModelAndView boardList(BoardVo boardVo,
+			@RequestParam(required = false, defaultValue = "1") int curPage,
+			@RequestParam(required = false, defaultValue = "1") int range) {
+		System.out.println(boardVo);
+		
 		List<BoardVo> list = boardService.bList(boardVo);
-		System.out.println("list"); 
+		int listCnt = boardService.boardListCnt();
 		
 		ModelAndView mav = new ModelAndView();
+		PageVo pagevo = new PageVo();
+		
+		pagevo.pageInfo(curPage, range, listCnt);
+		boardVo.setStartList(pagevo.getStartList());
+		boardVo.setListSize(pagevo.getListSize());
+		
+		System.out.println(pagevo.getStartList());
+		System.out.println(pagevo.getListSize());
+		mav.addObject("pagination", pagevo);
 		mav.addObject("data", list);
+		//if(map.containsKey("keyword")) {
+		//	mav.addObject("keyword", map.get("keyword"));
+		//}
 		mav.setViewName("boardList");
 		return mav;
 	}

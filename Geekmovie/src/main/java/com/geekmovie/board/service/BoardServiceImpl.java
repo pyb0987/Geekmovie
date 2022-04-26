@@ -1,12 +1,14 @@
 package com.geekmovie.board.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.geekmovie.board.dao.BoardDao;
 import com.geekmovie.board.vo.BoardVo;
+import com.geekmovie.board.vo.PageVo;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -21,6 +23,11 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<BoardVo> bList(BoardVo boardVo) {
 		return dao.boardList(boardVo);
+	}
+	
+	@Override
+	public int boardListCnt() {
+		return dao.boardListCnt();
 	}
 	
 	@Override
