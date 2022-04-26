@@ -30,10 +30,12 @@ public class BoardController {
 	public ModelAndView boardList(BoardVo boardVo,
 			@RequestParam(required = false, defaultValue = "1") int curPage,
 			@RequestParam(required = false, defaultValue = "1") int range) {
-		System.out.println(boardVo);
+		System.out.println("board List");
 		
 		List<BoardVo> list = boardService.bList(boardVo);
 		int listCnt = boardService.boardListCnt();
+		
+		System.out.println(boardVo);
 		
 		ModelAndView mav = new ModelAndView();
 		PageVo pagevo = new PageVo();
@@ -42,13 +44,8 @@ public class BoardController {
 		boardVo.setStartList(pagevo.getStartList());
 		boardVo.setListSize(pagevo.getListSize());
 		
-		System.out.println(pagevo.getStartList());
-		System.out.println(pagevo.getListSize());
 		mav.addObject("pagination", pagevo);
 		mav.addObject("data", list);
-		//if(map.containsKey("keyword")) {
-		//	mav.addObject("keyword", map.get("keyword"));
-		//}
 		mav.setViewName("boardList");
 		return mav;
 	}
