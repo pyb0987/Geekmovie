@@ -12,6 +12,9 @@ public class BoardVo {
 	private int cnt; // 조회수
 	private int likes; // 추천수
 	private String movie_id;
+	private int startList;
+	private int listSize;
+	
 	
 	public BoardVo() {
 
@@ -100,6 +103,22 @@ public class BoardVo {
 
 	public void setMovie_id(String movie_id) {
 		this.movie_id = movie_id;
+	}
+
+	public int getStartList() {
+		return startList;
+	}
+
+	public void setStartList(int startList) {
+		this.startList = startList;
+	}
+
+	public int getListSize() {
+		return listSize;
+	}
+
+	public void setListSize(int listSize) {
+		this.listSize = listSize;
 	}
 
 	@Override
