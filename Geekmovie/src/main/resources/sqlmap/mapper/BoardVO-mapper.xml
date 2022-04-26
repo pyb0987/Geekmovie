@@ -12,6 +12,7 @@
 			ORDER BY seq DESC
 		]]>
 			Limit #{startList}, #{listSize}
+
 	</select>
 	
 	<select id="boardListCnt" resultType="int">

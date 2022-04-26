@@ -30,14 +30,14 @@ public class BoardController {
 	public ModelAndView boardList(BoardVo boardVo,
 			@RequestParam(required = false, defaultValue = "1") int curPage,
 			@RequestParam(required = false, defaultValue = "1") int range) {
-		System.out.println("board List");
-		
+
 		int listCnt = boardService.boardListCnt();
 		
 		ModelAndView mav = new ModelAndView();
 		PageVo pagevo = new PageVo();
 		
 		pagevo.pageInfo(curPage, range, listCnt);
+
 		boardVo.setStartList(pagevo.getStartList());
 		boardVo.setListSize(pagevo.getListSize());
 		List<BoardVo> list = boardService.bList(boardVo);

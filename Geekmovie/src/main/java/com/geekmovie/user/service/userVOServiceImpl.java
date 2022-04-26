@@ -16,7 +16,12 @@ public class userVOServiceImpl implements userVOService {
 	public int create(userVO userVO) {
 		return dao.insert(userVO);
 	}
-	
+
+	@Override
+	public int idCheck(String id) {
+		int cnt = dao.idCheck(id);
+		return cnt;
+	}
 	
 	
 }

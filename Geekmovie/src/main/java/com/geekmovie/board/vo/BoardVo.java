@@ -20,6 +20,7 @@ public class BoardVo {
 
 	}
 
+
 	public BoardVo(int seq, String title, String writer, String contents, String reply, Date regdate, int cnt,
 			int likes, String movie_id, int startList, int listSize) {
 		super();
@@ -126,11 +127,15 @@ public class BoardVo {
 		this.listSize = listSize;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "BoardVo [seq=" + seq + ", title=" + title + ", writer=" + writer + ", contents=" + contents + ", reply="
 				+ reply + ", regdate=" + regdate + ", cnt=" + cnt + ", likes=" + likes + ", movie_id=" + movie_id
 				+ ", startList=" + startList + ", listSize=" + listSize + "]";
 	}
+
+	
 	
 }

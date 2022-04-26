@@ -19,5 +19,10 @@ public class userVODao {
 	public int insert(userVO userVO) {
 		return sqlSessionTemplate.insert("userVO.insertVO",userVO);
 	}
+
+	public int idCheck(String id) {
+		return sqlSessionTemplate.selectOne("userVO.idCheck",id);
+	}
+	
 	
 }
