@@ -223,12 +223,10 @@ body {
 	<!-- 회원 로그인 및 가입 공간 -->
 	
 	<form action="join" id="join" method="get">
-	<p>아이디 : <input type = "text" name="id"></p>
-	<p>패스워드 : <input type = "text" name="password"></p>
 	<p><input type = "submit" value="로그인"></p>
+	</form>
 	
 	<!-- 가입  -->
-	</form>
 	<form action="createUser" id="createUser" method="get">
 	<p><input type = "submit" value="회원가입"></p>
 	</form>

@@ -1,9 +1,12 @@
 package com.geekmovie.user.controller;
 
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,10 +26,25 @@ public class userVOController {
 	public userVOController() {
 		System.out.println("@User-Controller 자동 생성");
 	}
+	// 로그인
 	@GetMapping("/join")
 	public String joinGet() {
 		System.out.println("@join GET 호출");
 		return "join";
+	}
+	
+	// 로그인 처리
+	@PostMapping("/join")
+	public ModelAndView joinPost(@ModelAttribute userVO userVO, HttpSession session) {
+		System.out.println("@join Post 호출");
+		boolean result = userService.loginCheck(userVO,session); 
+		ModelAndView mav = new ModelAndView();
+		if (result == true) { // 로그인 성공
+			mav.setViewName("index");
+		}else { // 로그인 실패
+			mav.setViewName("join");
+		}
+		return mav;
 	}
 	
 	// 회원가입 
@@ -35,6 +53,8 @@ public class userVOController {
 		System.out.println("@CreateUser GET 호출");
 		return "createUser";
 	}
+	
+	// 가입처리
 	@PostMapping("/createUser")
 	public ModelAndView createPost(userVO userVO) {
 		

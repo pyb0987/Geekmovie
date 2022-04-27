@@ -24,5 +24,12 @@ public class userVODao {
 		return sqlSessionTemplate.selectOne("userVO.idCheck",id);
 	}
 	
+	public boolean loginCheck(userVO userVO) {
+		String name = sqlSessionTemplate.selectOne("userVO.loginCheck",userVO);
+		return (name == null) ? false : true;
+	}
 	
+	public userVO viewMember(userVO userVO) {
+		return sqlSessionTemplate.selectOne("userVO.viewMember",userVO);
+	}
 }
