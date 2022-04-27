@@ -2,18 +2,56 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace : package + classname -->
-<mapper namespace="com/geekmovie/board/vo/BoardVo.java">
- <resultMap type="BoardVO" id="BoardVO">
+<mapper namespace="boardVo">
 
-		 <result property="seq" column="seq" /> <!-- 게시글 고유번호 -->
-		 <result property="title" column="title" />
-		 <result property="writer" column="writer" />
-		 <result property="contents" column="contents" /> <!-- 게시글 내용 -->
-		 <result property="reply" column="reply" /> <!-- 게시글 댓글 -->
-		 <result property="redate" column="regdate" />
-		 <result property="cnt" column="cnt" /> <!-- 게시글 조회수 -->
-		 <result property="likes" column="likes" /> <!-- 게시글 추천수 -->
+	<select id="board_list" parameterType="boardVo" resultType="boardVo">
+		<![CDATA[
+			select seq, title, writer, regdate, cnt, likes
+			from review_board 
+			where 1 = 1 
+			ORDER BY seq DESC
+		]]>
+			Limit #{startList}, #{listSize}
 
-	 </resultMap>
+	</select>
+	
+	<select id="boardListCnt" resultType="int">
+		<![CDATA[
+			select count(*) 
+			from review_board
+			where 1 = 1
+		]]>
+	</select>
+
+	<insert id="board_insert" parameterType="boardVo">
+		<![CDATA[
+			 insert into review_board (title, writer, contents)
+			 values (#{title}, #{writer}, #{contents})			 
+		]]>
+	</insert>
+	
+	<select id="board_detail" parameterType="boardVo" resultType="boardVo">
+		<![CDATA[
+			select seq, title, writer, contents, regdate
+			from review_board  
+			where seq = #{seq}
+		]]>
+	</select>
+	
+	<update id="board_update" parameterType="boardVo">  
+	    <![CDATA[  
+	        update review_board set  
+	        title = #{title}, contents = #{contents}  
+	        where  
+	        seq = #{seq}  
+		    ]]>  
+	</update>
+	
+	<delete id="board_delete" parameterType="boardVo">
+		<![CDATA[
+			delete from review_board
+			where seq = #{seq}
+		]]>
+	</delete>
 
 </mapper>

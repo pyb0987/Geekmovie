@@ -106,7 +106,7 @@ public class MovieUrlGetter  {
 		return url;
 	}
 
-	public String getTopRatedMovieList(int page, String language) {
+	public String getTopRatedMovieList(int page, String language) {				//좋은 평가를 받는 영화목록 리턴
 		String url = "https://api.themoviedb.org/3/movie/top_rated?api_key=";
 		url += api_key;
 		url += "&language=";
@@ -140,6 +140,7 @@ public class MovieUrlGetter  {
 			url += encodeResult;
 			url += "&page=";
 			url += page;
+			url += "&include_adult=false";
 		}
 		return url;
 	}
