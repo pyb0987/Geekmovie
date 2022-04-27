@@ -5,9 +5,10 @@
 <html>
 <head>
 <title>header</title>
-<link
-	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css"
-	rel="stylesheet">
+<link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
+
+
+
 <style>
 
 
@@ -460,8 +461,8 @@ document.querySelector("#screen").onclick=function(){
 		<div class="menuButton">인기영화</div>
 		<div class="menuButton">장르별 영화보기</div>
 
-		<div class="menuButton" onclick="location.href='boardList';">최신게시글</div>
-		<div class="menuButton" onclick="location.href='/movie/oneLineReview?page=1';">한줄평</div>
+		<div class="menuButton" onclick="location.href='boardList?';">최신게시글</div>
+		<div class="menuButton" onclick="location.href='/movie/oneLineReview?page=1&language=<%=request.getParameter("language")%>';">한줄평</div>
 		<div class="menuButton">랜덤영화</div>
 		<div class="menuButton">마이페이지</div>
 		<div class="menuButton">lanuguage</div>

@@ -3,7 +3,6 @@
    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
    <c:set var="path" value="${pageContext.request.contextPath}"/>
    
-   <% String language = "ko-KR"; %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,24 +12,29 @@
 <script type="text/javascript" src="${path}/resources/js/debounce.js"></script>
 <script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
 <script type="text/javascript" src="${path}/resources/js/fontResize.js"></script>
-
+<link rel="stylesheet" href="${path}/resources/css/movieSearch.css"/>
 
 
 <link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">
 <script>
 
-var searchMovieSelect = function(movieId, movieTitle){			//누르면 movieId 달아줌
-	console.log(movieId)
+function searchMovieSelect(movieId, movieTitle){			//영화검색결과를 누르면 movieId 달아줌
 	document.oneLineReviewSearch.query.value = movieTitle;
 	document.oneLineReviewSearch.movieId.value = movieId;
 	document.getElementById('oneLineReviewInputbox').className = "movieSelected";
-	};
+	document.getElementById('oneLineReviewInputbox').readOnly = true;
+	document.getElementById('checkImg').className = "visualized";
 	
+	$(".modal").fadeOut();
+	};
+
+	
+
 	
 	
 $(document).ready(function(){		
 
-	var language = '<%=language %>';
+	var language = '${language}';
 	
 	var genreMap = new Map([[28,'액션'],	//genreMap
 		[12, '모험'],
@@ -58,7 +62,6 @@ $(document).ready(function(){
 	}
 	
 	windowResize();
-	var ResizeTimer;
 	window.addEventListener('resize', throttle(function() {				//리사이징에 throttle 적용
 		 windowResize();
 	}, 20), true);	
@@ -69,15 +72,178 @@ $(document).ready(function(){
 	oneLineReviewInputBoxSearch();
 	}, 500, false));															//키를 받을때마다 실행 - debounce
 	
-	
 
-	function movieSelected(){
+	
+	
+	
+	
+	
+	//한줄평 검색창 영화기능구현
+	
+	function movieSelected(){					//영화선택되면 색깔변경
 		document.getElementById('oneLineReviewInputbox').className = "movieSelected";
-		
 	}
+	
+	var checkImg = document.getElementById('checkImg');//체크박스 누르면 색깔변경 사라짐
+	checkImg.addEventListener('click', function(e){
+		document.getElementById('oneLineReviewInputbox').classList.remove("movieSelected");
+		document.getElementById('oneLineReviewInputbox').readOnly = false;
+		document.getElementById('checkImg').classList.remove("visualized");
+    }); 
+	var oneLineReviewSearchMode = document.getElementById('oneLineReviewSearchMode') //서치모드 변경시 색깔변경 사라짐
+	oneLineReviewSearchMode.addEventListener('click', function(e){
+		document.getElementById('oneLineReviewInputbox').classList.remove("movieSelected");
+		document.getElementById('oneLineReviewInputbox').readOnly = false;
+		document.getElementById('checkImg').classList.remove("visualized");
+    }); 
+	
+	var modalExit = document.querySelector('.modalExit');//X박스 누르면 모달창 제거
+	modalExit.addEventListener('click', function(e){
+	    $(".modal").fadeOut();
+    }); 
+	
+	function SearchResultMoreEventListenerAllocator(searchresultmore){				//영화 정보 완료되면 이벤트 설정
+	searchresultmore.addEventListener('click', function(e){
+			const query = $("#oneLineReviewInputbox").val();
+			modalSearch(1, query, language);		//더보기 하면 모달창으로
+	});
+	};
+	
+	function ModalEventListenerAllocator(){
+	  Array.prototype.forEach.call(document.querySelectorAll('.modalPagination a'), function(btn) {
+		    btn.addEventListener('click', function(e) {
+		      var tr = e.target;
+		      if(!!tr.dataset.page){
+		    	  modalSearch(tr.dataset.page, tr.dataset.query, tr.dataset.language);
+		      	}
+		      })
+		    });
+	  };
+
+	var oneLineReviewSearchbutton = document.getElementById('oneLineReviewSearchbutton');		//서치버튼 클릭
+	oneLineReviewSearchbutton.addEventListener('click', function(e){
+		var query = $("#oneLineReviewInputbox").val();
+		if(query!=""){
+		let isReady = document.getElementById('oneLineReviewInputbox').classList.contains("movieSelected");
+		let oneLineReviewSearchMode = document.querySelector('#oneLineReviewSearchMode').value;
+		if (oneLineReviewSearchMode != 'movie' || isReady){		
+			if(oneLineReviewSearchMode == 'movie'){
+				query = document.oneLineReviewSearch.movieId.value;
+			}
+			url = '/movie/oneLineReview?SearchMode='+oneLineReviewSearchMode+'&query='+query+'&language='+language+'&page=1';		//서치 실행 url
+			location.href = url;
+		}else{				//만약 체크가 안되어있다면 모달창으로
+			modalSearch(1, query, language);
+		}
+		}
+	});
+	
 
 	
-	function oneLineReviewInputBoxSearch(){	
+	
+	function modalSearch(modalPage, inputQuery, inputLanguage){		//모달창 정보표시
+		$(".modal").fadeIn();
+		var searchUrl = "/movie/searchMovieList?query="+inputQuery+"&language="+inputLanguage+"&page="+modalPage;
+		  		$.ajax({							//받아온 영화 정보 표에 나열
+        	type: 'GET',
+        	url: searchUrl,
+        	dataType : 'json',
+        	contentType : 'application/json', 
+        	success: function(data){
+        		var str = ""
+        		var count = 0;
+        		$(".movies-searchInnerContainer").empty();	
+        		data.results.forEach(function(item,index){
+					var genreAry = [];
+					item.genre_ids.forEach(function(item){
+	        			genreAry.push(genreMap.get(item))
+					})
+					var imageUrl = '';
+					if(!!item.poster_path){
+        				imageUrl = "https://image.tmdb.org/t/p/w185"+item.poster_path;
+        			}else{
+        				imageUrl = `${pageContext.request.contextPath}/resources/img/noImage.jpg`       		//사진이 없을때 이미지			
+        			}
+					var year = '';
+					if(!!item.release_date){
+						year = item.release_date.substr(0,4);
+					}else{
+						year = "Year Unknown"
+					}
+        			str += '<div class="movie-searchContainer" OnClick="searchMovieSelect(\''+item.id+'\',\''+item.title+'\')" style="cursor:pointer;"><div class="movie-pictureContainer"><div class="movie-picture" style="background: url(\'';
+        			str +=	imageUrl+'\'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>';
+					str += '</div><div class="movie-title-container"><div class="movie-title prevent-flow">';
+					str += item.title+'</div></div><div class="movie-year prevent-flow">'
+					str += year+'</div><div class="movie-genre prevent-flow">'
+					str += genreAry.join(' ,')+'</div><div class="movie-vote prevent-flow">'+item.vote_average+'</div>'					//나중에 geekmovie자체점수로 변경필요
+						
+					str += '</div>'
+					count +=1
+					})
+					str += '<div class="fake-searchContainer"></div>'.repeat(Math.max(20-count, 0))
+					str += '<div class="pagination-container" style="grid-column: 1 / span 4;"><div class="pagination modalPagination"></div></div>'
+        			$(".movies-searchInnerContainer").html(str)
+				ModalmakePagination(data.total_pages,inputQuery,inputLanguage,  modalPage);
+        		return false;
+        	}
+        	,
+        	error: function(request, status, error){
+        		console.log(request, status, error)
+        		$(".movies-searchInnerContainer").html('<div id="searchText"></div>');
+        		
+        		$("#searchText").html('<h1>검색결과가 존재하지 않습니다.</h1>')	
+        	}
+        })
+	}	
+	
+	function ModalmakePagination(pageNum, inputQuery, inputLanguage, modalPage){				//모달창 내부 페이징 기능 구현
+  		if(pageNum>500){
+  			pageNum = 500;			//외부데이터베이스 서치시 500쪽 제한
+  		}
+        var pageNow = modalPage;
+        var pageFirst = parseInt((pageNow-1)/10)*10;
+        var str='';
+        if (pageNow==1){
+            str += '<a>처음</a>'
+            }else{
+                str += "<a class='modalSearch' data-page='"+1+"' data-query='"+inputQuery+"' data-language='"+inputLanguage+"'>처음</a>";
+            }
+        if (pageNow<11){
+        str += '<a>&laquo;</a>'
+        }else{
+            str += "<a class='modalSearch' data-page='"+(pageFirst)+"' data-query='"+inputQuery+"' data-language='"+inputLanguage+"'>&laquo;</a>";
+        }
+        var index = 1
+        while(pageFirst+index<=pageNum && index<11){
+        	if(pageFirst+index==pageNow){
+        		str += `<a class="active">`+(pageFirst+index)+'</a>'
+        	}else{
+        	str += "<a class='modalSearch' data-page='"+(pageFirst+index)+"' data-query='"+inputQuery+"' data-language='"+inputLanguage+"'>"+(pageFirst+index)+"</a>";
+        	}
+        		index +=1
+        }
+        if(pageFirst+10>=pageNum){
+        	str += '<a>&raquo;</a>'
+        }else{
+        	str += "<a class='modalSearch' data-page='"+(pageFirst+11)+"' data-query='"+inputQuery+"' data-language='"+inputLanguage+"'>&raquo;</a>";
+        }
+        if(pageNow==pageNum){
+        	str += '<a>끝</a>'
+        }else{
+        	str += "<a class='modalSearch' data-page='"+(pageNum)+"' data-query='"+inputQuery+"' data-language='"+inputLanguage+"'>&nbsp;끝&nbsp;</a>";
+        }
+        
+        $('.modalPagination').html(str);
+        
+		if(!!document.querySelector('.modalPagination a')){
+    		ModalEventListenerAllocator();
+		}
+        
+  		};
+
+	
+	
+	function oneLineReviewInputBoxSearch(){				//한줄평 5개 영화목록 서치
 		const query = $("#oneLineReviewInputbox").val();
 		if (!query || document.oneLineReviewSearch.searchMode.value != "movie"){
 			$("#oneLineReviewInputboxSearchResultsContainer").empty();	
@@ -96,7 +262,7 @@ $(document).ready(function(){
 	        			var str = '';
 	            		while(index<5 && data.total_results>index){
 	            			str +='<div class="search-result-container">';
-							str += '<div class="search-result" tabindex:"'+(index+1)+'" onclick="searchMovieSelect(\''+data.results[index].id+'\',\''+data.results[index].title+'\')">';
+							str += '<div class="search-result" tabindex:"'+(index+1)+'" OnClick="searchMovieSelect(\''+data.results[index].id+'\',\''+data.results[index].title+'\')">';
 							if(!!data.results[index].poster_path){
 		        				imageUrl = "https://image.tmdb.org/t/p/w92"+data.results[index].poster_path;
 		        			}else{
@@ -117,9 +283,14 @@ $(document).ready(function(){
 							str += '<div class="result-genre result-font">'+genreAry.join(' ,')+'</div></div></div></div>'
 	            			index +=1
 	            		}
+	            		str += '<div class="search-result-container" style="height : 30px;"><div id="search-result-more")">더 보기</div></div>';
 						$("#oneLineReviewInputboxSearchResultsContainer").append(str);
 	        		}
-
+	        		if(!!document.getElementById('search-result-more')){
+	        		var searchresultmore = document.getElementById('search-result-more');
+	        		SearchResultMoreEventListenerAllocator(searchresultmore);
+	        			
+	        		}
 	    			return false;
 	        	}
 	        
@@ -131,24 +302,17 @@ $(document).ready(function(){
 		}
 	}
 	
+	//한줄평 검색창 영화기능구현
 	
-	document.querySelector("#searchbutton").onclick=function(){
-		let form = document.keywordSearch;
-		form.submit();
-	};
+	
+	
 
 	
 	
 	
-	
-	
-	
-	
-	
-	
-makePagination( Number(`${page.nowStartPage}`), Number(`${page.nowEndPage}`), Number(`${page.nowPage}`), Number(`${page.endPage}`))
+oneLineReviewMakePagination( Number(`${page.nowStartPage}`), Number(`${page.nowEndPage}`), Number(`${page.nowPage}`), Number(`${page.endPage}`))
 
-function makePagination(pageFirst,pageLast, pageNow, pageNum){					//아래쪽 페이징 기능 구현
+function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum){					//한줄평 페이징 기능 구현
     var str ='';
     if (pageNow==1){
         str += '<a>처음</a>'
@@ -179,10 +343,12 @@ function makePagination(pageFirst,pageLast, pageNow, pageNum){					//아래쪽 �
     }else{
     	str += `<a href="/movie/oneLineReview?page=`+(pageNum)+`">&nbsp;끝&nbsp;</a>` //맨뒤로
     }
-    $('.pagination').html(str);
+    $('.oneLineReviewSearchPagination').html(str);
 		}
    
-	
+   
+   
+   
 
 
 });
@@ -192,6 +358,11 @@ function makePagination(pageFirst,pageLast, pageNow, pageNum){					//아래쪽 �
 
 
 <link rel="stylesheet" href="${path}/resources/css/pagination.css"/>
+
+<link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
+<link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
+
+
 <style>
 @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 
@@ -201,11 +372,7 @@ body {
 	margin : 0;
 	padding-top : 100px;
 }
-h1, h2{
-	font-family: 'NanumSquareRoundBold';				/*글꼴*/
-	color: #fff;
-	font-size : 1.8rem;
-	}
+
 
 
 #oneLineReviewInputbox{		
@@ -262,6 +429,7 @@ margin-left : 20px;
 	display : flex;
 	flex-direction : column;
     flex-grow : 1;
+    position : relative;
 }
 
 
@@ -272,7 +440,7 @@ margin-left : 20px;
     align-items : center;
 }
 
-#oneLineReviewSearchimage{
+#oneLineReviewSearchimage, #modalExitImage{
 	width: 30px;
 	height: 30px;
 	transfrom : rotate(0.02deg);	
@@ -287,13 +455,50 @@ box-sizing : border-box;
 }
 
 .movieSelected{
-background-color : yellow;
+background-color : #ffff88;
+
 }
 
 #checkImg{
+position : absolute;
+right : 15px;
+top : 5px;
 max-width : 30px;
 max-height : 30px;
+display : none;
 }
+
+#checkImg.visualized{display : block;
+}
+#search-result-more{
+text-align: center;
+font-size : 1rem;
+}
+
+
+.modal{
+	position : absolute;
+	width : 100vw; height: 100vh;
+	background : rgba(0,0,0,0.6);
+	top:0; left:0;
+	display: none;
+}
+.modalExit{
+	width:60px; height:60px;
+	margin: 150px auto 20px auto;
+	cursor : pointer;
+}
+
+.modal-content{
+  background:#333; border-radius:10px;
+  width:800px; height:650px;
+  position:relative;
+  margin: 0px auto;
+  text-align:center;
+  box-sizing:border-box; padding:74px 0;
+  font-size : 12px;
+}
+
 
 
 </style>
@@ -302,7 +507,7 @@ max-height : 30px;
 
 	<jsp:include page="./common/header.jsp">  
 <jsp:param name="session" value='<%=(String)session.getAttribute("UserVo")%>'/>  
-<jsp:param name="language" value="<%=language%>"/>  
+<jsp:param name="language" value="${language}"/>  
 </jsp:include>  
 
 
@@ -334,14 +539,15 @@ max-height : 30px;
 						<div id="oneLineReviewInputbox-container">  
 						<input type="text" id="oneLineReviewInputbox" name="query" autocomplete='off' maxlength=50 placeholder="검색할 키워드를 입력하세요">
 						<input type="hidden" name="movieId" value="">
-						<input type="hidden" name="language" value="<%=request.getParameter("language") %>">
-						<div id="oneLineReviewInputboxSearchResultsContainer"><img id="checkImg" src="${path}/resources/img/check.png"></div>
+						<input type="hidden" name="language" value="${language}">
+						<img id="checkImg" src="${path}/resources/img/check.png" onmouseover="this.style.cursor='pointer'">
+						<div id="oneLineReviewInputboxSearchResultsContainer"></div>
 					</div>
 					</form>
 					<div id="oneLineReviewSearchbutton-container">
 					<div id="oneLineReviewSearchbutton" onmouseover="this.style.cursor='pointer'">
 							<img id="oneLineReviewSearchimage"
-								src="${pageContext.request.contextPath}/resources/img/searchIcon.png"
+								src="${path}/resources/img/searchIcon.png"
 								alt="search">
 							</div>
 						</div>
@@ -349,8 +555,21 @@ max-height : 30px;
 			</div>
 
 	
-	<div class="pagination"></div>
-	
-	
+	<div class="pagination oneLineReviewSearchPagination"></div>
+
+
+	<div class="modal">
+		<div class="modalExit"><img id="modalExitImage" src="${path}/resources/img/x.png" alt="exit"></div>
+		<div class="modal-content" title="영화를 선택하세요.">
+			<div class="movies-searchContainer">
+				<div class="movies-searchInnerContainer-padding">
+					<div class="movies-searchInnerContainer"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
 </body>
 </html>

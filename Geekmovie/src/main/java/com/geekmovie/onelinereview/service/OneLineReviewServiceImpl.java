@@ -15,13 +15,13 @@ public class OneLineReviewServiceImpl implements OneLineReviewService{
 	OneLineReviewDao oneLineReviewDao;
 
 	@Override
-	public List<OneLineReviewVo> SelectAll(int nowPageStart, int nowPageEnd) {
-		return oneLineReviewDao.SelectAll(nowPageStart, nowPageEnd);
+	public List<OneLineReviewVo> Select(String SearchMode,String query, int nowPageStart, int onePage) {
+		return oneLineReviewDao.Select(SearchMode, query, nowPageStart, onePage);
 
 	}
 	
-	public int Count() {
-		return oneLineReviewDao.Count();
+	public int Count(String SearchMode,String query) {
+		return oneLineReviewDao.Count(SearchMode, query);
 
 	}
 	

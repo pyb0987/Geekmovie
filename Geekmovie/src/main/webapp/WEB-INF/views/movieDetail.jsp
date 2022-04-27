@@ -15,13 +15,15 @@ String language = "ko-KR";
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GeekMovie</title>
-<link
-	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css"
-	rel="stylesheet">
+
 <link rel="stylesheet" href="${path}/resources/css/movieDetail.css?"/>
 <link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=1"/>
 <link rel="stylesheet" href="${path}/resources/css/movieCast.css?"/>
 <link rel="stylesheet" href="${path}/resources/css/movieCrew.css?"/>
+
+<link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
+<link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
+
 <style>
 @import
 	url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);	/*슬라이드 아이콘*/

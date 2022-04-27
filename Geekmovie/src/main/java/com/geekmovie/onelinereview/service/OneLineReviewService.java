@@ -10,7 +10,7 @@ import com.geekmovie.onelinereview.vo.OneLineReviewVo;
 public interface OneLineReviewService {
 
 
-	public List<OneLineReviewVo> SelectAll(int nowPageStart, int nowPageEnd);
+	public List<OneLineReviewVo> Select(String SearchMode,String query, int nowPageStart, int onePage);
 		
-	public int Count();
+	public int Count(String SearchMode,String query);
 }

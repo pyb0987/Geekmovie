@@ -14,8 +14,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GeekMovieFinder</title>
-<link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">
+<link rel="stylesheet" href="${path}/resources/css/pagination.css"/>
+<link rel="stylesheet" href="${path}/resources/css/movieSearch.css"/>
 
+<link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
+<link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
 <style>
 @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 
@@ -33,107 +36,6 @@ h1{
 
 
 
-.movies-searchContainer{
-    display: flex;
-    justify-content: center;
-   
-}
-.movies-searchInnerContainer-padding{
-	width : 80%;
-    padding-bottom : 70%;
-    box-sizing: border-box;
-    position: relative;
-}
-.movies-searchInnerContainer{
-	position : absolute;
-    width: 100%;
-    height: 90%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-rows: repeat(6, minmax(16%, 20%));
-    column-gap: 1%;
-    row-gap : 2%;
-}
-.side{width : 10%;}
-.movie-searchContainer{
-    border : double 4px darkred;
-    box-sizing: border-box;
-    display : grid;   
-    grid-template-columns: 2fr 3fr;
-    grid-template-rows: 2.5fr 1fr 1fr 1fr 1fr;
-	column-gap: 3%;
-}
-.movie-searchContainer:hover{
-    border : double 4px aqua;
-
-}
-
-.movie-pictureContainer{
-	grid-row: 1 / span 5;
-	width: 100%;
-    height: 100%;
-}
-.movie-picture{
-	width: 100%;
-    height: 100%;
-	box-sizing: border-box;
-}
-
-.movie-title{
-	
-	font-family: 'NanumSquareRoundBold';
-	font-weight: 700;
-	color : white;
-	font-size: 1.2rem;
-	word-wrap: break-word;
-  display : -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  max-height : 3.2rem;
-}
-.prevent-flow {
-  overflow: hidden;
-  max-width: 100%;
-  width: 100%;
-  box-sizing: border-box;
-  /*white-space: nowrap; */
-  text-overflow: ellipsis;
-}
-.movie-year, .movie-genre, .movie-vote{
-	font-family: 'NanumSquareRound';
-	color : white;
-	font-size: 1rem;
-	white-space: nowrap;
-}
-
-
-
-
-.pagination {						/*페이지 처리*/
-  display: inline-block;
-}
-.pagination-container {						/*페이지 처리*/
-  display: flex;
-  justify-content: center;
-  min-width : 500px;
-}
-
-.pagination a {
-  color: whitesmoke;
-  float: left;
-  padding: 8px 16px;
-  text-decoration: none;
-  transition: background-color .3s;
-  border: 1px solid #ddd;
-}
-
-.pagination a.active {
-  background-color: #ddd;
-  color: black;
-  border: 1px solid #ddd;
-}
-
-.pagination a:hover:not(.active) {background-color: #555;}
 
 
 </style>
@@ -273,11 +175,11 @@ h1{
         		
         		$("#searchText").html('<h1>검색결과가 존재하지 않습니다.</h1>')	
         	}
-        	
-        	
-        	
-        	
         })
+        
+        
+        
+        
         function makePagination(pageNum){					//아래쪽 페이징 기능 구현
 
   		console.log(pageNum)
