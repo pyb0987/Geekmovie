@@ -1,5 +1,7 @@
 package com.geekmovie.user.dao;
 
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,5 +26,16 @@ public class userVODao {
 		return sqlSessionTemplate.selectOne("userVO.idCheck",id);
 	}
 	
+	public boolean loginCheck(userVO userVO) {
+		String name = sqlSessionTemplate.selectOne("userVO.loginCheck",userVO);
+		return (name == null) ? false : true;
+	}
 	
+	public userVO viewMember(userVO userVO) {
+		return sqlSessionTemplate.selectOne("userVO.viewMember",userVO);
+	}
+	
+	public void logout(HttpSession session) {
+		
+	}
 }

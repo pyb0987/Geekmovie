@@ -1,6 +1,7 @@
 <%@page import="com.geekmovie.user.vo.userVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -100,6 +101,7 @@
 
 option{
 	font-size: 1rem;
+	
 } 
 
 #searchbutton-container{
@@ -122,10 +124,17 @@ option{
 }
 
 #search-image{
-	width: 30px;
-	height: 30px;
+	width: 50px;
+	height: 50px;
 	transfrom : rotate(0.02deg);	
 }
+
+#mypage-image{
+	width: 60px;
+	height: 60px;
+	transfrom : rotate(0.03deg);
+}
+
 #searchMode{
 font-family: 'NanumSquareRound';
 margin-left : 20px;
@@ -279,6 +288,7 @@ box-shadow: -1px 1px 16px rgba(0, 0, 0, 0.6);
  display : block;
 }
 
+
 </style>
  <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/debounce.js"></script>
 <script>
@@ -299,25 +309,6 @@ document.querySelector("#menu").onclick=function(){
 document.querySelector("#screen").onclick=function(){
 	document.querySelector("#menu").onclick();
 };
-
-
- function session_check(){ 							//메뉴 세션 체크
-     var UserVo = '<%=request.getParameter("session")%>';
-
-      if(UserVo=="null"){ 
-         let str1 = "<a id='user-menu1' href='login'>로그인</a>"
-         let str2 = "<a id='user-menu2' href='createUser'>회원가입</a>"
-    	$("#user-menu1-container").html(str1);
-    	$("#user-menu2-container").html(str2);
-      }
-      else{
-         location.replace("/user/mypageForm.jsp");
-      }
-}   
- 
-	session_check();					//메뉴 세션 체크 실행
-
- 
 	
 	$("#inputbox").on("propertychange change keyup paste input",  debounce(function(){  //자동완성을 위한 키업 이벤트리스너
 		inputBoxSearch();
@@ -450,8 +441,29 @@ document.querySelector("#screen").onclick=function(){
 					</div>
 				</div>
 			</div>
-		<div id="user-menu1-container"></div>
-		<div id="user-menu2-container"></div>
+		<div id="user-menu1-container">
+		<c:choose>
+			<c:when test="${sessionScope.id == null}">
+				<a id='user-menu1' href='join'>로그인</a>
+			</c:when>
+			<c:otherwise>
+			<div id ="mypagebutton-container">
+				<img id = "mypage-image" src="${pageContext.request.contextPath}/resources/img/person.png">
+				<a id='user-menu1' href='mypage'>${sessionScope.name}</a>
+			</div>
+			</c:otherwise>
+		</c:choose>
+		</div>
+		<div id="user-menu2-container">
+		<c:choose>
+			<c:when test="${sessionScope.id == null}">
+				<a id='user-menu2' href='createUser'>회원가입</a>
+			</c:when>
+			<c:otherwise>
+				<a id='user-menu2' href='logout'>로그아웃</a>
+			</c:otherwise>
+		</c:choose>
+		</div>
 	</div>
 	<div id='screen'></div>
 	<div id="foldMenuContainer">

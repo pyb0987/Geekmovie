@@ -97,9 +97,9 @@
 </body>
 <!-- sumbit 누르지 않고 실시간 동작 : signup2.js -->
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/signup2.js?ver=1"></script>
+	src="${pageContext.request.contextPath}/resources/js/signup2.js?ver=2"></script>
 <!-- sumbit 눌렀을때 동작 : signup.js -->
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/signup.js?ver=1"></script>
+	src="${pageContext.request.contextPath}/resources/js/signup.js?ver=2"></script>
 
 </html>
