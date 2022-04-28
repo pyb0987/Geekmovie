@@ -78,7 +78,7 @@ $(document).ready(function(){
 	
 	
 	
-	//한줄평 검색창 영화기능구현
+	//----------------------한줄평 검색창 영화기능구현
 	
 	function movieSelected(){					//영화선택되면 색깔변경
 		document.getElementById('oneLineReviewInputbox').className = "movieSelected";
@@ -143,6 +143,7 @@ $(document).ready(function(){
 	
 	function modalSearch(modalPage, inputQuery, inputLanguage){		//모달창 정보표시
 		$(".modal").fadeIn();
+		$(".modal").css('position', 'fixed');
 		var searchUrl = "/movie/searchMovieList?query="+inputQuery+"&language="+inputLanguage+"&page="+modalPage;
 		  		$.ajax({							//받아온 영화 정보 표에 나열
         	type: 'GET',
@@ -302,53 +303,62 @@ $(document).ready(function(){
 		}
 	}
 	
-	//한줄평 검색창 영화기능구현
 	
 	
 	
+	
+	
+	
+	//---------------------한줄평 한줄평 페이징 기능 구현
+	
+	
+	
+oneLineReviewMakePagination( Number(`${page.nowStartPage}`), Number(`${page.nowEndPage}`), Number(`${page.nowPage}`), Number(`${page.endPage}`), '${SearchMode}', '${query}')
 
-	
-	
-	
-oneLineReviewMakePagination( Number(`${page.nowStartPage}`), Number(`${page.nowEndPage}`), Number(`${page.nowPage}`), Number(`${page.endPage}`))
-
-function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum){					//한줄평 페이징 기능 구현
+function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searchMode, query){					//한줄평 페이징 기능 구현
     var str ='';
     if (pageNow==1){
         str += '<a>처음</a>'
         }else{
-            str += `<a href="/movie/oneLineReview?page=1">처음</a>`			//처음(페이지 1로)
+            str += `<a href="/movie/oneLineReview?SearchMode=`+searchMode+`&query=`+query+`&page=1">처음</a>`			//처음(페이지 1로)
         }
     if (pageNow<11){
     str += '<a>&laquo;</a>'
     }else{
-        str += `<a href="/movie/oneLineReview?page=`+(pageFirst-10)+`">&laquo;</a>`		//앞쪽 10페이지의 처음(페이지25에 있다면 페이지 11로)
+        str += `<a href="/movie/oneLineReview?SearchMode=`+searchMode+`&query=`+query+`&page=`+(pageFirst-1)+`">&laquo;</a>`		//앞쪽 10페이지의 처음(페이지25에 있다면 페이지 20으로)
     }
     var index = 0
     while(pageFirst+index<=pageNum && pageFirst+index<=pageLast){
     	if(pageFirst+index==pageNow){
     		str += `<a class="active">`+(pageFirst+index)+'</a>'		//현재 페이지
     	}else{
-    	str += `<a href="/movie/oneLineReview?page=`+(pageFirst+index)+`">`+(pageFirst+index)+'</a>' 	//페이지 10개 생성
+    	str += `<a href="/movie/oneLineReview?SearchMode=`+searchMode+`&query=`+query+`&page=`+(pageFirst+index)+`">`+(pageFirst+index)+'</a>' 	//페이지 10개 생성
     	}
     		index +=1
     }
     if(pageLast>=pageNum){
     	str += '<a>&raquo;</a>'
     }else{
-    	str += `<a href="/movie/oneLineReview?page=`+(pageLast+1)+`">&raquo;</a>`	//뒤쪽 10페이지의 처음(페이지25에 있다면 페이지 31로)
+    	str += `<a href="/movie/oneLineReview?SearchMode=`+searchMode+`&query=`+query+`&page=`+(pageLast+1)+`">&raquo;</a>`	//뒤쪽 10페이지의 처음(페이지25에 있다면 페이지 31로)
     }
     if(pageNow==pageNum){
     	str += '<a>끝</a>'
     }else{
-    	str += `<a href="/movie/oneLineReview?page=`+(pageNum)+`">&nbsp;끝&nbsp;</a>` //맨뒤로
+    	str += `<a href="/movie/oneLineReview?SearchMode=`+searchMode+`&query=`+query+`&page=`+(pageNum)+`">&nbsp;끝&nbsp;</a>` //맨뒤로
     }
     $('.oneLineReviewSearchPagination').html(str);
 		}
    
    
-   
-   
+	
+	
+//---------------------별점생성함수 구현
+	
+	
+	$.fn.generateStars = function() {			//별점생성함수 - 크기는 1.6rem
+    	return this.each(function(i,e){$(e).html($('<span/>').width($(e).text()*0.8+'rem'));});
+    	}
+	$('.star-rating').generateStars();		//별점생성함수 호출
 
 
 });
@@ -375,24 +385,22 @@ body {
 
 
 
-#oneLineReviewInputbox{		
+
+
+#oneLineReviewInputbox{		/*한줄평 검색창*/
 	flex-shrink : 1;		
     border: none;
     height: 35px;
     font-size: 1.2rem;
 }
-
 option{
 	font-size: 1rem;
 } 
-
 #oneLineReviewSearchbutton-container{
     width: 70px;
     height: 40px;
     flex-grow : 0;
 }
-
-
 #oneLineReviewSearchbox-container{
     max-width: 650px;
     padding-left : 25px;
@@ -400,7 +408,6 @@ option{
     margin : auto;
         
 }
-
 #oneLineReviewSearchbox{
 	display: flex;
     min-width : 330px;
@@ -410,20 +417,17 @@ option{
     border: 3px solid red;
 
 }
-
 #oneLineReviewSearch{
 display : flex;
 flex-grow : 1;
 align-items : baseline;
 margin : auto;
 }
-
 #oneLineReviewSearchMode{
 font-family: 'NanumSquareRound';
 margin-left : 20px;
     border: none;
     flex-grow : 0;
-
 }
 #oneLineReviewInputbox-container{
 	display : flex;
@@ -431,8 +435,6 @@ margin-left : 20px;
     flex-grow : 1;
     position : relative;
 }
-
-
 #oneLineReviewSearchbutton{
     width: 100%;
     height: 100%;
@@ -445,7 +447,6 @@ margin-left : 20px;
 	height: 30px;
 	transfrom : rotate(0.02deg);	
 }
-
 .search-result-container:hover{				
 border-image: none;
 border : solid 3px black;       
@@ -453,12 +454,9 @@ padding : 4px;
 padding-top : 5px;
 box-sizing : border-box;
 }
-
 .movieSelected{
 background-color : #ffff88;
-
 }
-
 #checkImg{
 position : absolute;
 right : 15px;
@@ -467,7 +465,6 @@ max-width : 30px;
 max-height : 30px;
 display : none;
 }
-
 #checkImg.visualized{display : block;
 }
 #search-result-more{
@@ -476,7 +473,9 @@ font-size : 1rem;
 }
 
 
-.modal{
+
+
+.modal{				/*모달창 규격 - 내부는 movieSearch이용(영화 테두리만 바꿈)*/
 	position : absolute;
 	width : 100vw; height: 100vh;
 	background : rgba(0,0,0,0.6);
@@ -488,7 +487,6 @@ font-size : 1rem;
 	margin: 150px auto 20px auto;
 	cursor : pointer;
 }
-
 .modal-content{
   background:#333; border-radius:10px;
   width:800px; height:650px;
@@ -498,6 +496,34 @@ font-size : 1rem;
   box-sizing:border-box; padding:74px 0;
   font-size : 12px;
 }
+.movie-searchContainer{
+    border : double 4px #87CEFA77;
+}
+.movie-searchContainer:hover{
+    border : double 4px #87CEFA;
+}
+
+
+
+
+
+/* 별점 */
+
+span.star-rating, span.star-rating > * {
+    height: 1.85rem; 
+    background: url(${path}/resources/img/star.png);
+    background-size : 1.6rem auto;		/* 별점 너비는 1.6rem*/
+    background-position: 0 -1.6rem;
+    background-repeat: repeat-x; 
+    width: 8rem;
+    display: inline-block;
+}
+ 
+span.star-rating > * {
+    background-position: 0 0;
+    max-width:8rem; 
+}
+
 
 
 
@@ -520,7 +546,7 @@ font-size : 1rem;
 				<td>${r.oneLineReviewId}</td>
 				<td>${r.userId }</td>
 				<td>${r.movieId}</td>
-				<td>${r.score}</td>
+				<td>${r.score} <span class="star-rating">${r.score}</span></td>
 				<td>${r.comment}</td>
 				<td>${r.likes}</td>
 				<td>${r.gendate}</td>

@@ -5,9 +5,12 @@ function movieListAjax(selectorId ,AjaxUrl,language){
         	dataType : 'json',
         	contentType : 'application/json', 
         	success: function(data){
-        		console.log(data)
+        		console.log(selectorId, data)
+        		if(data.total_results<1){
+        		$("#"+selectorId+" .movies-container").html("<h2 class='nonExist'>해당 영화가 없습니다.</h2>");
+        		}
+        		else{
         		$("#"+selectorId+" .movies-container .movie").each(function(index, element){
-        			if(!!data.results[index]){
         			if(!!data.results[index].poster_path){
         			str = "<div class='movie-image'><img src='https://image.tmdb.org/t/p/w342/"+data.results[index].poster_path+"'></div>" ;
         			}else{
@@ -23,10 +26,8 @@ function movieListAjax(selectorId ,AjaxUrl,language){
         			}
         			str += "<figcaption><h3>"+title +"</h3><p>"+overview +"</p><p>"+ data.results[index].release_date +"</p><i class='ion-ios-arrow-right'><a href='/movie/movieDetail?movieId="+data.results[index].id+"&language="+language+"'></a></i></figcaption>" 
         			$(this).html(str);
-        			}else{
-        						//영화가 존재하지 않을때
-        			}
-        		})
+        			})
+				}
         		
         	
         	}

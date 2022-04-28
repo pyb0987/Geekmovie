@@ -60,7 +60,7 @@ background-color : white;
 
 </style>
 <link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=1"/>
-<link rel="stylesheet" href="${path}/resources/css/movieBigSlide.css"/>
+<link rel="stylesheet" href="${path}/resources/css/movieBigSlide.css?ver=1"/>
 
 
 

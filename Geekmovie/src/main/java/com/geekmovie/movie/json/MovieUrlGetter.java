@@ -144,6 +144,15 @@ public class MovieUrlGetter  {
 		}
 		return url;
 	}
+	
+	public String GetLastestMovie(String language) {
+		String url = "https://api.themoviedb.org/3/movie/latest?api_key=";
+		url += api_key;
+		url += "&language=";
+		url += language;
+		return url;
+	}
+	
 
 }
 

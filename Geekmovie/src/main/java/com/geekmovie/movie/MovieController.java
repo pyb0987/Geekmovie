@@ -48,6 +48,20 @@ public class MovieController {
 		return mav;
 	}
 	
+	@GetMapping("/movieDetail/random")     //home
+	public ModelAndView movieDetailRandom(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();	
+		
+		String language="ko-KR";
+		language = request.getParameter("language");
+
+		mav.addObject("language", language);	// request.setAttribute
+
+		
+		mav.setViewName("movieDetailRandom");
+		return mav;
+	}	
+	
 	
 	@GetMapping("/search")     //home
 	public ModelAndView search(@RequestParam Map<String, String> map) {

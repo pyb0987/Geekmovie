@@ -27,16 +27,14 @@ public class OneLineReviewController {
 	
 	
 	@GetMapping("/oneLineReview")    
-	public ModelAndView movieDetail(@RequestParam(required = false, defaultValue = "1") int Page, 
+	public ModelAndView movieDetail(@RequestParam(required = false, defaultValue = "1") int page, 
 			@RequestParam(required = false, defaultValue = "ko-KR") String language, 
-			@RequestParam(required = false) String SearchMode,
+			@RequestParam(required = false, defaultValue = "movie") String SearchMode,
 			@RequestParam(required = false, defaultValue = "") String query) {
 		ModelAndView mav = new ModelAndView();
 		
 		int cnt = oneLineReviewService.Count(SearchMode, query);	//나중에 여기에 변수들어감
-		System.out.println("cnt");
-		System.out.println(cnt);
-		olrpv.PageInfo(cnt, Page);
+		olrpv.PageInfo(cnt, page);
 		int nowPageStart = olrpv.getNowPageStart();
 		int onePage = olrpv.getOnePage();
 		List<OneLineReviewVo> oneLineReviewList = oneLineReviewService.Select(SearchMode, query, nowPageStart, onePage);//나중에 여기에 변수들어감
@@ -44,6 +42,8 @@ public class OneLineReviewController {
 		
 		
 		mav.addObject("page", olrpv);
+		mav.addObject("SearchMode", SearchMode);
+		mav.addObject("query", query);
 		mav.addObject("language", language);
 		mav.addObject("data", oneLineReviewList);
 
