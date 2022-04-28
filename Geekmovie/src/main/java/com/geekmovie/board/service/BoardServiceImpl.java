@@ -26,8 +26,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
-	public int boardListCnt() {
-		return dao.boardListCnt();
+	public int boardListCnt(BoardVo boardvo) {
+		return dao.boardListCnt(boardvo);
 	}
 	
 	@Override

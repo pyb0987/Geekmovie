@@ -14,8 +14,11 @@ public class BoardVo {
 	private String movie_id;
 	private int startList;
 	private int listSize;
+	private String searchType;
+	private String bKeyword;
+	private float b_score;
 	
-	
+
 	public BoardVo() {
 
 	}
@@ -36,6 +39,13 @@ public class BoardVo {
 		this.listSize = listSize;
 	}
 
+	public float getB_score() {
+		return b_score;
+	}
+	
+	public void setB_score(float b_score) {
+		this.b_score = b_score;
+	}
 
 
 	public int getSeq() {
@@ -124,6 +134,22 @@ public class BoardVo {
 
 	public void setListSize(int listSize) {
 		this.listSize = listSize;
+	}
+	
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public String getbKeyword() {
+		return bKeyword;
+	}
+
+	public void setbKeyword(String bKeyword) {
+		this.bKeyword = bKeyword;
 	}
 
 	@Override

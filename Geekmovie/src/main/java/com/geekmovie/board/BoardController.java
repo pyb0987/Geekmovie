@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.geekmovie.board.service.BoardService;
@@ -32,7 +33,11 @@ public class BoardController {
 			@RequestParam(required = false, defaultValue = "1") int range) {
 		System.out.println("board List");
 		
-		int listCnt = boardService.boardListCnt();
+		if(boardVo.getSearchType() == null) boardVo.setSearchType("TC");
+		
+		int listCnt = boardService.boardListCnt(boardVo);
+		System.out.println(boardVo.getbKeyword());
+		System.out.println("List"+listCnt);
 		
 		ModelAndView mav = new ModelAndView();
 		PageVo pagevo = new PageVo();
@@ -44,9 +49,23 @@ public class BoardController {
 		
 		mav.addObject("pagination", pagevo);
 		mav.addObject("data", list);
+		mav.addObject("searchType",boardVo.getSearchType());
 		mav.setViewName("boardList");
 		return mav;
 	}
+	
+	@RequestMapping("/boardListJson")
+	@ResponseBody
+	public List<BoardVo> boardListJson(BoardVo boardVo) {
+		System.out.println("boardListJ");
+		
+		boardVo.setSearchType("Title");
+		boardVo.setbKeyword("");
+		
+		List<BoardVo> boardList	= boardService.bList(boardVo);
+		return boardList;
+	}
+	
 	
 	@GetMapping("/boardCreate")
 	public String boardCreate() {

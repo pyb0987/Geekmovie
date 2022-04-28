@@ -24,7 +24,7 @@ public class BoardDao {
 		return sqlSessionTemplate.selectList("boardVo.board_list", boardvo);
 	}
 	
-	public int boardListCnt() {
+	public int boardListCnt(BoardVo boardvo) {
 		return sqlSessionTemplate.selectOne("boardVo.boardListCnt");
 	}
 	
