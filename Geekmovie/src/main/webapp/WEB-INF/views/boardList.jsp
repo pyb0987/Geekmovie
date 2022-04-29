@@ -1,7 +1,7 @@
 <%@page import="com.geekmovie.board.vo.BoardVo"%>
 <%@page import="java.util.List"%>
 <%@page import="com.geekmovie.board.vo.PageVo"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -51,7 +51,7 @@ PageVo pagination = (PageVo)request.getAttribute("pagination");
 <a href="boardList?curPage=<%=startPage - rangeSize%>&range=<%=range -1 %>">[이전<%=rangeSize%>개]</a>
 <%} %>
 <%for(int i = startPage; i<=endPage; ++i){ %>
-<a href="boardList?curPage=<%=i%>&range=<%=range%>">[<%=i%>]</a>
+<a href="boardList?searchType=${searchType}&bKeyword=${keyword}&curPage=<%=i%>&range=<%=range%>">[<%=i%>]</a>
 <%} %>
 <%if(next) { %>
 <a href="boardList?curPage=<%=startPage + rangeSize%>&range=<%=range +1 %>">[다음<%=rangeSize%>개]</a>

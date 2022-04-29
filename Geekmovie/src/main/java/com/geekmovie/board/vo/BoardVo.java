@@ -16,7 +16,7 @@ public class BoardVo {
 	private int listSize;
 	private String searchType;
 	private String bKeyword;
-	private float b_score;
+	private int b_score;
 	
 
 	public BoardVo() {
@@ -43,7 +43,7 @@ public class BoardVo {
 		return b_score;
 	}
 	
-	public void setB_score(float b_score) {
+	public void setB_score(int b_score) {
 		this.b_score = b_score;
 	}
 

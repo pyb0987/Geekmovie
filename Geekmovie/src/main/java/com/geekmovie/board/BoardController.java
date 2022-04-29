@@ -30,14 +30,14 @@ public class BoardController {
 	@RequestMapping("/boardList")          //게시판
 	public ModelAndView boardList(BoardVo boardVo,
 			@RequestParam(required = false, defaultValue = "1") int curPage,
-			@RequestParam(required = false, defaultValue = "1") int range) {
+			@RequestParam(required = false, defaultValue = "1") int range,
+			@RequestParam(required = false, defaultValue = "TC") String searchType,
+			@RequestParam(required = false, defaultValue = "") String bKeyword) {
 		System.out.println("board List");
 		
 		if(boardVo.getSearchType() == null) boardVo.setSearchType("TC");
 		
 		int listCnt = boardService.boardListCnt(boardVo);
-		System.out.println(boardVo.getbKeyword());
-		System.out.println("List"+listCnt);
 		
 		ModelAndView mav = new ModelAndView();
 		PageVo pagevo = new PageVo();
@@ -45,27 +45,19 @@ public class BoardController {
 		pagevo.pageInfo(curPage, range, listCnt);
 		boardVo.setStartList(pagevo.getStartList());
 		boardVo.setListSize(pagevo.getListSize());
+		
 		List<BoardVo> list = boardService.bList(boardVo);
+		
+		System.out.println(pagevo.getStartList());
+		System.out.println(pagevo.getListSize());
 		
 		mav.addObject("pagination", pagevo);
 		mav.addObject("data", list);
 		mav.addObject("searchType",boardVo.getSearchType());
+		mav.addObject("keyword", boardVo.getbKeyword());
 		mav.setViewName("boardList");
 		return mav;
 	}
-	
-	@RequestMapping("/boardListJson")
-	@ResponseBody
-	public List<BoardVo> boardListJson(BoardVo boardVo) {
-		System.out.println("boardListJ");
-		
-		boardVo.setSearchType("Title");
-		boardVo.setbKeyword("");
-		
-		List<BoardVo> boardList	= boardService.bList(boardVo);
-		return boardList;
-	}
-	
 	
 	@GetMapping("/boardCreate")
 	public String boardCreate() {
