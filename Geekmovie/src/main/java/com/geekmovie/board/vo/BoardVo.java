@@ -1,5 +1,6 @@
 package com.geekmovie.board.vo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class BoardVo {
@@ -8,7 +9,7 @@ public class BoardVo {
 	private String writer;
 	private String contents;
 	private String reply; // 댓글
-	private Date regdate;
+	private Timestamp regdate;
 	private int cnt; // 조회수
 	private int likes; // 추천수
 	private String movie_id;
@@ -23,7 +24,7 @@ public class BoardVo {
 
 	}
 
-	public BoardVo(int seq, String title, String writer, String contents, String reply, Date regdate, int cnt,
+	public BoardVo(int seq, String title, String writer, String contents, String reply, Timestamp regdate, int cnt,
 			int likes, String movie_id, int startList, int listSize) {
 		super();
 		this.seq = seq;
@@ -88,11 +89,11 @@ public class BoardVo {
 		this.reply = reply;
 	}
 
-	public Date getRegdate() {
+	public Timestamp getRegdate() {
 		return regdate;
 	}
 
-	public void setRegdate(Date regdate) {
+	public void setRegdate(Timestamp regdate) {
 		this.regdate = regdate;
 	}
 

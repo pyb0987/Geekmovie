@@ -21,17 +21,32 @@ PageVo pagination = (PageVo)request.getAttribute("pagination");
 	boolean next = pagination.isNext();
 %>
 
-<%
-	List<BoardVo> boardList = (List)request.getAttribute("boardList");
-%>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>BoardList</title>
+
+<script type="text/javascript">
+window.onload = function(){	
+
+document.querySelector("#b_create").onclick = function(){
+	console.log(onclick);
+	if('${sessionScope.id}'==''){
+		var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
+		if(result){
+		    location.href = 'join';
+		}
+	}else{
+		location.href = 'boardCreate';
+	}
+};
+
+}
+</script>
 </head>
 <body>
+<h3>회원정보 : ${sessionScope.id}</h3>
 <!-- List -->
 	<table border="1">
 		<tr><th>seq</th><th>title</th><th>writer</th><th>regdate</th><th>cnt</th><th>likes</th></tr>
@@ -68,6 +83,6 @@ PageVo pagination = (PageVo)request.getAttribute("pagination");
 		<input type="hidden" name="page" value="1" />
 		<input type="submit" value="검색">
 	</form>
-	<a href="boardCreate">게시글 작성</a>
+	<button id="b_create">게시글 작성</button>
 </body>
 </html>

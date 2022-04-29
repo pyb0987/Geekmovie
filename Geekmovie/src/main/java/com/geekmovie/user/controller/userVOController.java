@@ -41,8 +41,7 @@ public class userVOController {
 		boolean result = userService.loginCheck(userVO, session);
 		ModelAndView mav = new ModelAndView();
 		if (result == true) { // 로그인 성공
-			mav.setViewName("index");
-			mav.addObject("msg", "success");
+			mav.setViewName("redirect:/");
 		} else { // 로그인 실패
 			mav.setViewName("join");
 			mav.addObject("msg", "failure");
@@ -68,7 +67,7 @@ public class userVOController {
 
 		ModelAndView mav = new ModelAndView();
 		if (rs == 1) {
-			mav.setViewName("join");
+			mav.setViewName("redirect:/join");
 		} else {
 			mav.setViewName("redircet/createUser");
 		}
