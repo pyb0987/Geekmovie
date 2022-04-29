@@ -10,7 +10,7 @@ public interface BoardService {
 	
 	public List<BoardVo> bList(BoardVo boardVo);
 	
-	public int boardListCnt();
+	public int boardListCnt(BoardVo boardvo);
 	
 	public int bCreate(BoardVo boardvo);
 	

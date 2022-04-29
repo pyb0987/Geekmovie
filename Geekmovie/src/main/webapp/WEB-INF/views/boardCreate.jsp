@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>게시글 작성</h1>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 	<p>제목 : <input type="text" name="title"></p>
 	<p>작성자 : <input type="text" name="writer"></p>
 	<p>내용 : <input type="text" name="contents"></p>

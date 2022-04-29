@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.geekmovie.board.service.BoardService;
@@ -29,21 +30,31 @@ public class BoardController {
 	@RequestMapping("/boardList")          //게시판
 	public ModelAndView boardList(BoardVo boardVo,
 			@RequestParam(required = false, defaultValue = "1") int curPage,
-			@RequestParam(required = false, defaultValue = "1") int range) {
-
-		int listCnt = boardService.boardListCnt();
+			@RequestParam(required = false, defaultValue = "1") int range,
+			@RequestParam(required = false, defaultValue = "TC") String searchType,
+			@RequestParam(required = false, defaultValue = "") String bKeyword) {
+		System.out.println("board List");
+		
+		if(boardVo.getSearchType() == null) boardVo.setSearchType("TC");
+		
+		int listCnt = boardService.boardListCnt(boardVo);
 		
 		ModelAndView mav = new ModelAndView();
 		PageVo pagevo = new PageVo();
 		
 		pagevo.pageInfo(curPage, range, listCnt);
-
 		boardVo.setStartList(pagevo.getStartList());
 		boardVo.setListSize(pagevo.getListSize());
+		
 		List<BoardVo> list = boardService.bList(boardVo);
+		
+		System.out.println(pagevo.getStartList());
+		System.out.println(pagevo.getListSize());
 		
 		mav.addObject("pagination", pagevo);
 		mav.addObject("data", list);
+		mav.addObject("searchType",boardVo.getSearchType());
+		mav.addObject("keyword", boardVo.getbKeyword());
 		mav.setViewName("boardList");
 		return mav;
 	}
