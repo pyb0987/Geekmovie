@@ -540,7 +540,7 @@ span.star-rating > * {
 	<h1>한줄평</h1>
 	<h2>
 	<table border="1">
-	<tr><th>Id</th><th>userId</th><th>movieId</th><th>Score</th><th>comment</th><th>likes</th><th>Gendate</th></tr>
+	<tr><th>Id</th><th>userId</th><th>movieId</th><th>Score</th><th>comment</th><th>likes</th><th>Gendate</th><th>Moddate</th></tr>
 		<c:forEach var="r" items="${data}">
 			<tr>
 				<td>${r.oneLineReviewId}</td>
@@ -550,6 +550,7 @@ span.star-rating > * {
 				<td>${r.comment}</td>
 				<td>${r.likes}</td>
 				<td>${r.gendate}</td>
+				<td>${r.moddate}</td>
 			</tr>
 		</c:forEach>
 		</table>

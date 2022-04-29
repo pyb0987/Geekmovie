@@ -5,7 +5,7 @@
 <mapper namespace="oneLineReviewVo">
 	<select id="Select" parameterType="HashMap" resultType="oneLineReviewVo">
 		<![CDATA[
-			select oneLineReviewId, userId, movieId, score, comment, likes, gendate
+			select oneLineReviewId, userId, movieId, score, comment, likes, gendate, moddate
 			from onelinereview
 			where 1=1
 					]]>

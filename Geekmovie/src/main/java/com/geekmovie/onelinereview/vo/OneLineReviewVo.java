@@ -10,9 +10,10 @@ public class OneLineReviewVo {
 	private String comment;			//300자 제한
 	private int likes;
 	private Date gendate;
+	private Date moddate;
 	
 	public OneLineReviewVo(int oneLineReviewId, String userId, int movieId, int score, String comment, int likes,
-			Date gendate) {
+			Date gendate, Date moddate) {
 		super();
 		this.oneLineReviewId = oneLineReviewId;
 		this.userId = userId;
@@ -21,6 +22,7 @@ public class OneLineReviewVo {
 		this.comment = comment;
 		this.likes = likes;
 		this.gendate = gendate;
+		this.moddate = moddate;
 	}
 
 	public int getOneLineReviewId() {
@@ -80,10 +82,20 @@ public class OneLineReviewVo {
 	}
 	
 
+	public Date getModdate() {
+		return moddate;
+	}
+
+	public void setModdate(Date moddate) {
+		this.moddate = moddate;
+	}
+
 	@Override
 	public String toString() {
-		return "oneLineReviewVo [oneLineReviewId=" + oneLineReviewId + ", userId=" + userId + ", movieId=" + movieId
-				+ ", score=" + score + ", comment=" + comment + ", likes=" + likes + ", gendate=" + gendate + "]";
+		return "OneLineReviewVo [oneLineReviewId=" + oneLineReviewId + ", userId=" + userId + ", movieId=" + movieId
+				+ ", score=" + score + ", comment=" + comment + ", likes=" + likes + ", gendate=" + gendate
+				+ ", moddate=" + moddate + "]";
 	}
+
 	
 }
