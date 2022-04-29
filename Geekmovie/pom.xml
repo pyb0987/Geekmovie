@@ -1,33 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@pyb0987 
-pyb0987
-/
-Geekmovie
-Public
-Code
-Issues
-Pull requests
-1
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-Geekmovie/Geekmovie/pom.xml
-
-geami search selected
-Latest commit 7efdf0b 20 hours ago
- History
- 1 contributor
-228 lines (207 sloc)  6.37 KB
-   
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
@@ -256,16 +226,3 @@ Latest commit 7efdf0b 20 hours ago
         </plugins>
     </build>
 </project>
-© 2022 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
-Loading complete

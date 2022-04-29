@@ -415,7 +415,7 @@ if(!!form.query && form.query.value !=""){
 
 	document.querySelector("#myPage").onclick=function(){
 		if('${sessionScope.id}'==''){
-			var result = confirm("로그인이 필요한 페이지 입니다. \n로그인 페이지로 이동 하시겠습니까?");
+			var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
 			if(result){
 			    location.href = 'join';
 			}
