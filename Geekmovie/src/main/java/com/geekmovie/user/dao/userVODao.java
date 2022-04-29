@@ -1,7 +1,5 @@
 package com.geekmovie.user.dao;
 
-import javax.servlet.http.HttpSession;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -35,7 +33,7 @@ public class userVODao {
 		return sqlSessionTemplate.selectOne("userVO.viewMember",userVO);
 	}
 	
-	public void logout(HttpSession session) {
-		
+	public int update_mypage(userVO userVO) {
+		return sqlSessionTemplate.update("userVO.update_mypage",userVO);
 	}
 }
