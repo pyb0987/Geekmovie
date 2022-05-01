@@ -20,13 +20,12 @@ public class BoardDao {
 		System.out.println("@Repository DAO 스프링 자동 생성");
 	}
 	
-	
 	public List<BoardVo> boardList(BoardVo boardvo) {
 		return sqlSessionTemplate.selectList("boardVo.board_list", boardvo);
 	}
 	
-	public int boardListCnt() {
-		return sqlSessionTemplate.selectOne("boardVo.boardListCnt");
+	public int boardListCnt(BoardVo boardvo) {
+		return sqlSessionTemplate.selectOne("boardVo.boardListCnt", boardvo);
 	}
 	
 	public int boardInsert(BoardVo boardvo) {

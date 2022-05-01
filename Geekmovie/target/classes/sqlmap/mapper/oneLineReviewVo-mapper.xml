@@ -5,30 +5,40 @@
 <mapper namespace="oneLineReviewVo">
 	<select id="Select" parameterType="HashMap" resultType="oneLineReviewVo">
 		<![CDATA[
-			select oneLineReviewId, userId, movieId, score, comment, likes, gendate
+			select oneLineReviewId, userId, movieId, score, comment, likes, dislikes, gendate, moddate
 			from onelinereview
 			where 1=1
 					]]>
-			<if test='query !=null and query != ""' >
-			and comment like concat('%', #{query},'%');
+			<if test='searchMode =="movie" and query != ""' >
+			and movieId = #{query}
 			</if>	
-			<if test='movieQuery !=null and movieQuery != ""' >
-			and movieId = #{movieQuery};
-			</if>		
-			<if test='userQuery !=null and userQuery != ""' >
-			and userQuery like concat('%', #{userQuery},'%');
+			<if test='searchMode =="keyword" and query != ""' >
+			and comment like concat('%', #{query},'%')
+			</if>	
+			<if test='searchMode =="author" and query != ""' >
+			and userId like concat('%', #{query},'%')
 			</if>		
 			<![CDATA[
 			order by oneLineReviewId DESC
-			Limit #{nowPageStart}, #{Size}	
+			Limit #{nowPageStart}, #{Size};
 			]]>
 			
 	</select>
 	
-	<select id="Count" resultType="int">
+	<select id="Count" parameterType="HashMap" resultType="int">
 		<![CDATA[
 			select count(oneLineReviewId) from onelinereview
+			where 1=1
 		]]>
+			<if test='searchMode =="movie" and query != ""' >
+			and movieId = #{query};
+			</if>	
+			<if test='searchMode =="keyword" and query != ""' >
+			and comment like concat('%', #{query},'%');
+			</if>	
+			<if test='searchMode =="author" and query != ""' >
+			and userId like concat('%', #{query},'%');
+			</if>	
 	</select>
 
 

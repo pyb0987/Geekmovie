@@ -27,21 +27,34 @@ public class OneLineReviewController {
 	
 	
 	@GetMapping("/oneLineReview")    
-	public ModelAndView movieDetail(@RequestParam(required = false, defaultValue = "1") int Page) {
+	public ModelAndView oneLineReview(@RequestParam(required = false, defaultValue = "1") int page, 
+			@RequestParam(required = false, defaultValue = "ko-KR") String language, 
+			@RequestParam(required = false, defaultValue = "movie") String SearchMode,
+			@RequestParam(required = false, defaultValue = "") String query) {
 		ModelAndView mav = new ModelAndView();
-		
-		int cnt = oneLineReviewService.Count();	//나중에 여기에 변수들어감
-		olrpv.PageInfo(cnt, Page);
+		int cnt = oneLineReviewService.Count(SearchMode, query);	//나중에 여기에 변수들어감
+		olrpv.PageInfo(cnt, page);
 		int nowPageStart = olrpv.getNowPageStart();
-		int nowPageEnd = olrpv.getNowPageEnd();
-		List<OneLineReviewVo> oneLineReviewList = oneLineReviewService.SelectAll(nowPageStart, nowPageEnd);//나중에 여기에 변수들어감
+		int onePage = olrpv.getOnePage();
+		List<OneLineReviewVo> oneLineReviewList = oneLineReviewService.Select(SearchMode, query, nowPageStart, onePage);//나중에 여기에 변수들어감
 		
 		
 		
 		mav.addObject("page", olrpv);
+		mav.addObject("SearchMode", SearchMode);
+		mav.addObject("query", query);
+		mav.addObject("language", language);
 		mav.addObject("data", oneLineReviewList);
 
 		mav.setViewName("oneLineReview");
+		return mav;
+	}
+	
+	@GetMapping("/oneLineReviewWrite")    
+	public ModelAndView oneLineReviewWrite(@RequestParam(required = false, defaultValue = "ko-KR") String language) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("language", language);
+		mav.setViewName("oneLineReviewWrite");
 		return mav;
 	}
 }

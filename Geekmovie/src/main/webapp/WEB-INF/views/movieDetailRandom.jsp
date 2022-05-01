@@ -10,10 +10,10 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GeekMovie</title>
+<title>GeekRandomMovie</title>
 
 <link rel="stylesheet" href="${path}/resources/css/movieDetail.css?"/>
-<link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=1"/>
+<link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=2"/>
 <link rel="stylesheet" href="${path}/resources/css/movieCast.css?"/>
 <link rel="stylesheet" href="${path}/resources/css/movieCrew.css?"/>
 
@@ -58,6 +58,57 @@ background-color : white;
 padding-left: 30px;
 }
 
+
+
+.arrow {
+  cursor: pointer;
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border: solid 6px #bbb;
+  border-radius: 100%;
+  z-index: 3;
+  transition: all 0.2s linear;
+  box-sizing: border-box;
+  right: 30px;top: 50%;
+
+}
+.arrow:before, .arrow:after {
+  content: "";
+  position: absolute;
+  display : block;
+  width: 35%;
+  height: 10%;
+  top: 41%;
+  left: 55%;
+  background: #bbb;
+  z-index: 4;
+  transform: translate(-50%, -50%) rotate(45deg);
+  transition: all 0.2s linear;
+  box-sizing: border-box;
+}
+.arrow:after {
+  z-index: 5;
+  top: 59%;
+  left: 55%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.arrow:hover {
+  border: solid 8px #777;
+}
+.arrow:hover:after, .arrow:hover:before {
+  background: #777;
+}
+.arrow:active {
+  border: solid 8px #111;
+}
+.arrow:active:after, .arrow:active:before {
+  background: #111;
+}
+
+
+
+
 </style>
 
 
@@ -68,7 +119,7 @@ padding-left: 30px;
 	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fontResize.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieSlide.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieListAjax.js?ver=1"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieListAjax.js?ver=2"></script>
 	
 <script>
 	$(document).ready(function() {
@@ -120,11 +171,64 @@ padding-left: 30px;
 		movieSlideController(RecommendMovieContainer);				
 		
 		
+		var LastestId = 1000000;
+		function GetLastestId(){
+		$.ajax({							//LastestMovie id만 가져오기	- 랜덤영화번호 지정을 위해서
+        	type: 'GET',
+        	url: '/movie/getLastestMovie?language=${language}',
+        	dataType : 'json',
+        	contentType : 'application/json', 
+        	async: false, 
+        	success: function(data){
+        			LastestId = data.id;
+        		}
+        	,
+        	error: function(request, status, error){
+        		console.log(request, status, error)
+        	}
+ 		})	
+		}
+		function randomIdGet(LastestId){
+		
+		let checkId;
+		let rid;
+		do {
+			rid = Math.floor(Math.random()*LastestId)+1;
+			checkId = false;
+			$.ajax({							//받아온 영화 정보 디테일로 만들기
+	        	type: 'GET',
+	        	url: `/movie/getMovieData?movieId=`+rid+`&language=${language}`,
+	        	dataType : 'json',
+	        	contentType : 'application/json', 
+	        	async: false, 
+	        	success: function(data){
+	        		if(data.adult){
+	        		checkId = true;
+	        		}
+	        		if(data.vote_count < 1){
+		        		checkId = true;
+		        		}
+	        		
+	        	}
+	        	,
+	        	error: function(request, status, error){
+	        	checkId = true;
+
+	        	}
+			
+			})
+		}while (checkId);
+			return rid;
+		}
+		
+		var randomId = randomIdGet(LastestId);
+		
+		console.log(randomId)
 		
 		
 		$.ajax({							//받아온 영화 정보 디테일로 만들기
         	type: 'GET',
-        	url: `/movie/getMovieData?movieId=${movieId}&language=${language}`,
+        	url: `/movie/getMovieData?movieId=`+randomId+`&language=${language}`,
         	dataType : 'json',
         	contentType : 'application/json', 
         	success: function(data){
@@ -189,7 +293,7 @@ padding-left: 30px;
         function printCast(){
         $.ajax({							//출연진 정보 출력 함수
         	type: 'GET',
-        	url: `/movie/getMovieCredit?movieId=${movieId}&language=${language}`,
+        	url: `/movie/getMovieCredit?movieId=`+randomId+`&language=${language}`,
         	dataType : 'json',
         	contentType : 'application/json', 
         	success: function(data){
@@ -225,7 +329,7 @@ padding-left: 30px;
         function printCrew(){
             $.ajax({							//제작진 정보 출력 함수
             	type: 'GET',
-            	url: `/movie/getMovieCredit?movieId=${movieId}&language=${language}`,
+            	url: `/movie/getMovieCredit?movieId=`+randomId+`&language=${language}`,
             	dataType : 'json',
             	contentType : 'application/json', 
             	success: function(data){
@@ -257,8 +361,8 @@ padding-left: 30px;
     		}
         
         
-        movieListAjax('similar-movie', `/movie/getSimilarMovieList?movieId=${movieId}&page=1&language=${language}`, `${language}`);				//getSimilarMovieList 출력
-        movieListAjax('recommend-movie', `/movie/getRecommendMovieList?movieId=${movieId}&page=1&language=${language}`, `${language}`);				//getSimilarMovieList 출력
+        movieListAjax('similar-movie', `/movie/getSimilarMovieList?movieId=`+randomId+`&page=1&language=${language}`, `${language}`);				//getSimilarMovieList 출력
+        movieListAjax('recommend-movie', `/movie/getRecommendMovieList?movieId=`+randomId+`&page=1&language=${language}`, `${language}`);				//getSimilarMovieList 출력
 
                 
 
@@ -284,7 +388,9 @@ padding-left: 30px;
 <jsp:param name="language" value="${language}"/>  
 </jsp:include>  
 
-	<div id="detail-bigPicture"></div>
+	<div id="detail-bigPicture">
+	</div>
+	<span class="arrow" OnClick="location.href =`/movie/movieDetail/random?language=${language}`"></span>
 	<div id="detail-MovieContainer">
 		<div id="onleft">
 			<div id="detail-poster"></div>

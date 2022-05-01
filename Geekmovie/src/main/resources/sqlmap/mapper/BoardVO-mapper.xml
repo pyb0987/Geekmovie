@@ -9,10 +9,19 @@
 			select seq, title, writer, regdate, cnt, likes
 			from review_board 
 			where 1 = 1 
-			ORDER BY seq DESC
 		]]>
+		<if test="searchType == 'TC' and bKeyword != null">
+			AND title LIKE CONCAT ('%',#{bKeyword},'%')
+			OR contents LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'Wr' and bKeyword != null">
+			AND writer LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'M_id' and bKeyword != null">
+			AND movie_id LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+			ORDER BY seq DESC
 			Limit #{startList}, #{listSize}
-
 	</select>
 	
 	<select id="boardListCnt" resultType="int">
@@ -21,6 +30,16 @@
 			from review_board
 			where 1 = 1
 		]]>
+		<if test="searchType == 'TC' and bKeyword != null">
+			AND title LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'Wr' and bKeyword != null">
+			AND writer LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'M_id' and bKeyword != null">
+			AND movie_id LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		
 	</select>
 
 	<insert id="board_insert" parameterType="boardVo">

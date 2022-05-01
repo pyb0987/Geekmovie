@@ -29,7 +29,7 @@ public class OneLineReviewPageVo {
 		this.endPage = (int)Math.ceil(this.cnt/(float)this.onePage);
 		this.nowStartPage = ((int)(this.nowPage-1)/this.pageRange)*this.pageRange+1;
 		this.nowEndPage = (((int)(this.nowPage-1)/this.pageRange)+1)*this.pageRange;
-		this.nowPageStart = (this.nowPage-1)*this.onePage+1;
+		this.nowPageStart = (this.nowPage-1)*this.onePage;		//이전까지 제외해야할 게시글의 개수
 		this.nowPageEnd = this.nowPage*this.onePage;
 		if (this.nowPageStart>this.cnt) {
 			this.nowPageStart= this.cnt;
