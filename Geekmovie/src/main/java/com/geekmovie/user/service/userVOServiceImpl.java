@@ -35,7 +35,9 @@ public class userVOServiceImpl implements userVOService {
 			userVO vo2 = viewMember(userVO);
 			// 세션에 변수 등록
 			session.setAttribute("id", vo2.getId());
+			session.setAttribute("password", vo2.getPassword());
 			session.setAttribute("name", vo2.getName());
+			session.setAttribute("gender", vo2.getGender());
 		}
 		return result;
 	}
@@ -44,15 +46,13 @@ public class userVOServiceImpl implements userVOService {
 	// 회원 로그인 정보
 	public userVO viewMember(userVO userVO) {
 		return dao.viewMember(userVO);
-	}
-
-	@Override
-	//로그아웃 부분
-	public void logout(HttpSession session) {
-		// 세션을 초기화 시킴.
-		session.invalidate();
-		
+	
 	}
 	
+	@Override
+	// 회원정보 수정
+	public int update_mypage(userVO userVO) {
+		return dao.update_mypage(userVO);
+	}
 	
 }

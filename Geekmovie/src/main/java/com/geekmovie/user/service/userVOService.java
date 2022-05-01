@@ -16,8 +16,8 @@ public interface userVOService {
 	
 	// 회원 로그인 정보
 	public userVO viewMember(userVO userVO);
-	
-	// 로그아웃
-	public void logout(HttpSession session);
-	
+
+	// 회원 정보 수정
+	int update_mypage(userVO userVO);
+		
 }

@@ -4,11 +4,10 @@
 	pageEncoding="UTF-8"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-
-
 <%
 String language = "ko-KR";
 %>
+
 <html lang="en">
 
 <head>
@@ -152,9 +151,6 @@ background-color : white;
         		
     })
     </script>
-
-
-
 
 </head>
 
