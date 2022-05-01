@@ -33,6 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			select id,name,gender from users where id = #{id} and password = #{password};		
 		]]>
 	</select>
+	
 	<!-- 리스트로 목록보기 -->
 	<select id="userInfo">
 		<![CDATA[
@@ -40,4 +41,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
+	<!-- 회원정보 수정 -->
+	<update id="update_mypage" parameterType="userVO">
+		<![CDATA[
+			update users set password = #{password}, name = #{name} where id = #{id};	
+		]]>
+	</update>
 </mapper>

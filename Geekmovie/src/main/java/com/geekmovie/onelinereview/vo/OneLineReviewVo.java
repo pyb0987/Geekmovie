@@ -1,6 +1,7 @@
 package com.geekmovie.onelinereview.vo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class OneLineReviewVo {
 	private int oneLineReviewId;
@@ -9,11 +10,12 @@ public class OneLineReviewVo {
 	private int score;
 	private String comment;			//300자 제한
 	private int likes;
-	private Date gendate;
-	private Date moddate;
+	private int dislikes;
+	private Timestamp gendate;
+	private Timestamp moddate;
 	
 	public OneLineReviewVo(int oneLineReviewId, String userId, int movieId, int score, String comment, int likes,
-			Date gendate, Date moddate) {
+			int dislikes, Timestamp gendate, Timestamp moddate) {
 		super();
 		this.oneLineReviewId = oneLineReviewId;
 		this.userId = userId;
@@ -21,6 +23,7 @@ public class OneLineReviewVo {
 		this.score = score;
 		this.comment = comment;
 		this.likes = likes;
+		this.dislikes = dislikes;
 		this.gendate = gendate;
 		this.moddate = moddate;
 	}
@@ -73,29 +76,38 @@ public class OneLineReviewVo {
 		this.likes = likes;
 	}
 
-	public Date getGendate() {
+	public int getDislikes() {
+		return dislikes;
+	}
+
+	public void setDislikes(int dislikes) {
+		this.dislikes = dislikes;
+	}
+
+	public Timestamp getGendate() {
 		return gendate;
 	}
 
-	public void setGendate(Date gendate) {
+	public void setGendate(Timestamp gendate) {
 		this.gendate = gendate;
 	}
-	
 
-	public Date getModdate() {
+	public Timestamp getModdate() {
 		return moddate;
 	}
 
-	public void setModdate(Date moddate) {
+	public void setModdate(Timestamp moddate) {
 		this.moddate = moddate;
 	}
 
 	@Override
 	public String toString() {
 		return "OneLineReviewVo [oneLineReviewId=" + oneLineReviewId + ", userId=" + userId + ", movieId=" + movieId
-				+ ", score=" + score + ", comment=" + comment + ", likes=" + likes + ", gendate=" + gendate
-				+ ", moddate=" + moddate + "]";
+				+ ", score=" + score + ", comment=" + comment + ", likes=" + likes + ", dislikes=" + dislikes
+				+ ", gendate=" + gendate + ", moddate=" + moddate + "]";
 	}
+	
+	
 
 	
 }

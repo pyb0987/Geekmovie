@@ -1,10 +1,10 @@
 package com.geekmovie.user.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +46,7 @@ public class userVOController {
 			mav.setViewName("join");
 			mav.addObject("msg", "failure");
 		}
+		
 		return mav;
 	}
 
@@ -69,7 +70,7 @@ public class userVOController {
 		if (rs == 1) {
 			mav.setViewName("redirect:/join");
 		} else {
-			mav.setViewName("redircet/createUser");
+			mav.setViewName("redirect:/createUser");
 		}
 		return mav;
 	}
@@ -87,19 +88,35 @@ public class userVOController {
 
 	// 로그아웃 처리
 	@GetMapping("/logout")
-	public ModelAndView logout(HttpSession session) {
+	public String logout(HttpServletRequest request) throws Exception{
 		System.out.println("@logout 실행");
-		userService.logout(session);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("index");
-		return mav;
+		HttpSession session = request.getSession();
+		session.invalidate();
+		request.getSession(true);
+		return "redirect:/";
 	}
 
 	// 마이페이지
 	@GetMapping("/mypage")
-	public String mypage(HttpSession session, Model model) {
+	public String mypageGet() {
 		System.out.println("@mypage 실행");
 
-		return "test";
+		return "mypage";
 	}
+	
+	// 마이페이지
+	@PostMapping("/mypage")
+	public ModelAndView mypagePost(userVO userVO) {
+		
+		int rs = userService.update_mypage(userVO);
+
+		ModelAndView mav = new ModelAndView();
+		if (rs == 1) {
+			mav.setViewName("redirect:/join");
+		} else {
+			mav.setViewName("redirect:/createUser");
+		}
+		return mav;
+	}
+	
 }
