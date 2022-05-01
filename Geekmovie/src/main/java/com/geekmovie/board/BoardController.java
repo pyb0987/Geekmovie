@@ -4,8 +4,11 @@ package com.geekmovie.board;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.geekmovie.board.service.BoardService;
 import com.geekmovie.board.vo.BoardVo;
 import com.geekmovie.board.vo.PageVo;
+import com.mysql.cj.Session;
 
 @Controller
 public class BoardController {
@@ -48,9 +52,6 @@ public class BoardController {
 		
 		List<BoardVo> list = boardService.bList(boardVo);
 		
-		System.out.println(pagevo.getStartList());
-		System.out.println(pagevo.getListSize());
-		
 		mav.addObject("pagination", pagevo);
 		mav.addObject("data", list);
 		mav.addObject("searchType",boardVo.getSearchType());
@@ -60,8 +61,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("/boardCreate")
-	public String boardCreate() {
+	public String boardCreate(HttpSession session) {
 		System.out.println("board create!");
+
 		return "boardCreate";
 	}
 	
@@ -82,11 +84,9 @@ public class BoardController {
 	
 	@GetMapping("/boardDetail")
 	public ModelAndView detail(BoardVo boardVo) {
-		System.out.println(boardVo);
+		System.out.println("board detail");
 		
 		BoardVo detail = boardService.bDetail(boardVo);
-		
-		System.out.println(detail);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("data", detail);
