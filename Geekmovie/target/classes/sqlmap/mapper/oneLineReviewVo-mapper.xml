@@ -42,6 +42,13 @@
 	</select>
 
 
+	<delete id="Delete" parameterType="HashMap">
+			<![CDATA[
+			delete from onelinereview
+			where oneLineReviewId = #{oneLineReviewId}
+			]]>
+	</delete>
+	
 
 
 </mapper>

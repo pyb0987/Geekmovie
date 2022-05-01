@@ -19,23 +19,12 @@ String UserId = (String)session.getAttribute("id");
 <script type="text/javascript" src="${path}/resources/js/debounce.js"></script>
 <script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
 <script type="text/javascript" src="${path}/resources/js/fontResize.js"></script>
-<link rel="stylesheet" href="${path}/resources/css/movieSearch.css"/>
+<script type="text/javascript" src="${path}/resources/js/oneLineReviewSearch.js"></script>
 
 
-<link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">
 <script>
 
-function searchMovieSelect(movieId, movieTitle){			//영화검색결과를 누르면 movieId 달아줌
-	document.oneLineReviewSearch.query.value = movieTitle;
-	document.oneLineReviewSearch.movieId.value = movieId;
-	document.getElementById('oneLineReviewInputbox').className = "movieSelected";
-	document.getElementById('oneLineReviewInputbox').readOnly = true;
-	document.getElementById('checkImg').className = "visualized";
-	
-	$(".modal").fadeOut();
-	};
 
-	
 
 	
 	
@@ -80,258 +69,59 @@ $(document).ready(function(){
 	oneLineReviewInputBoxSearch();
 	}, 500, false));															//키를 받을때마다 실행 - debounce
 	
+	
+
 
 	
-	document.querySelector("#oneLineReviewCreate").onclick=function(){
+	document.querySelector("#oneLineReviewCreate").addEventListener('click', function(){			//한줄평 쓰기 기능 구현
 		if('${sessionScope.id}'==''){
 			var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
 			if(result){
 			    location.href = 'join';
 			}
 		}else{
-			location.href = 'oneLineReviewWrite';
+			var formStr = '<div class="oneLineReviewOuterContainer oneLineReviewCreate"><div class="oneLineReview-pictureContainer"><div class="oneLineReview-pictureInnerContainer"></div></div><div class="oneLineReviewContainer"><div class="oneLineReview">';
+			formStr += '<div class="oneLineReview-Title"><h2><input type="text" id="title-input" name="query" autocomplete="off" maxlength=50 placeholder="영화제목"></h2></div>';
+			formStr += '<div class="oneLineReview-Score"><h3><span class="star-rating">0</span></h3></div>';
+			formStr += '<div class="oneLineReview-quote"><h5 class="oneLineReview-quoteInside"><textarea id="quote-input" name="opinion" type="text" name=content maxlength=300 placeholder="한줄평을 입력하세요."></textarea></h5>';
+			formStr += '<div class="oneLineReview-userId"><h5>- <span class="userId">${sessionScope.id}</span> -</h5></div></div>';
+			formStr += '<div class="oneLineReview-gendate"></div><div class="like-dislike">'
+			formStr += '<div class="like-dislike">'
+			formStr +='<div class="create-button like-dislike-button"><span class="functional-button-span">작성 완료</span></div><div class="quit-button like-dislike-button"><span class="functional-button-span">취소</span></div></div></div></div></div>'
+
+			$("#oneLineReviewsContainer").prepend(formStr);
+			document.querySelector(".oneLineReviewCreate .oneLineReview-Title #title-input").focus();
+			
+			$("#quote-input").on("propertychange change keyup paste input", throttle(function(e){			//입력시 한줄평 입력칸의 크기를 100ms마다 바꿈
+				$(this).css("height", 'auto');
+				$(this).height(this.scrollHeight);
+			}, 100));
 		}
-	};
+	}, { once : true});
 	
-	document.querySelector(".delete-button").onclick=function(){			//삭제 기능 구현
+	
+	
+	 $(".delete-button").on("click", function(e){			//삭제 기능 구현
 		var result = confirm("삭제하면 복구할 수 없습니다. \n 그래도 삭제 하시겠습니까?");
 		if(result){
-		    location.href = 'oneLineReviewDelete';
-		    }
-	};
-	
-	
-	
-	
-	
-	
-	//----------------------한줄평 검색창 영화기능구현
-	
-	function movieSelected(){					//영화선택되면 색깔변경
-		document.getElementById('oneLineReviewInputbox').className = "movieSelected";
-	}
-	
-	var checkImg = document.getElementById('checkImg');//체크박스 누르면 색깔변경 사라짐
-	checkImg.addEventListener('click', function(e){
-		document.getElementById('oneLineReviewInputbox').classList.remove("movieSelected");
-		document.getElementById('oneLineReviewInputbox').readOnly = false;
-		document.getElementById('checkImg').classList.remove("visualized");
-    }); 
-	var oneLineReviewSearchMode = document.getElementById('oneLineReviewSearchMode') //서치모드 변경시 색깔변경 사라짐
-	oneLineReviewSearchMode.addEventListener('click', function(e){
-		document.getElementById('oneLineReviewInputbox').classList.remove("movieSelected");
-		document.getElementById('oneLineReviewInputbox').readOnly = false;
-		document.getElementById('checkImg').classList.remove("visualized");
-    }); 
-	
-	var modalExit = document.querySelector('.modalExit');//X박스 누르면 모달창 제거
-	modalExit.addEventListener('click', function(e){
-	    $(".modal").fadeOut();
-    }); 
-	
-	function SearchResultMoreEventListenerAllocator(searchresultmore){				//영화 정보 완료되면 이벤트 설정
-	searchresultmore.addEventListener('click', function(e){
-			const query = $("#oneLineReviewInputbox").val();
-			modalSearch(1, query, language);		//더보기 하면 모달창으로
-	});
-	};
-	
-	function ModalEventListenerAllocator(){
-	  Array.prototype.forEach.call(document.querySelectorAll('.modalPagination a'), function(btn) {
-		    btn.addEventListener('click', function(e) {
-		      var tr = e.target;
-		      if(!!tr.dataset.page){
-		    	  modalSearch(tr.dataset.page, tr.dataset.query, tr.dataset.language);
-		      	}
-		      })
-		    });
-	  };
-
-	var oneLineReviewSearchbutton = document.getElementById('oneLineReviewSearchbutton');		//서치버튼 클릭
-	oneLineReviewSearchbutton.addEventListener('click', function(e){
-		var query = $("#oneLineReviewInputbox").val();
-		if(query!=""){
-		let isReady = document.getElementById('oneLineReviewInputbox').classList.contains("movieSelected");
-		let oneLineReviewSearchMode = document.querySelector('#oneLineReviewSearchMode').value;
-		if (oneLineReviewSearchMode != 'movie' || isReady){		
-			if(oneLineReviewSearchMode == 'movie'){
-				query = document.oneLineReviewSearch.movieId.value;
-			}
-			url = '/movie/oneLineReview?SearchMode='+oneLineReviewSearchMode+'&query='+query+'&language='+language+'&page=1';		//서치 실행 url
-			location.href = url;
-		}else{				//만약 체크가 안되어있다면 모달창으로
-			modalSearch(1, query, language);
-		}
-		}
-	});
-	
+			var olrid = $(e)[0].currentTarget.dataset.olrid
+			$.ajax({
+	        url: '/movie/oneLineReview/'+olrid,
+	        method: "DELETE",
+	          }).done(function(response){
+	        	 if(response==1){
+	        	 alert("성공적으로 삭제가 완료되었습니다.");
+	             location.href = "/movie/oneLineReview?SearchMode=${SearchMode}&query=${query}&page=${page.nowPage}";
+	        	 }else{
+		        	 alert("삭제가 실패했습니다. \n다시 시도해 주세요.");	        		 
+	        	 }
+	          });
+	        };
+	 });
 
 	
 	
-	function modalSearch(modalPage, inputQuery, inputLanguage){		//모달창 정보표시
-		$(".modal").fadeIn();
-		$(".modal").css('position', 'fixed');
-		var searchUrl = "/movie/searchMovieList?query="+inputQuery+"&language="+inputLanguage+"&page="+modalPage;
-		  		$.ajax({							//받아온 영화 정보 표에 나열
-        	type: 'GET',
-        	url: searchUrl,
-        	dataType : 'json',
-        	contentType : 'application/json', 
-        	success: function(data){
-        		var str = ""
-        		var count = 0;
-        		$(".movies-searchInnerContainer").empty();	
-        		data.results.forEach(function(item,index){
-					var genreAry = [];
-					item.genre_ids.forEach(function(item){
-	        			genreAry.push(genreMap.get(item))
-					})
-					var imageUrl = '';
-					if(!!item.poster_path){
-        				imageUrl = "https://image.tmdb.org/t/p/w185"+item.poster_path;
-        			}else{
-        				imageUrl = `${pageContext.request.contextPath}/resources/img/noImage.jpg`       		//사진이 없을때 이미지			
-        			}
-					var year = '';
-					if(!!item.release_date){
-						year = item.release_date.substr(0,4);
-					}else{
-						year = "Year Unknown"
-					}
-        			str += '<div class="movie-searchContainer" OnClick="searchMovieSelect(\''+item.id+'\',\''+item.title+'\')" style="cursor:pointer;"><div class="movie-pictureContainer"><div class="movie-picture" style="background: url(\'';
-        			str +=	imageUrl+'\'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>';
-					str += '</div><div class="movie-title-container"><div class="movie-title prevent-flow">';
-					str += item.title+'</div></div><div class="movie-year prevent-flow">'
-					str += year+'</div><div class="movie-genre prevent-flow">'
-					str += genreAry.join(' ,')+'</div><div class="movie-vote prevent-flow">'+item.vote_average+'</div>'					//나중에 geekmovie자체점수로 변경필요
-						
-					str += '</div>'
-					count +=1
-					})
-					str += '<div class="fake-searchContainer"></div>'.repeat(Math.max(20-count, 0))
-					str += '<div class="pagination-container" style="grid-column: 1 / span 4;"><div class="pagination modalPagination"></div></div>'
-        			$(".movies-searchInnerContainer").html(str)
-				ModalmakePagination(data.total_pages,inputQuery,inputLanguage,  modalPage);
-        		return false;
-        	}
-        	,
-        	error: function(request, status, error){
-        		console.log(request, status, error)
-        		$(".movies-searchInnerContainer").html('<div id="searchText"></div>');
-        		
-        		$("#searchText").html('<h1>검색결과가 존재하지 않습니다.</h1>')	
-        	}
-        })
-	}	
-	
-	function ModalmakePagination(pageNum, inputQuery, inputLanguage, modalPage){				//모달창 내부 페이징 기능 구현
-  		if(pageNum>500){
-  			pageNum = 500;			//외부데이터베이스 서치시 500쪽 제한
-  		}
-        var pageNow = modalPage;
-        var pageFirst = parseInt((pageNow-1)/10)*10;
-        var str='';
-        if (pageNow==1){
-            str += '<a>처음</a>'
-            }else{
-                str += "<a class='modalSearch' data-page='"+1+"' data-query='"+inputQuery+"' data-language='"+inputLanguage+"'>처음</a>";
-            }
-        if (pageNow<11){
-        str += '<a>&laquo;</a>'
-        }else{
-            str += "<a class='modalSearch' data-page='"+(pageFirst)+"' data-query='"+inputQuery+"' data-language='"+inputLanguage+"'>&laquo;</a>";
-        }
-        var index = 1
-        while(pageFirst+index<=pageNum && index<11){
-        	if(pageFirst+index==pageNow){
-        		str += `<a class="active">`+(pageFirst+index)+'</a>'
-        	}else{
-        	str += "<a class='modalSearch' data-page='"+(pageFirst+index)+"' data-query='"+inputQuery+"' data-language='"+inputLanguage+"'>"+(pageFirst+index)+"</a>";
-        	}
-        		index +=1
-        }
-        if(pageFirst+10>=pageNum){
-        	str += '<a>&raquo;</a>'
-        }else{
-        	str += "<a class='modalSearch' data-page='"+(pageFirst+11)+"' data-query='"+inputQuery+"' data-language='"+inputLanguage+"'>&raquo;</a>";
-        }
-        if(pageNow==pageNum){
-        	str += '<a>끝</a>'
-        }else{
-        	str += "<a class='modalSearch' data-page='"+(pageNum)+"' data-query='"+inputQuery+"' data-language='"+inputLanguage+"'>&nbsp;끝&nbsp;</a>";
-        }
-        
-        $('.modalPagination').html(str);
-        
-		if(!!document.querySelector('.modalPagination a')){
-    		ModalEventListenerAllocator();
-		}
-        
-  		};
 
-	
-	
-	function oneLineReviewInputBoxSearch(){				//한줄평 5개 영화목록 서치
-		const query = $("#oneLineReviewInputbox").val();
-		if (!query || document.oneLineReviewSearch.searchMode.value != "movie"){
-			$("#oneLineReviewInputboxSearchResultsContainer").empty();	
-			return false;
-		}else{
-		  let inputUrl = '/movie/searchMovieList?query='+query+'&language='+language+'&page=1';
-		  $.ajax({							//searchMovieList 출력
-	        	type: 'GET',
-	        	url: inputUrl,
-	        	dataType : 'json',
-	        	contentType : 'application/json', 
-	        	success: function(data){
-	        		$("#oneLineReviewInputboxSearchResultsContainer").empty();	
-	        		if (data.total_results>0){
-	        			let index=0;
-	        			var str = '';
-	            		while(index<5 && data.total_results>index){
-	            			str +='<div class="search-result-container">';
-							str += '<div class="search-result" tabindex:"'+(index+1)+'" OnClick="searchMovieSelect(\''+data.results[index].id+'\',\''+data.results[index].title+'\')">';
-							if(!!data.results[index].poster_path){
-		        				imageUrl = "https://image.tmdb.org/t/p/w92"+data.results[index].poster_path;
-		        			}else{
-		        				imageUrl = `${pageContext.request.contextPath}/resources/img/noImage.jpg`       		//사진이 없을때 이미지			
-		        			}   
-							str += '<div class="result-picture" style=\'background: url("'+imageUrl +'"); background-repeat: no-repeat; background-size : contain\'></div>';
-							str += '<div class="result-nonPicture">';
-							str += '<div class="result-title result-title-font">'+data.results[index].title+'</div>';
-							if (!!data.results[index].release_date){
-							str += '<div class="result-year result-font">'+data.results[index].release_date.substr(0,4)+'</div>'								
-							}else{
-							str += '<div class="result-year result-font">unknown</div>'
-							}
-							var genreAry = []
-							data.results[index].genre_ids.forEach(function(item){
-			        			genreAry.push(genreMap.get(item))
-							})
-							str += '<div class="result-genre result-font">'+genreAry.join(' ,')+'</div></div></div></div>'
-	            			index +=1
-	            		}
-	            		str += '<div class="search-result-container" style="height : 30px;"><div id="search-result-more")">더 보기</div></div>';
-						$("#oneLineReviewInputboxSearchResultsContainer").append(str);
-	        		}
-	        		if(!!document.getElementById('search-result-more')){
-	        		var searchresultmore = document.getElementById('search-result-more');
-	        		SearchResultMoreEventListenerAllocator(searchresultmore);
-	        			
-	        		}
-	    			return false;
-	        	}
-	        
-	        	,
-	        	error: function(request, status, error){
-	        		console.log(request, status, error)
-	        	}
-	        })
-		}
-	}
-	
-	
-	
 	
 	
 	
@@ -422,8 +212,11 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
 </script>
 
 
-
+<link rel="stylesheet" href="${path}/resources/css/movieSearch.css"/>
 <link rel="stylesheet" href="${path}/resources/css/pagination.css?ver=1"/>
+<link rel="stylesheet" href="${path}/resources/css/oneLineReviewList.css"/>
+<link rel="stylesheet" href="${path}/resources/css/oneLineReviewSearch.css"/>
+<link rel="stylesheet" href="${path}/resources/css/globalModal.css"/>
 
 <link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
@@ -438,272 +231,6 @@ body {
 	margin : 0;
 	padding-top : 100px;
 }
-
-
-
-
-
-#oneLineReviewsContainer{  	/*한줄평 출력*/
-	display : flex;
-	width : 80%;
-	max-width : 1200px;
-    flex-direction: column;
-    margin : 0 auto;
-    margin-bottom : 30px;
-}
-.oneLineReviewOuterContainer{
-	display: flex;
-	align-items: center;
-	
-}
-
-.oneLineReviewContainer{
-	border : solid 1px;
-	border-image: linear-gradient(to right, #fbfcb9be, #ffcdf3aa, #65d3ffaa);
-	border-image-slice: 1;
-	position: relative;
-	width : 100%;
-	height : 100%;
-}
-.oneLineReview{
-	display : grid;
-	position : relative;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	grid-template-columns: 1fr 2fr 1fr 1fr;
-	grid-template-rows: minmax(2fr, auto) minmax(3fr, auto) minmax(2fr, auto);
-}
-.oneLineReview-Title h3, .oneLineReview-Score h3, .oneLineReview-userId h5, .oneLineReview-gendate h6{
-	margin-top : 1rem;
-	margin-bottom: 0.7rem;
-
-}
-
-.oneLineReview-pictureContainer{
-	max-width : 220px;
-	width: 40%;
-	
-}
-.oneLineReview-pictureInnerContainer{
-	padding-bottom : 116%;
-	border : solid 1px whitesmoke;
-	width : 80%;
-	margin-bottom : 10px;
-	position: relative;
-}
-
-.oneLineReview-picture{
-	position: absolute;
-	height:100%;
-	width: 100%;
-
-}
-
-.oneLineReview-Title{
-	grid-column: 1 / span 2;
-	text-align: center;
-}
-.oneLineReview-Score{
-	grid-column: 3 / span 2;
-	padding-left: 20%;
-	margin : auto 0;
-}
-
-.oneLineReview-quote {
-  grid-column: 1 / span 4;
-  border: 1px solid #27a9e3;
-  margin-left: 10px;
-  margin-right: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  border-left: 10px solid #27a9e3;
-}
-.oneLineReview-quoteInside{
-	margin-bottom: 0;
-}
-
-.oneLineReview-userId{
-	text-align:right;
-}
-
-.oneLineReview-gendate{
-	display: flex;
-	grid-column: 1 / span 2;
-	text-align: center;
-	justify-content: space-around;
-}
-
-
-.like-dislike{
-	grid-column: 3 / span 2;
-	display : flex;
-	align-items: center;
-	justify-content: center; 
-	
-}
-
-.like-dislike-button{
-	width : 6rem;
-	height : 2rem;
-	margin : 0.5rem;
-	padding: 2px;
-	border-radius: 0.6rem;
-	display: flex;
-	align-items: center;
-	justify-content: space-around;
-	border : solid 3px skyblue;
-	position: relative;
-	background-color:white;
-	transition: all 0.3s;
-	z-index: 2;
-	cursor : pointer;
-}
-
-.like-dislike-button:hover{
-  background: skyblue;
-  border : solid 3px white;
-}
-
-.like-dislike-button:active{
-  background: rgb(219, 228, 231);
-}
-.like-icon{
-	width: 50%;
-	height: 50%;
-	object-fit: contain;
-}
-.dislike-icon{
-	width: 50%;
-	height: 50%;
-	object-fit: contain;
-}
-
-
-
-
-
-
-
-
-#oneLineReviewInputbox{		/*한줄평 검색창*/
-	flex-shrink : 1;		
-    border: none;
-    height: 35px;
-    font-size: 1.2rem;
-}
-option{
-	font-size: 1rem;
-} 
-#oneLineReviewSearchbutton-container{
-    width: 70px;
-    height: 40px;
-    flex-grow : 0;
-}
-#oneLineReviewSearchbox-container{
-    max-width: 650px;
-    padding-left : 25px;
-    padding-right : 25px;
-    
-    margin : auto;
-        
-}
-#oneLineReviewSearchbox{
-	display: flex;
-    min-width : 330px;
-    height: 40px;
-    border-radius: 35px;
-    background-color: white;
-    border: 3px solid red;
-
-}
-#oneLineReviewSearch{
-display : flex;
-flex-grow : 1;
-align-items : baseline;
-margin : auto;
-}
-#oneLineReviewSearchMode{
-font-family: 'NanumSquareRound';
-margin-left : 20px;
-    border: none;
-    flex-grow : 0;
-}
-#oneLineReviewInputbox-container{
-	display : flex;
-	flex-direction : column;
-    flex-grow : 1;
-    position : relative;
-}
-#oneLineReviewSearchbutton{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items : center;
-}
-
-#oneLineReviewSearchimage, #modalExitImage{
-	width: 30px;
-	height: 30px;
-	transfrom : rotate(0.02deg);	
-}
-.search-result-container:hover{				
-border-image: none;
-border : solid 3px black;       
-padding : 4px;
-padding-top : 5px;
-box-sizing : border-box;
-}
-.movieSelected{
-background-color : #ffff88;
-}
-#checkImg{
-position : absolute;
-right : 15px;
-top : 5px;
-max-width : 30px;
-max-height : 30px;
-display : none;
-}
-#checkImg.visualized{display : block;
-}
-#search-result-more{
-text-align: center;
-font-size : 1rem;
-}
-
-
-
-
-.modal{				/*모달창 규격 - 내부는 movieSearch이용(영화 테두리만 바꿈)*/
-	position : absolute;
-	width : 100vw; height: 100vh;
-	background : rgba(0,0,0,0.6);
-	top:0; left:0;
-	display: none;
-}
-.modalExit{
-	width:60px; height:60px;
-	margin: 150px auto 20px auto;
-	cursor : pointer;
-}
-.modal-content{
-  background:#333; border-radius:10px;
-  width:800px; height:650px;
-  position:relative;
-  margin: 0px auto;
-  text-align:center;
-  box-sizing:border-box; padding:74px 0;
-  font-size : 12px;
-}
-.movie-searchContainer{
-    border : double 4px #87CEFA77;
-}
-.movie-searchContainer:hover{
-    border : double 4px #87CEFA;
-}
-
-
-
 
 
 
@@ -726,8 +253,19 @@ span.star-rating > * {
 }
 
 
-
-
+#quote-input{
+	font-family: 'NanumSquareRoundBold';
+	width : 100%;
+	font-size : 1rem;
+	
+}
+#title-input{
+	font-family: 'NanumSquareRoundBold';
+    border: none;
+    height: 2rem;
+    width : 80%;
+    font-size: 1.4rem;
+}
 
 
 
@@ -765,8 +303,8 @@ span.star-rating > * {
 				<div class="like-button like-dislike-button"><span class="like-button-span like-dislike-button-span"><%=oneLineReview.getLikes() %></span><img class="like-icon" src="${path}/resources/img/like.png"></div>
 				<div class="dislike-button like-dislike-button"><span class="dislike-button-span like-dislike-button-span"><%=oneLineReview.getDislikes() %></span><img class="dislike-icon" src="${path}/resources/img/dislike.png"></div>
 				<% if(UserId != null && oneLineReview.getUserId().equals(UserId)){ %>
-				<div class="update-button like-dislike-button" style="width : 4.5rem;"><span class="functional-button-span">수정</span></div>
-        		<div class="delete-button like-dislike-button" style="width : 4.5rem;"><span class="functional-button-span">삭제</span></div>
+				<div class="update-button like-dislike-button" style="width : 4.5rem;" data-olrId='<%=oneLineReview.getOneLineReviewId() %>'><span class="functional-button-span">수정</span></div>
+        		<div class="delete-button like-dislike-button" style="width : 4.5rem;" data-olrId='<%=oneLineReview.getOneLineReviewId() %>'><span class="functional-button-span">삭제</span></div>
         		<%} %>
 			</div>
 		</div>
@@ -793,6 +331,7 @@ span.star-rating > * {
 						<input type="text" id="oneLineReviewInputbox" name="query" autocomplete='off' maxlength=50 placeholder="검색할 키워드를 입력하세요">
 						<input type="hidden" name="movieId" value="">
 						<input type="hidden" name="language" value="${language}">
+						<input type="hidden" name="page" value="1">
 						<img id="checkImg" src="${path}/resources/img/check.png" onmouseover="this.style.cursor='pointer'">
 						<div id="oneLineReviewInputboxSearchResultsContainer"></div>
 					</div>

@@ -1,0 +1,139 @@
+@charset "UTF-8";
+
+
+
+#oneLineReviewsContainer{  	/*한줄평 출력*/
+	display : flex;
+	width : 80%;
+	max-width : 1200px;
+    flex-direction: column;
+    margin : 0 auto;
+    margin-bottom : 30px;
+}
+.oneLineReviewOuterContainer{
+	display: flex;
+	align-items: center;
+	
+}
+
+.oneLineReviewContainer{
+	border : solid 1px;
+	border-image: linear-gradient(to right, #fbfcb9be, #ffcdf3aa, #65d3ffaa);
+	border-image-slice: 1;
+	position: relative;
+	width : 100%;
+	height : 100%;
+}
+.oneLineReview{
+	display : grid;
+	position : relative;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	grid-template-columns: 1fr 2fr 1fr 1fr;
+	grid-template-rows: minmax(2fr, auto) minmax(3fr, auto) minmax(2fr, auto);
+}
+.oneLineReview-Title h3, .oneLineReview-Score h3, .oneLineReview-userId h5, .oneLineReview-gendate h6{
+	margin-top : 1rem;
+	margin-bottom: 0.7rem;
+
+}
+
+.oneLineReview-pictureContainer{
+	max-width : 220px;
+	width: 40%;
+	
+}
+.oneLineReview-pictureInnerContainer{
+	padding-bottom : 116%;
+	border : solid 1px whitesmoke;
+	width : 80%;
+	margin-bottom : 10px;
+	position: relative;
+}
+
+.oneLineReview-picture{
+	position: absolute;
+	height:100%;
+	width: 100%;
+
+}
+
+.oneLineReview-Title{
+	grid-column: 1 / span 2;
+	text-align: center;
+}
+.oneLineReview-Score{
+	grid-column: 3 / span 2;
+	padding-left: 20%;
+	margin : auto 0;
+}
+
+.oneLineReview-quote {
+  grid-column: 1 / span 4;
+  border: 1px solid green;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-left: 10px solid green;
+}
+.oneLineReview-quoteInside{
+	margin-bottom: 0;
+}
+
+.oneLineReview-userId{
+	text-align:right;
+}
+
+.oneLineReview-gendate{
+	display: flex;
+	grid-column: 1 / span 2;
+	text-align: center;
+	justify-content: space-around;
+}
+
+
+.like-dislike{
+	grid-column: 3 / span 2;
+	display : flex;
+	align-items: center;
+	justify-content: center; 
+	
+}
+
+.like-dislike-button{
+	width : 6rem;
+	height : 2rem;
+	margin : 0.5rem;
+	padding: 2px;
+	border-radius: 0.6rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	border : solid 3px skyblue;
+	position: relative;
+	background-color:white;
+	transition: all 0.3s;
+	z-index: 2;
+	cursor : pointer;
+}
+
+.like-dislike-button:hover{
+  background: skyblue;
+  border : solid 3px white;
+}
+
+.like-dislike-button:active{
+  background: rgb(219, 228, 231);
+}
+.like-icon{
+	width: 50%;
+	height: 50%;
+	object-fit: contain;
+}
+.dislike-icon{
+	width: 50%;
+	height: 50%;
+	object-fit: contain;
+}
+

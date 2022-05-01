@@ -1,0 +1,90 @@
+@charset "UTF-8";
+
+
+
+#oneLineReviewInputbox{		/*한줄평 검색창*/
+	flex-shrink : 1;		
+    border: none;
+    height: 35px;
+    font-size: 1.2rem;
+}
+option{
+	font-size: 1rem;
+} 
+#oneLineReviewSearchbutton-container{
+    width: 70px;
+    height: 40px;
+    flex-grow : 0;
+}
+#oneLineReviewSearchbox-container{
+    max-width: 650px;
+    padding-left : 25px;
+    padding-right : 25px;
+    
+    margin : auto;
+        
+}
+#oneLineReviewSearchbox{
+	display: flex;
+    min-width : 330px;
+    height: 40px;
+    border-radius: 35px;
+    background-color: white;
+    border: 3px solid red;
+
+}
+#oneLineReviewSearch{
+display : flex;
+flex-grow : 1;
+align-items : baseline;
+margin : auto;
+}
+#oneLineReviewSearchMode{
+font-family: 'NanumSquareRound';
+margin-left : 20px;
+    border: none;
+    flex-grow : 0;
+}
+#oneLineReviewInputbox-container{
+	display : flex;
+	flex-direction : column;
+    flex-grow : 1;
+    position : relative;
+}
+#oneLineReviewSearchbutton{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items : center;
+}
+
+#oneLineReviewSearchimage, #modalExitImage{
+	width: 30px;
+	height: 30px;
+	transfrom : rotate(0.02deg);	
+}
+.search-result-container:hover{				
+border-image: none;
+border : solid 3px black;       
+padding : 4px;
+padding-top : 5px;
+box-sizing : border-box;
+}
+.movieSelected{
+background-color : #ffff88;
+}
+#checkImg{
+position : absolute;
+right : 15px;
+top : 5px;
+max-width : 30px;
+max-height : 30px;
+display : none;
+}
+#checkImg.visualized{display : block;
+}
+#search-result-more{
+text-align: center;
+font-size : 1rem;
+}
+

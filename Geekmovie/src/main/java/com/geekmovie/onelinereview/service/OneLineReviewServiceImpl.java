@@ -26,5 +26,7 @@ public class OneLineReviewServiceImpl implements OneLineReviewService{
 	}
 	
 	
-	
+	public int Delete(int oneLineReviewId) {
+		return oneLineReviewDao.Delete(oneLineReviewId);
+	};
 }

@@ -33,4 +33,10 @@ public class OneLineReviewDao {
 		return sqlSessionTemplate.selectOne("oneLineReviewVo.Count", map);
 	}
 	
+	public int Delete(int oneLineReviewId) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("oneLineReviewId", oneLineReviewId);
+		int daors = sqlSessionTemplate.delete("oneLineReviewVo.Delete", map);
+		return daors;
+	}
 }
