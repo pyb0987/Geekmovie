@@ -1,6 +1,7 @@
 package com.geekmovie.onelinereview.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -15,4 +16,6 @@ public interface OneLineReviewService {
 	public int Count(String SearchMode,String query);
 
 	public int Delete(int oneLineReviewId);
+	
+	public int Create(Map<String, Object> map);
 }

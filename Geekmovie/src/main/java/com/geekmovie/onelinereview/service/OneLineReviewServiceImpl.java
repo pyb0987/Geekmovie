@@ -1,6 +1,7 @@
 package com.geekmovie.onelinereview.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -28,5 +29,9 @@ public class OneLineReviewServiceImpl implements OneLineReviewService{
 	
 	public int Delete(int oneLineReviewId) {
 		return oneLineReviewDao.Delete(oneLineReviewId);
+	};
+	
+	public int Create(Map<String, Object> map) {
+		return oneLineReviewDao.Create(map);
 	};
 }

@@ -49,6 +49,11 @@
 			]]>
 	</delete>
 	
-
+	<insert id="Create" parameterType="HashMap">
+			<![CDATA[
+			insert into onelinereview(userId, movieId, score, comment) 
+			values(#{userId}, #{movieId}, #{score}, #{content});
+			]]>
+	</insert>
 
 </mapper>

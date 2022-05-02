@@ -36,7 +36,10 @@ public class OneLineReviewDao {
 	public int Delete(int oneLineReviewId) {
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("oneLineReviewId", oneLineReviewId);
-		int daors = sqlSessionTemplate.delete("oneLineReviewVo.Delete", map);
-		return daors;
+		return sqlSessionTemplate.delete("oneLineReviewVo.Delete", map);
 	}
+	
+	public int  Create(Map<String, Object> map) {
+		return sqlSessionTemplate.insert("oneLineReviewVo.Create", map);
+	};
 }

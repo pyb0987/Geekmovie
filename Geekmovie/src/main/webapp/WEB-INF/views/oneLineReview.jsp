@@ -19,7 +19,7 @@ String UserId = (String)session.getAttribute("id");
 <script type="text/javascript" src="${path}/resources/js/debounce.js"></script>
 <script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
 <script type="text/javascript" src="${path}/resources/js/fontResize.js"></script>
-<script type="text/javascript" src="${path}/resources/js/oneLineReviewSearch.js"></script>
+<script type="text/javascript" src="${path}/resources/js/InputSearch.js"></script>
 
 
 <script>
@@ -33,25 +33,6 @@ $(document).ready(function(){
 	
 	var language = '${language}';
 	
-	var genreMap = new Map([[28,'액션'],	//genreMap
-		[12, '모험'],
-		[16, '애니메이션'],
-		[35, '코미디'],
-		[80, '범죄'],
-		[99, '다큐멘터리'],
-		[18, '드라마'],
-		[10751, '가족'],
-		[14, '판타지'],
-		[36, '역사'],
-		[27, '공포'],
-		[10402, '음악'],
-		[9648, '미스터리'],
-		[10749, '로맨스'],
-		[878, 'SF'],
-		[10770, 'TV영화'],
-		[53, '스릴러'],
-		[10752, '전쟁'],
-		[37, '서부']]);  
 	
 	var windowResize = function(){					//리사이징 함수
 
@@ -65,44 +46,117 @@ $(document).ready(function(){
 	
 	
 	
-	$("#oneLineReviewInputbox").on("propertychange change keyup paste input",  debounce(function(){  //자동완성을 위한 키업 이벤트리스너
-	oneLineReviewInputBoxSearch();
-	}, 500, false));															//키를 받을때마다 실행 - debounce
+	
+	
+	
+	InputSearch("oneLineReviewInputbox", "oneLineReviewInputboxMovieId", "checkImg", "oneLineReviewSearchMode", "oneLineReviewSearchbutton", "oneLineReviewInputboxSearchResultsContainer", language, '${path}', '/movie/oneLineReview');
+
+
+
+		
+		
+	
 	
 	
 
 
-	
+	var oneLineReviewCreate = false; //한줄평 쓰기기능 사용 여부
 	document.querySelector("#oneLineReviewCreate").addEventListener('click', function(){			//한줄평 쓰기 기능 구현
 		if('${sessionScope.id}'==''){
 			var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
 			if(result){
 			    location.href = 'join';
 			}
-		}else{
-			var formStr = '<div class="oneLineReviewOuterContainer oneLineReviewCreate"><div class="oneLineReview-pictureContainer"><div class="oneLineReview-pictureInnerContainer"></div></div><div class="oneLineReviewContainer"><div class="oneLineReview">';
-			formStr += '<div class="oneLineReview-Title"><h2><input type="text" id="title-input" name="query" autocomplete="off" maxlength=50 placeholder="영화제목"></h2></div>';
-			formStr += '<div class="oneLineReview-Score"><h3><span class="star-rating">0</span></h3></div>';
+		}else if(!oneLineReviewCreate){
+			oneLineReviewCreate = true;
+
+			var formStr = '<div class="oneLineReviewOuterContainer oneLineReviewCreate"><div class="oneLineReview-pictureContainer"><div class="oneLineReview-pictureInnerContainer"></div></div><div class="oneLineReviewContainer"><div class="oneLineReview"><div id="olrCreate-container">';
+			formStr += '<div class="oneLineReview-Title"><input type="text" id="olrCreate-Title" name="query" autocomplete="off" maxlength=50 placeholder="영화제목"><img id="olrCreate-checkImg" src="${path}/resources/img/check.png" onmouseover="this.style.cursor=\'pointer\'"><input type="hidden" id="olrCreate-MovieId" name="movieId"><input type="hidden" id="olrCreate-SearchMode" value="movie"><input type="hidden" id="olrCreate-Language" name="language" value="${language}"><input type="hidden" name="page" value="1">';
+			formStr += '<div id="olrCreate-Searchbutton" onmouseover="this.style.cursor=\'pointer\'"><img id="olrCreate-Searchimage" src="${path}/resources/img/searchIcon.png" alt="search"></div></div><div id="olrCreate-SearchResultsContainer"></div></div>';
+			formStr += '<div class="oneLineReview-Score"><h3><div class="star-box">';
+			formStr += '<span class="star-boxFill"></span><span class="star" data-score="1"></span><span class="star" data-score="2"></span><span class="star" data-score="3"></span>';
+			formStr += '<span class="star" data-score="4"></span><span class="star" data-score="5"></span><span class="star" data-score="6"></span><span class="star"  data-score="7"></span>';
+			formStr += '<span class="star"  data-score="8"></span><span class="star"  data-score="9"></span><span class="star"  data-score="10"></span></div></h3></div>';
 			formStr += '<div class="oneLineReview-quote"><h5 class="oneLineReview-quoteInside"><textarea id="quote-input" name="opinion" type="text" name=content maxlength=300 placeholder="한줄평을 입력하세요."></textarea></h5>';
 			formStr += '<div class="oneLineReview-userId"><h5>- <span class="userId">${sessionScope.id}</span> -</h5></div></div>';
 			formStr += '<div class="oneLineReview-gendate"></div><div class="like-dislike">'
-			formStr += '<div class="like-dislike">'
-			formStr +='<div class="create-button like-dislike-button"><span class="functional-button-span">작성 완료</span></div><div class="quit-button like-dislike-button"><span class="functional-button-span">취소</span></div></div></div></div></div>'
+			formStr +='<div class="create-button like-dislike-button"><span class="functional-button-span">작성</span></div><div class="quit-button like-dislike-button"><span class="functional-button-span">취소</span></div></div></div></div></div></div>'
 
+			
 			$("#oneLineReviewsContainer").prepend(formStr);
-			document.querySelector(".oneLineReviewCreate .oneLineReview-Title #title-input").focus();
+			document.querySelector(".oneLineReviewCreate #olrCreate-Title").focus();			//폼 만들고 포커스주기
 			
 			$("#quote-input").on("propertychange change keyup paste input", throttle(function(e){			//입력시 한줄평 입력칸의 크기를 100ms마다 바꿈
 				$(this).css("height", 'auto');
 				$(this).height(this.scrollHeight);
 			}, 100));
+			
+			
+			//---------------------별점부여함수 구현	
+			
+			$.fn.giveStars = function(number) {			// - 크기는 2rem
+			    return this.each(function(i,e){$(e).children(".star-boxFill").width(number*1+'rem')});
+			    }
+
+		        $(".star").click(function(e){
+		            $('.star-box').giveStars(e.target.dataset.score);
+		            $('.star-box')[0].dataset.score = e.target.dataset.score;		//여기에 정보 저장하여 나중에 제출
+		        })
+		        
+		    InputSearch("olrCreate-Title", "olrCreate-MovieId", "olrCreate-checkImg", "olrCreate-SearchMode", "olrCreate-Searchbutton", "olrCreate-SearchResultsContainer", language, '${path}',null);
+
+		    $(".quit-button").on("click", function(e){			//작성 취소 기능 구현
+				var result = confirm("취소하면 복구할 수 없습니다. \n그래도 취소 하시겠습니까?");
+				if(result){
+					oneLineReviewCreate = false;			//다시 작성할 수 있게함
+					$( '.oneLineReviewOuterContainer.oneLineReviewCreate' ).remove();
+					
+				}
+		    });
+		    
+		    
+		    $(".create-button").on("click", function(e){			//작성 기능 구현
+		    	if('${sessionScope.id}'==""){
+		    		alert("세션이 만료되었습니다!")
+		    	}else if(!document.querySelector('#olrCreate-Title').classList.contains("movieSelected")){
+		    		alert("영화 제목은 필수값입니다.");
+		    	}else if(!document.querySelector('.oneLineReviewCreate .star-box').dataset.score){
+		    		alert("별점은 필수 값입니다.");
+		    	}else if(document.querySelector('.oneLineReviewCreate .star-box').dataset.score>10 || document.querySelector('.oneLineReviewCreate .star-box').dataset.score<1){
+		    		alert("별점은 1점부터 10점 사이의 값이어야 합니다.");
+		    	}else{
+		    		var olrData = {};
+		    		olrData['movieId'] = document.querySelector('#olrCreate-MovieId').value;
+		    		olrData['score'] = document.querySelector('.oneLineReviewCreate .star-box').dataset.score;
+		    		olrData['content'] = document.querySelector('.oneLineReviewCreate #quote-input').value;
+		    		olrData['userId'] = '${sessionScope.id}';
+		    		 $.ajax({
+				            url: '/movie/oneLineReview/',
+				            type: "POST",
+				            data: JSON.stringify(olrData),
+				            dataType: "json",
+				            contentType:"application/json;charset=UTF-8",
+				            success: function(data){
+				            	if(data==1){
+				   	        	alert("성공적으로 작성이 완료되었습니다.");
+					           location.href = "/movie/oneLineReview?SearchMode=${SearchMode}&query=${query}&page=${page.nowPage}";			//현재페이지 새로고침
+				            	}else{
+						        	 alert("작성에 실패했습니다. \n다시 시도해 주세요.");	        		 
+					        	 }
+				            },
+				            error: function(){  alert("작성에 실패했습니다. \n다시 시도해 주세요.");  }
+				        });
+		    	}
+		    	
+		    });
+		    
 		}
-	}, { once : true});
+	});
 	
 	
 	
 	 $(".delete-button").on("click", function(e){			//삭제 기능 구현
-		var result = confirm("삭제하면 복구할 수 없습니다. \n 그래도 삭제 하시겠습니까?");
+		var result = confirm("삭제하면 복구할 수 없습니다. \n그래도 삭제 하시겠습니까?");
 		if(result){
 			var olrid = $(e)[0].currentTarget.dataset.olrid
 			$.ajax({
@@ -111,13 +165,46 @@ $(document).ready(function(){
 	          }).done(function(response){
 	        	 if(response==1){
 	        	 alert("성공적으로 삭제가 완료되었습니다.");
-	             location.href = "/movie/oneLineReview?SearchMode=${SearchMode}&query=${query}&page=${page.nowPage}";
+	             location.href = "/movie/oneLineReview?SearchMode=${SearchMode}&query=${query}&page=${page.nowPage}";			//현재페이지 새로고침
 	        	 }else{
 		        	 alert("삭제가 실패했습니다. \n다시 시도해 주세요.");	        		 
 	        	 }
 	          });
 	        };
 	 });
+	 
+	 $(".update-button").on("click", function(e){			//수정 기능 구현
+		 var olrContainer = e.currentTarget.parentNode.parentNode.parentNode;
+	 console.log(olrContainer)
+		var olrid = $(e)[0].currentTarget.dataset.olrid;
+	 	let movieName = olrContainer.querySelector(".oneLineReview-Title h3").value;
+	 	
+	 	
+	 	
+	 	
+	 	
+		let formStr = '<div class="oneLineReview"><div id="olrCreate-container"><div class="oneLineReview-Title"><input type="text" id="olrCreate-Title" name="query" autocomplete="off" maxlength=50 placeholder="영화제목">';
+        formStr += '<img id="olrCreate-checkImg" src="${path}/resources/img/check.png" onmouseover="this.style.cursor=\'pointer\'"><input type="hidden" id="olrCreate-MovieId" name="movieId"><input type="hidden" id="olrCreate-SearchMode" value="movie"><input type="hidden" id="olrCreate-Language" name="language" value="${language}">';
+        formStr += '<input type="hidden" name="page" value="1"><div id="olrCreate-Searchbutton" onmouseover="this.style.cursor=\'pointer\'"><img id="olrCreate-Searchimage" src="${path}/resources/img/searchIcon.png" alt="search"></div></div><div id="olrCreate-SearchResultsContainer"></div></div>';
+        formStr += '<div class="oneLineReview-Score"><h3><div class="star-box"><span class="star-boxFill"></span><span class="star" data-score="1"></span><span class="star" data-score="2"></span><span class="star" data-score="3"></span><span class="star" data-score="4"></span><span class="star" data-score="5"></span><span class="star" data-score="6"></span><span class="star"  data-score="7"></span><span class="star"  data-score="8"></span><span class="star"  data-score="9"></span><span class="star"  data-score="10"></span></div></h3>';
+        formStr += '</div><div class="oneLineReview-quote"><h5 class="oneLineReview-quoteInside"><textarea id="quote-input" name="opinion" type="text" name=content maxlength=300 placeholder="한줄평을 입력하세요."></textarea></h5><div class="oneLineReview-userId"><h5>- <span class="userId">${sessionScope.id}</span> -</h5></div></div>';
+        formStr += '<div class="oneLineReview-gendate"></div><div class="like-dislike"><div class="like-dislike"><div class="update-button like-dislike-button"><span class="functional-button-span">작성</span></div><div class="quit-update-button like-dislike-button"><span class="functional-button-span">취소</span></div></div></div></div>';
+        olrContainer.innerHTML = formStr;
+        
+	 
+	 
+		//$.ajax({
+		//   url: '/movie/oneLineReview/'+olrid,
+		//   method: "PUT",
+		//   }).done(function(response){
+		 //      if(response==1){
+		 //      alert("성공적으로 삭제가 완료되었습니다.");
+		 //      location.href = "/movie/oneLineReview?SearchMode=${SearchMode}&query=${query}&page=${page.nowPage}";			//현재페이지 새로고침
+		  //    	}else{
+		//	       alert("삭제가 실패했습니다. \n다시 시도해 주세요.");	        		 
+		  //     }
+		 // });
+		 });
 
 	
 	
@@ -172,11 +259,16 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
 //---------------------별점생성함수 구현
 	
 	
-	$.fn.generateStars = function() {			//별점생성함수 - 크기는 1.6rem
+	$.fn.generateStars = function() {			//별점생성함수 - 크기는 1.8rem
     	return this.each(function(i,e){$(e).html($('<span/>').width($(e).text()*0.9+'rem'));});
     	}
 	$('.star-rating').generateStars();		//별점생성함수 호출
 
+	
+	
+	
+	
+	
 	
 //-------------------movieId로부터 제목과 포스터 받아오기
 	
@@ -214,9 +306,9 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
 
 <link rel="stylesheet" href="${path}/resources/css/movieSearch.css"/>
 <link rel="stylesheet" href="${path}/resources/css/pagination.css?ver=1"/>
-<link rel="stylesheet" href="${path}/resources/css/oneLineReviewList.css"/>
-<link rel="stylesheet" href="${path}/resources/css/oneLineReviewSearch.css"/>
-<link rel="stylesheet" href="${path}/resources/css/globalModal.css"/>
+<link rel="stylesheet" href="${path}/resources/css/oneLineReviewList.css?ver=1"/>
+<link rel="stylesheet" href="${path}/resources/css/oneLineReviewSearch.css?ver=2"/>
+<link rel="stylesheet" href="${path}/resources/css/globalModal.css?ver=1"/>
 
 <link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
@@ -235,12 +327,12 @@ body {
 
 
 
-/* 별점 */
+/* 별점 나타내기*/
 
 span.star-rating, span.star-rating > * {
     height: 2rem; 
     background: url(${path}/resources/img/star.png);
-    background-size : 1.8rem auto;		/* 별점 너비는 1.6rem*/
+    background-size : 1.8rem auto;		/* 별점 너비는 1.8rem*/
     background-position: 0 -2rem;
     background-repeat: repeat-x; 
     width: 9rem;
@@ -252,6 +344,39 @@ span.star-rating > * {
     max-width:9rem; 
 }
 
+/*-------한줄평 입력------*/
+
+/*별점 주기*/
+.star-box{
+    display: flex;
+}
+
+.star-box, .star-box .star-boxFill {
+    height: 2.2rem; 
+    background: url(${path}/resources/img/star.png);
+    background-size : 2rem auto;		/* 별점 너비는 1.6rem*/
+    background-position: 0 -2.2rem;
+    background-repeat: repeat-x; 
+    width: 10rem;
+}
+ 
+.star-box .star-boxFill {
+    background-position: 0 0;
+    width: 0;
+    max-width:10rem; 
+    position: absolute;
+}
+
+.star{
+    display: block;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 10%;
+    z-index: 2;
+}
+
+/*한줄평 입력 텍스트*/
 
 #quote-input{
 	font-family: 'NanumSquareRoundBold';
@@ -259,15 +384,58 @@ span.star-rating > * {
 	font-size : 1rem;
 	
 }
-#title-input{
+#olrCreate-Title{
 	font-family: 'NanumSquareRoundBold';
     border: none;
-    height: 2rem;
-    width : 80%;
+    width : 100%;
+    height: 2.4rem;
     font-size: 1.4rem;
 }
 
+#olrCreate-container .oneLineReview-Title{
+	position : relative;
+    margin : 0 2rem;
+}
 
+#olrCreate-container{
+	position : relative;
+}
+
+#olrCreate-checkImg{
+	right : 4rem;
+}
+#olrCreate-Searchbutton{
+	width: 2rem;
+	height: 2rem;
+	transform : rotate(0.02deg);
+	position : absolute;
+	right : 2rem;
+	top : 0.2rem;
+}
+
+#olrCreate-Searchimage{
+width : 100%;
+height : 100%;
+}
+
+#olrCreate-checkImg{
+position : absolute;
+right : 4.5rem;
+top : 0.3rem;
+max-width : 2rem;
+max-height : 30rem;
+display : none;
+}
+#olrCreate-checkImg.visualized{display : block;
+}
+
+
+#olrCreate-SearchResultsContainer{
+position : absolute;
+width : 100%;
+z-index : 2;
+
+}
 
 
 </style>
@@ -329,7 +497,7 @@ span.star-rating > * {
 						</select> 
 						<div id="oneLineReviewInputbox-container">  
 						<input type="text" id="oneLineReviewInputbox" name="query" autocomplete='off' maxlength=50 placeholder="검색할 키워드를 입력하세요">
-						<input type="hidden" name="movieId" value="">
+						<input type="hidden" id="oneLineReviewInputboxMovieId" name="movieId" value="">
 						<input type="hidden" name="language" value="${language}">
 						<input type="hidden" name="page" value="1">
 						<img id="checkImg" src="${path}/resources/img/check.png" onmouseover="this.style.cursor='pointer'">

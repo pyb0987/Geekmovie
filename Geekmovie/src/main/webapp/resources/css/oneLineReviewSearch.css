@@ -61,7 +61,7 @@ margin-left : 20px;
 #oneLineReviewSearchimage, #modalExitImage{
 	width: 30px;
 	height: 30px;
-	transfrom : rotate(0.02deg);	
+	transform : rotate(0.02deg);	
 }
 .search-result-container:hover{				
 border-image: none;
