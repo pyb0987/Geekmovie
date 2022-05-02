@@ -18,6 +18,10 @@ public interface userVOService {
 	public userVO viewMember(userVO userVO);
 
 	// 회원 정보 수정
-	int update_mypage(userVO userVO);
-		
+	public int update(userVO userVO, HttpSession session);
+	
+	// 회원 탈퇴
+
+	public int delete(userVO userVO, HttpSession session);
+
 }

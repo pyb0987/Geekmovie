@@ -36,4 +36,8 @@ public class userVODao {
 	public int update_mypage(userVO userVO) {
 		return sqlSessionTemplate.update("userVO.update_mypage",userVO);
 	}
+
+	public int delete_mypage(userVO userVO) {
+		return sqlSessionTemplate.delete("userVO.delete_mypage",userVO);
+	}
 }

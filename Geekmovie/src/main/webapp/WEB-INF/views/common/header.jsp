@@ -448,12 +448,12 @@ document.querySelector("#screen").onclick=function(){
 		<div id="user-menu1-container">
 		<c:choose>
 			<c:when test="${sessionScope.id == null}">
-				<a id='user-menu1' href='join'>로그인</a>
+				<a id='user-menu1' href='user_join'>로그인</a>
 			</c:when>
 			<c:otherwise>
 			<div id ="mypagebutton-container">
 				<img id = "mypage-image" src="${pageContext.request.contextPath}/resources/img/person.png">
-				<a id='user-menu1' href='mypage'>${sessionScope.name}</a>
+				<a id='user-menu1' href='user_mypage'>${sessionScope.name}</a>
 			</div>
 			</c:otherwise>
 		</c:choose>
@@ -461,10 +461,10 @@ document.querySelector("#screen").onclick=function(){
 		<div id="user-menu2-container">
 		<c:choose>
 			<c:when test="${sessionScope.id == null}">
-				<a id='user-menu2' href='createUser'>회원가입</a>
+				<a id='user-menu2' href='user_createUser'>회원가입</a>
 			</c:when>
 			<c:otherwise>
-				<a id='user-menu2' href='logout'>로그아웃</a>
+				<a id='user-menu2' href='user_logout'>로그아웃</a>
 			</c:otherwise>
 		</c:choose>
 		</div>

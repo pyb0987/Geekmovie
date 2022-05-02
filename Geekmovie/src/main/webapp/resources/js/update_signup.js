@@ -11,58 +11,6 @@ const signUpCheck = () => {
 	var flag = true;
 	var error = document.querySelectorAll('.error_next_box');
 	
-	//아이디 중복 체크 구문
-	$.ajax({
-		url: 'idCheck',
-		type: 'post',
-		async : false,
-		data: { id: id_check },
-		success: function(cnt) { //컨트롤러에서 넘어온 cnt값을 받는다 
-			if (cnt == 1) { // cnt가 1일 경우 -> 이미 존재하는 아이디
-				id.focus();
-				flag = false;
-				console.log("ajax : "+flag);
-			}	
-		return flag;
-		
-		}
-	});
-	
-	//id 값이 비어 있으면 실행.
-	if (id.value == '') {
-		error[0].innerHTML = "필수 정보입니다.";
-		error[0].style.display = "block";
-		//alert('아이디를 입력해주세요');
-		document.getElementById("idError").innerHTML = "필수 정보입니다.";
-		id.focus();
-		console.log("id 부분 : "+flag);
-		flag = false;
-		return flag;
-	}
-	if (id.value.includes('~') || id.value.includes("!") ||
-		id.value.includes('@') || id.value.includes("#") ||
-		id.value.includes('$') || id.value.includes("%") ||
-		id.value.includes('^') || id.value.includes("&") ||
-		id.value.includes('*') || id.value.includes("(") ||
-		id.value.includes(')') || id.value.includes(",") ||
-		id.value.includes('?') || id.value.includes("/") ||
-		id.value.includes('<') || id.value.includes(">") ||
-		id.value.includes('.') || id.value.includes(":") ||
-		id.value.includes('-') || id.value.includes("+") ||
-		id.value.includes('~') || id.value.includes(" ")) {
-		error[0].innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
-		error[0].style.display = "block";
-		flag = false;
-		return flag;
-	}
-	// id 값이 4자이상 12자 이하를 벗어나면 실행.
-	/*
-	if (id.value.length < 4 || id.value.length > 12) {
-		alert("아이디는 4자 이상 12자 이하로 입력해주세요.");
-		id.focus();
-		return false;
-	}
-	*/
 	// password 값이 비어있으면 실행.
 	if (password.value == '') {
 		error[1].innerHTML = "필수 정보입니다.";

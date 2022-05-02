@@ -7,60 +7,19 @@ var yy = document.querySelector('#yy');
 var mm = document.querySelector('#mm');
 var dd = document.querySelector('#dd');
 
+
+console.log('테스트중');
+console.log(pw1.value);
 /* error 불러오기*/
 var error = document.querySelectorAll('.error_next_box');
 
 // 핸들러에 각각의 요소 적용
-id.addEventListener("change", checkId);
 pw1.addEventListener("change", checkPw);
 pw2.addEventListener("change", comparePw);
 userName.addEventListener("change", checkName);
 yy.addEventListener("change", isBirthCompleted);
 mm.addEventListener("change", isMonthSelected);
 dd.addEventListener("change", isDateCompleted);
-
-
-//아이디 중복 체크 구문
-function checkIdtest() {
-	var id = $('#id').val();	
-	$.ajax({
-		url: 'idCheck',
-		type: 'post',
-		data: { id: id },
-		success: function(cnt) { //컨트롤러에서 넘어온 cnt값을 받는다 
-			if (cnt != 1) { //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디 
-				error[0].innerHTML = "멋진 아이디네요!";
-				error[0].style.color = "#08A600";
-				error[0].style.display = "block";
-				
-				
-			} else { // cnt가 1일 경우 -> 이미 존재하는 아이디
-				error[0].innerHTML = "이미 사용중이거나 탈퇴한 아이디입니다.";
-				error[0].style.color = "#ff0000";
-				error[0].style.display = "block";
-				
-			}
-		},
-		error: function() {
-			alert("에러입니다");
-		}
-	});
-};
-
-
-// id check 부분
-function checkId() {
-	var idPattern = /[a-zA-Z0-9_-]{5,20}/;
-	if (id.value === "") {
-		error[0].innerHTML = "필수 정보입니다.";
-		error[0].style.color = "#FF0000";
-		error[0].style.display = "block";
-	} else if (!idPattern.test(id.value)) {
-		error[0].innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
-		error[0].style.display = "block";
-	} 
-}
-
 
 // password check 부분
 function checkPw() {
