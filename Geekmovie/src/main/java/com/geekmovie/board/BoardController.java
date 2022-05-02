@@ -51,12 +51,17 @@ public class BoardController {
 		boardVo.setListSize(pagevo.getListSize());
 		
 		List<BoardVo> list = boardService.bList(boardVo);
+		String sType = boardVo.getSearchType();
+		String kWord = boardVo.getbKeyword();
 		
 		mav.addObject("pagination", pagevo);
 		mav.addObject("data", list);
-		mav.addObject("searchType",boardVo.getSearchType());
-		mav.addObject("keyword", boardVo.getbKeyword());
+		mav.addObject("searchType",sType);
+		mav.addObject("keyword", kWord);
+		mav.addObject("curpage", curPage);
+		mav.addObject("range", range);
 		mav.setViewName("boardList");
+		
 		return mav;
 	}
 	
@@ -83,13 +88,25 @@ public class BoardController {
 	}
 	
 	@GetMapping("/boardDetail")
-	public ModelAndView detail(BoardVo boardVo) {
+	public ModelAndView detail(BoardVo boardVo,
+			@RequestParam(required = false, defaultValue = "1") int curPage,
+			@RequestParam(required = false, defaultValue = "1") int range,
+			@RequestParam(required = false, defaultValue = "TC") String searchType,
+			@RequestParam(required = false, defaultValue = "") String bKeyword) {
 		System.out.println("board detail");
 		
+		boardService.bCnt(boardVo);
+
 		BoardVo detail = boardService.bDetail(boardVo);
+		String sType = boardVo.getSearchType();
+		String kWord = boardVo.getbKeyword();
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("data", detail);
+		mav.addObject("searchType",sType);
+		mav.addObject("keyword", kWord);
+		mav.addObject("curpage", curPage);
+		mav.addObject("range", range);
 		mav.setViewName("boardDetail");
 		
 		return mav;

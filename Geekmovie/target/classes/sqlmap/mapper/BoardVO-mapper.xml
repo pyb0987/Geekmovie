@@ -66,6 +66,15 @@
 		    ]]>  
 	</update>
 	
+	<update id="board_cntIncrease" parameterType="boardVo">  
+	    <![CDATA[  
+	        update review_board set  
+	        cnt = cnt + 1
+	        where  
+	        seq = #{seq}  
+		    ]]>  
+	</update>
+	
 	<delete id="board_delete" parameterType="boardVo">
 		<![CDATA[
 			delete from review_board

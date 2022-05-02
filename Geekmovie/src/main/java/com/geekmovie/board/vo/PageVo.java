@@ -85,6 +85,14 @@ public class PageVo {
 	public int getStartList() {
 		return startList;
 	}
+	
+	public int getPageCnt() {
+		return pageCnt;
+	}
+
+	public void setPageCnt(int pageCnt) {
+		this.pageCnt = pageCnt;
+	}
 
 	public void pageInfo(int page, int range, int listCnt) {
 		this.page = page;

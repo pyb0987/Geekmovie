@@ -14,7 +14,7 @@
 <form method="post">
 	<p>제목 : <input type="text" name="title"></p>
 	<p>작성자 : <input type="text" value="${sessionScope.id}" name="writer" readonly="readonly"></p>
-	<p>내용 : <input type="text" name="contents"></p>
+	<p>내용 : <textarea id="bContent" name="contents" rows="4" cols="50" ></textarea></p>
 	<p><input type="submit" value="create"></p>
 </form>
 </body>

@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <%
 PageVo pagination = (PageVo)request.getAttribute("pagination");
@@ -16,9 +17,11 @@ PageVo pagination = (PageVo)request.getAttribute("pagination");
 	int range = pagination.getRange();
 	int startPage = pagination.getStartPage();
 	int endPage = pagination.getEndPage();
-	
+	int pageCnt = pagination.getPageCnt();
 	boolean prev = pagination.isPrev();
 	boolean next = pagination.isNext();
+	
+	int maxRange = (int) Math.ceil(pageCnt/(float)rangeSize);
 %>
 
 <!DOCTYPE html>
@@ -26,7 +29,7 @@ PageVo pagination = (PageVo)request.getAttribute("pagination");
 <head>
 <meta charset="UTF-8">
 <title>BoardList</title>
-
+<script   src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 window.onload = function(){	
 
@@ -42,8 +45,50 @@ document.querySelector("#b_create").onclick = function(){
 	}
 };
 
+
+oneLineReviewMakePagination( Number(`<%=startPage %>`), Number(`<%=endPage %>`), Number(`${curpage}`), Number(`<%=pageCnt %>`), '${searchType}', '${keyword}')
+
+function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searchMode, query){               //한줄평 페이징 기능 구현
+    var str ='';
+    if (pageNow==1){
+        str += '<a>처음</a>'
+        }else{
+            str += `<a href="/movie/boardList?searchType=`+searchMode+`&bKeyword=`+query+`&curPage=1&range=1">처음</a>`         //처음(페이지 1로)
+        }
+    if (pageNow<11){
+    str += '<a>&laquo;</a>'
+    }else{
+        str += `<a href="/movie/boardList?searchType=`+searchMode+`&bKeyword=`+query+`&curPage=`+(pageFirst+1)+`&range=<%=range-1 %>">&laquo;</a>`      //앞쪽 10페이지의 처음(페이지25에 있다면 페이지 20으로)
+    }
+    var index = 0
+    while(pageFirst+index<=pageNum && pageFirst+index<=pageLast){
+       if(pageFirst+index==pageNow){
+          str += `<a class="active">`+(pageFirst+index)+'</a>'      //현재 페이지
+       }else{
+       str += `<a href="/movie/boardList?searchType=`+searchMode+`&bKeyword=`+query+`&curPage=`+(pageFirst+index)+`&range=<%=range %>">`+(pageFirst+index)+'</a>'    //페이지 10개 생성
+       }
+          index +=1
+    }
+    if(pageLast>=pageNum){
+       str += '<a>&raquo;</a>'
+    }else{
+       str += `<a href="/movie/boardList?searchType=`+searchMode+`&bKeyword=`+query+`&curPage=`+(pageLast+1)+`&range=<%=range+1 %>">&raquo;</a>`   //뒤쪽 10페이지의 처음(페이지25에 있다면 페이지 31로)
+    }
+    if(pageNow==pageNum){
+       str += '<a>끝</a>'
+    }else{
+       str += `<a href="/movie/boardList?searchType=`+searchMode+`&bKeyword=`+query+`&curPage=`+(pageNum)+`&range=<%=maxRange %>">&nbsp;끝&nbsp;</a>` //맨뒤로
+    }
+    $('.oneLineReviewSearchPagination').html(str);
+      }
+   
+
+
+
+
 }
 </script>
+<link rel="stylesheet" href="${path}/resources/css/pagination.css?ver=1"/>
 </head>
 <body>
 <h3>회원정보 : ${sessionScope.id}</h3>
@@ -53,7 +98,7 @@ document.querySelector("#b_create").onclick = function(){
 		<c:forEach var="b" items="${data}">
 			<tr>
 				<td>${b.seq}</td>
-				<td><a href="boardDetail?seq=${b.seq }">${b.title}</a></td>
+				<td><a href="boardDetail?seq=${b.seq }&searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}">${b.title}</a></td>
 				<td>${b.writer}</td>
 				<td>${b.regdate}</td>
 				<td>${b.cnt}</td>
@@ -62,15 +107,9 @@ document.querySelector("#b_create").onclick = function(){
 		</c:forEach>
 	</table>
 <!-- Page -->
-<%if(prev) { %>
-<a href="boardList?curPage=<%=startPage - rangeSize%>&range=<%=range -1 %>">[이전<%=rangeSize%>개]</a>
-<%} %>
-<%for(int i = startPage; i<=endPage; ++i){ %>
-<a href="boardList?searchType=${searchType}&bKeyword=${keyword}&curPage=<%=i%>&range=<%=range%>">[<%=i%>]</a>
-<%} %>
-<%if(next) { %>
-<a href="boardList?curPage=<%=startPage + rangeSize%>&range=<%=range +1 %>">[다음<%=rangeSize%>개]</a>
-<%} %>
+<div class="pagination-container" style="margin-top : 30px;">
+   <div class="pagination oneLineReviewSearchPagination"></div>
+</div>
 
 <!-- Search -->
 	<form accept-charset="utf-8">

@@ -40,6 +40,10 @@ public class BoardDao {
 		return sqlSessionTemplate.update("boardVo.board_update", boardvo);
 	}
 	
+	public int boardCnt(BoardVo boardvo) {
+		return sqlSessionTemplate.update("boardVo.board_cntIncrease", boardvo);
+	}
+	
 	public int boardDelete(BoardVo boardvo) {
 		return sqlSessionTemplate.delete("boardVo.board_delete", boardvo);
 	}
