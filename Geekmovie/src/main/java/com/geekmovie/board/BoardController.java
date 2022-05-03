@@ -2,24 +2,20 @@ package com.geekmovie.board;
 
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.geekmovie.board.service.BoardService;
 import com.geekmovie.board.vo.BoardVo;
 import com.geekmovie.board.vo.PageVo;
-import com.mysql.cj.Session;
 
 @Controller
 public class BoardController {
@@ -75,7 +71,7 @@ public class BoardController {
 	@PostMapping("/boardCreate")
 	public ModelAndView createPost(BoardVo boardVo) {
 		System.out.println("board post success");
-		
+		System.out.println(boardVo);
 		int rs = boardService.bCreate(boardVo);
 		ModelAndView mav = new ModelAndView();
 		if(rs==1) {

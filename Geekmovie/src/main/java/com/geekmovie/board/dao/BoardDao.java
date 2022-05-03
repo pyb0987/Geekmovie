@@ -1,14 +1,12 @@
 package com.geekmovie.board.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.geekmovie.board.vo.BoardVo;
-import com.geekmovie.board.vo.PageVo;
 
 @Repository
 public class BoardDao {
@@ -17,7 +15,7 @@ public class BoardDao {
 	SqlSessionTemplate sqlSessionTemplate;
 	
 	public BoardDao() {
-		System.out.println("@Repository DAO 스프링 자동 생성");
+		System.out.println("@Repository BoardDAO 스프링 자동 생성");
 	}
 	
 	public List<BoardVo> boardList(BoardVo boardvo) {
