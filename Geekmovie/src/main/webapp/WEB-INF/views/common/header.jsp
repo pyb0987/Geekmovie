@@ -421,7 +421,7 @@ if(!!form.query && form.query.value !=""){
 		if('${sessionScope.id}'==''){
 			var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
 			if(result){
-			    location.href = 'join';
+			    location.href = 'user_join';
 			}
 		}else{
 			location.href = 'mypage';
@@ -499,7 +499,7 @@ if(!!form.query && form.query.value !=""){
 	<div id='screen'></div>
 	<div id="foldMenuContainer">
 		<div id="foldMenu">
-		<div class="menuButton">최신영화</div>
+		<!--<div class="menuButton">최신영화</div>-->
 		<div class="menuButton">인기영화</div>
 		<div class="menuButton">장르별 영화보기</div>
 

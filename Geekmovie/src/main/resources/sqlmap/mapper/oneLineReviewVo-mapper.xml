@@ -55,5 +55,25 @@
 			values(#{userId}, #{movieId}, #{score}, #{content});
 			]]>
 	</insert>
+	
+	<update id="Update" parameterType="HashMap">
+				<![CDATA[
+			update onelinereview set score=#{score}, comment=#{content}, moddate=now() where oneLineReviewId=#{olrId};
+			]]>
+	</update>
+	
+	<update id="UpdateLike" parameterType="HashMap">
+			<![CDATA[
+			update onelinereview set likes=#{likeNum}, dislikes=#{dislikeNum} where oneLineReviewId=#{oneLineReviewId};
+			]]>
+	</update>
+	
+	<select id="SelectAny" parameterType="HashMap" resultType="String">
+			<![CDATA[
+			select ${query} from onelinereview
+			where oneLineReviewId=#{oneLineReviewId};
+			]]>
+			
+	</select>
 
 </mapper>
