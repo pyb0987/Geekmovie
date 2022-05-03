@@ -152,7 +152,7 @@ public class userVOController {
 			mav.setViewName("redirect:/");
 			//mav.addObject("msg", "success");
 		} else {
-			mav.setViewName("redirect:/user_createUser");
+			mav.setViewName("redirect:/user_delete_mypage");
 		}
 		return mav;	
 	}

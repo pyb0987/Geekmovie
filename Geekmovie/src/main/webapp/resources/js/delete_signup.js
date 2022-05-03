@@ -39,16 +39,6 @@ const signUpCheck = () => {
 		passwordCheck.focus();
 		flag = false;
 		return flag;
-	} else {
-		document.getElementById("passwordCheckError").innerHTML = "비밀번호 동일"
-	}
-
-	// userpw값이 6자 이상 20자 이하를 벗어나면 실행.
-	if (password.value.length < 6 || password.value.length > 20) {
-		alert("비밀번호는 6자 이상 20자 이하로 입력해 주세요.");
-		password.focus();
-		flag = false;
-		return flag;
 	}
 	return flag;
 }

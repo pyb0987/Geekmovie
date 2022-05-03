@@ -4,7 +4,12 @@
 <% 
 	String id = (String)session.getAttribute("id");
 	String oldpassword = (String)session.getAttribute("password");
+	String name =(String)session.getAttribute("name");
+	String birthday = (String)session.getAttribute("birthday");
+	String gender =(String)session.getAttribute("gender");
 	System.out.println("기존 비밀번호 : "+oldpassword);
+	System.out.println("기존 아이디 :"+id);
+	System.out.println("기존 생년월일 :"+birthday);
 	
 	
 %>
@@ -59,6 +64,7 @@
 				</div>
 				<!-- 생년 월일 -->
 				<div id="bir_wrap">
+					<input type="hidden" id="birthday" name="birthday" value=""/>
 					<!-- 년도 입력구문 -->
 					<div id="bir_yy">
 						<span class="box"> <input type="text" id="yy" class="int"

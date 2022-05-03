@@ -479,7 +479,7 @@ if(!!form.query && form.query.value !=""){
 			<c:otherwise>
 			<div id ="mypagebutton-container">
 				<img id = "mypage-image" src="${pageContext.request.contextPath}/resources/img/person.png">
-				<a id='user-menu1' class='mypageName' href='mypage'>${sessionScope.name}</a>
+				<a id='user-menu1' class='mypageName' href='user_mypage'>${sessionScope.name}</a>
 
 			</div>
 			</c:otherwise>

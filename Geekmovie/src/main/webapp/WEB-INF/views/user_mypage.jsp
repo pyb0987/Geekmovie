@@ -6,8 +6,10 @@
 	if(id == null) id= "product";
 	String password = (String)session.getAttribute("password");
 	String name =(String)session.getAttribute("name");
+	String birthday = (String)session.getAttribute("birthday");
 	String gender =(String)session.getAttribute("gender");
-	System.out.print(id);
+	System.out.println(id);
+	System.out.println(birthday);
 %>
 
 <%if(id=="product"){%>
@@ -38,16 +40,20 @@
 		 		<td width="250px"><input type="hidden" name="id" value="id"><%=id%><br></td>
 		 	</tr>
 		 	<tr>
-		 		<td width="200px"><label id="must_id"> * </label> 비밀번호 : </td>
+		 		<td width="200px"><label id="must_password"> * </label> 비밀번호 : </td>
 		 		<td width="250px"><input type="hidden" name="password" value="password"><%=password%></td>
 		 	</tr>
 		 	<tr>
-		 		<td width="200px"><label id="must_id"> * </label> 이름 : </td>
+		 		<td width="200px"><label id="must_name"> * </label> 이름 : </td>
 		 		<td width="250px"><input type="hidden" name="name" value="name"><%=name%></td>
 		 	</tr>
 		 	<tr>
-		 		<td width="200px"><label id="must_id"> * </label> 성별 : </td>
-		 		<td width="250px"><input type="hidden" name="id" value="id"><%=gender%></td>
+		 		<td width="200px"><label id="must_birthday"> * </label> 생년월일 : </td>
+		 		<td width="250px"><input type="hidden" name="birthday" value="birthday"><%=birthday%></td>
+		 	</tr>
+		 	<tr>
+		 		<td width="200px"><label id="must_gender"> * </label> 성별 : </td>
+		 		<td width="250px"><input type="hidden" name="gender" value="gender"><%=gender%></td>
 		 	</tr>
 		 </table>
 		 <hr>
