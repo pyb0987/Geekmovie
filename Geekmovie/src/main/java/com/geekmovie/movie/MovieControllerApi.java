@@ -224,5 +224,22 @@ public class MovieControllerApi {
 		  return rs;
 	}
 	
-	
+	@GetMapping("/getLastestMovie")
+	public String getLastestMovie(HttpServletRequest request){											//특정 영화를 기반으로한 추천 영화 목록 반환
+
+		String language = "ko-KR";
+		String rs = "";
+		try {
+			language = (String)request.getParameter("language");
+			rs = UrlRead.readStringFromUrl(movieUrlGetter.GetLastestMovie(language));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		  return rs;
+	}
 }

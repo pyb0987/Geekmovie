@@ -1,13 +1,16 @@
+<%@page import="com.geekmovie.board.vo.BoardVo"%>
+<%@page import="java.util.List"%>
 <%@page import="com.geekmovie.board.vo.PageVo"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%
 PageVo pagination = (PageVo)request.getAttribute("pagination");
 	
-	int listCnt = pagination.getListCnt(); // ÀüÃ¼ ÆäÀÌÁö ¼ıÀÚ
-	int curPage = pagination.getPage();  // ÇöÀç ÆäÀÌÁö
-	int listSize = pagination.getListSize(); // ÆäÀÌÁö´ç ¸ñ·Ï °¹¼ö
+	int listCnt = pagination.getListCnt(); // ì „ì²´ í˜ì´ì§€ ìˆ«ì
+	int curPage = pagination.getPage();  // í˜„ì¬ í˜ì´ì§€
+	int listSize = pagination.getListSize(); // í˜ì´ì§€ë‹¹ ëª©ë¡ ê°¯ìˆ˜
 	
 	int rangeSize = pagination.getRangeSize();
 	int range = pagination.getRange();
@@ -18,14 +21,32 @@ PageVo pagination = (PageVo)request.getAttribute("pagination");
 	boolean next = pagination.isNext();
 %>
 
-start : <%=startPage %> / end : <%=endPage %> / ÇöÀç±¸°£ : <%=range %> / ÇöÀç ÆäÀÌÁö : <%=curPage %> / 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>BoardList</title>
+
+<script type="text/javascript">
+window.onload = function(){	
+
+document.querySelector("#b_create").onclick = function(){
+	console.log(onclick);
+	if('${sessionScope.id}'==''){
+		var result = confirm("ë¡œê·¸ì¸ì´ í•„ìš”í•œ ì„œë¹„ìŠ¤ ì…ë‹ˆë‹¤. \në¡œê·¸ì¸ í˜ì´ì§€ë¡œ ì´ë™ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
+		if(result){
+		    location.href = 'join';
+		}
+	}else{
+		location.href = 'boardCreate';
+	}
+};
+
+}
+</script>
 </head>
 <body>
+<h3>íšŒì›ì •ë³´ : ${sessionScope.id}</h3>
 <!-- List -->
 	<table border="1">
 		<tr><th>seq</th><th>title</th><th>writer</th><th>regdate</th><th>cnt</th><th>likes</th></tr>
@@ -42,25 +63,26 @@ start : <%=startPage %> / end : <%=endPage %> / ÇöÀç±¸°£ : <%=range %> / ÇöÀç Æä
 	</table>
 <!-- Page -->
 <%if(prev) { %>
-<a href="boardList?curPage=<%=startPage - rangeSize%>&range=<%=range -1 %>">[ÀÌÀü<%=rangeSize%>°³]</a>
+<a href="boardList?curPage=<%=startPage - rangeSize%>&range=<%=range -1 %>">[ì´ì „<%=rangeSize%>ê°œ]</a>
 <%} %>
 <%for(int i = startPage; i<=endPage; ++i){ %>
-<a href="boardList?curPage=<%=i%>&range=<%=range%>">[<%=i%>]</a>
+<a href="boardList?searchType=${searchType}&bKeyword=${keyword}&curPage=<%=i%>&range=<%=range%>">[<%=i%>]</a>
 <%} %>
 <%if(next) { %>
-<a href="boardList?curPage=<%=startPage + rangeSize%>&range=<%=range +1 %>">[´ÙÀ½<%=rangeSize%>°³]</a>
+<a href="boardList?curPage=<%=startPage + rangeSize%>&range=<%=range +1 %>">[ë‹¤ìŒ<%=rangeSize%>ê°œ]</a>
 <%} %>
 
 <!-- Search -->
-	<form>
-		<select name="b_search">
-			<option value="Á¦¸ñ+³»¿ë">Á¦¸ñ+³»¿ë</option>
-			<option value="ÀÛ¼ºÀÚ">ÀÛ¼ºÀÚ</option>
-			<option value="¿µÈ­ÀÌ¸§">¿µÈ­ÀÌ¸§</option>
+	<form accept-charset="utf-8">
+		<select id="searchType" name="searchType">
+			<option value="TC"  <c:if test="${searchType == 'TC'}">selected="selected"</c:if> >ì œëª©+ë‚´ìš©</option>
+			<option value="Wr" <c:if test="${searchType == 'Wr'}">selected="selected"</c:if>>ì‘ì„±ì</option>
+			<option value="M_id" <c:if test="${searchType== 'M_id'} ">selected="selected"</c:if>>ì˜í™”ì´ë¦„</option>
 		</select>
-		<input type="text" placeholder="°Ë»ö" name="keyword" value="${keyword}" />
-		<input type="submit" value="°Ë»ö">
+		<input type="text" placeholder="ê²€ìƒ‰" name="bKeyword" />
+		<input type="hidden" name="page" value="1" />
+		<input type="submit" value="ê²€ìƒ‰">
 	</form>
-	<a href="boardCreate">°Ô½Ã±Û ÀÛ¼º</a>
+	<button id="b_create">ê²Œì‹œê¸€ ì‘ì„±</button>
 </body>
 </html>

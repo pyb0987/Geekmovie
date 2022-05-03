@@ -1,5 +1,6 @@
 package com.geekmovie.board.vo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class BoardVo {
@@ -8,20 +9,22 @@ public class BoardVo {
 	private String writer;
 	private String contents;
 	private String reply; // 댓글
-	private Date regdate;
+	private Timestamp regdate;
 	private int cnt; // 조회수
 	private int likes; // 추천수
 	private String movie_id;
 	private int startList;
 	private int listSize;
+	private String searchType;
+	private String bKeyword;
+	private int b_score;
 	
-	
+
 	public BoardVo() {
 
 	}
 
-
-	public BoardVo(int seq, String title, String writer, String contents, String reply, Date regdate, int cnt,
+	public BoardVo(int seq, String title, String writer, String contents, String reply, Timestamp regdate, int cnt,
 			int likes, String movie_id, int startList, int listSize) {
 		super();
 		this.seq = seq;
@@ -37,6 +40,13 @@ public class BoardVo {
 		this.listSize = listSize;
 	}
 
+	public float getB_score() {
+		return b_score;
+	}
+	
+	public void setB_score(int b_score) {
+		this.b_score = b_score;
+	}
 
 
 	public int getSeq() {
@@ -79,11 +89,11 @@ public class BoardVo {
 		this.reply = reply;
 	}
 
-	public Date getRegdate() {
+	public Timestamp getRegdate() {
 		return regdate;
 	}
 
-	public void setRegdate(Date regdate) {
+	public void setRegdate(Timestamp regdate) {
 		this.regdate = regdate;
 	}
 
@@ -126,8 +136,22 @@ public class BoardVo {
 	public void setListSize(int listSize) {
 		this.listSize = listSize;
 	}
+	
+	public String getSearchType() {
+		return searchType;
+	}
 
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
 
+	public String getbKeyword() {
+		return bKeyword;
+	}
+
+	public void setbKeyword(String bKeyword) {
+		this.bKeyword = bKeyword;
+	}
 
 	@Override
 	public String toString() {
@@ -135,7 +159,5 @@ public class BoardVo {
 				+ reply + ", regdate=" + regdate + ", cnt=" + cnt + ", likes=" + likes + ", movie_id=" + movie_id
 				+ ", startList=" + startList + ", listSize=" + listSize + "]";
 	}
-
-	
 	
 }

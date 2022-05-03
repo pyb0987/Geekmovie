@@ -10,9 +10,10 @@
 <head>
 
 <title>header</title>
-<link
-	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css"
-	rel="stylesheet">
+<link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
+
+
+
 <style>
 
 
@@ -31,31 +32,31 @@
 
     /*-- menu button --*/
 #menu-container{
-    width: 140px;
-    min-width: 70px;
-    height: 30px;
+    width: 9rem;
+    min-width: 4.5rem;
+    height: 1.8rem;
     display: flex;
     justify-content: center;
 }
 #menu{
 
-    width: 40px;
-    height: 30px;
+    width: 2.5rem;
+    height: 1.8rem;
     position:relative;
 }
 .menubar{
     position: absolute;
     width: 100%;
-    height: 13%;
+    height: 0.2rem;
     background-color: #f8efc5;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     transition : all 0.2s;
 }
-.menubar2{transform: translateY(13px);}
-.menubar3{transform: translateY(26px);}
-.menubar1.active-menu  { transform : translateY(13px) rotate(30deg); }
+.menubar2{transform: translateY(0.8rem);}
+.menubar3{transform: translateY(1.6rem);}
+.menubar1.active-menu  { transform : translateY(0.8rem) rotate(30deg); }
 .menubar2.active-menu  { opacity: 0; }
-.menubar3.active-menu  { transform : translateY(13px) rotate(-30deg); }
+.menubar3.active-menu  { transform : translateY(0.8rem) rotate(-30deg); }
 
 
 
@@ -69,7 +70,7 @@
     min-width : 100px;
     height: 40px;
     font-family: 'Square Peg', cursive;
-    font-size: 30px;
+    font-size: 2rem;
     color : #f8efc5;
     letter-spacing: -4px;
     line-height : 40px;
@@ -84,7 +85,10 @@
     /*-- searchbox --*/    
 #searchbox{
 	display: flex;
-    min-width : 430px;
+    width : 70%;
+    min-width : 340px;
+	max-width : 650px;
+    margin : auto;
     height: 40px;
     border-radius: 35px;
     background-color: white;
@@ -114,10 +118,10 @@ option{
     flex-grow : 0;
 }
 #searchbox-container{
-    width: 650px;
     padding-left : 25px;
     padding-right : 25px;
-    margin : auto;
+    flex-grow : 2;
+	
         
 }
 #searchbutton{
@@ -128,14 +132,15 @@ option{
 }
 
 #search-image{
-	width: 50px;
-	height: 50px;
+	width: 35px;
+	height: 35px;
 	transfrom : rotate(0.02deg);	
 }
 
 #mypage-image{
 	width: 60px;
-	height: 60px;
+	height: 50px;
+	margin-right : 10px;
 	transfrom : rotate(0.03deg);
 }
 
@@ -292,6 +297,17 @@ box-shadow: -1px 1px 16px rgba(0, 0, 0, 0.6);
  display : block;
 }
 
+#mypagebutton-container{
+ position : relative;
+ max-width : 120px;
+ flex-grow : 1;
+ display : flex;
+ align-items: center;
+ justify-content: flex-end;
+}
+
+
+
 
 </style>
  <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/debounce.js"></script>
@@ -393,14 +409,24 @@ document.querySelector("#screen").onclick=function(){
 	        })
 		}
 	}
-	document.querySelector("#searchbutton").onclick=function(){
+	document.querySelector("#searchbutton").onclick=function(){		//쿼리 없을때 제출안함
 		let form = document.keywordSearch;
+if(!!form.query && form.query.value !=""){
 		form.submit();
-
+	}
 	};
 
 
-
+	document.querySelector("#myPage").onclick=function(){
+		if('${sessionScope.id}'==''){
+			var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
+			if(result){
+			    location.href = 'join';
+			}
+		}else{
+			location.href = 'mypage';
+		}
+	};
 
 
 	
@@ -453,7 +479,8 @@ document.querySelector("#screen").onclick=function(){
 			<c:otherwise>
 			<div id ="mypagebutton-container">
 				<img id = "mypage-image" src="${pageContext.request.contextPath}/resources/img/person.png">
-				<a id='user-menu1' href='user_mypage'>${sessionScope.name}</a>
+				<a id='user-menu1' class='mypageName' href='mypage'>${sessionScope.name}</a>
+
 			</div>
 			</c:otherwise>
 		</c:choose>
@@ -476,10 +503,10 @@ document.querySelector("#screen").onclick=function(){
 		<div class="menuButton">인기영화</div>
 		<div class="menuButton">장르별 영화보기</div>
 
-		<div class="menuButton" onclick="location.href='boardList';">최신게시글</div>
-		<div class="menuButton" onclick="location.href='/movie/oneLineReview?page=1';">한줄평</div>
-		<div class="menuButton">랜덤영화</div>
-		<div class="menuButton">마이페이지</div>
+		<div class="menuButton" onclick="location.href='boardList?';">최신게시글</div>
+		<div class="menuButton" onclick="location.href='/movie/oneLineReview?page=1&language=<%=request.getParameter("language")%>';">한줄평</div>
+		<div class="menuButton" onclick="location.href='/movie/movieDetail/random?language=<%=request.getParameter("language")%>';">랜덤영화</div>
+		<div class="menuButton" id="myPage">마이페이지</div>
 		<div class="menuButton">lanuguage</div>
 		</div>
 	</div>

@@ -4,17 +4,22 @@ package com.geekmovie.board;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.geekmovie.board.service.BoardService;
 import com.geekmovie.board.vo.BoardVo;
 import com.geekmovie.board.vo.PageVo;
+import com.mysql.cj.Session;
 
 @Controller
 public class BoardController {
@@ -29,28 +34,36 @@ public class BoardController {
 	@RequestMapping("/boardList")          //게시판
 	public ModelAndView boardList(BoardVo boardVo,
 			@RequestParam(required = false, defaultValue = "1") int curPage,
-			@RequestParam(required = false, defaultValue = "1") int range) {
-
-		int listCnt = boardService.boardListCnt();
+			@RequestParam(required = false, defaultValue = "1") int range,
+			@RequestParam(required = false, defaultValue = "TC") String searchType,
+			@RequestParam(required = false, defaultValue = "") String bKeyword) {
+		System.out.println("board List");
+		
+		if(boardVo.getSearchType() == null) boardVo.setSearchType("TC");
+		
+		int listCnt = boardService.boardListCnt(boardVo);
 		
 		ModelAndView mav = new ModelAndView();
 		PageVo pagevo = new PageVo();
 		
 		pagevo.pageInfo(curPage, range, listCnt);
-
 		boardVo.setStartList(pagevo.getStartList());
 		boardVo.setListSize(pagevo.getListSize());
+		
 		List<BoardVo> list = boardService.bList(boardVo);
 		
 		mav.addObject("pagination", pagevo);
 		mav.addObject("data", list);
+		mav.addObject("searchType",boardVo.getSearchType());
+		mav.addObject("keyword", boardVo.getbKeyword());
 		mav.setViewName("boardList");
 		return mav;
 	}
 	
 	@GetMapping("/boardCreate")
-	public String boardCreate() {
+	public String boardCreate(HttpSession session) {
 		System.out.println("board create!");
+
 		return "boardCreate";
 	}
 	
@@ -71,11 +84,9 @@ public class BoardController {
 	
 	@GetMapping("/boardDetail")
 	public ModelAndView detail(BoardVo boardVo) {
-		System.out.println(boardVo);
+		System.out.println("board detail");
 		
 		BoardVo detail = boardService.bDetail(boardVo);
-		
-		System.out.println(detail);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("data", detail);

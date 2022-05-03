@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+
+
+
+.modal{				/*모달창 규격 - 내부는 movieSearch이용(영화 테두리만 바꿈)*/
+	z-index : 10;
+	width : 100vw; height: 100vh;
+	background : rgba(0,0,0,0.6);
+	top:0; left:0;
+	display: none;
+}
+.modalExit{
+	width:60px; height:60px;
+	margin: 150px auto 20px auto;
+	cursor : pointer;
+}
+.modal-content{
+  background:#333; border-radius:10px;
+  width:800px; height:650px;
+  position:relative;
+  margin: 0px auto;
+  text-align:center;
+  box-sizing:border-box; padding:74px 0;
+  font-size : 12px;
+}
+.movie-searchContainer{
+    border : double 4px #87CEFA77;
+}
+.movie-searchContainer:hover{
+    border : double 4px #87CEFA;
+}
+

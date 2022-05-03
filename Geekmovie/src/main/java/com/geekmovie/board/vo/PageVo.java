@@ -2,7 +2,7 @@ package com.geekmovie.board.vo;
 
 public class PageVo {
 	
-	private int listSize = 4;                //초기값으로 목록개수를 10으로 셋팅
+	private int listSize = 20;                //초기값으로 목록개수를 10으로 셋팅
 	private int rangeSize = 10;            //초기값으로 페이지범위를 10으로 셋팅
 	private int page;						// 현재 페이지
 	private int range;						// 페이지 범위 묶음

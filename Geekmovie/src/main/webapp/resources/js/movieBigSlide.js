@@ -64,10 +64,13 @@ function bigMovieloader(index){
 
 
 	function bigMovieAdjust() {						//BigPicture 함수  - Resize하면 실행되는 함수 안에 넣을것
-		$(".movies-BigPictureContainer").offset( { left: -window.innerWidth*bigMovieIndex} );
+		$(".movies-BigPictureContainer").animate({left: -window.innerWidth*bigMovieIndex}, 100);
 		}
-		
-		
+	function bigMovieAdjustWithAnimation() {						//BigPicture 함수  - Resize하면 실행되는 함수 안에 넣을것
+		$(".movies-BigPictureContainer").animate({left: -window.innerWidth*bigMovieIndex}, 500);
+		}	
+
+	
 	
 	function returnFunction(){				//BigPicture 함수  - event와 맨처음 슬라이드 ajax. 
 		bigMovieloader(0);
@@ -76,7 +79,7 @@ function bigMovieloader(index){
 	
 	 	if (bigMovieIndex !== 0) {
 			bigMovieIndex = bigMovieIndex - 1
-			bigMovieAdjust(bigMovieIndex);
+			bigMovieAdjustWithAnimation(bigMovieIndex);
 			if(!bigMovieloadChecker[bigMovieIndex]){
 				bigMovieloader(bigMovieIndex);
 				bigMovieloadChecker[bigMovieIndex]=true;
@@ -89,7 +92,7 @@ function bigMovieloader(index){
 	
 	 	if (bigMovieIndex !== 19) {
 			bigMovieIndex = bigMovieIndex + 1
-			bigMovieAdjust(bigMovieIndex);
+			bigMovieAdjustWithAnimation(bigMovieIndex);
 			if(!bigMovieloadChecker[bigMovieIndex]){
 				bigMovieloader(bigMovieIndex);
 				bigMovieloadChecker[bigMovieIndex]=true;

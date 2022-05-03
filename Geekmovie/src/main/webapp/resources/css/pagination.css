@@ -2,6 +2,7 @@
 
 .pagination {						/*페이지 처리*/
   display: inline-block;
+  margin : 0 auto;
 }
 .pagination-container {						/*페이지 처리*/
   display: flex;
@@ -25,3 +26,8 @@
 }
 
 .pagination a:hover:not(.active) {background-color: #555;}
+
+.pagination-container{
+	width : 100%;
+	height : 60px;
+}

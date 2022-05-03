@@ -16,16 +16,30 @@ public class OneLineReviewDao {
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
 	
-	public List<OneLineReviewVo> SelectAll(int nowPageStart, int nowPageEnd) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("nowPageStart", nowPageStart-1);
-		map.put("Size", nowPageEnd-nowPageStart+1);
+	public List<OneLineReviewVo> Select(String SearchMode,String query, int nowPageStart, int onePage) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchMode", SearchMode);
+		map.put("query", query);
+		map.put("nowPageStart", nowPageStart);
+		map.put("Size", onePage);
 		List<OneLineReviewVo> list = sqlSessionTemplate.selectList("oneLineReviewVo.Select", map);	
 		return list;
 	}
 	
-	public int Count() {
-		return sqlSessionTemplate.selectOne("oneLineReviewVo.Count");
+	public int Count(String SearchMode, String query) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("searchMode", SearchMode);
+		map.put("query", query);
+		return sqlSessionTemplate.selectOne("oneLineReviewVo.Count", map);
 	}
 	
+	public int Delete(int oneLineReviewId) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("oneLineReviewId", oneLineReviewId);
+		return sqlSessionTemplate.delete("oneLineReviewVo.Delete", map);
+	}
+	
+	public int  Create(Map<String, Object> map) {
+		return sqlSessionTemplate.insert("oneLineReviewVo.Create", map);
+	};
 }

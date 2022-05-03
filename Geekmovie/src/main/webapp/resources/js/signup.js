@@ -111,6 +111,7 @@ const signUpCheck = () => {
 		flag = false;
 		return flag;
 	}
+
 	
 	// 중복된 아이디가 있으면
 	if(flag == false){
@@ -122,6 +123,7 @@ const signUpCheck = () => {
 	}
 	
 	return flag;
+
 }
 
 
