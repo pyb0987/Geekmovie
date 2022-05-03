@@ -157,7 +157,8 @@ public class BoardVo {
 	public String toString() {
 		return "BoardVo [seq=" + seq + ", title=" + title + ", writer=" + writer + ", contents=" + contents + ", reply="
 				+ reply + ", regdate=" + regdate + ", cnt=" + cnt + ", likes=" + likes + ", movie_id=" + movie_id
-				+ ", startList=" + startList + ", listSize=" + listSize + "]";
+				+ ", startList=" + startList + ", listSize=" + listSize + ", searchType=" + searchType + ", bKeyword="
+				+ bKeyword + ", b_score=" + b_score + "]";
 	}
 	
 }

@@ -2,24 +2,20 @@ package com.geekmovie.board;
 
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.geekmovie.board.service.BoardService;
 import com.geekmovie.board.vo.BoardVo;
 import com.geekmovie.board.vo.PageVo;
-import com.mysql.cj.Session;
 
 @Controller
 public class BoardController {
@@ -51,12 +47,17 @@ public class BoardController {
 		boardVo.setListSize(pagevo.getListSize());
 		
 		List<BoardVo> list = boardService.bList(boardVo);
+		String sType = boardVo.getSearchType();
+		String kWord = boardVo.getbKeyword();
 		
 		mav.addObject("pagination", pagevo);
 		mav.addObject("data", list);
-		mav.addObject("searchType",boardVo.getSearchType());
-		mav.addObject("keyword", boardVo.getbKeyword());
+		mav.addObject("searchType",sType);
+		mav.addObject("keyword", kWord);
+		mav.addObject("curpage", curPage);
+		mav.addObject("range", range);
 		mav.setViewName("boardList");
+		
 		return mav;
 	}
 	
@@ -70,7 +71,7 @@ public class BoardController {
 	@PostMapping("/boardCreate")
 	public ModelAndView createPost(BoardVo boardVo) {
 		System.out.println("board post success");
-		
+		System.out.println(boardVo);
 		int rs = boardService.bCreate(boardVo);
 		ModelAndView mav = new ModelAndView();
 		if(rs==1) {
@@ -83,13 +84,25 @@ public class BoardController {
 	}
 	
 	@GetMapping("/boardDetail")
-	public ModelAndView detail(BoardVo boardVo) {
+	public ModelAndView detail(BoardVo boardVo,
+			@RequestParam(required = false, defaultValue = "1") int curPage,
+			@RequestParam(required = false, defaultValue = "1") int range,
+			@RequestParam(required = false, defaultValue = "TC") String searchType,
+			@RequestParam(required = false, defaultValue = "") String bKeyword) {
 		System.out.println("board detail");
 		
+		boardService.bCnt(boardVo);
+
 		BoardVo detail = boardService.bDetail(boardVo);
+		String sType = boardVo.getSearchType();
+		String kWord = boardVo.getbKeyword();
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("data", detail);
+		mav.addObject("searchType",sType);
+		mav.addObject("keyword", kWord);
+		mav.addObject("curpage", curPage);
+		mav.addObject("range", range);
 		mav.setViewName("boardDetail");
 		
 		return mav;

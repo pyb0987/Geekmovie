@@ -59,6 +59,6 @@ document.querySelector("#b_modify").onclick = function(){
 		</form>
 	<%} %>
 		
-<a href="boardList">목록</a>
+<a href="boardList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}">목록</a>
 </body>
 </html>

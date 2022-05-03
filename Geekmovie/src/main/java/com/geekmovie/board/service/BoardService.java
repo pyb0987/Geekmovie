@@ -1,10 +1,8 @@
 package com.geekmovie.board.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.geekmovie.board.vo.BoardVo;
-import com.geekmovie.board.vo.PageVo;
 
 public interface BoardService {
 	
@@ -17,6 +15,8 @@ public interface BoardService {
 	public BoardVo bDetail(BoardVo boardVo);
 	
 	public int bUpdate(BoardVo boardVo);
+	
+	public int bCnt(BoardVo boardVo);
 	
 	public int bDelete(BoardVo boardVo);
 }
