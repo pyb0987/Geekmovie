@@ -48,11 +48,20 @@ public class userVOServiceImpl implements userVOService {
 		return dao.viewMember(userVO);
 	
 	}
-	
+
 	@Override
-	// 회원정보 수정
-	public int update_mypage(userVO userVO) {
-		return dao.update_mypage(userVO);
+
+	// 회원 정보 수정
+	public int update(userVO userVO,HttpSession session) {
+		int cnt = dao.update_mypage(userVO);
+		return cnt;
+	}
+
+	@Override
+	// 회원 탈퇴
+	public int delete(userVO userVO, HttpSession session) {
+		int cnt = dao.delete_mypage(userVO);
+		return cnt;
 	}
 	
 }

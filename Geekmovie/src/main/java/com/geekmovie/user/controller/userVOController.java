@@ -28,14 +28,14 @@ public class userVOController {
 	}
 
 	// 로그인
-	@GetMapping("/join")
+	@GetMapping("/user_join")
 	public String joinGet() {
 		System.out.println("@join GET 호출");
-		return "join";
+		return "user_join";
 	}
 
 	// 로그인 처리
-	@PostMapping("/join")
+	@PostMapping("/user_join")
 	public ModelAndView joinPost(@ModelAttribute userVO userVO, HttpSession session) {
 		System.out.println("@join Post 호출");
 		boolean result = userService.loginCheck(userVO, session);
@@ -43,7 +43,7 @@ public class userVOController {
 		if (result == true) { // 로그인 성공
 			mav.setViewName("redirect:/");
 		} else { // 로그인 실패
-			mav.setViewName("join");
+			mav.setViewName("user_join");
 			mav.addObject("msg", "failure");
 		}
 		
@@ -51,14 +51,14 @@ public class userVOController {
 	}
 
 	// 회원가입
-	@GetMapping("/createUser")
+	@GetMapping("/user_createUser")
 	public String createGET() {
 		System.out.println("@CreateUser GET 호출");
-		return "createUser";
+		return "user_createUser";
 	}
 
 	// 가입처리
-	@PostMapping("/createUser")
+	@PostMapping("/user_createUser")
 	public ModelAndView createPost(userVO userVO) {
 
 		System.out.println("@Create POST 호출");
@@ -68,9 +68,9 @@ public class userVOController {
 
 		ModelAndView mav = new ModelAndView();
 		if (rs == 1) {
-			mav.setViewName("redirect:/join");
+			mav.setViewName("redirect:/user_join");
 		} else {
-			mav.setViewName("redirect:/createUser");
+			mav.setViewName("redirect:/user_createUser");
 		}
 		return mav;
 	}
@@ -87,7 +87,7 @@ public class userVOController {
 	}
 
 	// 로그아웃 처리
-	@GetMapping("/logout")
+	@GetMapping("/user_logout")
 	public String logout(HttpServletRequest request) throws Exception{
 		System.out.println("@logout 실행");
 		HttpSession session = request.getSession();
@@ -97,26 +97,64 @@ public class userVOController {
 	}
 
 	// 마이페이지
-	@GetMapping("/mypage")
+	@GetMapping("/user_mypage")
 	public String mypageGet() {
 		System.out.println("@mypage 실행");
 
-		return "mypage";
+		return "user_mypage";
 	}
 	
-	// 마이페이지
-	@PostMapping("/mypage")
-	public ModelAndView mypagePost(userVO userVO) {
+	// 마이페이지 수정하기
+	@GetMapping("/user_update_mypage")
+	public String update_mypageGet() {
+		System.out.println("@update_mypage Get 실행");
+		return "user_update_mypage";
+	}
+	
+	// 마이페이지 수정하기2
+	@PostMapping("/user_update_mypage")
+	public ModelAndView update_mypagePost(userVO userVO,HttpSession session) {
+		System.out.println("@update_mypage POST 호출");
+		System.out.println(userVO);
+	
+		int rs = userService.update(userVO, session);
 		
-		int rs = userService.update_mypage(userVO);
-
 		ModelAndView mav = new ModelAndView();
 		if (rs == 1) {
-			mav.setViewName("redirect:/join");
+			mav.setViewName("redirect:/user_join");
+			//mav.addObject("msg", "success");
 		} else {
-			mav.setViewName("redirect:/createUser");
+			mav.setViewName("redirect:/user_createUser");
 		}
 		return mav;
+		
 	}
 	
+	// 회원 탈퇴
+	@GetMapping("/user_delete_mypage")
+	public String delete_mypageGet(userVO userVO, HttpSession session) {
+		System.out.println("@delete_mypageGet 실행");
+		return "user_delete_mypage";
+	}
+	
+	//회원 탈퇴2
+	@PostMapping("/user_delete_mypage")
+	public ModelAndView delete_mypagePost(userVO userVO, HttpSession session) {
+		System.out.println("@delete_mypagePost 실행");
+		
+		int rs = userService.delete(userVO,session);
+		
+		ModelAndView mav = new ModelAndView();
+		
+		if (rs == 1) {
+			//세션값 초기화
+			session.invalidate();
+			mav.setViewName("redirect:/");
+			//mav.addObject("msg", "success");
+		} else {
+			mav.setViewName("redirect:/user_createUser");
+		}
+		return mav;	
+	}
+		
 }

@@ -30,21 +30,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 회원 로그인 정보 -->
 	<select id="viewMember" resultType="userVO">
 		<![CDATA[
-			select id,name,gender from users where id = #{id} and password = #{password};		
+			select id,name,password,gender from users where id = #{id} and password = #{password};		
 		]]>
 	</select>
 	
-	<!-- 리스트로 목록보기 -->
-	<select id="userInfo">
-		<![CDATA[
-			select * from user
-		]]>
-	</select>
-	
+
 	<!-- 회원정보 수정 -->
 	<update id="update_mypage" parameterType="userVO">
 		<![CDATA[
-			update users set password = #{password}, name = #{name} where id = #{id};	
+			update users set password = #{password}, name = #{name}, gender = #{gender} where id = #{id};	
 		]]>
 	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="delete_mypage" parameterType="userVO">
+		<![CDATA[
+			delete from users where id = #{id} and password = #{password};
+		]]>
+	</delete>
 </mapper>
