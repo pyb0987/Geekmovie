@@ -71,7 +71,6 @@ public class BoardController {
 	@PostMapping("/boardCreate")
 	public ModelAndView createPost(BoardVo boardVo) {
 		System.out.println("board post success");
-		System.out.println(boardVo);
 		int rs = boardService.bCreate(boardVo);
 		ModelAndView mav = new ModelAndView();
 		if(rs==1) {
@@ -112,7 +111,6 @@ public class BoardController {
 	public ModelAndView boardUpdate(BoardVo boardVo) {
 		System.out.println("board update!");
 		BoardVo detailBoard = boardService.bDetail(boardVo);
-		System.out.println(boardVo);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("data", detailBoard);	

@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace : package + classname -->
-<mapper namespace="boardVo">
+<mapper namespace="freeVo">
 
-	<select id="board_list" parameterType="boardVo" resultType="boardVo">
+	<select id="free_list" parameterType="freeVo" resultType="freeVo">
 		<![CDATA[
 			select seq, movie_id, title, writer, regdate, cnt, likes
-			from review_board 
-			where 1 = 1 
+			from free_board
+			where 1 = 1
 		]]>
 		<if test="searchType == 'TC' and bKeyword != null">
 			AND title LIKE CONCAT ('%',#{bKeyword},'%')
@@ -24,13 +24,13 @@
 			Limit #{startList}, #{listSize}
 	</select>
 	
-	<select id="boardListCnt" resultType="int">
+	<select id="freeListCnt" resultType="int">
 		<![CDATA[
 			select count(*) 
-			from review_board
+			from free_board
 			where 1 = 1
 		]]>
-		<if test="searchType == 'TC' and bKeyword != null">
+ 		<if test="searchType == 'TC' and bKeyword != null">
 			AND title LIKE CONCAT ('%',#{bKeyword},'%')
 		</if>
 		<if test="searchType == 'Wr' and bKeyword != null">
@@ -42,42 +42,42 @@
 		
 	</select>
 
-	<insert id="board_insert" parameterType="boardVo">
+	<insert id="free_insert" parameterType="freeVo">
 		<![CDATA[
-			 insert into review_board (title, writer, contents, movie_id)
-			 values (#{title}, #{writer}, #{contents}, #{movie_id})			 
+			 insert into free_board (title, movie_id, writer, contents)
+			 values (#{title}, #{movie_id}, #{writer}, #{contents})			 
 		]]>
 	</insert>
 	
-	<select id="board_detail" parameterType="boardVo" resultType="boardVo">
+	<select id="free_detail" parameterType="freeVo" resultType="freeVo">
 		<![CDATA[
 			select seq, title, writer, contents, regdate, movie_id
-			from review_board  
+			from free_board  
 			where seq = #{seq}
 		]]>
 	</select>
 	
-	<update id="board_update" parameterType="boardVo">  
+	<update id="free_update" parameterType="freeVo">  
 	    <![CDATA[  
-	        update review_board set  
-	        title = #{title}, contents = #{contents}, movie_id = #{movie_id}
+	        update free_board set  
+	        title = #{title}, contents = #{contents}, movie_id = #{movie_id} 
 	        where  
 	        seq = #{seq}  
 		    ]]>  
 	</update>
 	
-	<update id="board_cntIncrease" parameterType="boardVo">  
+	<update id="free_cntIncrease" parameterType="freeVo">  
 	    <![CDATA[  
-	        update review_board set  
+	        update free_board set  
 	        cnt = cnt + 1
 	        where  
 	        seq = #{seq}  
 		    ]]>  
 	</update>
 	
-	<delete id="board_delete" parameterType="boardVo">
+	<delete id="free_delete" parameterType="freeVo">
 		<![CDATA[
-			delete from review_board
+			delete from free_board
 			where seq = #{seq}
 		]]>
 	</delete>

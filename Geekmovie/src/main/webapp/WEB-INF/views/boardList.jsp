@@ -38,7 +38,7 @@ document.querySelector("#b_create").onclick = function(){
 	if('${sessionScope.id}'==''){
 		var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
 		if(result){
-		    location.href = 'join';
+		    location.href = 'user_join';
 		}
 	}else{
 		location.href = 'boardCreate';
@@ -80,25 +80,22 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
        str += `<a href="/movie/boardList?searchType=`+searchMode+`&bKeyword=`+query+`&curPage=`+(pageNum)+`&range=<%=maxRange %>">&nbsp;끝&nbsp;</a>` //맨뒤로
     }
     $('.oneLineReviewSearchPagination').html(str);
-      }
-   
-
-
-
-
+    }
 }
 </script>
 <link rel="stylesheet" href="${path}/resources/css/pagination.css?ver=1"/>
 </head>
 <body>
 <h3>회원정보 : ${sessionScope.id}</h3>
+<h1>리뷰게시판</h1>
 <!-- List -->
 	<table border="1">
-		<tr><th>seq</th><th>title</th><th>writer</th><th>regdate</th><th>cnt</th><th>likes</th></tr>
+		<tr><th>게시번호</th><th>영화이름</th><th>제목</th><th>작성자</th><th>작성일</th><th>조회수</th><th>추천수</th></tr>
 		<c:forEach var="b" items="${data}">
 			<tr>
 				<td>${b.seq}</td>
-				<td><a href="boardDetail?seq=${b.seq }&searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}">${b.title}</a></td>
+				<td>${b.movie_id}</td>
+				<td><a href="boardDetail?seq=${b.seq}&searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}">${b.title}</a></td>
 				<td>${b.writer}</td>
 				<td>${b.regdate}</td>
 				<td>${b.cnt}</td>
@@ -116,7 +113,7 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
 		<select id="searchType" name="searchType">
 			<option value="TC"  <c:if test="${searchType == 'TC'}">selected="selected"</c:if> >제목+내용</option>
 			<option value="Wr" <c:if test="${searchType == 'Wr'}">selected="selected"</c:if>>작성자</option>
-			<option value="M_id" <c:if test="${searchType== 'M_id'} ">selected="selected"</c:if>>영화이름</option>
+			<option value="M_id" <c:if test="${searchType == 'M_id'}">selected="selected"</c:if>>영화이름</option>
 		</select>
 		<input type="text" placeholder="검색" name="bKeyword" />
 		<input type="hidden" name="page" value="1" />
