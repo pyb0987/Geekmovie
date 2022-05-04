@@ -150,10 +150,13 @@ function isBirthRight() {
 function checkAge() {
 	if (Number(yy.value) < 1920) {
 		error[4].innerHTML = "정말이세요?";
-	} else if (Number(yy.value) > 2019) {
+		error[4].style.display = "block";
+	} else if (Number(yy.value) > 2023) {
 		error[4].innerHTML = "미래에서 오셨군요. ^^";
-	} else if (Number(yy.value) > 2005) {
+		error[4].style.display = "block";
+	} else if (Number(yy.value) > 2008) {
 		error[4].innerHTML = "만 14세 미만의 어린이는 보호자 동의가 필요합니다.";
+		error[4].style.display = "block";
 	} else {
 		error[4].style.display = "none";
 	}

@@ -8,8 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- insert 회원가입 -->
 	<insert id="insertVO" parameterType="userVO">
 		<![CDATA[
-			insert into users(id, password, name, gender)
-			values (#{id},#{password},#{name},#{gender});	
+			insert into users(id, password, name, birthday, gender)
+			values (#{id}, #{password}, #{name}, #{birthday}, #{gender});	
 		]]>	
 	</insert>
 	
@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 회원 로그인 정보 -->
 	<select id="viewMember" resultType="userVO">
 		<![CDATA[
-			select id,name,password,gender from users where id = #{id} and password = #{password};		
+			select id, name, password, birthday, gender from users where id = #{id} and password = #{password};		
 		]]>
 	</select>
 	
@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 회원정보 수정 -->
 	<update id="update_mypage" parameterType="userVO">
 		<![CDATA[
-			update users set password = #{password}, name = #{name}, gender = #{gender} where id = #{id};	
+			update users set password = #{password}, name = #{name}, gender = #{gender}, birthday = #{birthday} where id = #{id};	
 		]]>
 	</update>
 	

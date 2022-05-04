@@ -6,8 +6,10 @@
 	if(id == null) id= "product";
 	String password = (String)session.getAttribute("password");
 	String name =(String)session.getAttribute("name");
+	String birthday = (String)session.getAttribute("birthday");
 	String gender =(String)session.getAttribute("gender");
-	System.out.print(id);
+	System.out.println(id);
+	System.out.println(birthday);
 %>
 
 <%if(id=="product"){%>
@@ -34,29 +36,35 @@
          <form method="post" name="regiform" id="regist_form" class="form">
 		 <table>
 		 	<tr>
-		 		<td width="200px"><label id="must_id"> * </label> 아이디 : </td>
-		 		<td width="250px"><input type="hidden" name="id" value="id"><%=id%><br></td>
+		 		<td width="200px"><label id="must_id"> * </label> <label id="text_id">아이디 :</label></td>
+		 		<td width="250px"><input type="hidden" name="id" value="id"><label id="text_id"><%=id%></label><br></td>
 		 	</tr>
 		 	<tr>
-		 		<td width="200px"><label id="must_id"> * </label> 비밀번호 : </td>
-		 		<td width="250px"><input type="hidden" name="password" value="password"><%=password%></td>
+		 		<td width="200px"><label id="must_password"> * </label><label id="text_id">비밀번호 :</label></td>
+		 		<td width="250px"><input type="hidden" name="password" value="password"><label id="text_id"><%=password%></label></td>
 		 	</tr>
 		 	<tr>
-		 		<td width="200px"><label id="must_id"> * </label> 이름 : </td>
-		 		<td width="250px"><input type="hidden" name="name" value="name"><%=name%></td>
+		 		<td width="200px"><label id="must_name"> * </label><label id="text_id"> 이름 :</label></td>
+		 		<td width="250px"><input type="hidden" name="name" value="name"><label id="text_id"><%=name%></label></td>
 		 	</tr>
 		 	<tr>
-		 		<td width="200px"><label id="must_id"> * </label> 성별 : </td>
-		 		<td width="250px"><input type="hidden" name="id" value="id"><%=gender%></td>
+		 		<td width="200px"><label id="must_birthday"> * </label><label id="text_id"> 생년월일 :</label></td>
+		 		<td width="250px"><input type="hidden" name="birthday" value="birthday"><label id="text_id"><%=birthday%></label></td>
+		 	</tr>
+		 	<tr>
+		 		<td width="200px"><label id="must_gender"> * </label><label id="text_id"> 성별 : </label></td>
+		 		<td width="250px"><input type="hidden" name="gender" value="gender"><label id="text_id"><%=gender%></label></td>
 		 	</tr>
 		 </table>
-		 <hr>
 		</form>
+			<div class="hr">
+				<hr>
+			</div>
 		 	<p>
-			<input type="button" value = "회원정보 수정" class="signup_btn" onclick="location.href='user_update_mypage'">
+			<input type="button" value = "회원정보 수정" class="signup_btn1" onclick="location.href='user_update_mypage'">
 			</p>
 			<p>
-			<input type="submit" value="회원 탈퇴" class="signup_btn" onclick="location.href='user_delete_mypage'">
+			<input type="submit" value="회원 탈퇴" class="signup_btn2" onclick="location.href='user_delete_mypage'">
 			</p>
 		</div>
 	</div>

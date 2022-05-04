@@ -88,11 +88,10 @@ public class userVOController {
 
 	// 로그아웃 처리
 	@GetMapping("/user_logout")
-	public String logout(HttpServletRequest request) throws Exception{
+	public String logout(HttpSession session){
 		System.out.println("@logout 실행");
-		HttpSession session = request.getSession();
+		//session.removeAttribute("id");
 		session.invalidate();
-		request.getSession(true);
 		return "redirect:/";
 	}
 
@@ -152,7 +151,8 @@ public class userVOController {
 			mav.setViewName("redirect:/");
 			//mav.addObject("msg", "success");
 		} else {
-			mav.setViewName("redirect:/user_createUser");
+			mav.setViewName("user_delete_mypage");
+			mav.addObject("msg", "failure");
 		}
 		return mav;	
 	}

@@ -6,17 +6,19 @@ public class userVO {
 	private String password;
 	private String name;
 	private String gender;
+	private String birthday;
 	
 	public userVO() {
 		
 	}
 
-	public userVO(String id, String password, String name, String gender) {
+	public userVO(String id, String password, String name, String gender, String birthday) {
 		super();
 		this.id = id;
 		this.password = password;
 		this.name = name;
 		this.gender = gender;
+		this.birthday = birthday;
 	}
 
 	public String getId() {
@@ -51,11 +53,19 @@ public class userVO {
 		this.gender = gender;
 	}
 
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
 	@Override
 	public String toString() {
-		return "userVo [id=" + id + ", password=" + password + ", name=" + name + ", gender=" + gender + "]";
+		return "userVO [id=" + id + ", password=" + password + ", name=" + name + ", gender=" + gender + ", birthday="
+				+ birthday + "]";
 	}
-	
-	
 
+	
 }
