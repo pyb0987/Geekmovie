@@ -3,19 +3,20 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<% 
+	
+
+
+%>
 
 
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>header</title>
 <link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
 
-
-
 <style>
-
 
 #header{
 	display: flex;
@@ -311,6 +312,7 @@ box-shadow: -1px 1px 16px rgba(0, 0, 0, 0.6);
 
 </style>
  <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/debounce.js"></script>
+
 <script>
 
 $(document).ready(function(){		
@@ -433,7 +435,6 @@ if(!!form.query && form.query.value !=""){
 })
 
 </script>
-
 <body>
 <header>
 	<div id="header">

@@ -8,6 +8,14 @@
 String language = "ko-KR";
 %>
 
+<% 
+response.setHeader("Cache-Control","no-store"); 
+response.setHeader("Pragma","no-cache"); 
+response.setDateHeader("Expires",0); 
+if (request.getProtocol().equals("HTTP/1.1"))
+        response.setHeader("Cache-Control", "no-cache");
+%>
+
 <html lang="en">
 
 <head>
@@ -29,11 +37,6 @@ body {
 	padding-top : 100px;
 
 }
-
-
-
-
-
 
 
 #userSpace{
@@ -73,6 +76,9 @@ background-color : white;
 <script type="text/javascript" src="${path}/resources/js/movieListAjax.js?ver=2"></script>
 
 <script type="text/javascript" src="${path}/resources/js/movieBigSlide.js"></script>
+
+
+<body>
 <script>
 
     

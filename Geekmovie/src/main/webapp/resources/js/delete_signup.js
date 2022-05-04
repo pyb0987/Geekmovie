@@ -1,21 +1,15 @@
 // 가입부분 체크
 const signUpCheck = () => {
 	//Input들을 각각 변수에 대입
-	const id = document.regiform.id;
 	const password = document.regiform.password;
 	const passwordCheck = document.regiform.passwordCheck;
-	const name = document.regiform.name;
-	const gender = document.regiform.gender.value;
-	
-	var id_check = $('#id').val();
 	var flag = true;
 	var error = document.querySelectorAll('.error_next_box');
 	
 	// password 값이 비어있으면 실행.
-	if (password.value == '') {
+	if (password.value === "") {
 		error[1].innerHTML = "필수 정보입니다.";
 		error[1].style.display = "block";
-		//document.getElementById("passwordError").innerHTML = "필수 정보입니다.";
 		password.focus();
 		console.log("password : "+flag)
 		flag = false;
