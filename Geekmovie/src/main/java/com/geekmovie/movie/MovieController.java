@@ -31,7 +31,7 @@ public class MovieController {
 		 return "index";
 	}
 	
-	@GetMapping("/movieDetail")     //home
+	@GetMapping("/movieDetail")  
 	public ModelAndView movieDetail(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();	
 		
@@ -48,7 +48,7 @@ public class MovieController {
 		return mav;
 	}
 	
-	@GetMapping("/movieDetail/random")     //home
+	@GetMapping("/movieDetail/random")   
 	public ModelAndView movieDetailRandom(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();	
 		
@@ -83,17 +83,7 @@ public class MovieController {
 	}
 	
 
-//	@GetMapping("/boardList")          //게시판
-//	public ModelAndView boardList(BoardVo boardVo) {
-//		System.out.println("list : " + boardVo); 
-//		List<BoardVo> list = boardService.bList(boardVo);
-//		
-//		ModelAndView mav = new ModelAndView();
-//		mav.addObject("data", list);
-//		mav.setViewName("boardList");
-//		return mav;
-//	}
-	
+
 
 
 }

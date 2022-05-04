@@ -17,7 +17,7 @@ public class OneLineReviewLikeDao {
 	SqlSessionTemplate sqlSessionTemplate;
 	
 	public int Check(Map<String, Object> map) {	
-		return sqlSessionTemplate.selectOne("oneLineReviewLikeVo.Check", map);
+		return sqlSessionTemplate.selectOne("oneLineReviewLikeVo.Check", map); //#{userId}, #{oneLineReviewId}, #{mode}
 	}
 	
 	public int Add(Map<String, Object> map) {	

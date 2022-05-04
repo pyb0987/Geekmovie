@@ -35,7 +35,6 @@
 	width: 100%;
 
 	padding-bottom : 65%;
-	overflow: hidden;
 }
 
 
@@ -59,14 +58,15 @@ padding-bottom : 50%;
 .movie-bigDetail{
 display : flex;
 justify-content: space-between;
-align-items: flex-start;
+align-items: center;
+
 }
 
 .bigMovieTitle{
  	font-family: 'Hahmlet', serif;
  	color : white;
  	font-size : 7rem;
- 	width : 80%;
+ 	flex-grow : 1;
  	transform: translateX(4rem) translateY(-9rem);
  	line-height : 8rem;
 }
@@ -75,6 +75,7 @@ align-items: flex-start;
  	font-family: 'Hahmlet', serif;
  	 color : white;
  	 font-size : 1.5rem;
+ 	 flex-grow : 0;
  	 transform: translateX(-3rem);
  	  cursor: pointer;  
 }
@@ -82,3 +83,13 @@ align-items: flex-start;
  	 color : #999;
 }
 
+
+.bigMovie-Click.clickBox{
+	flex-grow : 0;
+	display : flex;
+	align-items: center;
+	margin-right : 5rem;
+}
+.bigMovie-Click.clickBox .addClick{
+	margin-left: -1rem;
+}

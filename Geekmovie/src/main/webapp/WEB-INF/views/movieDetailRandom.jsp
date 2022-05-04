@@ -202,7 +202,7 @@ padding-left: 30px;
 	        	contentType : 'application/json', 
 	        	async: false, 
 	        	success: function(data){
-	        		if(data.adult){
+	        		if(data.success == false ||  data.adult){
 	        		checkId = true;
 	        		}
 	        		if(data.vote_count < 1){

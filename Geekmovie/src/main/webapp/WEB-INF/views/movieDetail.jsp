@@ -12,13 +12,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GeekMovie</title>
 
-<link rel="stylesheet" href="${path}/resources/css/movieDetail.css?"/>
-<link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=1"/>
+<link rel="stylesheet" href="${path}/resources/css/movieDetail.css?ver=1"/>
+<link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=2"/>
 <link rel="stylesheet" href="${path}/resources/css/movieCast.css?"/>
 <link rel="stylesheet" href="${path}/resources/css/movieCrew.css?"/>
 
 <link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
+<link rel="stylesheet" href="${path}/resources/css/movieLike.css"/>
+
 
 <style>
 @import
@@ -67,8 +69,9 @@ padding-left: 30px;
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/throttle.js"></script>
 	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fontResize.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieLike.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieSlide.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieListAjax.js?ver=1"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieListAjax.js?ver=2"></script>
 	
 <script>
 	$(document).ready(function() {
@@ -118,9 +121,9 @@ padding-left: 30px;
 		const RecommendMovieContainer = document.querySelector("#recommend-movie .movies-container");
 		movieSlideController(SimilarMovieContainer);					//movieSlide.js
 		movieSlideController(RecommendMovieContainer);				
-		
-		
-		
+			
+		movieLike('${sessionScope.id}');	//영화좋아요/add 적용 
+
 		
 		$.ajax({							//받아온 영화 정보 디테일로 만들기
         	type: 'GET',
@@ -172,6 +175,9 @@ padding-left: 30px;
         		let str9 = '<h6>제작국가 : '+countryAry.join(' ,')+'</h6>'
         		$("#detail-country").html(str9);
         		$("#scoreImdb .Score").html(data.vote_average);    //imdb 점수 표시
+        		$(".detail-Click.clickBox").data("id", '${movieId}');
+        	   	$(".detail-Click.clickBox").activeLikeMovie();
+ 
         		return false;
         	}
         	,
@@ -214,10 +220,7 @@ padding-left: 30px;
         	},
             error: function(request, status, error){
             	console.log(request, status, error)
-            }
-        		
-
-        			
+            }		
         })
         return false;
 		}
@@ -262,9 +265,11 @@ padding-left: 30px;
 
                 
 
-				
-
-		
+	
+	
+        
+ 
+        
 		
 		
 
@@ -297,8 +302,16 @@ padding-left: 30px;
 			<div id="detail-genres"></div>
 			<div id="detail-release"></div>
 			<div class="spacing"
-				style="width: 95%; height: 120px; display: flex; justify-content: space-between; ">
+				style="width: 95%; height: 120px; display: flex;">
 				<div id="detail-country"></div>
+				<div class="detail-Click clickBox">
+				<div class="heartClickBig heartClick"><div class="heartClickBigClicker heartClickClicker"></div></div>
+				<div class="addClick addClickBig">
+            		<svg viewBox="0 0 44 44">
+                		<path d="M14,24 L21,31 L39.7428882,11.5937758 C35.2809627,6.53125861 30.0333333,4 24,4 C12.95,4 4,12.95 4,24 C4,35.05 12.95,44 24,44 C35.05,44 44,35.05 44,24 C44,19.3 42.5809627,15.1645919 39.7428882,11.5937758" transform="translate(-2.000000, -2.000000)"></path>
+            		</svg>
+        		</div>
+        		</div>
 				<div id="detail-vote">
 					<div id="scoreGeek">
 						<div class="siteName">GeekScore</div>

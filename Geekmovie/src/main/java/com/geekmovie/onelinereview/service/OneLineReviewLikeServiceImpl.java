@@ -18,7 +18,7 @@ public class OneLineReviewLikeServiceImpl implements OneLineReviewLikeService{
 	
 	
 	@Override
-	public int Check(Map<String, Object> map) {
+	public int Check(Map<String, Object> map) {	//#{userId}, #{oneLineReviewId}, #{mode}
 		return oneLineReviewLikeDao.Check(map);
 	}
 	

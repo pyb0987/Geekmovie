@@ -58,9 +58,9 @@ background-color : white;
 
 
 </style>
-<link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=1"/>
-<link rel="stylesheet" href="${path}/resources/css/movieBigSlide.css?ver=1"/>
-
+<link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=2"/>
+<link rel="stylesheet" href="${path}/resources/css/movieBigSlide.css?ver=2"/>
+<link rel="stylesheet" href="${path}/resources/css/movieLike.css"/>
 
 
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -68,11 +68,12 @@ background-color : white;
 <script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
 <script type="text/javascript" src="${path}/resources/js/debounce.js"></script>
 
-<script type="text/javascript" src="${path}/resources/js/movieSlide.js?ver=2"></script>
+<script type="text/javascript" src="${path}/resources/js/movieLike.js?ver=3"></script>
+<script type="text/javascript" src="${path}/resources/js/movieSlide.js?ver=3"></script>
 <script type="text/javascript" src="${path}/resources/js/fontResize.js"></script>
-<script type="text/javascript" src="${path}/resources/js/movieListAjax.js?ver=2"></script>
+<script type="text/javascript" src="${path}/resources/js/movieListAjax.js?ver=3"></script>
 
-<script type="text/javascript" src="${path}/resources/js/movieBigSlide.js"></script>
+<script type="text/javascript" src="${path}/resources/js/movieBigSlide.js?ver=2"></script>
 <script>
 
     
@@ -102,7 +103,7 @@ background-color : white;
 			  }, 100), true);										//윈도우 사이즈 변경때마다 리사이징 실행 - throttle
 
 			  
-	
+		movieLike('${sessionScope.id}');	//영화좋아요/add 적용 
 			  
 		
 		const TrendMovieContainer = document.querySelector("#trend-movie .movies-container");	
@@ -193,7 +194,7 @@ background-color : white;
 	<div class="movieSlideNext">&rang;</div>
 	</div>
 	
-	
+	<div class="spacing" style="height : 100px; z-index=-1;"></div>
 	<div id="trend-movie">
 	<div class="seeMoreMovies-container"><h3 class="seeMoreMovies">일일 추천영화</h3></div>
 		<div class="movies-container">

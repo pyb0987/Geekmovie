@@ -19,7 +19,7 @@ String UserId = (String)session.getAttribute("id");
 <script type="text/javascript" src="${path}/resources/js/debounce.js"></script>
 <script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
 <script type="text/javascript" src="${path}/resources/js/fontResize.js"></script>
-<script type="text/javascript" src="${path}/resources/js/InputSearch.js"></script>
+<script type="text/javascript" src="${path}/resources/js/InputSearch.js?ver=1"></script>
 
 
 <script>
@@ -234,12 +234,35 @@ $(document).ready(function(){
 
 	 
 	 
+	 
+	 
 	 //---------------좋아요 기능 구현
 	 
-	 if('${sessionScope.id}'==''){
-		 
-		 
-	 }
+	$.fn.activeLikeButtons = function() {			// - 이미 눌린 좋아요 버튼 active효과주기
+		this.each(function(i,e){
+		let olrId = $(e).children()[0].dataset.olrid;
+		let mode = Number($(e).hasClass("like-button"));
+     	 $.ajax({
+			 url: 'oneLineReview/Like/'+olrId+'?userId=${sessionScope.id}&mode='+mode,
+			method: "GET",
+	        success: function(data){
+	        	if(data==1){		   
+	        	$(e).addClass("active");
+	        	}else{
+		        	$(e).removeClass("active"); 
+	        	}
+	       	},
+	       	error: function(request, status, error){
+	        	console.log(request, status, error)
+	       	}
+	       	});
+	});
+	}
+	 
+	if('${sessionScope.id}'!=''){
+		$(".like-button, .dislike-button").activeLikeButtons();
+	}
+	
 	
 	 $(document).on("click", ".like-button, .dislike-button", function(e){		//좋아요 버튼 누를때 이벤트
 		 if('${sessionScope.id}'==''){
@@ -250,7 +273,9 @@ $(document).ready(function(){
 			}else{
 				var button = e.currentTarget;
 	    		var likeData = {};
-	    		var olrId = button.childNodes[0].dataset.olrid
+	    		var olrId = button.childNodes[0].dataset.olrid;
+	    		var likeButton = button.parentElement.querySelector(".like-button");
+	    		var dislikeButton = button.parentElement.querySelector(".dislike-button");
 	    		likeData['mode'] = Number(button.classList.contains("like-button"));
 	    		likeData['userId'] = '${sessionScope.id}';
 				$.ajax({
@@ -261,23 +286,28 @@ $(document).ready(function(){
 			           contentType:"application/json;charset=UTF-8",
 			           success: function(data){
 				           if(data==1 || data==2){				//성공시 정보 업데이트
-				        	   if(likeData['mode']){ // 좋아요버튼
-				        	   	var purl ='?query=likes';
-				        	   }else{
-				        		var purl ='?query=dislikes';
-				        	   }
 				        	   $.ajax({
-								   url: '/movie/oneLineReview/'+olrId+purl,
+								   url: '/movie/oneLineReview/'+olrId+'?query=likes',
 								   method: "GET",
 						           success: function(data){
-						        	
-						           		button.querySelector(".like-dislike-button-span").innerText = data;
+						        	   likeButton.querySelector(".like-dislike-button-span").innerText = data;
 						       		},
 						       		error: function(){
-								    //location.href = "/movie/oneLineReview?SearchMode=${SearchMode}&query=${query}&page=${page.nowPage}";			//현재페이지 새로고침
+								    location.href = "/movie/oneLineReview?SearchMode=${SearchMode}&query=${query}&page=${page.nowPage}";			//현재페이지 새로고침
 						       		}
 						       		});
-				           
+				        	   $.ajax({
+								   url: '/movie/oneLineReview/'+olrId+'?query=dislikes',
+								   method: "GET",
+						           success: function(data){
+						        	   dislikeButton.querySelector(".like-dislike-button-span").innerText = data;
+						       		},
+						       		error: function(){
+								    location.href = "/movie/oneLineReview?SearchMode=${SearchMode}&query=${query}&page=${page.nowPage}";		
+						       		}
+						       		});
+				        	   $(likeButton).activeLikeButtons();
+				        	   $(dislikeButton).activeLikeButtons();
 				           }else{
 				        	   console.log(data)
 						       alert("존재하지 않는 대상입니다.");	        		 
@@ -552,7 +582,7 @@ z-index : 2;
 			<div class="oneLineReview-userId"><h5>- <span class="userId"><%=oneLineReview.getUserId() %></span> -</h5></div>
 			</div>
 
-			<div class="oneLineReview-gendate"><h6>작성 : <%=oneLineReview.getGendate() %></h6><h6>수정 : <%=oneLineReview.getModdate() %></h6></div>
+			<div class="oneLineReview-gendate"><h6>작성 : <%=oneLineReview.getGendate() %></h6><% if (oneLineReview.getModdate()!=null){ %><h6>수정 : <%=oneLineReview.getModdate() %><% }%> &nbsp;</h6></div>
 			<div class="like-dislike">
 				<div class="like-button like-dislike-button"><span class="like-button-span like-dislike-button-span" data-olrId='<%=oneLineReview.getOneLineReviewId() %>'><%=oneLineReview.getLikes() %></span><img class="like-icon" src="${path}/resources/img/like.png"></div>
 				<div class="dislike-button like-dislike-button"><span class="dislike-button-span like-dislike-button-span" data-olrId='<%=oneLineReview.getOneLineReviewId() %>'><%=oneLineReview.getDislikes() %></span><img class="dislike-icon" src="${path}/resources/img/dislike.png"></div>

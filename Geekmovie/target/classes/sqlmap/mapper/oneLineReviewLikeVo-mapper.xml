@@ -5,7 +5,7 @@
 <mapper namespace="oneLineReviewLikeVo">
 	<select id="Check" parameterType="HashMap" resultType="int">
 		<![CDATA[
-				select count(userId) from onelinereviewlike where userId=#{userId} and oneLineReviewId=#{oneLineReviewId};
+				select count(userId) from onelinereviewlike where userId=#{userId} and oneLineReviewId=#{oneLineReviewId} and mode=#{mode};
 			]]>
 			
 	</select>

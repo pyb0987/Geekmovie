@@ -500,7 +500,7 @@ if(!!form.query && form.query.value !=""){
 	<div id="foldMenuContainer">
 		<div id="foldMenu">
 		<!--<div class="menuButton">최신영화</div>-->
-		<div class="menuButton">인기영화</div>
+		<div class="menuButton"  onclick="location.href='search?searchMode=popularmovie&page=1&language=<%=request.getParameter("language")%>';">인기영화</div>
 		<div class="menuButton">장르별 영화보기</div>
 
 		<div class="menuButton" onclick="location.href='boardList?';">최신게시글</div>

@@ -18,13 +18,14 @@
 }
 
 #onleft {
-	flex : 0 0 250px;
+	flex : 0 1 250px;
+	min-width : 120px;
 	margin-left : 30px;
 }
 
 #detail-nonPoster{		
 	display: flex;
-	min-width : 300px;
+	min-width : 200px;
 	width : 1000px;
 	flex-wrap: wrap;
 	align-content : flex-start;
@@ -54,6 +55,20 @@
 	padding:6px 13px;
 	margin : 5px;
 }
+#detail-country{
+	width : 100%;
+}
+
+.detail-Click{
+	display : flex;
+	align-items: center;
+	margin-right : 2rem;
+	margin-left: -1rem;
+}
+.detail-Click .addClick{
+	margin-left: -1rem;
+}
+
 
 .movie img { /*이미지 전부 채우게 함*/
 	width: 100%;
@@ -103,6 +118,7 @@
     hsl(0,0%,90%) 47%, 
     hsl(0,0%,78%) 53%,
     hsl(0,0%,70%) 100%);
+    flex-shrink : 0.5;
 }
 #scoreGeek{
 	width: 60%;
