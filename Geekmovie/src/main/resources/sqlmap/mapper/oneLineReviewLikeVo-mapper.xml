@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace : package + classname -->
+<mapper namespace="oneLineReviewLikeVo">
+	<select id="Check" parameterType="HashMap" resultType="int">
+		<![CDATA[
+				select count(userId) from onelinereviewlike where userId=#{userId} and oneLineReviewId=#{oneLineReviewId};
+			]]>
+			
+	</select>
+	
+	<insert id="Add" parameterType="HashMap">
+		insert into onelinereviewlike(userId, oneLineReviewId, mode)
+		values(#{userId}, #{oneLineReviewId}, #{mode})
+		ON duplicate key update
+		`mode` = if(values(mode) = mode, -1, #{mode});
+	</insert>
+	
+	<delete id="DeleteDuple">
+		delete from onelinereviewlike where mode=-1;
+	</delete>
+	
+	<select id="CountOlrLike" parameterType="HashMap" resultType="int">
+		select count(userId) from onelinereviewlike where oneLineReviewId=#{oneLineReviewId} and mode=#{mode};
+	</select>
+	
+	
+
+</mapper>
