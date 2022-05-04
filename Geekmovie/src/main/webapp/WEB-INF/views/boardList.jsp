@@ -191,12 +191,48 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
 	}
 
 	.search-container {
-		background-color: gray;
-		width: 700px; height:60px;
-		margin: auto;
+		width: 800px; height:60px;
 		display: flex;
+		margin: 0 auto;
 		justify-content: center;
 	}
+	
+	.typeGroup select {
+		width: 130px; height: 40px;
+		border: 1px solid white;
+		background-color: #000000;
+		color: white;
+		text-align: center;
+		margin-right: 10px;
+	}
+	
+	.typeGroup select:hover {
+		color: white;
+		background-color: #696565;
+	}
+	
+	#kg1 {
+		width: 500px; height: 35px;
+		border: 1px solid white;
+		background-color: #000000;
+		color: white;
+		padding-left: 15px;
+		font-size: 16px;
+	}
+	
+	#kg2 {
+		width:100px; height: 40px;
+		border: 1px solid white;
+		background-color: #000000;
+		color: white;
+		font-size: 16px;
+	}
+	
+	#kg2:hover {
+		color: white;
+		background-color: #696565;
+	}
+	
 
 </style>
 
@@ -252,17 +288,19 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
 			   <div class="pagination oneLineReviewSearchPagination"></div>
 			</div>
 			<!-- Search -->
-			<div class="search-container">
-				<form accept-charset="utf-8">
-					<select id="searchType" name="searchType">
-						<option value="TC"  <c:if test="${searchType == 'TC'}">selected="selected"</c:if> >제목+내용</option>
-						<option value="Wr" <c:if test="${searchType == 'Wr'}">selected="selected"</c:if>>작성자</option>
-						<option value="M_id" <c:if test="${searchType == 'M_id'}">selected="selected"</c:if>>영화이름</option>
-					</select>
+			<div >
+				<form class="search-container" accept-charset="utf-8">
+					<div class="typeGroup">
+						<select id="searchType" name="searchType">
+							<option value="TC"  <c:if test="${searchType == 'TC'}">selected="selected"</c:if> >제목+내용</option>
+							<option value="Wr" <c:if test="${searchType == 'Wr'}">selected="selected"</c:if>>작성자</option>
+							<option value="M_id" <c:if test="${searchType == 'M_id'}">selected="selected"</c:if>>영화이름</option>
+						</select>
+					</div>
 					<div class="keywordGroup">
-						<input type="text" placeholder="검색" name="bKeyword" />
+						<input id="kg1" type="text" placeholder="검색" name="bKeyword" />
 						<input type="hidden" name="page" value="1" />
-						<input type="submit" value="검색">
+						<input id="kg2" type="submit" value="검색">
 					</div>
 				</form>
 			</div>
