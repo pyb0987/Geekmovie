@@ -38,6 +38,7 @@ $(document).ready(function(){
 	var windowResize = function(){					//리사이징 함수
 
 		fontResize()		
+		
 	}
 	
 	windowResize();
@@ -62,7 +63,7 @@ $(document).ready(function(){
 
 
 	var oneLineReviewCreate = false; //한줄평 쓰기기능 사용 여부
-	document.querySelector("#oneLineReviewCreate").addEventListener('click', function(){			//한줄평 쓰기 기능 구현
+	document.querySelector("#oneLineReviewCreate").addEventListener('click', function(e){			//한줄평 쓰기 기능 구현
 		if('${sessionScope.id}'==''){
 			var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
 			if(result){
@@ -576,7 +577,7 @@ z-index : 2;
 		</div>
 		<div class="oneLineReviewContainer">
 		<div class="oneLineReview">
-			<div class="oneLineReview-Title"><h3><%=oneLineReview.getMovieId() %></h3></div>
+			<div class="oneLineReview-Title"><h3 onclick='location.href=`/movie/movieDetail?movieId=<%=oneLineReview.getMovieId() %>&language=${language}`;'><%=oneLineReview.getMovieId() %></h3></div>
 			<div class="oneLineReview-Score"><h3><span class="star-rating"><%=oneLineReview.getScore() %></span></h3></div>
 			<div class="oneLineReview-quote"><h5 class="oneLineReview-quoteInside"><%=oneLineReview.getComment() %></h5>
 			<div class="oneLineReview-userId"><h5>- <span class="userId"><%=oneLineReview.getUserId() %></span> -</h5></div>

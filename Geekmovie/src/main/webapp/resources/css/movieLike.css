@@ -14,41 +14,6 @@
 }
 
 
-.heartClickBig.is-active {
-  transition-duration: 1s;
-  background-position: -2520px 0;
-  opacity : 1;
-}
-.heartClickBigClicker{
-	  width : 40px;
-	  height : 40px;
-	  left : 25px;
-	  top : 25px;
-}
-.heartClickBig {
-  width: 90px;
-  height: 90px;
-  background-position: 0 0;
-  background-size : auto 90px;
-}
-
-.heartClickSmallClicker{
-	  width : 30px;
-	  height : 30px;
-	  left : 20px;
-	  top : 20px;
-}
-.heartClickSmall {
-  width: 70px;
-  height: 70px;
-  background-position: 0 0;
-  background-size : auto 70px;
-}
-.heartClickSmall.is-active {
-  transition-duration: 1s;
-  background-position: -1960px 0;
-  opacity : 1;
-}
 
 
 /*---------------------------------------------*/
@@ -232,6 +197,10 @@
   }
 }
 
+
+
+
+/*-------------------------------------*/
 .addClickBig {
   border: 3px solid rgba(51,51,51);
   width: 30px;
@@ -250,6 +219,24 @@
   width: 3px;
   height: 16px;
   border-radius: 5px;
+}
+
+.heartClickBig.is-active {
+  transition-duration: 1s;
+  background-position: -2520px 0;
+  opacity : 1;
+}
+.heartClickBigClicker{
+	  width : 40px;
+	  height : 40px;
+	  left : 25px;
+	  top : 25px;
+}
+.heartClickBig {
+  width: 90px;
+  height: 90px;
+  background-position: 0 0;
+  background-size : auto 90px;
 }
 
 .addClickSmall {
@@ -272,4 +259,61 @@
   border-radius: 5px;
 }
 
+.heartClickSmallClicker{
+	  width : 30px;
+	  height : 30px;
+	  left : 20px;
+	  top : 20px;
+}
+.heartClickSmall {
+  width: 70px;
+  height: 70px;
+  background-position: 0 0;
+  background-size : auto 70px;
+}
+.heartClickSmall.is-active {
+  transition-duration: 1s;
+  background-position: -1960px 0;
+  opacity : 1;
+}
 
+
+
+
+.addClickExtraSmall {
+	border: 3px solid rgba(51,51,51, 0.4);
+  width: 2.2rem;
+  height: 2.2rem;
+}
+.addClickExtraSmall svg {
+		stroke: rgba(51,51,51, 0.4);
+  width: 2.2rem;
+  height: 2.2rem;
+  left: -3px;
+  top: -3px;
+  right: -3px;
+  bottom: -3px;
+}
+.addClickExtraSmall:before, .addClickExtraSmall:after {
+  width: 3px;
+  height: 1.5rem;
+  border-radius: 5px;
+}
+
+.heartClickExtraSmallClicker{
+	  width : 2rem;
+	  height : 2rem;
+	  left : 1.5rem;
+	  top : 1.5rem;
+}
+.heartClickExtraSmall {
+  width: 5rem;
+  height: 5rem;
+  background-position: 0 0;
+  background-size : auto 5rem;
+}
+.heartClickExtraSmall.is-active {
+  transition-duration: 1s;
+  background-position: -140rem 0;
+  opacity : 1;
+}

@@ -48,14 +48,20 @@ public class MovieController {
 		return mav;
 	}
 	
-	@GetMapping("/movieDetail/random")   
+	@GetMapping("/randomMovieDetail")   
 	public ModelAndView movieDetailRandom(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();	
 		
 		String language="ko-KR";
 		language = request.getParameter("language");
+		String nextMovie = request.getParameter("nextMovie");
+		String nowMovie = request.getParameter("nowMovie");
+		String beforeMovie = request.getParameter("beforeMovie");
 
 		mav.addObject("language", language);	// request.setAttribute
+		mav.addObject("nextMovie", nextMovie);	// request.setAttribute
+		mav.addObject("nowMovie", nowMovie);	// request.setAttribute
+		mav.addObject("beforeMovie", beforeMovie);	// request.setAttribute
 
 		
 		mav.setViewName("movieDetailRandom");

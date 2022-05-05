@@ -16,9 +16,9 @@
     height: 90%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: repeat(6, minmax(16%, 20%));
+    grid-template-rows: repeat(6, minmax(60px, 20%));
     column-gap: 1%;
-    row-gap : 2%;
+    row-gap : 3%;
 }
 .side{width : 10%;}
 .movie-searchContainer{

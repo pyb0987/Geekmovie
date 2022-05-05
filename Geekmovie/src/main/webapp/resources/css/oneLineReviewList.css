@@ -37,6 +37,14 @@
 	margin-bottom: 0.7rem;
 
 }
+.oneLineReview-Title h3{
+	display : inline-block;
+	cursor: pointer; 
+}
+.oneLineReview-Title h3:hover{
+	color : #999;
+}
+
 
 .oneLineReview-pictureContainer{
 	max-width : 220px;
