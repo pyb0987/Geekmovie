@@ -13,7 +13,10 @@ public class OneLineReviewVo {
 	private int dislikes;
 	private Timestamp gendate;
 	private Timestamp moddate;
+	private OneLineReviewLikeVo oneLineReviewLikeVo;
 	
+
+
 	public OneLineReviewVo(int oneLineReviewId, String userId, int movieId, int score, String comment, int likes,
 			int dislikes, Timestamp gendate, Timestamp moddate) {
 		super();
@@ -27,7 +30,13 @@ public class OneLineReviewVo {
 		this.gendate = gendate;
 		this.moddate = moddate;
 	}
+	public OneLineReviewLikeVo getOneLineReviewLikeVo() {
+		return oneLineReviewLikeVo;
+	}
 
+	public void setOneLineReviewLikeVo(OneLineReviewLikeVo oneLineReviewLikeVo) {
+		this.oneLineReviewLikeVo = oneLineReviewLikeVo;
+	}
 	public int getOneLineReviewId() {
 		return oneLineReviewId;
 	}
@@ -99,13 +108,14 @@ public class OneLineReviewVo {
 	public void setModdate(Timestamp moddate) {
 		this.moddate = moddate;
 	}
-
 	@Override
 	public String toString() {
 		return "OneLineReviewVo [oneLineReviewId=" + oneLineReviewId + ", userId=" + userId + ", movieId=" + movieId
 				+ ", score=" + score + ", comment=" + comment + ", likes=" + likes + ", dislikes=" + dislikes
-				+ ", gendate=" + gendate + ", moddate=" + moddate + "]";
+				+ ", gendate=" + gendate + ", moddate=" + moddate + ", oneLineReviewLikeVo=" + oneLineReviewLikeVo
+				+ "]";
 	}
+
 	
 	
 

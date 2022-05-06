@@ -24,4 +24,10 @@ public interface OneLineReviewService {
 	public int UpdateLike(Map<String, Object> map);
 	
 	public String SelectAny(Map<String, Object> map);
+
+	public List<OneLineReviewVo> SelectUser(String userId);
+	
+	public int GetPage(int olrId);
+	
+	public List<Map<String, Object>> UserLike(Map<String, Object> map);
 }

@@ -3,6 +3,8 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace : package + classname -->
 <mapper namespace="oneLineReviewLikeVo">
+	
+	
 	<select id="Check" parameterType="HashMap" resultType="int">
 		<![CDATA[
 				select count(userId) from onelinereviewlike where userId=#{userId} and oneLineReviewId=#{oneLineReviewId} and mode=#{mode};
@@ -24,6 +26,7 @@
 	<select id="CountOlrLike" parameterType="HashMap" resultType="int">
 		select count(userId) from onelinereviewlike where oneLineReviewId=#{oneLineReviewId} and mode=#{mode};
 	</select>
+
 	
 	
 

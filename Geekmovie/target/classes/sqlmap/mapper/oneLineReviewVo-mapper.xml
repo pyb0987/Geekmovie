@@ -3,6 +3,24 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace : package + classname -->
 <mapper namespace="oneLineReviewVo">
+		<resultMap type="onelinereviewlike" id="onelinereviewlike">
+			<result column="oneLineReviewId" property="oneLineReviewId" />
+			<!--<result column="userId" property="userId" />
+			<result column="mode" property="mode" />-->
+	</resultMap>
+	
+	<resultMap type="oneLineReviewVo" id="oneLineReviewVoUserLike">
+		<result column="movieId" property="movieId" />
+		<result column="score" property="score" />
+		<result column="comment" property="comment" />
+		<result column="likes" property="likes" />
+		<result column="gendate" property="gendate" />
+		<collection property="onelinereviewlike" resultMap="onelinereviewlike"/>
+	</resultMap>
+	
+
+	
+	
 	<select id="Select" parameterType="HashMap" resultType="oneLineReviewVo">
 		<![CDATA[
 			select oneLineReviewId, userId, movieId, score, comment, likes, dislikes, gendate, moddate
@@ -75,5 +93,35 @@
 			]]>
 			
 	</select>
+	
+	<select id="SelectUser" parameterType="HashMap" resultType="oneLineReviewVo">
+		<![CDATA[
+			select oneLineReviewId, userId, movieId, score, comment, likes, dislikes, gendate, moddate
+			from onelinereview
+			where userId=#{userId}
+			order by oneLineReviewId DESC
+			Limit 10;
+		]]>	
+	</select>
+	
+	<select id="GetPage" parameterType="int" resultType="int">
+		<![CDATA[
+				select count(oneLineReviewId) from onelinereview where oneLineReviewId>=#{oneLineReviewId} ;
+		]]>	
+	</select>
+
+	<select id="UserLike" parameterType="HashMap" resultMap="oneLineReviewVoUserLike">
+	<![CDATA[
+			select a.movieId, a.score, a.comment, a.likes, a.gendate, a.oneLineReviewId
+			from onelinereview as a
+			join
+			onelinereviewlike as b
+			on a.oneLineReviewId = b.oneLineReviewId
+            where b.userId=#{userId}  and b.mode=1 
+            order by oneLineReviewId DESC limit #{nowPageStart}, #{Size};
+		]]>
+	</select>
+	
+
 
 </mapper>

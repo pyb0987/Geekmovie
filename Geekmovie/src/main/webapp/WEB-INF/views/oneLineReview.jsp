@@ -9,6 +9,9 @@
 <% 
 List<OneLineReviewVo> oneLineReviewList = (List<OneLineReviewVo>)request.getAttribute("data");
 String UserId = (String)session.getAttribute("id");
+
+String SearchMode = (String)request.getAttribute("SearchMode");
+String query = (String)request.getAttribute("query");
 %>   
 <!DOCTYPE html>
 <html>
@@ -19,7 +22,7 @@ String UserId = (String)session.getAttribute("id");
 <script type="text/javascript" src="${path}/resources/js/debounce.js"></script>
 <script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
 <script type="text/javascript" src="${path}/resources/js/fontResize.js"></script>
-<script type="text/javascript" src="${path}/resources/js/InputSearch.js?ver=1"></script>
+<script type="text/javascript" src="${path}/resources/js/InputSearch.js?ver=2"></script>
 
 
 <script>
@@ -415,8 +418,14 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
         })
 	
 	})
+	
+	if('${focus}'!=''){			//포커스가 있으면 거기로 이동
+		document.querySelector("[data-olrId='${focus}']").scrollIntoView()
+	}
 
 });
+
+
 
 </script>
 
@@ -608,12 +617,12 @@ z-index : 2;
 				<div id="oneLineReviewSearchbox">
 	<form method="get" name="oneLineReviewSearch" id="oneLineReviewSearch" accept-charset="utf-8">
 		<select name="searchMode" id="oneLineReviewSearchMode">
-							<option value="movie">영화제목</option>
-							<option value="keyword">내용</option>
-							<option value="author">작성자</option>
+							<option value="movie" <% if (SearchMode!=null && SearchMode.equals("movie")){ %>selected <% } %>>영화제목</option>
+							<option value="keyword" <% if (SearchMode!=null && SearchMode.equals("keyword")){ %>selected <% } %>>내용</option>
+							<option value="author" <% if (SearchMode!=null && SearchMode.equals("author")){ %>selected <% } %>>작성자</option>
 						</select> 
 						<div id="oneLineReviewInputbox-container">  
-						<input type="text" id="oneLineReviewInputbox" name="query" autocomplete='off' maxlength=50 placeholder="검색할 키워드를 입력하세요">
+						<input type="text" id="oneLineReviewInputbox" name="query" autocomplete='off' maxlength=50 placeholder="검색할 키워드를 입력하세요" <% if (query!=null){ %>value="<%=query %>" <% } %>>
 						<input type="hidden" id="oneLineReviewInputboxMovieId" name="movieId" value="">
 						<input type="hidden" name="language" value="${language}">
 						<input type="hidden" name="page" value="1">

@@ -29,4 +29,6 @@ public class OneLineReviewLikeDao {
 	public int CountOrlLike(Map<String, Object> map){
 		return sqlSessionTemplate.selectOne("oneLineReviewLikeVo.CountOlrLike", map);
 	}
+	
+
 }

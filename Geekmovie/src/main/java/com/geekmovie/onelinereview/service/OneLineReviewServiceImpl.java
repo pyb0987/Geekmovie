@@ -60,4 +60,17 @@ public class OneLineReviewServiceImpl implements OneLineReviewService{
 	public String SelectAny(Map<String, Object> map) { //input #{oneLineReviewId} #{query}
 		return oneLineReviewDao.SelectAny(map);
 	};
+	
+	public List<OneLineReviewVo> SelectUser(String userId) {
+		return oneLineReviewDao.SelectUser(userId);
+	}
+	
+	public int GetPage(int olrId) {
+		int count = oneLineReviewDao.GetPage(olrId);
+		return ((count-1)/20)+1;
+	};
+	
+	public List<Map<String, Object>> UserLike(Map<String, Object> map) {
+		return oneLineReviewDao.UserLike(map);
+	}
 }
