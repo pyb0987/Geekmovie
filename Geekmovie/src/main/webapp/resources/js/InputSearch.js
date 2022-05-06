@@ -30,6 +30,7 @@ function InputSearch(inputBoxId, movieBoxId, checkImgId, searchModeId, searchBut
 	document.getElementById(inputBoxId).className = "movieSelected";
 	document.getElementById(inputBoxId).readOnly = true;
 	document.getElementById(checkImgId).className = "visualized";
+	$("#"+SearchResultsContainerId).empty();
 	$(".modal").fadeOut();
 	};
 	

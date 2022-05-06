@@ -19,6 +19,7 @@
 
 <link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
+<link rel="stylesheet" href="${path}/resources/css/movieLike.css"/>
 
 <style>
 @import
@@ -70,7 +71,7 @@ padding-left: 30px;
   z-index: 3;
   transition: all 0.2s linear;
   box-sizing: border-box;
-  right: 30px;top: 50%;
+  right: 30px;top: 40%;
 
 }
 .arrow:before, .arrow:after {
@@ -86,6 +87,11 @@ padding-left: 30px;
   transform: translate(-50%, -50%) rotate(45deg);
   transition: all 0.2s linear;
   box-sizing: border-box;
+}
+
+.arrow-left{
+	left : 30px;
+	transform: rotate(180deg);
 }
 .arrow:after {
   z-index: 5;
@@ -118,6 +124,7 @@ padding-left: 30px;
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/throttle.js"></script>
 	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fontResize.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieLike.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieSlide.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieListAjax.js?ver=2"></script>
 	
@@ -170,6 +177,7 @@ padding-left: 30px;
 		movieSlideController(SimilarMovieContainer);					//movieSlide.js
 		movieSlideController(RecommendMovieContainer);				
 		
+		movieLike('${sessionScope.id}');	//영화좋아요/add 적용 
 		
 		var LastestId = 1000000;
 		function GetLastestId(){
@@ -202,7 +210,7 @@ padding-left: 30px;
 	        	contentType : 'application/json', 
 	        	async: false, 
 	        	success: function(data){
-	        		if(data.adult){
+	        		if(data.success == false ||  data.adult){
 	        		checkId = true;
 	        		}
 	        		if(data.vote_count < 1){
@@ -220,10 +228,13 @@ padding-left: 30px;
 		}while (checkId);
 			return rid;
 		}
-		
+		if(`${nowMovie}`!=''){
+			var randomId= `${nowMovie}`
+		}else{
 		var randomId = randomIdGet(LastestId);
-		
-		console.log(randomId)
+			
+		}
+
 		
 		
 		$.ajax({							//받아온 영화 정보 디테일로 만들기
@@ -276,6 +287,8 @@ padding-left: 30px;
         		let str9 = '<h6>제작국가 : '+countryAry.join(' ,')+'</h6>'
         		$("#detail-country").html(str9);
         		$("#scoreImdb .Score").html(data.vote_average);    //imdb 점수 표시
+        		$(".detail-Click.clickBox").data("id", randomId);
+        	   	$(".detail-Click.clickBox").activeLikeMovie();
         		return false;
         	}
         	,
@@ -366,8 +379,13 @@ padding-left: 30px;
 
                 
 
-				
+        $(document).on("click", ".arrow-left", function(e){	
+        location.href =`/movie/randomMovieDetail?language=${language}&nowMovie=${beforeMovie}&nextMovie=`+randomId
+       	 });
 
+        $(document).on("click", ".arrow-right", function(e){		
+            location.href =`/movie/randomMovieDetail?language=${language}&beforeMovie=`+randomId+`&nowMovie=${nextMovie}`
+           	 });
 		
 		
 		
@@ -390,7 +408,8 @@ padding-left: 30px;
 
 	<div id="detail-bigPicture">
 	</div>
-	<span class="arrow" OnClick="location.href =`/movie/movieDetail/random?language=${language}`"></span>
+	<span class="arrow arrow-left"></span>
+	<span class="arrow arrow-right"></span>
 	<div id="detail-MovieContainer">
 		<div id="onleft">
 			<div id="detail-poster"></div>
@@ -405,6 +424,14 @@ padding-left: 30px;
 			<div class="spacing"
 				style="width: 95%; height: 120px; display: flex; justify-content: space-between; ">
 				<div id="detail-country"></div>
+				<div class="detail-Click clickBox">
+				<div class="heartClickBig heartClick"><div class="heartClickBigClicker heartClickClicker"></div></div>
+				<div class="addClick addClickBig">
+            		<svg viewBox="0 0 44 44">
+                		<path d="M14,24 L21,31 L39.7428882,11.5937758 C35.2809627,6.53125861 30.0333333,4 24,4 C12.95,4 4,12.95 4,24 C4,35.05 12.95,44 24,44 C35.05,44 44,35.05 44,24 C44,19.3 42.5809627,15.1645919 39.7428882,11.5937758" transform="translate(-2.000000, -2.000000)"></path>
+            		</svg>
+        		</div>
+        		</div>
 				<div id="detail-vote">
 					<div id="scoreGeek">
 						<div class="siteName">GeekScore</div>

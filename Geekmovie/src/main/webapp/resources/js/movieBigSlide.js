@@ -39,6 +39,7 @@ function bigMovieloader(index){
         	dataType : 'json',
         	contentType : 'application/json', 
         	success: function(data){
+        		console.log(data)
         		let str1;
 
         		if(!!data.backdrop_path){
@@ -47,11 +48,11 @@ function bigMovieloader(index){
         			str1 = '${pageContext.request.contextPath}/resources/img/wall.jpg' ;	
         		}
         		$(".movie-bigPictureContainer:nth-child("+(index+1)+") .movie-bigPicture").css({"background":"linear-gradient(to bottom,rgba(0,0,0,0) 80%,rgba(0,0,0,0.5) 90%,rgba(0,0,0,1) 100%), url("+ str1 +")", "background-repeat": "no-repeat", "background-size": "cover"});   //배경화면 및 그라데이션 
-        		
-				$(".movie-bigPictureContainer:nth-child("+(index+1)+") .movie-bigDetail").html("<h2 class='bigMovieTitle'>"+data.title+"</h2>"+"<h2 class='bigMovieLink' onclick='location.href=`/movie/movieDetail?movieId="+trendMovieIds[index]+"&language="+language+"`;'>정보 보기</h2>");
+        		let clickForm = '<div class="bigMovie-Click clickBox" data-id="'+trendMovieIds[index]+'"><div class="heartClickBig heartClick"><div class="heartClickBigClicker heartClickClicker"></div></div><div class="addClick addClickBig"><svg viewBox="0 0 44 44"><path d="M14,24 L21,31 L39.7428882,11.5937758 C35.2809627,6.53125861 30.0333333,4 24,4 C12.95,4 4,12.95 4,24 C4,35.05 12.95,44 24,44 C35.05,44 44,35.05 44,24 C44,19.3 42.5809627,15.1645919 39.7428882,11.5937758" transform="translate(-2.000000, -2.000000)"></path></svg></div></div>'
+				$(".movie-bigPictureContainer:nth-child("+(index+1)+") .movie-bigDetail").html("<h2 class='bigMovieTitle'>"+data.title+"</h2>"+clickForm+"<h2 class='bigMovieLink' onclick='location.href=`/movie/movieDetail?movieId="+trendMovieIds[index]+"&language="+language+"`;'>정보 보기</h2>");
 
 
-
+				$(".movie-bigPictureContainer:nth-child("+(index+1)+") .bigMovie-Click.clickBox").activeLikeMovie();
 				return false;
         	}
         	,

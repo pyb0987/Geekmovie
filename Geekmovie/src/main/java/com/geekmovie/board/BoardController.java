@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.geekmovie.board.service.BoardService;
 import com.geekmovie.board.vo.BoardVo;
 import com.geekmovie.board.vo.PageVo;
+import com.geekmovie.onelinereview.vo.OneLineReviewLikeVo;
 
 @Controller
 public class BoardController {
@@ -71,7 +72,6 @@ public class BoardController {
 	@PostMapping("/boardCreate")
 	public ModelAndView createPost(BoardVo boardVo) {
 		System.out.println("board post success");
-		System.out.println(boardVo);
 		int rs = boardService.bCreate(boardVo);
 		ModelAndView mav = new ModelAndView();
 		if(rs==1) {
@@ -112,7 +112,6 @@ public class BoardController {
 	public ModelAndView boardUpdate(BoardVo boardVo) {
 		System.out.println("board update!");
 		BoardVo detailBoard = boardService.bDetail(boardVo);
-		System.out.println(boardVo);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("data", detailBoard);	
@@ -155,4 +154,5 @@ public class BoardController {
 		}
 		return mav;
 	}
+	
 }

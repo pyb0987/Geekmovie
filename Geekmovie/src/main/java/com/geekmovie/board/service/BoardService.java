@@ -3,6 +3,7 @@ package com.geekmovie.board.service;
 import java.util.List;
 
 import com.geekmovie.board.vo.BoardVo;
+import com.geekmovie.onelinereview.vo.OneLineReviewLikeVo;
 
 public interface BoardService {
 	
@@ -19,4 +20,5 @@ public interface BoardService {
 	public int bCnt(BoardVo boardVo);
 	
 	public int bDelete(BoardVo boardVo);
+
 }

@@ -18,4 +18,10 @@ public interface OneLineReviewService {
 	public int Delete(int oneLineReviewId);
 	
 	public int Create(Map<String, Object> map);
+	
+	public int Update(Map<String, Object> map);
+	
+	public int UpdateLike(Map<String, Object> map);
+	
+	public String SelectAny(Map<String, Object> map);
 }

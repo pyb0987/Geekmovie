@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace : package + classname -->
+<mapper namespace="freeVo">
+
+	<select id="free_list" parameterType="freeVo" resultType="freeVo">
+		<![CDATA[
+			select seq, movie_id, title, writer, regdate, cnt, likes
+			from free_board
+			where 1 = 1
+		]]>
+		<if test="searchType == 'TC' and bKeyword != null">
+			AND title LIKE CONCAT ('%',#{bKeyword},'%')
+			OR contents LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'Wr' and bKeyword != null">
+			AND writer LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'M_id' and bKeyword != null">
+			AND movie_id LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+			ORDER BY seq DESC
+			Limit #{startList}, #{listSize}
+	</select>
+	
+	<select id="freeListCnt" resultType="int">
+		<![CDATA[
+			select count(*) 
+			from free_board
+			where 1 = 1
+		]]>
+ 		<if test="searchType == 'TC' and bKeyword != null">
+			AND title LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'Wr' and bKeyword != null">
+			AND writer LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'M_id' and bKeyword != null">
+			AND movie_id LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		
+	</select>
+
+	<insert id="free_insert" parameterType="freeVo">
+		<![CDATA[
+			 insert into free_board (title, movie_id, writer, contents)
+			 values (#{title}, #{movie_id}, #{writer}, #{contents})			 
+		]]>
+	</insert>
+	
+	<select id="free_detail" parameterType="freeVo" resultType="freeVo">
+		<![CDATA[
+			select seq, title, writer, contents, regdate, movie_id
+			from free_board  
+			where seq = #{seq}
+		]]>
+	</select>
+	
+	<update id="free_update" parameterType="freeVo">  
+	    <![CDATA[  
+	        update free_board set  
+	        title = #{title}, contents = #{contents}, movie_id = #{movie_id} 
+	        where  
+	        seq = #{seq}  
+		    ]]>  
+	</update>
+	
+	<update id="free_cntIncrease" parameterType="freeVo">  
+	    <![CDATA[  
+	        update free_board set  
+	        cnt = cnt + 1
+	        where  
+	        seq = #{seq}  
+		    ]]>  
+	</update>
+	
+	<delete id="free_delete" parameterType="freeVo">
+		<![CDATA[
+			delete from free_board
+			where seq = #{seq}
+		]]>
+	</delete>
+
+</mapper>

@@ -5,12 +5,10 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.geekmovie.movie.dao.MovieDao;
 import com.geekmovie.movie.json.MovieUrlGetter;
 import com.geekmovie.movie.json.UrlRead;
@@ -22,8 +20,7 @@ public class MovieControllerApi {
 	MovieDao movieDao;
 	@Autowired
 	MovieUrlGetter movieUrlGetter;
-	@Autowired
-	ObjectMapper mapper;
+
 	
 	@GetMapping("/getMovieData")
 	public String getMovieData(HttpServletRequest request){						//1개영화의 디테일 반환

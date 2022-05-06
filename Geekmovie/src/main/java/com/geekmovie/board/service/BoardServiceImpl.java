@@ -1,12 +1,15 @@
 package com.geekmovie.board.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.geekmovie.board.dao.BoardDao;
 import com.geekmovie.board.vo.BoardVo;
+import com.geekmovie.onelinereview.vo.OneLineReviewLikeVo;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -52,4 +55,5 @@ public class BoardServiceImpl implements BoardService{
 	public int bDelete(BoardVo boardvo) {
 		return dao.boardDelete(boardvo);
 	}
+
 }

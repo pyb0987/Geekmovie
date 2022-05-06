@@ -19,7 +19,7 @@ String UserId = (String)session.getAttribute("id");
 <script type="text/javascript" src="${path}/resources/js/debounce.js"></script>
 <script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
 <script type="text/javascript" src="${path}/resources/js/fontResize.js"></script>
-<script type="text/javascript" src="${path}/resources/js/InputSearch.js"></script>
+<script type="text/javascript" src="${path}/resources/js/InputSearch.js?ver=1"></script>
 
 
 <script>
@@ -32,11 +32,13 @@ $(document).ready(function(){
 
 	
 	var language = '${language}';
-	
+	var starSize = 1.8 //rem
+	var starBigSize = 2
 	
 	var windowResize = function(){					//리사이징 함수
 
 		fontResize()		
+		
 	}
 	
 	windowResize();
@@ -61,11 +63,11 @@ $(document).ready(function(){
 
 
 	var oneLineReviewCreate = false; //한줄평 쓰기기능 사용 여부
-	document.querySelector("#oneLineReviewCreate").addEventListener('click', function(){			//한줄평 쓰기 기능 구현
+	document.querySelector("#oneLineReviewCreate").addEventListener('click', function(e){			//한줄평 쓰기 기능 구현
 		if('${sessionScope.id}'==''){
 			var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
 			if(result){
-			    location.href = 'join';
+			    location.href = 'user_join';
 			}
 		}else if(!oneLineReviewCreate){
 			oneLineReviewCreate = true;
@@ -94,13 +96,13 @@ $(document).ready(function(){
 			
 			//---------------------별점부여함수 구현	
 			
-			$.fn.giveStars = function(number) {			// - 크기는 2rem
-			    return this.each(function(i,e){$(e).children(".star-boxFill").width(number*1+'rem')});
+			$.fn.CreateGiveStars = function(number) {			// - 크기는 2rem
+			    return this.each(function(i,e){$(e).children(".star-boxFill").width(number*starBigSize/2+'rem')});
 			    }
 
-		        $(".star").click(function(e){
-		            $('.star-box').giveStars(e.target.dataset.score);
-		            $('.star-box')[0].dataset.score = e.target.dataset.score;		//여기에 정보 저장하여 나중에 제출
+		        $(".oneLineReviewCreate .star").click(function(e){
+		            $('.oneLineReviewCreate .star-box').CreateGiveStars(e.target.dataset.score);
+		            $('.oneLineReviewCreate .star-box')[0].dataset.score = e.target.dataset.score;		//여기에 정보 저장하여 나중에 제출
 		        })
 		        
 		    InputSearch("olrCreate-Title", "olrCreate-MovieId", "olrCreate-checkImg", "olrCreate-SearchMode", "olrCreate-Searchbutton", "olrCreate-SearchResultsContainer", language, '${path}',null);
@@ -155,7 +157,7 @@ $(document).ready(function(){
 	
 	
 	
-	 $(".delete-button").on("click", function(e){			//삭제 기능 구현
+	 $(document).on("click", ".delete-button", function(e){			//삭제 기능 구현
 		var result = confirm("삭제하면 복구할 수 없습니다. \n그래도 삭제 하시겠습니까?");
 		if(result){
 			var olrid = $(e)[0].currentTarget.dataset.olrid
@@ -173,40 +175,151 @@ $(document).ready(function(){
 	        };
 	 });
 	 
-	 $(".update-button").on("click", function(e){			//수정 기능 구현
+	 $(document).on("click", ".update-button", function(e){			//수정 기능 구현
+		
 		 var olrContainer = e.currentTarget.parentNode.parentNode.parentNode;
-	 console.log(olrContainer)
+		 var formerHtml = olrContainer.innerHTML;
 		var olrid = $(e)[0].currentTarget.dataset.olrid;
-	 	let movieName = olrContainer.querySelector(".oneLineReview-Title h3").value;
+	 	let movieName = olrContainer.querySelector(".oneLineReview-Title h3").innerText;
+	 	let score = olrContainer.querySelector(".star-rating").dataset.score;
+	 	let content = olrContainer.querySelector(".oneLineReview-quoteInside").innerText;	
 	 	
-	 	
-	 	
-	 	
-	 	
-		let formStr = '<div class="oneLineReview"><div id="olrCreate-container"><div class="oneLineReview-Title"><input type="text" id="olrCreate-Title" name="query" autocomplete="off" maxlength=50 placeholder="영화제목">';
-        formStr += '<img id="olrCreate-checkImg" src="${path}/resources/img/check.png" onmouseover="this.style.cursor=\'pointer\'"><input type="hidden" id="olrCreate-MovieId" name="movieId"><input type="hidden" id="olrCreate-SearchMode" value="movie"><input type="hidden" id="olrCreate-Language" name="language" value="${language}">';
-        formStr += '<input type="hidden" name="page" value="1"><div id="olrCreate-Searchbutton" onmouseover="this.style.cursor=\'pointer\'"><img id="olrCreate-Searchimage" src="${path}/resources/img/searchIcon.png" alt="search"></div></div><div id="olrCreate-SearchResultsContainer"></div></div>';
-        formStr += '<div class="oneLineReview-Score"><h3><div class="star-box"><span class="star-boxFill"></span><span class="star" data-score="1"></span><span class="star" data-score="2"></span><span class="star" data-score="3"></span><span class="star" data-score="4"></span><span class="star" data-score="5"></span><span class="star" data-score="6"></span><span class="star"  data-score="7"></span><span class="star"  data-score="8"></span><span class="star"  data-score="9"></span><span class="star"  data-score="10"></span></div></h3>';
-        formStr += '</div><div class="oneLineReview-quote"><h5 class="oneLineReview-quoteInside"><textarea id="quote-input" name="opinion" type="text" name=content maxlength=300 placeholder="한줄평을 입력하세요."></textarea></h5><div class="oneLineReview-userId"><h5>- <span class="userId">${sessionScope.id}</span> -</h5></div></div>';
-        formStr += '<div class="oneLineReview-gendate"></div><div class="like-dislike"><div class="like-dislike"><div class="update-button like-dislike-button"><span class="functional-button-span">작성</span></div><div class="quit-update-button like-dislike-button"><span class="functional-button-span">취소</span></div></div></div></div>';
+		let formStr = '<div class="oneLineReview"><div id="olrCreate-container"><div class="oneLineReview-Title"><h3>'+movieName+'</h3></div></div>';
+        formStr += '<div class="oneLineReview-Score"><h3><div class="star-box" data-score="'+score+'"><span class="star-boxFill" style="width : '+(score)+'rem"></span><span class="star" data-score="1"></span><span class="star" data-score="2"></span><span class="star" data-score="3"></span><span class="star" data-score="4"></span><span class="star" data-score="5"></span><span class="star" data-score="6"></span><span class="star"  data-score="7"></span><span class="star"  data-score="8"></span><span class="star"  data-score="9"></span><span class="star"  data-score="10"></span></div></h3>';
+        formStr += '</div><div class="oneLineReview-quote"><h5 class="oneLineReview-quoteInside"><textarea id="quote-input" name="opinion" type="text" name=content maxlength=300 placeholder="한줄평을 입력하세요.">'+content+'</textarea></h5><div class="oneLineReview-userId"><h5>- <span class="userId">${sessionScope.id}</span> -</h5></div></div>';
+        formStr += '<div class="oneLineReview-gendate"></div><div class="like-dislike"><div class="like-dislike"><div class="update-complete-button like-dislike-button"><span class="functional-button-span">작성</span></div><div class="quit-update-button like-dislike-button"><span class="functional-button-span">취소</span></div></div></div></div>';
         olrContainer.innerHTML = formStr;
         
-	 
-	 
-		//$.ajax({
-		//   url: '/movie/oneLineReview/'+olrid,
-		//   method: "PUT",
-		//   }).done(function(response){
-		 //      if(response==1){
-		 //      alert("성공적으로 삭제가 완료되었습니다.");
-		 //      location.href = "/movie/oneLineReview?SearchMode=${SearchMode}&query=${query}&page=${page.nowPage}";			//현재페이지 새로고침
-		  //    	}else{
-		//	       alert("삭제가 실패했습니다. \n다시 시도해 주세요.");	        		 
-		  //     }
-		 // });
-		 });
+		$.fn.EditGiveStars = function(number) {	//-------별점부여함수 구현		- 크기는 2rem
+		    return this.each(function(i,e){$(e).children(".star-boxFill").width(number*starBigSize/2+'rem')});
+		    }
+		olrContainer.querySelector(".star-box").addEventListener("click", (function(e){	
+	            $(this).EditGiveStars(e.target.dataset.score);
+	            $(this)[0].dataset.score = e.target.dataset.score;		//star-box에 정보 저장하여 나중에 제출
+	        }));
+	 	
+		olrContainer.querySelector(".quit-update-button").addEventListener("click", (function(e){	//수정 취소 버튼
+			var result = confirm("취소하면 작업한 내용은 사라집니다. \n그래도 취소 하시겠습니까?");
+			if(result){
+			olrContainer.innerHTML = formerHtml;
+			}
+        }));
+		
+		olrContainer.querySelector(".update-complete-button").addEventListener("click", (function(e){	//수정 완료 버튼
+			var result = confirm("한줄평을 업데이트 하시겠습니까?");
+			if(result){
+	    		var olrData = {};
+	    		olrData['olrId'] = olrid;
+	    		olrData['score'] = olrContainer.querySelector('.star-box').dataset.score;
+	    		olrData['content'] = olrContainer.querySelector('#quote-input').value;
+				$.ajax({
+					   url: '/movie/oneLineReview/'+olrid,
+					   method: "PUT",
+					   data: JSON.stringify(olrData),
+			           dataType: "json",
+			           contentType:"application/json;charset=UTF-8",
+			           success: function(data){
+				           if(data==1){
+				   	        	alert("성공적으로 수정이 완료되었습니다.");
+					           location.href = "/movie/oneLineReview?SearchMode=${SearchMode}&query=${query}&page=${page.nowPage}";			//현재페이지 새로고침
+				           }else{
+						       alert("수정에 실패했습니다. \n다시 시도해 주세요.");	        		 
+					       }
+				       },
+				       error: function(){  alert("수정에 실패했습니다. \n다시 시도해 주세요.");  }
+				       });
+					}
+			}));
+        });
+	 	
 
+	 
+	 
+	 
+	 
+	 //---------------좋아요 기능 구현
+	 
+	$.fn.activeLikeButtons = function() {			// - 이미 눌린 좋아요 버튼 active효과주기
+		this.each(function(i,e){
+		let olrId = $(e).children()[0].dataset.olrid;
+		let mode = Number($(e).hasClass("like-button"));
+     	 $.ajax({
+			 url: 'oneLineReview/Like/'+olrId+'?userId=${sessionScope.id}&mode='+mode,
+			method: "GET",
+	        success: function(data){
+	        	if(data==1){		   
+	        	$(e).addClass("active");
+	        	}else{
+		        	$(e).removeClass("active"); 
+	        	}
+	       	},
+	       	error: function(request, status, error){
+	        	console.log(request, status, error)
+	       	}
+	       	});
+	});
+	}
+	 
+	if('${sessionScope.id}'!=''){
+		$(".like-button, .dislike-button").activeLikeButtons();
+	}
 	
+	
+	 $(document).on("click", ".like-button, .dislike-button", function(e){		//좋아요 버튼 누를때 이벤트
+		 if('${sessionScope.id}'==''){
+				var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
+				if(result){
+				    location.href = 'user_join';
+				}
+			}else{
+				var button = e.currentTarget;
+	    		var likeData = {};
+	    		var olrId = button.childNodes[0].dataset.olrid;
+	    		var likeButton = button.parentElement.querySelector(".like-button");
+	    		var dislikeButton = button.parentElement.querySelector(".dislike-button");
+	    		likeData['mode'] = Number(button.classList.contains("like-button"));
+	    		likeData['userId'] = '${sessionScope.id}';
+				$.ajax({
+					   url: '/movie/oneLineReview/Like/'+olrId,
+					   method: "POST",
+					   data: JSON.stringify(likeData),
+			           dataType: "json",
+			           contentType:"application/json;charset=UTF-8",
+			           success: function(data){
+				           if(data==1 || data==2){				//성공시 정보 업데이트
+				        	   $.ajax({
+								   url: '/movie/oneLineReview/'+olrId+'?query=likes',
+								   method: "GET",
+						           success: function(data){
+						        	   likeButton.querySelector(".like-dislike-button-span").innerText = data;
+						       		},
+						       		error: function(){
+								    location.href = "/movie/oneLineReview?SearchMode=${SearchMode}&query=${query}&page=${page.nowPage}";			//현재페이지 새로고침
+						       		}
+						       		});
+				        	   $.ajax({
+								   url: '/movie/oneLineReview/'+olrId+'?query=dislikes',
+								   method: "GET",
+						           success: function(data){
+						        	   dislikeButton.querySelector(".like-dislike-button-span").innerText = data;
+						       		},
+						       		error: function(){
+								    location.href = "/movie/oneLineReview?SearchMode=${SearchMode}&query=${query}&page=${page.nowPage}";		
+						       		}
+						       		});
+				        	   $(likeButton).activeLikeButtons();
+				        	   $(dislikeButton).activeLikeButtons();
+				           }else{
+				        	   console.log(data)
+						       alert("존재하지 않는 대상입니다.");	        		 
+					       }
+				       },
+				       error: function(){  alert("의견이 반영되지 않았습니다.");  }
+				       });
+				
+			}
+		 
+	 })
 	
 
 	
@@ -260,7 +373,11 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
 	
 	
 	$.fn.generateStars = function() {			//별점생성함수 - 크기는 1.8rem
-    	return this.each(function(i,e){$(e).html($('<span/>').width($(e).text()*0.9+'rem'));});
+    	return this.each(function(i,e){
+    		let score = $(e).text()
+    		$(e).html($('<span/>').width(score*starSize/2+'rem'));
+  			$(e)[0].dataset.score = score;
+    	});
     	}
 	$('.star-rating').generateStars();		//별점생성함수 호출
 
@@ -460,16 +577,16 @@ z-index : 2;
 		</div>
 		<div class="oneLineReviewContainer">
 		<div class="oneLineReview">
-			<div class="oneLineReview-Title"><h3><%=oneLineReview.getMovieId() %></h3></div>
+			<div class="oneLineReview-Title"><h3 onclick='location.href=`/movie/movieDetail?movieId=<%=oneLineReview.getMovieId() %>&language=${language}`;'><%=oneLineReview.getMovieId() %></h3></div>
 			<div class="oneLineReview-Score"><h3><span class="star-rating"><%=oneLineReview.getScore() %></span></h3></div>
 			<div class="oneLineReview-quote"><h5 class="oneLineReview-quoteInside"><%=oneLineReview.getComment() %></h5>
 			<div class="oneLineReview-userId"><h5>- <span class="userId"><%=oneLineReview.getUserId() %></span> -</h5></div>
 			</div>
 
-			<div class="oneLineReview-gendate"><h6>작성 : <%=oneLineReview.getGendate() %></h6><h6>수정 : <%=oneLineReview.getModdate() %></h6></div>
+			<div class="oneLineReview-gendate"><h6>작성 : <%=oneLineReview.getGendate() %></h6><% if (oneLineReview.getModdate()!=null){ %><h6>수정 : <%=oneLineReview.getModdate() %><% }%> &nbsp;</h6></div>
 			<div class="like-dislike">
-				<div class="like-button like-dislike-button"><span class="like-button-span like-dislike-button-span"><%=oneLineReview.getLikes() %></span><img class="like-icon" src="${path}/resources/img/like.png"></div>
-				<div class="dislike-button like-dislike-button"><span class="dislike-button-span like-dislike-button-span"><%=oneLineReview.getDislikes() %></span><img class="dislike-icon" src="${path}/resources/img/dislike.png"></div>
+				<div class="like-button like-dislike-button"><span class="like-button-span like-dislike-button-span" data-olrId='<%=oneLineReview.getOneLineReviewId() %>'><%=oneLineReview.getLikes() %></span><img class="like-icon" src="${path}/resources/img/like.png"></div>
+				<div class="dislike-button like-dislike-button"><span class="dislike-button-span like-dislike-button-span" data-olrId='<%=oneLineReview.getOneLineReviewId() %>'><%=oneLineReview.getDislikes() %></span><img class="dislike-icon" src="${path}/resources/img/dislike.png"></div>
 				<% if(UserId != null && oneLineReview.getUserId().equals(UserId)){ %>
 				<div class="update-button like-dislike-button" style="width : 4.5rem;" data-olrId='<%=oneLineReview.getOneLineReviewId() %>'><span class="functional-button-span">수정</span></div>
         		<div class="delete-button like-dislike-button" style="width : 4.5rem;" data-olrId='<%=oneLineReview.getOneLineReviewId() %>'><span class="functional-button-span">삭제</span></div>

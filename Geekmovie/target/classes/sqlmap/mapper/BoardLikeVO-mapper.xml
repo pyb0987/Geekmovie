@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace : package + classname -->
+<mapper namespace="boardLikeVo">
+	
+	
+	<!-- 좋아요 체크 쿼리문 -->
+	<update id="like_check" parameterType="boardLikeVo">  
+	    <![CDATA[  
+	        update liketo set like_check = like_check + 1 
+	        where mno = #{mno} and boardno = #{boardno};
+		    ]]>  
+	</update>	
+</mapper>

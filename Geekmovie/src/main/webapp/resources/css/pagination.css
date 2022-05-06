@@ -2,18 +2,19 @@
 
 .pagination {						/*페이지 처리*/
   display: inline-block;
-  margin : 0 auto;
 }
 .pagination-container {						/*페이지 처리*/
   display: flex;
   justify-content: center;
+  align-items: center;
+
   min-width : 500px;
 }
 
 .pagination a {
   color: whitesmoke;
   float: left;
-  padding: 8px 16px;
+  padding: 0.6rem 1.2rem;
   text-decoration: none;
   transition: background-color .3s;
   border: 1px solid #ddd;

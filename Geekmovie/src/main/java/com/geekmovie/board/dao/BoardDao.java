@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.geekmovie.board.vo.BoardVo;
+import com.geekmovie.onelinereview.vo.OneLineReviewLikeVo;
 
 @Repository
 public class BoardDao {
@@ -45,5 +46,8 @@ public class BoardDao {
 	public int boardDelete(BoardVo boardvo) {
 		return sqlSessionTemplate.delete("boardVo.board_delete", boardvo);
 	}
-
+	
+	public OneLineReviewLikeVo findHeart(BoardVo boardVo) {
+		return sqlSessionTemplate.selectOne("boardVo.board_findheart",boardVo);
+	}
 }
