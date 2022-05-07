@@ -73,7 +73,7 @@ public class OneLineReviewControllerApi {
 	
 	@RequestMapping(value = "/oneLineReview/user/{userId}/like", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Map<String, Object>> oneLineReviewUserGET(HttpServletRequest request, @PathVariable("userId") String userId) {
+	public List<OneLineReviewVo> oneLineReviewUserGET(HttpServletRequest request, @PathVariable("userId") String userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userId", userId);
 		map.put("nowPageStart", Integer.parseInt(request.getParameter("nowPageStart")));

@@ -29,5 +29,5 @@ public interface OneLineReviewService {
 	
 	public int GetPage(int olrId);
 	
-	public List<Map<String, Object>> UserLike(Map<String, Object> map);
+	public List<OneLineReviewVo> UserLike(Map<String, Object> map);
 }

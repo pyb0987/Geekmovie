@@ -1,6 +1,7 @@
 package com.geekmovie.movie.service;
 
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,4 +24,7 @@ public class MovieLikeServiceImpl implements MovieLikeService{
 		return movieLikeDao.Add(map);
 	}
 	
+	public List<Map<String, Object>> UserMovieLike(Map<String, Object> map){
+		return movieLikeDao.UserMovieLike(map);
+	}
 }

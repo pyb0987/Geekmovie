@@ -1,12 +1,9 @@
 @charset "UTF-8";
 #detail-bigPicture { /*detail 맨위 배경화면 */
-
 	position: relative;
 	width: 100%;
 	height: 50%;
 	z-index : -1;
-	
-
 }
 
 #detail-movieContainer { /*영화정보 위치 지정*/
@@ -44,13 +41,14 @@
 }
 
 #detail-title {width : 100%;} /*제목 위치 지정*/
+
 #detail-overview {width: 100%;}
 #release_date{padding-left : 20px; }
 
 .detail-genre {			 /*장르 박스*/
 	border-radius:8px;
 	display:inline-block;
-	font-family: 'NanumSquareRound';
+	font-family: 'Nanum Gothic', sans-serif;
 	font-size:0.9rem;
 	padding:6px 13px;
 	margin : 5px;
@@ -84,7 +82,7 @@
 
 
 #overview {
-	font-family: 'NanumSquareRound';
+	font-family: 'Nanum Gothic', sans-serif;
 	color: #fff;
 	padding : 10px 20px 0px 30px;
 	line-height : 130%;

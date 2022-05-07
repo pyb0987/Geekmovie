@@ -14,4 +14,6 @@ public interface OneLineReviewLikeService {
 
 	public int Add(Map<String, Object> map);
 	
+	public int CountUserLike(Map<String, Object> map);
+	
 }

@@ -70,7 +70,7 @@ public class OneLineReviewServiceImpl implements OneLineReviewService{
 		return ((count-1)/20)+1;
 	};
 	
-	public List<Map<String, Object>> UserLike(Map<String, Object> map) {
+	public List<OneLineReviewVo> UserLike(Map<String, Object> map) {
 		return oneLineReviewDao.UserLike(map);
 	}
 }

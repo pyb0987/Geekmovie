@@ -66,7 +66,7 @@ public class OneLineReviewDao {
 		return 	sqlSessionTemplate.selectOne("oneLineReviewVo.GetPage", oneLineReviewId);	
 	}
 	
-	public List<Map<String, Object>> UserLike(Map<String, Object> map) {
+	public List<OneLineReviewVo> UserLike(Map<String, Object> map) {
 		return 	sqlSessionTemplate.selectList("oneLineReviewVo.UserLike", map);	
 	}
 }

@@ -27,7 +27,11 @@
 		select count(userId) from onelinereviewlike where oneLineReviewId=#{oneLineReviewId} and mode=#{mode};
 	</select>
 
+	<select id="CountUserLike" parameterType="HashMap" resultType="int">
+		select count(oneLineReviewId) from onelinereviewlike where userId=#{userId} and mode=#{mode};
+	</select>
 	
 	
-
+	
+	
 </mapper>

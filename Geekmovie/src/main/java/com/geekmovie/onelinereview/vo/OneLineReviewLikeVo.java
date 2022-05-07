@@ -1,19 +1,21 @@
 package com.geekmovie.onelinereview.vo;
 
 public class OneLineReviewLikeVo {
-	private int userId;
+	private String userId;
 	private int oneLineReviewId;
 	private int mode;
-	public OneLineReviewLikeVo(int userId, int oneLineReviewId, int mode) {
+	public OneLineReviewLikeVo() {
+	}
+	public OneLineReviewLikeVo(String userId, int oneLineReviewId, int mode) {
 		super();
 		this.userId = userId;
 		this.oneLineReviewId = oneLineReviewId;
 		this.mode = mode;
 	}
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public int getOneLineReviewId() {
@@ -33,7 +35,6 @@ public class OneLineReviewLikeVo {
 		return "OneLineReviewLikeVo [userId=" + userId + ", oneLineReviewId=" + oneLineReviewId + ", mode=" + mode
 				+ "]";
 	}
-	
 	
 	
 }

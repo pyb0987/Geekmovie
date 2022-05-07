@@ -27,7 +27,7 @@
     background-color: darkred;
     align-items: center;
     position : fixed;
-    z-index : 4;
+    z-index : 8;
 }
 
     /*-- menu button --*/
@@ -231,7 +231,7 @@ color : #555555;
  top : 100px;
 left : 0;
  position : fixed;
- z-index : 3;
+ z-index : 6;
  background-color : #252525;
  border-right : solid 10px #1D1D1D;
  
@@ -290,7 +290,7 @@ box-shadow: -1px 1px 16px rgba(0, 0, 0, 0.6);
  height : 100vh;
  position : fixed;
  display : none;
-  z-index : 2;
+  z-index : 4;
 }
 
 #screen.active-menu{

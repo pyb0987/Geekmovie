@@ -103,7 +103,6 @@ public class BoardController {
 		mav.addObject("curpage", curPage);
 		mav.addObject("range", range);
 		mav.setViewName("boardDetail");
-		
 		return mav;
 	}
 	

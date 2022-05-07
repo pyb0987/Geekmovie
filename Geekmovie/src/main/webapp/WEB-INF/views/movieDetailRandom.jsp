@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="${path}/resources/css/movieCast.css?"/>
 <link rel="stylesheet" href="${path}/resources/css/movieCrew.css?"/>
 
-<link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
 <link rel="stylesheet" href="${path}/resources/css/movieLike.css"/>
 

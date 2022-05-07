@@ -44,14 +44,14 @@
 
 	<insert id="board_insert" parameterType="boardVo">
 		<![CDATA[
-			 insert into review_board (title, writer, contents, movie_id)
-			 values (#{title}, #{writer}, #{contents}, #{movie_id})			 
+			 insert into review_board (title, writer, contents, movie_id, b_score)
+			 values (#{title}, #{writer}, #{contents}, #{movie_id}, #{b_score})			 
 		]]>
 	</insert>
 	
 	<select id="board_detail" parameterType="boardVo" resultType="boardVo">
 		<![CDATA[
-			select seq, title, writer, contents, regdate, movie_id
+			select seq, title, writer, contents, regdate, movie_id, b_score
 			from review_board  
 			where seq = #{seq}
 		]]>
@@ -60,7 +60,7 @@
 	<update id="board_update" parameterType="boardVo">  
 	    <![CDATA[  
 	        update review_board set  
-	        title = #{title}, contents = #{contents}, movie_id = #{movie_id}
+	        title = #{title}, contents = #{contents}, movie_id = #{movie_id}, b_score = #{b_score}
 	        where  
 	        seq = #{seq}  
 		    ]]>  

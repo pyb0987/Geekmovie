@@ -27,6 +27,8 @@ public class OneLineReviewLikeServiceImpl implements OneLineReviewLikeService{
 		return oneLineReviewLikeDao.Add(map);
 	}
 	
-
+	public int CountUserLike(Map<String, Object> map) {
+		return oneLineReviewLikeDao.CountUserLike(map);
+	}
 
 }

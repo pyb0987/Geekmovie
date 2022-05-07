@@ -40,7 +40,7 @@ align-items : baseline;
 margin : auto;
 }
 #oneLineReviewSearchMode{
-font-family: 'NanumSquareRound';
+font-family: 'Nanum Gothic', sans-serif;
 margin-left : 20px;
     border: none;
     flex-grow : 0;

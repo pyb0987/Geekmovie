@@ -23,7 +23,8 @@ if (request.getProtocol().equals("HTTP/1.1"))
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GeekMovie</title>
 
-<link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
 
 <style>
@@ -74,7 +75,7 @@ background-color : white;
 <script type="text/javascript" src="${path}/resources/js/movieLike.js?ver=3"></script>
 <script type="text/javascript" src="${path}/resources/js/movieSlide.js?ver=3"></script>
 <script type="text/javascript" src="${path}/resources/js/fontResize.js"></script>
-<script type="text/javascript" src="${path}/resources/js/movieListAjax.js?ver=3"></script>
+<script type="text/javascript" src="${path}/resources/js/movieListAjax.js?ver=1"></script>
 <script type="text/javascript" src="${path}/resources/js/movieBigSlide.js?ver=2"></script>
 
 <script>

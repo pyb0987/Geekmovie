@@ -24,5 +24,11 @@
 	<select id="CountMovieLike" parameterType="HashMap" resultType="int">
 		select count(userId) from movielike where movieId=#{movieId} and mode=#{mode};
 	</select>
+	
+	<select id="UserMovieLike" parameterType="HashMap" resultType="HashMap">
+		select movieId from movielike where userId=#{userId} and mode=#{mode}
+		order by seq DESC
+		Limit #{start}, #{size};
+	</select>
 
 </mapper>
