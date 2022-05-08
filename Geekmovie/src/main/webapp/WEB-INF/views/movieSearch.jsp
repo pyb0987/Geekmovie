@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="${path}/resources/css/pagination.css"/>
 <link rel="stylesheet" href="${path}/resources/css/movieSearch.css?ver=1"/>
 
-<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">>  <!-- 글꼴설정 -->
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
 <link rel="stylesheet" href="${path}/resources/css/movieLike.css"/>
 <style>
@@ -29,9 +29,7 @@ body {
 	margin : 0;
 	padding-top : 100px;
 }
-h1{				/*글꼴*/
-	font-size : 1.8rem;
-	}
+
 
 .movie-searchContainer figcaption{
 	background-color: rgba(0, 0, 0, 0.72);
@@ -72,7 +70,20 @@ h1{				/*글꼴*/
 	z-index : 2;
 }
 
+#searchText h1 {
+    padding-left: 20px;
+    margin: 50px;
+}
+#searchText{
+    width: 80%;
+    margin: 0 auto;
+}
 
+
+.movies-searchInnerContainer{
+    padding-top: 50px;
+    border-top: 3px solid red;
+}
 </style>
 
 

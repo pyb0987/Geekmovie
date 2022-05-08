@@ -185,7 +185,8 @@
     cursor:pointer;
 }
 .seeMoreMovies-container{
-	display : inline;
+	transform: translateX(40px);
+	display: inline-block;
 	}
 .seeMoreMovies, .seeMoreMoviesLink{
 	
@@ -193,9 +194,7 @@
     font-weight: 600;
 }	
 .seeMoreMovies-container:hover .seeMoreMoviesLink{
-
-		 width : 6rem;
-		 
+		 width : 6rem;	 
 }
 
 .nonExist{

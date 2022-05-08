@@ -564,6 +564,26 @@ z-index : 2;
 
 }
 
+#head{
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 50px;
+        display: flex;
+       flex-direction: column;
+}
+#writeButton{
+    border-top: solid 3px red;
+    text-align: end;
+    
+}
+#oneLineReviewCreate{
+cursor : pointer;
+display : inline-block;
+}
+#oneLineReviewCreate:hover{
+	color : #999;
+}
 
 </style>
 </head>
@@ -574,8 +594,14 @@ z-index : 2;
 <jsp:param name="language" value="${language}"/>  
 </jsp:include>  
 
-
-	<h1>한줄평</h1><h3 id="oneLineReviewCreate">쓰기</h3>
+	<div id="head">
+	<div id="title">
+	<h1>한줄평</h1>
+	</div>
+	<div id="writeButton">
+	<h3 id="oneLineReviewCreate">새로 쓰기</h3>
+	</div>
+	</div>
 
 	<div id="oneLineReviewsContainer">
 	<%

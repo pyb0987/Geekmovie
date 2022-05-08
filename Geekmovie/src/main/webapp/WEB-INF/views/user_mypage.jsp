@@ -6,7 +6,6 @@
     
 <% 
 	String id = (String)session.getAttribute("id");
-	if(id == null) id= "product";
 	String password = (String)session.getAttribute("password");
 	String name =(String)session.getAttribute("name");
 	String birthday = (String)session.getAttribute("birthday");
@@ -15,7 +14,7 @@
 	System.out.println(birthday);
 %>
 
-<%if(id=="product"){%>
+<%if(id==null){%>
 	<script>
 		alert('비정상 접근입니다. 로그인 후 이용 바랍니다.');
 		document.location.href="/movie";
@@ -32,7 +31,7 @@
 <title>My page Test</title>
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
-<link rel="stylesheet" href="${path}/resources/css/mypage_style.css?ver=1">
+<link rel="stylesheet" href="${path}/resources/css/mypage_style.css?ver=2">
 <style>
 .star-rating, .star-rating > * {
     height: 1.4rem; 
@@ -91,7 +90,7 @@ $(document).ready(function() {
 	var windowResize = function(){					//리사이징 함수
 
 	fontResize()
-	if(window.innerWidth<1100){
+	if(window.innerWidth<1200){
 	    $("#content-grid").css("grid-template-columns", "1fr");
 		$(".user-movies-container").css("grid-template-columns" , "1fr 1fr 1fr 1fr");
 	    $("#user-movieLike-container, #user-movieAdd-container").css("grid-column", "1 / span 1");
@@ -164,7 +163,7 @@ $(document).ready(function() {
     			var date = new Date(data[i].regdate);
     			$(e).children(".user-content-gendate").html("<h5>"+date.toLocaleDateString()+"</h5>");
     			}else{
-    				return false;	//break
+    				$(e).removeClass("user-container-content");
     			}
     		});
     		$('#user-board-container .star-rating').generateStars();		//별점생성함수 호출
@@ -195,7 +194,7 @@ $(document).ready(function() {
     			var date = new Date(data[i].gendate);
     			$(e).children(".user-content-gendate").html("<h5>"+date.toLocaleDateString()+"</h5>");
     			}else{
-    				return false;	//break
+    				$(e).removeClass("user-container-content");
     			}
     		});
     		$('#user-olr-container .star-rating').generateStars();		//별점생성함수 호출
@@ -225,7 +224,7 @@ $(document).ready(function() {
     			var date = new Date(data[i].gendate);
     			$(e).children(".user-content-gendate").html("<h5>"+date.toLocaleDateString()+"</h5>");
     			}else{
-    				return false;	//break
+    				$(e).removeClass("user-container-content");
     			}
     		});
     		$('#user-olrLike-container .star-rating').generateStars();		//별점생성함수 호출
@@ -273,7 +272,7 @@ $(document).ready(function() {
     					})
     					
     	        			
-    	        			$(iterMovie).find(".user-movie-image").css('background', 'url("'+imageUrl+'")').css('background-size', 'contain').css('background-repeat', 'no-repeat').css('background-position','center center');
+    	        			$(iterMovie).find(".user-movie-image").css('background', 'url("'+imageUrl+'")').css('background-size', 'cover').css('background-repeat', 'no-repeat').css('background-position','center center');
     	        			$(iterMovie).find(".user-movie-title").html('<h5>'+movie.title+'</h5><h6>'+genreAry.join(' ,')+'</h6>');
     	        			$(iterMovie).find(".user-movie-score").html("<span class='oneStar'></span><h6>"+movie.vote_average+"</h6>")
 
@@ -300,7 +299,7 @@ $(document).ready(function() {
 	movieGenerate('user-movieAdd-container', 0,8,0)		//내가 찜한 영화
 	
 	
-	$(document).on("click", ".user-content-moviem, .user-movie-container", function(e){			//전제 영화 링크 연결
+	$(document).on("click", ".user-content-movie, .user-movie-container", function(e){			//전제 영화 링크 연결
 		e.stopPropagation();
 	 let movieId = $(e.currentTarget).data("movieId");
 	location.href = '/movie/movieDetail?movieId='+movieId+'&language=<%=Language %>'
@@ -453,10 +452,6 @@ $(document).ready(function() {
 		 	<tr>
 		 		<td class="info-name"><h5><label id="must_id"> * </label> <label id="text_id" class="text_front">아이디 </label></h5></td>
 		 		<td class="info-content"><h5><input type="hidden" name="id" value="id"><label id="text_id"><%=id%></label></h5></td>
-		 	</tr>
-		 	<tr>
-		 		<td class="info-name"><h5><label id="must_password"> * </label><label id="text_id" class="text_front">비밀번호 </label></h5></td>
-		 		<td class="info-content"><h5><input type="hidden" name="password" value="password"><label id="text_id"><%=password%></label></h5></td>
 		 	</tr>
 		 	<tr>
 		 		<td class="info-name"><h5><label id="must_name"> * </label><label id="text_id" class="text_front"> 이름 </label></h5></td>

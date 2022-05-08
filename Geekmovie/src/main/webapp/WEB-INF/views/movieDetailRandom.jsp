@@ -112,7 +112,30 @@ padding-left: 30px;
   background: #111;
 }
 
+.seeMoreBoard{
+	font-size : 1.6rem;
+	display : inline-block;
+}
 
+.seeMoreBoardLink{
+	color : #f8efc5;
+	display : inline-block;
+	 white-space : nowrap;
+	 width : 0;
+	 overflow : hidden;
+	 transform : translateY(1.6rem);
+	 margin-left : 1rem;
+    transition : width 1s;
+    cursor:pointer;
+}
+.seeMoreBoard-container{
+	transform: translateX(20px);
+	display: inline-block;
+	}
+
+.seeMoreBoard-container:hover .seeMoreBoardLink{
+		 width : 6rem;	 
+}
 
 
 </style>
@@ -388,9 +411,13 @@ padding-left: 30px;
            	 });
 		
 		
-		
+		$(".onelineLink").click(function(){
+			location.href ='oneLineReview?SearchMode=movie&query='+randomId+'&language=ko-KR&page=1'
+		});
 
-        
+		$(".boardLink").click(function(){
+			location.href ='boardList?SearchType=M_id&bKeyword='+randomId+'&page=1'
+		});
 		
 	})
 </script>
@@ -464,12 +491,13 @@ padding-left: 30px;
 	</div>
 	<div id="userSpace">
 	<div class="board-container">
-	<h3>게시판</h3>
-	<div class="board"><div>게시판이 들어갈 곳</div></div>
+	<div class="seeMoreBoard-container"><h3 class="seeMoreBoard">영화리뷰</h3><h5 class="seeMoreBoardLink boardLink">더 보기 >></h5></div>
+
+	<div class="board"><div>리뷰가 들어갈 곳</div></div>
 	</div>
 	<div class="board-container">
-	<h3>영화리뷰</h3>
-	<div class="board"><div>리뷰가 들어갈 곳</div></div>
+	<div class="seeMoreBoard-container"><h3 class="seeMoreBoard">한줄평</h3><h5 class="seeMoreBoardLink onelineLink">더 보기 >></h5></div>
+	<div class="board"><div>게시판이 들어갈 곳</div></div>
 	</div>
 	</div>
 	

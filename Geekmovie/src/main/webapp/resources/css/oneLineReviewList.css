@@ -9,6 +9,7 @@
     flex-direction: column;
     margin : 0 auto;
     margin-bottom : 30px;
+    padding-top: 50px;
 }
 .oneLineReviewOuterContainer{
 	display: flex;
@@ -152,4 +153,5 @@
 	height: 50%;
 	object-fit: contain;
 }
+
 

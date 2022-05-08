@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.geekmovie.board.service.BoardService;
 import com.geekmovie.board.vo.BoardVo;
@@ -42,5 +43,21 @@ public class BoardControllerApi {
 		return list;
 	}
 	
+	@RequestMapping("/boardListNew")          //새로운 글을 반환
+	public List<BoardVo> boardListNew(BoardVo boardVo) {
+		System.out.println("board List");
+		boardVo.setbKeyword("");
+		boardVo.setSearchType("TC");
+		int listCnt = boardService.boardListCnt(boardVo);
+		PageVo pagevo = new PageVo();
+		pagevo.pageInfo(1, 1, listCnt);
+		boardVo.setStartList(pagevo.getStartList());
+		boardVo.setListSize(pagevo.getListSize());
+		
+		List<BoardVo> list = boardService.bList(boardVo);
+
+		
+		return list;
+	}
 	
 }

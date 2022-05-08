@@ -462,7 +462,7 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
 	
 	.listHeader {
 	
-		margin-bottom : 20px;
+		margin-bottom : 50px;
 		border-bottom : 3px solid red;
 	}
 	

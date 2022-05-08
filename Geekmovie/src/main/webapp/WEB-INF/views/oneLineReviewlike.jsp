@@ -462,7 +462,14 @@ width : 100%;
 z-index : 2;
 
 }
-
+#head{
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px;
+        display: flex;
+       flex-direction: column;
+       border-bottom: solid 3px red;
 
 </style>
 </head>
@@ -473,8 +480,11 @@ z-index : 2;
 <jsp:param name="language" value="${language}"/>  
 </jsp:include>  
 
-
+	<div id="head">
+	<div id="title">
 	<h1>내가 좋아한 한줄평</h1>
+	</div>
+	</div>
 
 	<div id="oneLineReviewsContainer">
 	<%

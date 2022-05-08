@@ -80,7 +80,7 @@ h4.seeMoreLink{
 
 #info-container{
 	padding-top : 2.5rem;
-	flex : 1 0 220px;
+	flex : 1 0 250px;
 	display : flex;
 	flex-direction: column;
     align-items: center;
@@ -89,6 +89,8 @@ h4.seeMoreLink{
 }
 #info-title{
 	margin : 30px 20px 50px 20px;
+	word-break: keep-all;
+    line-height: 1.4;
 }
 
 .wrap { width: 90%;
@@ -150,7 +152,7 @@ color : black;
 .user-movies-container{
 	display : grid;
 	grid-template-columns : 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-	grid-column-gap: 1px;
+	grid-column-gap: 10px;
 	padding: 0 10px;
 }
 .user-movie-container{

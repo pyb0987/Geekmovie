@@ -50,6 +50,7 @@ display : flex;
 flex-direction: column;
 width : 50%;
 padding : 30px;
+align-items: flex-start;
 }
 
 .board{
@@ -58,7 +59,30 @@ height : 100%;
 background-color : white;
 }
 
+.seeMoreBoard{
+	font-size : 1.6rem;
+	display : inline-block;
+}
 
+.seeMoreBoardLink{
+	color : #f8efc5;
+	display : inline-block;
+	 white-space : nowrap;
+	 width : 0;
+	 overflow : hidden;
+	 transform : translateY(1.6rem);
+	 margin-left : 1rem;
+    transition : width 1s;
+    cursor:pointer;
+}
+.seeMoreBoard-container{
+	transform: translateX(20px);
+	display: inline-block;
+	}
+
+.seeMoreBoard-container:hover .seeMoreBoardLink{
+		 width : 6rem;	 
+}
 
 
 </style>
@@ -141,7 +165,20 @@ background-color : white;
 		
 		
 		
+		$.ajax({							//받아온 영화 정보 디테일로 만들기
+			type: 'GET',
+			url: `/movie/boardListNew`,
+			dataType : 'json',
+			contentType : 'application/json', 
+			success: function(data){
+				console.log(data)
+			}
+		,
+		error: function(request, status, error){
+			console.log(request, status, error)
+		}
 		
+	})
 		
     	
     	
@@ -261,11 +298,15 @@ background-color : white;
 	
 		<div id="userSpace">
 	<div class="board-container">
-	<h3>게시판</h3>
+	
+
+	<div class="seeMoreBoard-container"><h3 class="seeMoreBoard">게시판</h3><h5 class="seeMoreBoardLink" OnClick="location.href ='freeboardList'">더 보기 >></h5></div>
+
 	<div class="board"><div>게시판이 들어갈 곳</div></div>
 	</div>
 	<div class="board-container">
-	<h3>영화리뷰</h3>
+	<div class="seeMoreBoard-container"><h3 class="seeMoreBoard">영화리뷰</h3><h5 class="seeMoreBoardLink" OnClick="location.href ='boardList'">더 보기 >></h5></div>
+
 	<div class="board"><div>리뷰가 들어갈 곳</div></div>
 	</div>
 	</div>

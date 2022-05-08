@@ -507,6 +507,8 @@ justify-content: center;
 	<%} %>
 	</div>
 	</div>
+	
+	<div id="comments-container"></div>
 	<div class="spacing" style="height:200px"></div>
 
 
