@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="replyVo">
+
+	<select id="reply_list" resultMap="ReplyResultMap">
+		<![CDATA[
+			SELECT reply_seq, seq, id, reply_text, regdate, upd_date FROM b_reply
+			WHERE seq = #{seq}
+			ORDER BY reply_seq
+		]]>
+	</select>
+	
+	<insert id="reply_create">
+		<![CDATA[
+			INSERT INTO b_reply (seq, reply_text, id)
+			VALUES (#seq, #reply_text, #id)
+		]]>
+	</insert>
+	
+	<update id="reply_update">
+		<![CDATA[
+			UPDATE b_reply SET 
+			reply_text = #{reply_text},	upd_date = NOW()
+			WHERE reply_seq = #{reply_seq}
+		]]>
+	</update>
+
+	<delete id="reply_delete">
+		<![CDATA[
+			DELETE FROM b_reply
+			WHERE reply_seq = #{reply_seq}
+		]]>
+	</delete>
+	
+	<resultMap type="ReplyVo" id="ReplyResultMap">
+		<id property="reply_seq" column="reply_seq"/>
+		<result property="seq" column="seq"/>
+		<result property="id" column="id"/>
+		<result property="reply_text" column="reply_text"/>
+		<result property="regdate" column="regdate"/>
+		<result property="upd_date" column="upd_date"/>
+	</resultMap>
+	
+	<resultMap type="BoardVo" id="BoardResultMap">
+		<id property="board_seq" column="seq"/>
+		<result property="title" column="title"/>
+		<result property="writer" column="writer"/>
+		<result property="contents" column="contents"/>
+		<result property="reply" column="reply"/>
+		<result property="regdate" column="regdate"/>
+		<result property="cnt" column="cnt"/>
+		<result property="likes" column="likes"/>
+		<result property="movie_id" column="movie_id"/>
+		<result property="b_score" column="b_score"/>
+	</resultMap>
+</mapper>
