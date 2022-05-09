@@ -56,7 +56,10 @@ align-items: flex-start;
 .board{
 width : 100%;
 height : 100%;
-background-color : white;
+border-top : solid 1px white;
+display : grid;
+flex-grow : 1;
+grid-template-rows : repeat(6, 1fr);
 }
 
 .seeMoreBoard{
@@ -82,6 +85,39 @@ background-color : white;
 
 .seeMoreBoard-container:hover .seeMoreBoardLink{
 		 width : 6rem;	 
+}
+
+
+.user-container-title{
+	
+	margin: 2.5rem 4rem;
+	display : flex;
+	justify-content: space-between;
+	flex-grow : 0;
+}
+
+
+
+.user-container-contents{
+	border-top : solid 1px white;
+	border-bottom : solid 1px white;
+}
+#user-movieLike-container, #user-movieAdd-container{
+	grid-column: 1 / span 2;
+}
+.user-container-content{
+	cursor : pointer;
+	display: flex;
+	align-items: center;
+	height: 80px;
+}
+.user-container-content:hover{
+	background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(13,40,38,1) 50%, rgba(0,0,0,1) 100%);
+}
+
+
+.user-container-content div{
+	display : inline-block;
 }
 
 
@@ -150,24 +186,10 @@ background-color : white;
 		
 		
 		 
-		window.addEventListener('scroll', throttle(function() {
-		        var scrolltop = $(document).scrollTop();
-		        console.log(scrolltop);
-		        var height = $(document).height();
-		        console.log(height);
-		        var height_win = $(window).height();
-		        console.log(height_win);
-		        
-		     if (Math.round( $(window).scrollTop()) == $(document).height() - $(window).height()) {
-		        //moreList();
-		        }
-		     }, 200), true);		 
+
 		
-		
-		
-		$.ajax({							//받아온 영화 정보 디테일로 만들기
-			type: 'GET',
-			url: `/movie/boardListNew`,
+		$.ajax({							//추천리뷰정보 받아오기
+			url: `/movie/boardListRecommend`,
 			dataType : 'json',
 			contentType : 'application/json', 
 			success: function(data){
@@ -298,17 +320,22 @@ background-color : white;
 	
 		<div id="userSpace">
 	<div class="board-container">
-	
-
-	<div class="seeMoreBoard-container"><h3 class="seeMoreBoard">게시판</h3><h5 class="seeMoreBoardLink" OnClick="location.href ='freeboardList'">더 보기 >></h5></div>
-
-	<div class="board"><div>게시판이 들어갈 곳</div></div>
+	<div class="seeMoreBoard-container"><h3 class="seeMoreBoard">추천리뷰</h3><h5 class="seeMoreBoardLink" OnClick="location.href ='boardList'">더 보기 >></h5></div>
+	<div class="board userReview">
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-score"></div><div class="user-content-movie"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-score"></div><div class="user-content-movie"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-score"></div><div class="user-content-movie"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-score"></div><div class="user-content-movie"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-score"></div><div class="user-content-movie"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-score"></div><div class="user-content-movie"></div><div class="user-content-gendate"></div></div>
+			
+	</div>
 	</div>
 	<div class="board-container">
-	<div class="seeMoreBoard-container"><h3 class="seeMoreBoard">영화리뷰</h3><h5 class="seeMoreBoardLink" OnClick="location.href ='boardList'">더 보기 >></h5></div>
-
-	<div class="board"><div>리뷰가 들어갈 곳</div></div>
+	<div class="seeMoreBoard-container"><h3 class="seeMoreBoard">게시판</h3><h5 class="seeMoreBoardLink" OnClick="location.href ='freeboardList'">더 보기 >></h5></div>
+	<div class="board userFree"><div>게시판이 들어갈 곳</div></div>
 	</div>
+
 	</div>
 	
 	

@@ -46,4 +46,10 @@ public class BoardDao {
 		return sqlSessionTemplate.delete("boardVo.board_delete", boardvo);
 	}
 
+	public List<BoardVo> boardRecommend(BoardVo boardvo) {
+		return sqlSessionTemplate.selectList("boardVo.board_recommend", boardvo);
+	}
+	public int boardRecommendCnt(BoardVo boardvo) {
+		return sqlSessionTemplate.selectOne("boardVo.boardrecommendCnt", boardvo);
+	}
 }

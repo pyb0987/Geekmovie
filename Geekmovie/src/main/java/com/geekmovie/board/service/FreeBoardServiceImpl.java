@@ -52,4 +52,15 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	public int fCnt(FreeVo freeVo) {
 		return dao.freeCnt(freeVo);
 	}
+	
+	@Override
+	public List<FreeVo> freeRecommend(FreeVo freeVo) {
+		return dao.freeRecommend(freeVo);
+	}
+	
+	@Override
+	public int freeRecommendCnt(FreeVo freeVo) {
+		return dao.freeRecommendCnt(freeVo);
+	}
+
 }

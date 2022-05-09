@@ -52,4 +52,11 @@ public class BoardServiceImpl implements BoardService{
 	public int bDelete(BoardVo boardvo) {
 		return dao.boardDelete(boardvo);
 	}
+	
+	public List<BoardVo> boardRecommend(BoardVo boardVo) {
+		return dao.boardRecommend(boardVo);
+	}
+	public int boardRecommendCnt(BoardVo boardvo) {
+		return dao.boardRecommendCnt(boardvo);
+	}
 }

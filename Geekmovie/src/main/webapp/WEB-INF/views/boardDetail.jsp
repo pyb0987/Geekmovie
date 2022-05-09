@@ -22,7 +22,7 @@ String language = "ko-KR";
 <html>
 <head>
 <meta charset="UTF-8">
-<title>BoardDetail</title>
+<title>GeekReviewDetail</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
@@ -199,18 +199,25 @@ body {
 	.BoardHeader h1 {
 		padding-left : 50px;
 		margin : 30px;
+		color : black;
 	}
+	
+.BoardContainer{
+width : 80%;
+margin : 0 auto;
+top : 3rem;
+}	
 	.BoardWrap {
-		top : 3rem;
-		width : 70%;
-		margin : 0 auto;
+    border-radius: 10px;
+    padding: 50px;
+    background-color: white;
 	}
 	.BoardHeader {
 		border-top: 3px solid red;
 	}
 	.Boardbody{
 		display : grid;
-		grid-template-columns: repeat(4, auto);
+		grid-template-columns: repeat(5, auto);
 	}
 	#detail-bigPictureContainer{
 	position : relative;
@@ -280,7 +287,6 @@ body {
 }
 #detail-poster img { /*이미지 전부 채우게 함*/
 	border: ridge #eee 8px;
-	padding: 2px;
 	width: 100%;
 	object-fit: cover;
 	max-width: 100%;
@@ -303,7 +309,7 @@ text-align: end;
 .Detail-body-header{
 display : flex;
 justify-content: space-between;
-grid-column: 1 / 5;
+grid-column: 1 / 6;
 }
 .movieLikes, .movieWatchCount{
     text-align: end;
@@ -322,23 +328,27 @@ grid-column: 1 / 5;
 }
 
 .movieContent{
-grid-column: 1 / 5;
+grid-column: 1 / 6;
     margin: 3% 0;
     padding: 0 2%;
-    border-left: double 7px brown;
-    border-right: double 7px brown;
+     border: solid 2px #444;
+    border-radius: 10px;
 min-height : 500px;
 }
 
 .movieContent h5{
 	    font-weight: 400;
+	    color : black;
 }
-
+.BoardDate{
+grid-column: 1 / 3;
+}
 .BoardColored{
-background-color: #696565;
-border : 1px solid black;
+background-color: #555;
 box-sizing : border-box;
 padding: 0 10px;
+    border: 1px solid black;
+    margin: 1px;
 }
 .BoardColored h5, .BoardColored h4{
 font-weight : 400;
@@ -347,7 +357,7 @@ color: #f2f5dc;
 
 .toList{
     text-align: center;
-	grid-column: 4 / 5;
+	grid-column: 5 / 6;
 	grid-row: 5 / 6;
 }
 .toList a{
@@ -366,7 +376,8 @@ display : flex;
 	grid-column: 3 / span 2;
 	display : flex;
 	align-items: center;
-	justify-content: center; 
+	justify-content: center;
+	margin-bottom: 20px; 
 	
 }
 
@@ -458,7 +469,7 @@ justify-content: center;
 	</div>
 	
 	<div id="spacing"></div>
-
+	<div class="BoardContainer">
 	<div class="BoardWrap">
 	<div class="BoardHeader">
 			<h1>${data.title}</h1>
@@ -468,7 +479,7 @@ justify-content: center;
 		<div class="Detail-body-header BoardColored">
 		<h4>작성자 : ${data.writer}</h4><h4 class="movieName"></h4>
 	</div>
-	<div class="BoardColored">
+	<div class="BoardColored BoardDate">
 	<h5><%=formattedgenDate %></h5>
 	</div>
 	<div class="movieScore BoardColored">
@@ -499,7 +510,8 @@ justify-content: center;
 	<%if(id != null && id.equals(wr)) {%>
 	<div class="BoardColored writer">
 		<button id="b_modify" onclick=" modifyCheck();"><h5>게시글 수정</h5></button>
-		
+	</div>	
+	<div class="BoardColored writer">
 		<form name='deleteform' id="b_delete" action="boardDelete" method="post">
 			<input type="hidden" name="seq" value="${data.seq}" />
 			<h5><input type="button" value="삭제" onclick="deleteCheck();" ></h5>
@@ -507,8 +519,9 @@ justify-content: center;
 	<%} %>
 	</div>
 	</div>
-	
+	</div>
 	<div id="comments-container"></div>
+	
 	<div class="spacing" style="height:200px"></div>
 
 

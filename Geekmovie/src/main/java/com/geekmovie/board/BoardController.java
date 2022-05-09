@@ -60,6 +60,36 @@ public class BoardController {
 		
 		return mav;
 	}
+	@RequestMapping("/boardRecommendList")          //게시판
+	public ModelAndView boardRecommend(BoardVo boardVo,	@RequestParam(required = false, defaultValue = "1") int curPage,
+			@RequestParam(required = false, defaultValue = "1") int range,
+			@RequestParam(required = false, defaultValue = "TC") String searchType,
+			@RequestParam(required = false, defaultValue = "") String bKeyword) {
+		
+		if(boardVo.getSearchType() == null) boardVo.setSearchType("TC");
+		
+		int listCnt = boardService.boardRecommendCnt(boardVo);
+		
+		ModelAndView mav = new ModelAndView();
+		PageVo pagevo = new PageVo();
+		pagevo.pageInfo(curPage, range, listCnt);
+		boardVo.setStartList(pagevo.getStartList());
+		boardVo.setListSize(pagevo.getListSize());
+		
+		List<BoardVo> list = boardService.boardRecommend(boardVo);
+		String sType = boardVo.getSearchType();
+		String kWord = boardVo.getbKeyword();
+		mav.addObject("pagination", pagevo);
+		mav.addObject("data", list);
+		mav.addObject("searchType",sType);
+		mav.addObject("keyword", kWord);
+		mav.addObject("curpage", curPage);
+		mav.addObject("range", range);
+		mav.setViewName("boardRecommendList");
+		
+		return mav;
+	}
+	
 	
 	@GetMapping("/boardCreate")
 	public String boardCreate(HttpSession session) {

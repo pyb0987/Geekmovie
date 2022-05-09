@@ -19,7 +19,7 @@ String language = "ko-KR";
 <html>
 <head>
 <meta charset="UTF-8">
-<title>boardUpdate</title>
+<title>GeekReviewEdit</title>
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
 
@@ -67,14 +67,14 @@ String language = "ko-KR";
 		
 		
 		
-		
+		$('#movieScoreInput').val(parseInt(${data.b_score}));
 		$.fn.CreateGiveStars = function(number) {			// - 크기는 2rem
 		    return this.each(function(i,e){$(e).children(".star-boxFill").width(number*starBigSize/2+'rem')});
 		    }
 
 	        $(".movieScore .star").click(function(e){
 	            $('.movieScore .star-box').CreateGiveStars(e.target.dataset.score);
-	            $('#movieScoreInput').val(e.target.dataset.score);		//여기에 정보 저장하여 나중에 제출
+	            $('#movieScoreInput').val(parseInt(e.target.dataset.score));		//여기에 정보 저장하여 나중에 제출
 	        })
 	    $('.movieScore .star-box').CreateGiveStars(${data.b_score});
 	  
@@ -128,21 +128,27 @@ body {
 #wrap{
 margin-top: 100px;
 }
-.BoardHeader h1 {
+	.BoardHeader h1 {
 		padding-left : 50px;
 		margin : 30px;
+		color : black;
 	}
-.BoardWrap {
-		top : 3rem;
-		width : 70%;
-		margin : 0 auto;
-}
+.BoardContainer{
+width : 80%;
+margin : 0 auto;
+top : 3rem;
+}	
+	.BoardWrap {
+    border-radius: 10px;
+    padding: 50px;
+    background-color: white;
+	}
 .BoardHeader {
 		border-top: 3px solid red;
 }
 .Boardbody{
 	display : grid;
-	grid-template-columns: repeat(4, auto);
+	grid-template-columns: repeat(5, auto);
 }
 
 .toList a{
@@ -151,7 +157,7 @@ margin-top: 100px;
 }
 .toList{
     text-align: center;
-	grid-column: 4 / 5;
+	grid-column: 5 / 6;
 	grid-row: 5 / 6;
 }
 
@@ -160,7 +166,7 @@ margin-top: 100px;
 }
 .Detail-body-header{
 display : flex;
-grid-column: 1 / 5;
+grid-column: 1 / 6;
 width : 100%;
 align-items: center;
 position: relative;
@@ -171,30 +177,32 @@ position: relative;
 }
 
 .movieScore{
-	grid-column: 3 / 5;
+	grid-column: 4 / 6;
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
 
 .movieContent{
-grid-column: 1 / 5;
+grid-column: 1 / 6;
     margin: 3% 0;
     padding: 0 2%;
-    border-left: double 7px brown;
-    border-right: double 7px brown;
+     border: solid 2px #444;
+    border-radius: 10px;
 min-height : 500px;
 }
 
 .movieContent h5{
 	    font-weight: 400;
+	    color : black;
 }
 
 .BoardColored{
-background-color: #696565;
-border : 1px solid black;
+background-color: #555;
 box-sizing : border-box;
 padding: 0 10px;
+    border: 1px solid black;
+    margin: 1px;
 }
 .BoardColored h5, .BoardColored h4{
 font-weight : 400;
@@ -234,7 +242,7 @@ display : flex;
 #bContent{
 width : 100%;
 height : 500px;
-background-color: #eee;
+border: none;
 }	
 
 
@@ -291,13 +299,16 @@ height: 2rem;
     color : black;
     box-sizing: border-box;
 }
-.writer a h5{
+.writer a{
     text-decoration: none;
-    color : #f2f5dc;
+
 }
 
 .writer a:hover h5{
 	color : #f2f5dccc;
+}
+.writerId{
+grid-column: 1 / 3;
 }
 </style>
 </head>
@@ -309,7 +320,8 @@ height: 2rem;
 	<div id="detail-bigPictureContainer">
 	<div id="detail-bigPicture"></div></div>
 <div id="wrap">
-	<form name="bCreateForm" method="post" onsubmit="return checkValue()">
+	<div class="BoardContainer">
+	<form name="bCreateForm" method="post">
 	<div class="BoardWrap">
 	<div class="BoardHeader">
 			<h1>게시글 수정</h1>
@@ -323,10 +335,10 @@ height: 2rem;
 	<h4 class="movieName"></h4><div id="SearchId-container"></div>
 
 	</div>
-	<div class="BoardColored">
+	<div class="BoardColored writerId">
 	<h5>작성자 : <input id="writerId" type="text" value="${sessionScope.id}" name="writer" readonly="readonly"></h5>
 	</div>
-	<div class="BoardColored"></div>
+	<div class="BoardColored board-space"></div>
 	<div class="movieScore BoardColored">
 	<h5>평가 : </h5>
 	<div class="star-box">
@@ -355,11 +367,15 @@ height: 2rem;
 	</div>	
 		<div class="BoardColored writer">
 		<h5><input type="submit" value="게시글 수정"></h5>
+		</div>
+		<div class="BoardColored writer">
 		<a href="/movie/boardDetail?seq=${data.seq}&searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"><h5>취소</h5></a>
 		</div>
 	</div>
+	
 	</div>
 	</form>
+	</div>
 	</div>
 
 <div class="spacing" style="height:200px"></div>

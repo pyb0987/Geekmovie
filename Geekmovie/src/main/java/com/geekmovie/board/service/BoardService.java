@@ -19,4 +19,8 @@ public interface BoardService {
 	public int bCnt(BoardVo boardVo);
 	
 	public int bDelete(BoardVo boardVo);
-}
+	
+	public List<BoardVo> boardRecommend(BoardVo boardVo);
+	
+	public int boardRecommendCnt(BoardVo boardvo);
+	}

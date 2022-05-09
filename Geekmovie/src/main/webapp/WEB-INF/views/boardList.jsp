@@ -33,7 +33,7 @@ PageVo pagination = (PageVo)request.getAttribute("pagination");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>BoardList</title>
+<title>GeekReview</title>
 <link rel="stylesheet" href="${path}/resources/css/globalModal.css?"/>
 <link rel="stylesheet" href="${path}/resources/css/movieSearch.css"/>
 <script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
@@ -434,6 +434,13 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
     }
     $('.oneLineReviewSearchPagination').html(str);
     }
+    
+    $(".timeStamp").each(function(i,e){
+    	var date = new Date($(e).text());
+    	$(e).text(date.toLocaleString());
+    })
+    
+    
 }
 </script>
 <link rel="stylesheet" href="${path}/resources/css/pagination.css?ver=1"/>
@@ -515,37 +522,40 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
 	
 
 	#boardTable {
-		width : 1000px;
+		min-width: 500px;
+    max-width: 1500px;
 		margin : 0 auto 30px;
 		background-color: #000000;
 		text-align: center;
 		color : #f2f5dc;
 	}
 	
-	#b_create {
+	#b_create,#b_switch {
 		width: 120px; height: 40px;
 		float: right;
-		margin-right: 35px;
+		margin-right: 8px;
 		border: 1px solid white;
 		background-color: #000000;
 		color: white;
 		padding: 5px;
 	}
 	
-	#b_create:hover {
+	#b_create:hover, #b_switch:hover {
 		color: white;
 		background-color: #696565;
 	}
 
 	.search-container {
-		width: 800px; height:60px;
+		    width: 77%;
+    min-width: 500px;
+     height:60px;
 		display: flex;
 		margin: 0 auto;
 		justify-content: center;
 	}
 	
 	.typeGroup select {
-		width: 130px; height: 40px;
+		 height: 40px;
 		border: 1px solid white;
 		background-color: #000000;
 		color: white;
@@ -559,17 +569,17 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
 	}
 	
 	#kg1 {
-		width: 500px; height: 35px;
+		width: 77%; height: 35px;
 		border: 1px solid white;
 		background-color: #000000;
 		color: white;
-		padding-left: 15px;
+		    padding-left: 30px;
 		font-size: 16px;
 		box-sizing: border-box;
 	}
 	
 	#kg2 {
-		width:100px; height: 40px;
+		width: 20%; height: 40px;
 		border: 1px solid white;
 		background-color: #000000;
 		color: white;
@@ -583,11 +593,11 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
 	
 	#SearchResultsContainer{
 position : absolute;
-    width: 500px;
+    width: 77%;
     top: 38px;
 }
 #checkImg{
-    left: 465px;
+        left: 0;
     top: 8px;
 position: absolute;
 max-width : 30px;
@@ -597,6 +607,7 @@ display : none;
 
 .keywordGroup{
 position : relative;
+flex: 2 2 500px;
 }
 
 #kg1.movieSelected{
@@ -652,12 +663,13 @@ font-size : 1rem;
 						<td class="movieId">${b.movie_id}</td>
 						<td><a href="boardDetail?seq=${b.seq}&searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}">${b.title}</a></td>
 						<td>${b.writer}</td>
-						<td>${b.regdate}</td>
+						<td class="timeStamp">${b.regdate}</td>
 						<td>${b.cnt}</td>
 						<td>${b.likes}</td>
 					</tr>
 				</c:forEach>
 			</table>
+			<button id="b_switch" onclick="location.href='boardRecommendList?'">추천글</button>
 			<button id="b_create">글 작성</button>
 		</div>
 		<!-- listMain end -->
@@ -668,7 +680,6 @@ font-size : 1rem;
 			   <div class="pagination oneLineReviewSearchPagination"></div>
 			</div>
 			<!-- Search -->
-			<div >
 				<form class="search-container" accept-charset="utf-8">
 					<div class="typeGroup">
 						<select id="searchType" name="searchType">
@@ -677,9 +688,11 @@ font-size : 1rem;
 							<option value="M_id" <c:if test="${searchType == 'M_id'}">selected="selected"</c:if>>영화이름</option>
 						</select>
 					</div>
+					
 					<div class="keywordGroup">
+					<img id="checkImg" src="${path}/resources/img/check.png" onmouseover="this.style.cursor='pointer'">
 						<div id="SearchResultsContainer"></div>
-						<img id="checkImg" src="${path}/resources/img/check.png" onmouseover="this.style.cursor='pointer'">
+						
 						<input id="kg1" type="text" placeholder="검색" name="bKeyword" />
 						<input id="movieIdInput" type="hidden" name="movieId" />
 						<input type="hidden" name="page" value="1" />
@@ -687,7 +700,6 @@ font-size : 1rem;
 						
 					</div>
 				</form>
-			</div>
 		</div>
 		<!-- listFooter end -->
 		

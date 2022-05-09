@@ -501,9 +501,9 @@ if(!!form.query && form.query.value !=""){
 		<div id="foldMenu">
 		<!--<div class="menuButton">최신영화</div>-->
 		<div class="menuButton"  onclick="location.href='search?searchMode=popularmovie&page=1&language=<%=request.getParameter("language")%>';">인기영화</div>
-		<div class="menuButton">장르별 영화보기</div>
+		<div class="menuButton" onclick="location.href='boardRecommendList?';">추천리뷰</div>
 
-		<div class="menuButton" onclick="location.href='boardList?';">최신게시글</div>
+		<div class="menuButton" onclick="location.href='boardList?';">최신리뷰</div>
 		<div class="menuButton" onclick="location.href='freeboardList?';">자유게시글</div>
 		<div class="menuButton" onclick="location.href='/movie/oneLineReview?page=1&language=<%=request.getParameter("language")%>';">한줄평</div>
 		<div class="menuButton" onclick="location.href='/movie/randomMovieDetail?language=<%=request.getParameter("language")%>';">랜덤영화</div>

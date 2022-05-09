@@ -59,6 +59,39 @@ public class FreeBoardController {
 		
 		return mav;
 	}
+	@RequestMapping("/freeboardRecommendList")
+	public ModelAndView fBoardRecommendList(FreeVo freeVo,
+			@RequestParam(required = false, defaultValue = "1") int curPage,
+			@RequestParam(required = false, defaultValue = "1") int range,
+			@RequestParam(required = false, defaultValue = "TC") String searchType,
+			@RequestParam(required = false, defaultValue = "") String bKeyword) {
+		
+		if(freeVo.getSearchType() == null) freeVo.setSearchType("TC");
+		
+		int listCnt = fBoardService.freeRecommendCnt(freeVo);
+		
+		ModelAndView mav = new ModelAndView();
+		PageVo pagevo = new PageVo();
+		
+		pagevo.pageInfo(curPage, range, listCnt);
+		freeVo.setStartList(pagevo.getStartList());
+		freeVo.setListSize(pagevo.getListSize());
+		
+		List<FreeVo> list = fBoardService.freeRecommend(freeVo);
+		String sType = freeVo.getSearchType();
+		String kWord = freeVo.getbKeyword();
+		
+		mav.addObject("data", list);
+		mav.addObject("pagevo", pagevo);
+		mav.addObject("searchType", sType);
+		mav.addObject("keyword", kWord);
+		mav.addObject("curPage", curPage);
+		mav.addObject("range", range);
+		mav.setViewName("freeboardRecommendList");
+		
+		return mav;
+	}
+	
 	
 	@GetMapping("/freeboardDetail")
 	public ModelAndView fBoardDetail(FreeVo freeVo,

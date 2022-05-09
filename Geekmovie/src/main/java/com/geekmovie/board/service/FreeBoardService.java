@@ -20,5 +20,9 @@ public interface FreeBoardService {
 	public int fDelete(FreeVo freeVo);
 	
 	public int fCnt(FreeVo freeVo);
+	
+	public List<FreeVo> freeRecommend(FreeVo freeVo);
+	
+	public int freeRecommendCnt(FreeVo freeVo);
 
 }

@@ -43,6 +43,27 @@ public class BoardControllerApi {
 		return list;
 	}
 	
+	@RequestMapping("/boardListRecommend")          //추천 리뷰를 반환
+	public List<BoardVo> boardListRecommend(BoardVo boardVo,
+			@RequestParam(required = false, defaultValue = "1") int curPage,
+			@RequestParam(required = false, defaultValue = "1") int range,
+			@RequestParam(required = false, defaultValue = "TC") String searchType,
+			@RequestParam(required = false, defaultValue = "") String bKeyword) {
+		
+		
+		if(boardVo.getSearchType() == null) boardVo.setSearchType("TC");
+		int listCnt = boardService.boardRecommendCnt(boardVo);
+		PageVo pagevo = new PageVo();
+		pagevo.pageInfo(curPage, range, listCnt);
+		boardVo.setStartList(pagevo.getStartList());
+		boardVo.setListSize(pagevo.getListSize());
+		List<BoardVo> list = boardService.boardRecommend(boardVo);
+
+		return list;
+	}
+	
+	
+	
 	@RequestMapping("/boardListNew")          //새로운 글을 반환
 	public List<BoardVo> boardListNew(BoardVo boardVo) {
 		System.out.println("board List");

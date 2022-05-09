@@ -47,4 +47,10 @@ public class FreeBoardDao {
 		return sqlSessionTemplate.update("freeVo.free_cntIncrease", freeVo);
 	}
 
+	public List<FreeVo> freeRecommend(FreeVo freeVo) {
+		return sqlSessionTemplate.selectList("freeVo.free_recommend", freeVo);
+	}
+	public int freeRecommendCnt(FreeVo freeVo) {
+		return sqlSessionTemplate.selectOne("freeVo.freerecommendCnt", freeVo);
+	}
 }

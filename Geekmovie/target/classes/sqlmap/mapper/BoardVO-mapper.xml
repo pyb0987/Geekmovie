@@ -6,7 +6,7 @@
 
 	<select id="board_list" parameterType="boardVo" resultType="boardVo">
 		<![CDATA[
-			select seq, movie_id, title, writer, regdate, cnt, likes
+			select seq, movie_id, title, writer, regdate, cnt, likes, b_score
 			from review_board 
 			where 1 = 1 
 		]]>
@@ -22,6 +22,43 @@
 		</if>
 			ORDER BY seq DESC
 			Limit #{startList}, #{listSize}
+	</select>
+	
+	
+	<select id="board_recommend" parameterType="boardVo" resultType="boardVo">
+		<![CDATA[
+			select seq, movie_id, title, writer, regdate, cnt, likes, b_score
+			from review_board 
+			where likes>9
+		]]>
+		<if test="searchType == 'TC' and bKeyword != null">
+			AND (title LIKE CONCAT ('%',#{bKeyword},'%')
+			OR contents LIKE CONCAT ('%',#{bKeyword},'%'))
+		</if>
+		<if test="searchType == 'Wr' and bKeyword != null">
+			AND writer LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'M_id' and bKeyword != null">
+			AND movie_id LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+			ORDER BY seq DESC
+			Limit #{startList}, #{listSize}
+	</select>
+	<select id="boardrecommendCnt" resultType="int">
+		<![CDATA[
+			select count(*) 
+			from review_board
+			where likes>9
+		]]>	
+		<if test="searchType == 'TC' and bKeyword != null">
+			AND title LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'Wr' and bKeyword != null">
+			AND writer LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'M_id' and bKeyword != null">
+			AND movie_id LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
 	</select>
 	
 	<select id="boardListCnt" resultType="int">
