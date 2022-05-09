@@ -69,7 +69,13 @@ window.addEventListener('resize', throttle(function() {				//리사이징에 thr
 
 }
 
-
+document.querySelector(".toListButton").addEventListener('click', function(){
+	if('${recommend}'=='true'){
+		location.href="freeboardRecommendList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"
+	}else{		
+		location.href="freeboardList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"
+	}
+ })
 
 
 </script>
@@ -302,8 +308,7 @@ justify-content: center;
 					</div>
 				</div>
 				<div class="BoardColored toList">
-					<a
-						href="freeboardList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"><h4>목록</h4></a>
+					<a class="toListButton"><h4>목록</h4></a>
 				</div>
 
 

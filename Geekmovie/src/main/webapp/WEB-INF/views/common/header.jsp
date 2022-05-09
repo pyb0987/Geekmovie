@@ -255,7 +255,10 @@ flex-direction: column;
 .menuButton{
 box-sizing: border-box;
  width : 100%;
- height : 80px;
+ height : 10%;
+ display: flex;
+     align-items: center;
+    justify-content: center;
  line-height : 80px;
  color : white;
  font-family: 'NanumSquareRound';

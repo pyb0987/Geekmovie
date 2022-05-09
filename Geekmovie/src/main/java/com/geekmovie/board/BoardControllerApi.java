@@ -62,6 +62,30 @@ public class BoardControllerApi {
 		return list;
 	}
 	
+	@RequestMapping("/boardList/movie/{movieId}")          //게시판 userId가 작성한 글 반환 
+	public List<BoardVo> boardListMovie(BoardVo boardVo,
+			@RequestParam(required = false, defaultValue = "1") int curPage,
+			@RequestParam(required = false, defaultValue = "1") int range,
+			@PathVariable("movieId") String movieId) {
+		boardVo.setbKeyword(movieId);
+		String SearchType = "M_id";
+		boardVo.setSearchType(SearchType);
+		int listCnt = boardService.boardListCnt(boardVo);
+		
+
+		PageVo pagevo = new PageVo();
+		
+		pagevo.pageInfo(curPage, range, listCnt);
+		boardVo.setStartList(pagevo.getStartList());
+		boardVo.setListSize(pagevo.getListSize());
+		
+		List<BoardVo> list = boardService.bList(boardVo);
+		
+
+		
+		return list;
+	}
+	
 	
 	
 	@RequestMapping("/boardListNew")          //새로운 글을 반환

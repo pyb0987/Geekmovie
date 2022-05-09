@@ -97,6 +97,16 @@
 		]]>	
 	</select>
 
+	<select id="SelectMovie" parameterType="HashMap" resultType="oneLineReviewVo">
+		<![CDATA[
+			select oneLineReviewId, userId, movieId, score, comment, likes, dislikes, gendate, moddate
+			from onelinereview
+			where movieId = #{movieId}
+			order by oneLineReviewId DESC
+			Limit #{nowPageStart}, #{Size};
+			]]>
+			
+	</select>
 
 	
 	<resultMap type="oneLineReviewLikeVo" id="oneLineReviewJoinTarget">

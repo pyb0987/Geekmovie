@@ -12,7 +12,7 @@
 }
 .modalExit{
 	width:60px; height:60px;
-	margin: 150px auto 20px auto;
+	margin: 10vh auto 20px auto;
 	cursor : pointer;
 }
 .modal-content{

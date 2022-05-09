@@ -31,7 +31,8 @@ public class FreeBoardController {
 			@RequestParam(required = false, defaultValue = "1") int curPage,
 			@RequestParam(required = false, defaultValue = "1") int range,
 			@RequestParam(required = false, defaultValue = "TC") String searchType,
-			@RequestParam(required = false, defaultValue = "") String bKeyword) {
+			@RequestParam(required = false, defaultValue = "") String bKeyword,
+			@RequestParam(required = false, defaultValue = "false") String recommend) {
 		System.out.println("FBL");
 		
 		if(freeVo.getSearchType() == null) freeVo.setSearchType("TC");
@@ -55,6 +56,7 @@ public class FreeBoardController {
 		mav.addObject("keyword", kWord);
 		mav.addObject("curPage", curPage);
 		mav.addObject("range", range);
+		mav.addObject("recommend", recommend);
 		mav.setViewName("freeboardList");
 		
 		return mav;

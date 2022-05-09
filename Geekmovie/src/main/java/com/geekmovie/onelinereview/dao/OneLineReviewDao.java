@@ -69,4 +69,8 @@ public class OneLineReviewDao {
 	public List<OneLineReviewVo> UserLike(Map<String, Object> map) {
 		return 	sqlSessionTemplate.selectList("oneLineReviewVo.UserLike", map);	
 	}
+	
+	public List<OneLineReviewVo> SelectMovie(Map<String, Object> map) {
+		return 	sqlSessionTemplate.selectList("oneLineReviewVo.SelectMovie", map);	
+	}
 }

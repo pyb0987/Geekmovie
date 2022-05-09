@@ -162,8 +162,13 @@ $.ajax({							//받아온 영화 정보 디테일로 만들기
 })
 
 
-
-
+ document.querySelector(".toListButton").addEventListener('click', function(){
+	if('${recommend}'=='true'){
+		location.href="boardRecommendList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"
+	}else{		
+		location.href="boardList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"
+	}
+ })
 
 
 
@@ -504,9 +509,9 @@ justify-content: center;
 	</div>
 	
 	<div class="BoardColored toList">
-	<a href="boardList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"><h4>목록</h4></a>
+	<a class="toListButton"><h4>목록</h4></a>
 	</div>
-	
+
 	<%if(id != null && id.equals(wr)) {%>
 	<div class="BoardColored writer">
 		<button id="b_modify" onclick=" modifyCheck();"><h5>게시글 수정</h5></button>

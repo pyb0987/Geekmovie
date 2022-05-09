@@ -73,4 +73,8 @@ public class OneLineReviewServiceImpl implements OneLineReviewService{
 	public List<OneLineReviewVo> UserLike(Map<String, Object> map) {
 		return oneLineReviewDao.UserLike(map);
 	}
+	
+	public List<OneLineReviewVo> SelectMovie(Map<String, Object> map) {
+		return oneLineReviewDao.SelectMovie(map);
+	}
 }
