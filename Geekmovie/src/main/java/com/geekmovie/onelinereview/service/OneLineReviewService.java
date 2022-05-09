@@ -30,6 +30,7 @@ public interface OneLineReviewService {
 	public int GetPage(int olrId);
 	
 	public List<OneLineReviewVo> UserLike(Map<String, Object> map);
-	
+
 	public List<OneLineReviewVo> SelectMovie(Map<String, Object> map);
+
 }

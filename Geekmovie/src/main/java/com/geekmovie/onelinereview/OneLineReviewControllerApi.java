@@ -71,6 +71,7 @@ public class OneLineReviewControllerApi {
 		return oneLineReviewService.GetPage(olrId);
 	}
 	
+
 	@RequestMapping(value = "/oneLineReview/user/{userId}/like", method = RequestMethod.GET)
 	@ResponseBody
 	public List<OneLineReviewVo> oneLineReviewUserGET(HttpServletRequest request, @PathVariable("userId") String userId) {

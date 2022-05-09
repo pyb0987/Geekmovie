@@ -3,23 +3,35 @@ package com.geekmovie.board.vo;
 import java.sql.Timestamp;
 
 public class ReplyVo {
-
-	private int reply_seq;
+	
+	// mysql 테이블 생성문
+	/*
+	 * create table b_reply( 
+	 * rno int not null auto_increment, 
+	 * seq int not null,
+	 * writer varchar(50) not null, 
+	 * regDate timestamp not null default now(),
+	 * content text not null, 
+	 * primary key(rno, seq), 
+	 * foreign key(seq) references review_board(seq) );
+	 */
+	
+	private int rno;
 	private int seq;
-	private String id;
-	private String reply_text;
-	private Timestamp regdate;
-	private Timestamp upd_date;
+	private String writer;
+	private String content;
+	private Timestamp regDate;
 	
 	public ReplyVo() {
+		super();
+	}
+
+	public int getRno() {
+		return rno;
 	}
 	
-	public int getReply_seq() {
-		return reply_seq;
-	}
-	
-	public void setReply_seq(int reply_seq) {
-		this.reply_seq = reply_seq;
+	public void setRno(int rno) {
+		this.rno = rno;
 	}
 	
 	public int getSeq() {
@@ -30,42 +42,45 @@ public class ReplyVo {
 		this.seq = seq;
 	}
 	
-	public String getId() {
-		return id;
+	public String getWriter() {
+		return writer;
 	}
 	
-	public void setId(String id) {
-		this.id = id;
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 	
-	public String getReply_text() {
-		return reply_text;
+	public String getContent() {
+		return content;
 	}
 	
-	public void setReply_text(String reply_text) {
-		this.reply_text = reply_text;
+	public void setContent(String content) {
+		this.content = content;
 	}
 	
-	public Timestamp getRegdate() {
-		return regdate;
+	public Timestamp getRegDate() {
+		return regDate;
 	}
 	
-	public void setRegdate(Timestamp regdate) {
-		this.regdate = regdate;
+	public void setRegDate(Timestamp regDate) {
+		this.regDate = regDate;
 	}
 	
-	public Timestamp getUpd_date() {
-		return upd_date;
-	}
-	
-	public void setUpd_date(Timestamp upd_date) {
-		this.upd_date = upd_date;
-	}
-
 	@Override
 	public String toString() {
-		return "ReplyVo [reply_seq=" + reply_seq + ", seq=" + seq + ", id=" + id + ", reply_text=" + reply_text
-				+ ", regdate=" + regdate + ", upd_date=" + upd_date + "]";
+		return "ReplyVo [rno=" + rno + ", seq=" + seq + ", writer=" + writer + ", content=" + content + ", regDate="
+				+ regDate + "]";
 	}
+	
+	public ReplyVo(int rno, int seq, String writer, String content, Timestamp regDate) {
+		super();
+		this.rno = rno;
+		this.seq = seq;
+		this.writer = writer;
+		this.content = content;
+		this.regDate = regDate;
+	}
+	
+	
 	
 }

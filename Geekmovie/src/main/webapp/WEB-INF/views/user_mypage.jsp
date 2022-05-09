@@ -151,7 +151,6 @@ $(document).ready(function() {
     	dataType : 'json',
     	contentType : 'application/json', 
     	success: function(data){
-    		console.log(data)
     		$("#user-board-container .user-container-content").each(function(i, e){
     			if(!!data[i]){
     			$(e).data("reviewId",data[i].seq);

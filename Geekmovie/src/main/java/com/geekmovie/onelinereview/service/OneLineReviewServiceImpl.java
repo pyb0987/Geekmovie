@@ -77,4 +77,5 @@ public class OneLineReviewServiceImpl implements OneLineReviewService{
 	public List<OneLineReviewVo> SelectMovie(Map<String, Object> map) {
 		return oneLineReviewDao.SelectMovie(map);
 	}
+
 }

@@ -1,3 +1,6 @@
+
+<%@page import="java.util.List"%>
+<%@page import="com.geekmovie.board.vo.ReplyVo"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="com.geekmovie.board.service.BoardService"%>
@@ -10,6 +13,7 @@
 
 <% BoardVo data = (BoardVo)request.getAttribute("data"); %>
 <% String wr = data.getWriter(); 
+
 String id = (String)session.getAttribute("id"); 
 Timestamp gendate = data.getRegdate();
 String formattedgenDate = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(gendate);
@@ -23,6 +27,7 @@ String language = "ko-KR";
 <head>
 <meta charset="UTF-8">
 <title>GeekReviewDetail</title>
+
 
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
@@ -56,6 +61,129 @@ function modifyCheck(){
 		location.href = 'boardUpdate?seq=${data.seq}';
 	}
 };
+
+// 로그인 회원만 글 작성하게
+function replyWriteCheck(){
+	if('${sessionScope.id}' == '') {
+		var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
+		if(result) {
+			location.href = 'user_join';
+		}
+	} else {
+		var replywriteform = document.replywriteform;
+		replywriteform.submit();
+	}
+};
+
+
+window.onload = function(){	
+
+
+
+var windowResize = function(){					//리사이징 함수
+
+	fontResize()
+	
+}
+
+windowResize();
+var ResizeTimer;
+window.addEventListener('resize', throttle(function() {				//리사이징에 throttle 적용
+	 windowResize();
+}, 20), true);	
+
+movieLike('${sessionScope.id}');	//영화좋아요/add 적용 
+
+
+var starSize = 1.8;
+var colorMap = new Map([[28,["#44c76750","#18ab2950", "#ffffff", "#2f6627"]],	//genreColorMap
+	[12, ["#7892c250","#4e609650", "#ffffff", "#283966"]],
+	[16, ["#33bdef50","#057fd050", "#ffffff","#5b6178"]],
+	[35, ["#dbe6c450","#b2b8ad50", "#ffffff", "#ced9bf"]],
+	[80, ["#f2453750","#d0271850", "#ffffff", "#810e05"]],
+	[99, ["#ffffff50","#dcdcdc50", "ffffff", "#ffffff"]],
+	[18, ["#e4685d50","#ffffff50", "#ffffff", "#b23e35"]],
+	[10751, ["#ffec6450","#ffaa2250", "#ffffff", "#ffee66"]],
+	[14, ["#599bb350","#29668f50", "#ffffff", "#3d768a"]],
+	[36, ["#2dabf950","#0b0e0750", "#ffffff", "#263666"]],
+	[27, ["#d0451b50","#94291150", "#ffffff", "#854629"]],
+	[10402, ["#ededed50","#d6bcd650", "ffffff", "#e1e2ed"]],
+	[9648, ["#2e466e50","#1f2f4750", "#ffffff", "#263666"]],
+	[10749, ["#79bbff50","#337bc450", "#ffffff", "#5b8a3c"]],
+	[878, ["#5d53ed50","#84bbf350", "#ffffff", "#2a67a3"]],
+	[10770, ["#7d5d3b50","#54381e50", "#ffffff", "#4d3534"]],
+	[53, ["#fc8d8350","#d8352650", "#ffffff", "#b23e35"]],
+	[10752, ["#768d8750","#56696350", "#ffffff", "#2b665e"]],
+	[37, ["#77b55a50","#4b8f2950", "#ffffff", "#5b8a3c"]]]);  
+
+$.fn.generateStars = function() {			//별점생성함수 - 크기는 1.8rem
+	return this.each(function(i,e){
+		let score = $(e).text()
+		$(e).html($('<span/>').width(score*starSize/2+'rem'));
+			$(e)[0].dataset.score = score;
+	});
+	}
+
+$.ajax({							//받아온 영화 정보 디테일로 만들기
+	type: 'GET',
+	url: `/movie/getMovieData?movieId=${data.movie_id}&language=<%=language %>`,
+	dataType : 'json',
+	contentType : 'application/json', 
+	success: function(data){
+		let str1;
+		let str2;
+		if(!!data.backdrop_path){
+		str1 = 'https://image.tmdb.org/t/p/original/'+data.backdrop_path ;			//백드랍 이미지
+		}else{        		
+			str1 = '${path}/resources/img/wall.jpg' ;	
+		}
+		if(!!data.poster_path){
+		str2 = "<img src='https://image.tmdb.org/t/p/w500/"+data.poster_path+"'>"    //포스터
+		}else{
+			str2 = "<img src='${path}/resources/img/noImage.jpg'>"
+		}
+		let str3 = "<h1 style='text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000; margin-bottom: 0;'>"+data.title+"</h1>"      //제목
+		let str7 = "<h6 id='release_date'>"+data.release_date+" 개봉</h6>"
+		
+		   		
+		$("#detail-bigPicture").css({"background":'linear-gradient(to bottom,rgba(0,0,0,0) 80%,rgba(0,0,0,0) 90%,rgba(0,0,0,1) 100%), url('+ str1 +')', "background-repeat": "no-repeat", "background-size": "cover"});   //배경화면 및 그라데이션 
+		$("#detail-poster").html(str2);
+		$("#detail-title").html(str3)
+		let str6 = "";
+		data.genres.forEach(function(item){
+			str6 += "<div class='detail-genre' style='background-color:"+colorMap.get(item.id)[0]+"; border:4px solid "+colorMap.get(item.id)[1]+"; color:"+colorMap.get(item.id)[2]+"; 	text-shadow:0px 1px 0px "+colorMap.get(item.id)[3]+";'>"+item.name+"</div>"
+		})
+		$("#detail-genres").html(str6);
+		$("#detail-release").html(str7);
+		let countryAry = [];
+		data.production_countries.forEach(function(item){
+			countryAry.push(item.name);
+		})
+		$(".detail-Click.clickBox").data("id", '${data.movie_id}');
+	   	$(".detail-Click.clickBox").activeLikeMovie();
+	   	$('.star-rating').generateStars();		//별점생성함수 호출
+	   	
+	   	$(".movieName").html(data.title);
+	   	
+	   	$(".movieName").click(function(){
+	   		location.href='http://localhost:8080/movie/movieDetail?movieId=${data.movie_id}&language=<%=language %>';
+	   	});
+		return false;
+	}
+	,
+	error: function(request, status, error){
+		console.log(request, status, error)
+	}
+	
+})
+
+
+
+
+
+
+
+
 
 
 
@@ -216,6 +344,7 @@ top : 3rem;
     border-radius: 10px;
     padding: 50px;
     background-color: white;
+
 	}
 	.BoardHeader {
 		border-top: 3px solid red;
@@ -223,6 +352,7 @@ top : 3rem;
 	.Boardbody{
 		display : grid;
 		grid-template-columns: repeat(5, auto);
+
 	}
 	#detail-bigPictureContainer{
 	position : relative;
@@ -315,6 +445,7 @@ text-align: end;
 display : flex;
 justify-content: space-between;
 grid-column: 1 / 6;
+
 }
 .movieLikes, .movieWatchCount{
     text-align: end;
@@ -354,6 +485,7 @@ box-sizing : border-box;
 padding: 0 10px;
     border: 1px solid black;
     margin: 1px;
+
 }
 .BoardColored h5, .BoardColored h4{
 font-weight : 400;
@@ -383,6 +515,7 @@ display : flex;
 	align-items: center;
 	justify-content: center;
 	margin-bottom: 20px; 
+
 	
 }
 
@@ -441,7 +574,7 @@ justify-content: center;
 
 .writer button:hover h5, input:hover{
 	color : #f2f5dccc;
-}
+
 </style>
 </head>
 <body>
@@ -475,6 +608,7 @@ justify-content: center;
 	
 	<div id="spacing"></div>
 	<div class="BoardContainer">
+
 	<div class="BoardWrap">
 	<div class="BoardHeader">
 			<h1>${data.title}</h1>
@@ -485,6 +619,7 @@ justify-content: center;
 		<h4>작성자 : ${data.writer}</h4><h4 class="movieName"></h4>
 	</div>
 	<div class="BoardColored BoardDate">
+
 	<h5><%=formattedgenDate %></h5>
 	</div>
 	<div class="movieScore BoardColored">
@@ -509,6 +644,7 @@ justify-content: center;
 	</div>
 	
 	<div class="BoardColored toList">
+
 	<a class="toListButton"><h4>목록</h4></a>
 	</div>
 
@@ -517,6 +653,7 @@ justify-content: center;
 		<button id="b_modify" onclick=" modifyCheck();"><h5>게시글 수정</h5></button>
 	</div>	
 	<div class="BoardColored writer">
+
 		<form name='deleteform' id="b_delete" action="boardDelete" method="post">
 			<input type="hidden" name="seq" value="${data.seq}" />
 			<h5><input type="button" value="삭제" onclick="deleteCheck();" ></h5>
@@ -524,13 +661,42 @@ justify-content: center;
 	<%} %>
 	</div>
 	</div>
+
+	<!-- 댓글 -->
+	<div id="comments-container">
+		<p>댓글 목록</p>
+		<div>
+			<form name="replywriteform" method="post" action="/movie/write" >
+				<p>
+					${sessionScope.id} <input type="hidden" name="writer" value="${sessionScope.id}">
+				</p>
+				<p>
+					<textarea rows="3" cols="50" name="content"></textarea>
+				</p>
+				<p>
+					<input type="hidden" name="seq" value="${data.seq}">
+					<input type="button" id="reply_write" onclick="replyWriteCheck();" value="작성">
+				</p>
+			</form>
+		</div>
+		<div>
+			<c:forEach items="${reply}" var="reply">
+					<div>
+						<p>
+							|| ${reply.content}  || ${reply.writer}  |  <fmt:formatDate value="${reply.regDate}" pattern="yyyy-MM-dd"/>
+								<button id="r_modify" onclick="RmodifyCheck();">수정</button>
+								<form name="replydeleteform" method="post" action="/movie/delete">
+									<input type="hidden" name="rno" value="${data.rno}"/>
+									<button>삭제</button>
+								</form>
+						</p>
+					</div>
+			</c:forEach>
+		</div>
+		
 	</div>
-	<div id="comments-container"></div>
-	
 	<div class="spacing" style="height:200px"></div>
 
-
-		
 		
 
 </div>

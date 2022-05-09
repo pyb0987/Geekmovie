@@ -4,55 +4,33 @@
 
 <mapper namespace="replyVo">
 
-	<select id="reply_list" resultMap="ReplyResultMap">
+	<select id="reply_list" parameterType="int" resultType="ReplyVo">
 		<![CDATA[
-			SELECT reply_seq, seq, id, reply_text, regdate, upd_date FROM b_reply
+			SELECT rno, seq, writer, content, regDate FROM b_reply
 			WHERE seq = #{seq}
-			ORDER BY reply_seq
 		]]>
 	</select>
 	
-	<insert id="reply_create">
+	<insert id="reply_create" parameterType="replyVo">
 		<![CDATA[
-			INSERT INTO b_reply (seq, reply_text, id)
-			VALUES (#seq, #reply_text, #id)
+			INSERT INTO b_reply (seq, content, writer, regDate)
+			VALUES (#{seq}, #{content}, #{writer}, #{regDate})
 		]]>
 	</insert>
 	
-	<update id="reply_update">
+	<update id="reply_update" parameterType="replyVo">
 		<![CDATA[
 			UPDATE b_reply SET 
-			reply_text = #{reply_text},	upd_date = NOW()
-			WHERE reply_seq = #{reply_seq}
+			content = #{content}
+			WHERE rno = #{rno} and seq = #{seq}
 		]]>
 	</update>
 
 	<delete id="reply_delete">
 		<![CDATA[
 			DELETE FROM b_reply
-			WHERE reply_seq = #{reply_seq}
+			WHERE rno = #{rno} and seq = #{seq}
 		]]>
 	</delete>
 	
-	<resultMap type="ReplyVo" id="ReplyResultMap">
-		<id property="reply_seq" column="reply_seq"/>
-		<result property="seq" column="seq"/>
-		<result property="id" column="id"/>
-		<result property="reply_text" column="reply_text"/>
-		<result property="regdate" column="regdate"/>
-		<result property="upd_date" column="upd_date"/>
-	</resultMap>
-	
-	<resultMap type="BoardVo" id="BoardResultMap">
-		<id property="board_seq" column="seq"/>
-		<result property="title" column="title"/>
-		<result property="writer" column="writer"/>
-		<result property="contents" column="contents"/>
-		<result property="reply" column="reply"/>
-		<result property="regdate" column="regdate"/>
-		<result property="cnt" column="cnt"/>
-		<result property="likes" column="likes"/>
-		<result property="movie_id" column="movie_id"/>
-		<result property="b_score" column="b_score"/>
-	</resultMap>
 </mapper>
