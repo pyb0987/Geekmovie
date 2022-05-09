@@ -13,8 +13,8 @@
 	
 	<insert id="reply_create" parameterType="replyVo">
 		<![CDATA[
-			INSERT INTO b_reply (seq, content, writer)
-			VALUES (#{seq}, #{content}, #{writer})
+			INSERT INTO b_reply (seq, content, writer, regDate)
+			VALUES (#{seq}, #{content}, #{writer}, #{regDate})
 		]]>
 	</insert>
 	

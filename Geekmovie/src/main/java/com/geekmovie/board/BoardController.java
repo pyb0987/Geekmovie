@@ -102,8 +102,7 @@ public class BoardController {
 		String sType = boardVo.getSearchType();
 		String kWord = boardVo.getbKeyword();
 		
-		List<ReplyVo> reply = null;
-		reply = replyService.rList(seq);
+		List<ReplyVo> reply = replyService.rList(seq);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("data", detail);

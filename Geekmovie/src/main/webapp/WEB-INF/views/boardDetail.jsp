@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="com.geekmovie.board.vo.ReplyVo"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="com.geekmovie.board.service.BoardService"%>
@@ -9,7 +11,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <% BoardVo data = (BoardVo)request.getAttribute("data"); %>
-<% String wr = data.getWriter(); 
+<% String wr = data.getWriter();
 String id = (String)session.getAttribute("id"); 
 Timestamp gendate = data.getRegdate();
 String formattedgenDate = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(gendate);
@@ -57,7 +59,18 @@ function modifyCheck(){
 	}
 };
 
-
+// 로그인 회원만 글 작성하게
+function replyWriteCheck(){
+	if('${sessionScope.id}' == '') {
+		var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
+		if(result) {
+			location.href = 'user_join';
+		}
+	} else {
+		var replywriteform = document.replywriteform;
+		replywriteform.submit();
+	}
+};
 
 
 window.onload = function(){	
@@ -176,9 +189,6 @@ $.ajax({							//받아온 영화 정보 디테일로 만들기
 
 <style>
 
-#comments-container {
-	background-color: green;
-}
 
 span.star-rating, span.star-rating > * {
     height: 2rem; 
@@ -430,9 +440,12 @@ justify-content: center;
 
 .writer button:hover h5, input:hover{
 	color : #f2f5dccc;
+	
 }
 
-
+#comments-container {
+	background-color: white;
+}
 
 </style>
 </head>
@@ -506,7 +519,7 @@ justify-content: center;
 	
 	<%if(id != null && id.equals(wr)) {%>
 	<div class="BoardColored writer">
-		<button id="b_modify" onclick=" modifyCheck();"><h5>게시글 수정</h5></button>
+		<button id="b_modify" onclick="modifyCheck();"><h5>게시글 수정</h5></button>
 		
 		<form name='deleteform' id="b_delete" action="boardDelete" method="post">
 			<input type="hidden" name="seq" value="${data.seq}" />
@@ -517,28 +530,36 @@ justify-content: center;
 	</div>
 	<!-- 댓글 -->
 	<div id="comments-container">
-		<h5>댓글 목록</h5>
+		<p>댓글 목록</p>
 		<div>
-			<c:forEach items="${reply}" var="reply">
-					<div>
-						<h5>|| ${reply.content}  || ${reply.writer}  |  <fmt:formatDate value="${reply.regDate}" pattern="yyyy-MM-dd"/></h5>
-					</div>
-			</c:forEach>
-		</div>
-		<div>
-			<form method="post" action="/movie/write" >
+			<form name="replywriteform" method="post" action="/movie/write" >
 				<p>
-					<label>댓글 작성자</label> <input type="text" name="writer">
+					${sessionScope.id} <input type="hidden" name="writer" value="${sessionScope.id}">
 				</p>
 				<p>
-					<textarea rows="5" cols="50" name="content"></textarea>
+					<textarea rows="3" cols="50" name="content"></textarea>
 				</p>
 				<p>
 					<input type="hidden" name="seq" value="${data.seq}">
-					<button type="submit">작성</button>
+					<input type="button" id="reply_write" onclick="replyWriteCheck();" value="작성">
 				</p>
 			</form>
 		</div>
+		<div>
+			<c:forEach items="${reply}" var="reply">
+					<div>
+						<p>
+							|| ${reply.content}  || ${reply.writer}  |  <fmt:formatDate value="${reply.regDate}" pattern="yyyy-MM-dd"/>
+								<button id="r_modify" onclick="RmodifyCheck();">수정</button>
+								<form name="replydeleteform" method="post" action="/movie/delete">
+									<input type="hidden" name="rno" value="${data.rno}"/>
+									<button>삭제</button>
+								</form>
+						</p>
+					</div>
+			</c:forEach>
+		</div>
+		
 	</div>
 	<div class="spacing" style="height:200px"></div>
 		
