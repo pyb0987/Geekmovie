@@ -289,7 +289,24 @@ padding-left: 30px;
         		$("#scoreImdb .Score").html(data.vote_average);    //imdb 점수 표시
         		$(".detail-Click.clickBox").data("id", '${movieId}');
         	   	$(".detail-Click.clickBox").activeLikeMovie();
- 
+        	   	$.ajax({							//긱무비 내부점수 얻기	
+        	    	type: 'GET',
+        	    	url: `score?movieId=${movieId}`,
+        	    	traditional: true,
+        	    	dataType : 'json',
+        	    	success: function(data){
+        	    		if(data[1]>2){
+        	    		$("#scoreGeek .Score").html((data[0]/data[1]).toFixed(2)); 
+        	    		$("#scoreGeek .Score").attr('title',data[1].toFixed(0)+'명의 투표결과 입니다.')
+        	    		}else{
+        	    			$("#scoreGeek .Score").html("?");
+        	    			$("#scoreGeek .Score").attr('title','점수는 3개 이상의 리뷰가 있어야 공개됩니다.')
+        	    		}
+        	    	},
+        	    	error: function(request, status, error){
+        	        	console.log(request, status, error)
+        	        }
+        			}); 
         		return false;
         	}
         	,
@@ -486,7 +503,7 @@ padding-left: 30px;
     		})
     		}   
  
-        
+ 
 		
 		
 
@@ -532,7 +549,7 @@ padding-left: 30px;
 				<div id="detail-vote">
 					<div id="scoreGeek">
 						<div class="siteName">GeekScore</div>
-						<div class="Score">7.5</div>
+						<div class="Score"></div>
 					</div>
 					<div id="scoreImdb">
 						<div class="siteName">IMDB</div>
@@ -644,6 +661,8 @@ padding-left: 30px;
 	</div>
 
 
-
+<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="ko-KR"/>  
+</jsp:include>  
 </body>
 </html>

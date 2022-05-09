@@ -67,7 +67,6 @@ window.addEventListener('resize', throttle(function() {				//리사이징에 thr
 	 windowResize();
 }, 20), true);	
 
-}
 
 document.querySelector(".toListButton").addEventListener('click', function(){
 	if('${recommend}'=='true'){
@@ -76,6 +75,111 @@ document.querySelector(".toListButton").addEventListener('click', function(){
 		location.href="freeboardList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"
 	}
  })
+ 
+ //===========================좋아요 기능
+ 
+	$.fn.activeLikeButtons = function() {			// - 이미 눌린 좋아요 버튼 active효과주기
+	this.each(function(i,e){
+	let mode = Number($(e).hasClass("like-button"));
+ 	 $.ajax({
+		 url: 'freeboard/like/${data.seq}?userId=${sessionScope.id}&mode='+mode,
+		method: "GET",
+        success: function(data){
+        	if(data==1){		   
+        	$(e).addClass("active");
+        	}else{
+	        	$(e).removeClass("active"); 
+        	}
+       	},
+       	error: function(request, status, error){
+        	console.log(request, status, error)
+       	}
+       	});
+});
+}
+if('${sessionScope.id}'!=''){
+	$(".like-button, .dislike-button").activeLikeButtons();
+}
+
+
+$.ajax({					//로드완료하면 좋아요 개수 세기
+	   url: 'freeboard/freeCount/${data.seq}?mode=1',
+	   method: "GET",
+    success: function(data){
+ 	   document.querySelector(".like-button .like-dislike-button-span").innerText = data;
+		},
+     error: function(request, status, error){
+     	console.log(request, status, error)
+		}
+		});
+$.ajax({					//로드완료하면 싫어요 개수 세기
+	   url: 'freeboard/freeCount/${data.seq}?mode=0',
+	   method: "GET",
+    success: function(data){
+    	document.querySelector(".dislike-button .like-dislike-button-span").innerText = data;
+		},
+		error: function(request, status, error){
+     	console.log(request, status, error)		
+		}
+		});
+ 
+$(document).on("click", ".like-button, .dislike-button", function(e){		//좋아요 버튼 누를때 이벤트
+	 if('${sessionScope.id}'==''){
+			var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
+			if(result){
+			    location.href = 'user_join';
+			}
+		}else{
+		var button = e.currentTarget;
+   		var likeData = {};
+   		var likeButton = button.parentElement.querySelector(".like-button");
+   		var dislikeButton = button.parentElement.querySelector(".dislike-button");
+   		likeData['mode'] = Number(button.classList.contains("like-button"));
+   		likeData['userId'] = '${sessionScope.id}';
+			$.ajax({
+				   url: 'freeboard/like/${data.seq}',
+				   method: "POST",
+				   data: JSON.stringify(likeData),
+		           dataType: "json",
+		           contentType:"application/json;charset=UTF-8",
+		           success: function(data){
+			           if(data==1 || data==2){				//성공시 정보 업데이트
+			        	   $.ajax({
+							   url: 'freeboard/freeCount/${data.seq}?mode=1',
+							   method: "GET",
+					           success: function(data){
+					        	   likeButton.querySelector(".like-dislike-button-span").innerText = data;
+					        	   document.querySelector('.movieLikes').innerText = "좋아요 : "+data;
+					       		},
+				                error: function(request, status, error){
+				                	console.log(request, status, error)
+					       		}
+					       		});
+			        	   $.ajax({
+							   url: 'freeboard/freeCount/${data.seq}?mode=0',
+							   method: "GET",
+					           success: function(data){
+					        	   dislikeButton.querySelector(".like-dislike-button-span").innerText = data;
+					       		},
+					       		error: function(request, status, error){
+				                	console.log(request, status, error)		
+					       		}
+					       		});
+			        	   $(likeButton).activeLikeButtons();
+			        	   $(dislikeButton).activeLikeButtons();
+			           }else{
+			        	   console.log(data)
+					       alert("존재하지 않는 대상입니다.");	        		 
+				       }
+			       },
+			       error: function(){  alert("의견이 반영되지 않았습니다.");  }
+			       });
+			
+		}
+	 
+})
+ 
+}
 
 
 </script>
@@ -337,5 +441,8 @@ justify-content: center;
 	<div id="comments-container"></div>
 
 	<div class="spacing" style="height: 200px"></div>
+	<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="<%=language%>"/>  
+</jsp:include>  
 </body>
 </html>

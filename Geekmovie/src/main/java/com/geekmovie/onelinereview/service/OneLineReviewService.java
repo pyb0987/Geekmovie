@@ -33,4 +33,5 @@ public interface OneLineReviewService {
 
 	public List<OneLineReviewVo> SelectMovie(Map<String, Object> map);
 
+	public Map<String, Object> AverageScore(int movieId);
 }

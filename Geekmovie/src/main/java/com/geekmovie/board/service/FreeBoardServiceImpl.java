@@ -1,6 +1,7 @@
 package com.geekmovie.board.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,5 +63,12 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	public int freeRecommendCnt(FreeVo freeVo) {
 		return dao.freeRecommendCnt(freeVo);
 	}
+	
+	public int likeUpdate(Map<String, Object> map) {
+		return dao.likeUpdate(map);
+	}
 
+	public List<FreeVo> UserLike(Map<String, Object> map) {
+		return dao.UserLike(map);
+	}
 }

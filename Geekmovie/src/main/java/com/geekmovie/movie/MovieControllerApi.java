@@ -1,6 +1,7 @@
 package com.geekmovie.movie;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.geekmovie.board.service.BoardService;
 import com.geekmovie.movie.dao.MovieDao;
 import com.geekmovie.movie.json.MovieUrlGetter;
 import com.geekmovie.movie.json.UrlRead;
+import com.geekmovie.onelinereview.service.OneLineReviewService;
 
 @RestController
 public class MovieControllerApi {
@@ -20,7 +23,10 @@ public class MovieControllerApi {
 	MovieDao movieDao;
 	@Autowired
 	MovieUrlGetter movieUrlGetter;
-
+	@Autowired
+	BoardService boardService;
+	@Autowired
+	OneLineReviewService oneLineReviewService;
 	
 	@GetMapping("/getMovieData")
 	public String getMovieData(HttpServletRequest request){						//1개영화의 디테일 반환
@@ -238,5 +244,39 @@ public class MovieControllerApi {
 		}
 
 		  return rs;
+	}
+	
+	@GetMapping("/score")
+	public double[] getAverageScore(HttpServletRequest request) {
+		int movieId = Integer.parseInt(request.getParameter("movieId"));
+		Map<String, Object> boardMap = boardService.AverageScore(movieId);
+		Map<String, Object> olrMap = oneLineReviewService.AverageScore(movieId);
+		
+		Double boardScore = 0.0;
+		Double olrScore = 0.0;
+		Double boardCnt = 0.0;
+		Double olrCnt = 0.0;
+		try {
+			boardScore = Double.parseDouble(boardMap.get("score").toString());			
+		}catch (Exception e) {
+			boardScore = 0.0;
+		}
+		try {
+			olrScore = Double.parseDouble(olrMap.get("score").toString());		
+		}catch (Exception e) {
+			olrScore = 0.0;
+		}
+		try {
+			boardCnt = Double.parseDouble(boardMap.get("cnt").toString());	
+		}catch (Exception e) {
+			boardCnt = 0.0;
+		}
+		try {
+			olrCnt = Double.parseDouble(olrMap.get("cnt").toString());	
+		}catch (Exception e) {
+			olrCnt = 0.0;
+		}
+		double[] rs = {(boardScore+olrScore),(boardCnt+olrCnt)};
+		return rs;
 	}
 }

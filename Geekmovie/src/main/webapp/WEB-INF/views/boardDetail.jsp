@@ -76,116 +76,6 @@ function replyWriteCheck(){
 };
 
 
-window.onload = function(){	
-
-
-
-var windowResize = function(){					//리사이징 함수
-
-	fontResize()
-	
-}
-
-windowResize();
-var ResizeTimer;
-window.addEventListener('resize', throttle(function() {				//리사이징에 throttle 적용
-	 windowResize();
-}, 20), true);	
-
-movieLike('${sessionScope.id}');	//영화좋아요/add 적용 
-
-
-var starSize = 1.8;
-var colorMap = new Map([[28,["#44c76750","#18ab2950", "#ffffff", "#2f6627"]],	//genreColorMap
-	[12, ["#7892c250","#4e609650", "#ffffff", "#283966"]],
-	[16, ["#33bdef50","#057fd050", "#ffffff","#5b6178"]],
-	[35, ["#dbe6c450","#b2b8ad50", "#ffffff", "#ced9bf"]],
-	[80, ["#f2453750","#d0271850", "#ffffff", "#810e05"]],
-	[99, ["#ffffff50","#dcdcdc50", "ffffff", "#ffffff"]],
-	[18, ["#e4685d50","#ffffff50", "#ffffff", "#b23e35"]],
-	[10751, ["#ffec6450","#ffaa2250", "#ffffff", "#ffee66"]],
-	[14, ["#599bb350","#29668f50", "#ffffff", "#3d768a"]],
-	[36, ["#2dabf950","#0b0e0750", "#ffffff", "#263666"]],
-	[27, ["#d0451b50","#94291150", "#ffffff", "#854629"]],
-	[10402, ["#ededed50","#d6bcd650", "ffffff", "#e1e2ed"]],
-	[9648, ["#2e466e50","#1f2f4750", "#ffffff", "#263666"]],
-	[10749, ["#79bbff50","#337bc450", "#ffffff", "#5b8a3c"]],
-	[878, ["#5d53ed50","#84bbf350", "#ffffff", "#2a67a3"]],
-	[10770, ["#7d5d3b50","#54381e50", "#ffffff", "#4d3534"]],
-	[53, ["#fc8d8350","#d8352650", "#ffffff", "#b23e35"]],
-	[10752, ["#768d8750","#56696350", "#ffffff", "#2b665e"]],
-	[37, ["#77b55a50","#4b8f2950", "#ffffff", "#5b8a3c"]]]);  
-
-$.fn.generateStars = function() {			//별점생성함수 - 크기는 1.8rem
-	return this.each(function(i,e){
-		let score = $(e).text()
-		$(e).html($('<span/>').width(score*starSize/2+'rem'));
-			$(e)[0].dataset.score = score;
-	});
-	}
-
-$.ajax({							//받아온 영화 정보 디테일로 만들기
-	type: 'GET',
-	url: `/movie/getMovieData?movieId=${data.movie_id}&language=<%=language %>`,
-	dataType : 'json',
-	contentType : 'application/json', 
-	success: function(data){
-		let str1;
-		let str2;
-		if(!!data.backdrop_path){
-		str1 = 'https://image.tmdb.org/t/p/original/'+data.backdrop_path ;			//백드랍 이미지
-		}else{        		
-			str1 = '${path}/resources/img/wall.jpg' ;	
-		}
-		if(!!data.poster_path){
-		str2 = "<img src='https://image.tmdb.org/t/p/w500/"+data.poster_path+"'>"    //포스터
-		}else{
-			str2 = "<img src='${path}/resources/img/noImage.jpg'>"
-		}
-		let str3 = "<h1 style='text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000; margin-bottom: 0;'>"+data.title+"</h1>"      //제목
-		let str7 = "<h6 id='release_date'>"+data.release_date+" 개봉</h6>"
-		
-		   		
-		$("#detail-bigPicture").css({"background":'linear-gradient(to bottom,rgba(0,0,0,0) 80%,rgba(0,0,0,0) 90%,rgba(0,0,0,1) 100%), url('+ str1 +')', "background-repeat": "no-repeat", "background-size": "cover"});   //배경화면 및 그라데이션 
-		$("#detail-poster").html(str2);
-		$("#detail-title").html(str3)
-		let str6 = "";
-		data.genres.forEach(function(item){
-			str6 += "<div class='detail-genre' style='background-color:"+colorMap.get(item.id)[0]+"; border:4px solid "+colorMap.get(item.id)[1]+"; color:"+colorMap.get(item.id)[2]+"; 	text-shadow:0px 1px 0px "+colorMap.get(item.id)[3]+";'>"+item.name+"</div>"
-		})
-		$("#detail-genres").html(str6);
-		$("#detail-release").html(str7);
-		let countryAry = [];
-		data.production_countries.forEach(function(item){
-			countryAry.push(item.name);
-		})
-		$(".detail-Click.clickBox").data("id", '${data.movie_id}');
-	   	$(".detail-Click.clickBox").activeLikeMovie();
-	   	$('.star-rating').generateStars();		//별점생성함수 호출
-	   	
-	   	$(".movieName").html(data.title);
-	   	
-	   	$(".movieName").click(function(){
-	   		location.href='http://localhost:8080/movie/movieDetail?movieId=${data.movie_id}&language=<%=language %>';
-	   	});
-		return false;
-	}
-	,
-	error: function(request, status, error){
-		console.log(request, status, error)
-	}
-	
-})
-
-
-
-
-
-
-
-
-
-
 
 
 window.onload = function(){	
@@ -697,7 +587,9 @@ justify-content: center;
 	</div>
 	<div class="spacing" style="height:200px"></div>
 
-		
+		<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="<%=language%>"/>  
+</jsp:include>  
 
 </div>
 </body>

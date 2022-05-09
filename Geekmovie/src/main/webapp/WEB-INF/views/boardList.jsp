@@ -719,6 +719,8 @@ font-size : 1rem;
 	</div>
 	</div>
 </section>
-
+<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="<%=language%>"/>  
+</jsp:include>  
 </body>
 </html>

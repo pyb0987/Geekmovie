@@ -119,5 +119,9 @@
 			where seq = #{seq}
 		]]>
 	</delete>
+	
+	<select id="score-average" parameterType="int" resultType="HashMap">
+		select sum(b_score) score, count(b_score) cnt from review_board where movie_id=#{movieId};
+	</select>
 
 </mapper>

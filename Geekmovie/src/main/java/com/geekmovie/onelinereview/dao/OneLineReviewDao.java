@@ -74,4 +74,7 @@ public class OneLineReviewDao {
 		return 	sqlSessionTemplate.selectList("oneLineReviewVo.SelectMovie", map);	
 	}
 
+	public Map<String, Object> AverageScore(int movieId) {
+		return sqlSessionTemplate.selectOne("oneLineReviewVo.score-average", movieId);
+	}
 }

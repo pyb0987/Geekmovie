@@ -12,7 +12,9 @@
         align-items: center;
         display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
+    border-top: solid 20px darkred;
+    margin-top : 20px;
 }
         nav a{
             color : white;
@@ -25,7 +27,7 @@
         }
 
         .productWrap{
-            height: 80px;
+                height: 50px;
         }
         .productorWrap{
             display: flex;
