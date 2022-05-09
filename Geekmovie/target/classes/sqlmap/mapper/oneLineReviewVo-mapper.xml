@@ -3,6 +3,11 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace : package + classname -->
 <mapper namespace="oneLineReviewVo">
+
+	
+
+	
+	
 	<select id="Select" parameterType="HashMap" resultType="oneLineReviewVo">
 		<![CDATA[
 			select oneLineReviewId, userId, movieId, score, comment, likes, dislikes, gendate, moddate
@@ -55,5 +60,73 @@
 			values(#{userId}, #{movieId}, #{score}, #{content});
 			]]>
 	</insert>
+	
+	<update id="Update" parameterType="HashMap">
+				<![CDATA[
+			update onelinereview set score=#{score}, comment=#{content}, moddate=now() where oneLineReviewId=#{olrId};
+			]]>
+	</update>
+	
+	<update id="UpdateLike" parameterType="HashMap">
+			<![CDATA[
+			update onelinereview set likes=#{likeNum}, dislikes=#{dislikeNum} where oneLineReviewId=#{oneLineReviewId};
+			]]>
+	</update>
+	
+	<select id="SelectAny" parameterType="HashMap" resultType="String">
+			<![CDATA[
+			select ${query} from onelinereview
+			where oneLineReviewId=#{oneLineReviewId};
+			]]>
+			
+	</select>
+	
+	<select id="SelectUser" parameterType="HashMap" resultType="oneLineReviewVo">
+		<![CDATA[
+			select oneLineReviewId, userId, movieId, score, comment, likes, dislikes, gendate, moddate
+			from onelinereview
+			where userId=#{userId}
+			order by oneLineReviewId DESC
+			Limit 10;
+		]]>	
+	</select>
+	
+	<select id="GetPage" parameterType="int" resultType="int">
+		<![CDATA[
+				select count(oneLineReviewId) from onelinereview where oneLineReviewId>=#{oneLineReviewId} ;
+		]]>	
+	</select>
+
+
+	
+	<resultMap type="oneLineReviewLikeVo" id="oneLineReviewJoinTarget">
+			<result column="oneLineReviewId" property="oneLineReviewId" />
+			<result column="userId" property="userId" />
+			<!--<result column="mode" property="mode" />-->
+	</resultMap>
+	
+	<resultMap type="oneLineReviewVo" id="oneLineReviewJoin">
+		<result column="movieId" property="movieId" />
+		<result column="score" property="score" />
+		<result column="comment" property="comment" />
+		<result column="likes" property="likes" />
+		<result column="dislikes" property="dislikes" />
+		<result column="gendate" property="gendate" />
+		<result column="moddate" property="moddate" />
+		<result column="oneLineReviewId" property="oneLineReviewId" />
+		<collection property="oneLineReviewLikeVo" resultMap="oneLineReviewJoinTarget"/>
+	</resultMap>
+	
+		<select id="UserLike" parameterType="HashMap" resultMap="oneLineReviewJoin">
+	<![CDATA[
+			select a.movieId, a.userId, a.score, a.comment, a.likes, a.dislikes, a.gendate, a.moddate, a.oneLineReviewId
+			from onelinereview as a
+			join
+			onelinereviewlike as b
+			on a.oneLineReviewId = b.oneLineReviewId
+            where b.userId=#{userId}  and b.mode=1 
+            order by oneLineReviewId DESC limit #{nowPageStart}, #{Size};
+		]]>
+	</select>
 
 </mapper>

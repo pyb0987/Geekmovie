@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace : package + classname -->
+<mapper namespace="MovieLikeVo">
+	<select id="Check" parameterType="HashMap" resultType="int">
+		<![CDATA[
+				select count(userId) from movielike where userId=#{userId} and movieId=#{movieId} and mode=#{mode};
+			]]>
+			
+	</select>
+	
+	<insert id="Add" parameterType="HashMap">
+		insert into movielike(userId, movieId, mode)
+		values(#{userId}, #{movieId}, #{mode})
+		ON duplicate key update
+		`mode` = -1;
+	</insert>
+	
+	<delete id="DeleteDuple">
+		delete from movielike where mode=-1;
+	</delete>
+	
+	<select id="CountMovieLike" parameterType="HashMap" resultType="int">
+		select count(userId) from movielike where movieId=#{movieId} and mode=#{mode};
+	</select>
+	
+	<select id="UserMovieLike" parameterType="HashMap" resultType="HashMap">
+		select movieId from movielike where userId=#{userId} and mode=#{mode}
+		order by seq DESC
+		Limit #{start}, #{size};
+	</select>
+
+</mapper>

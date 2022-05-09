@@ -17,7 +17,7 @@
 
 .movie {
 	position: relative;
-	padding-top: 135%;
+	padding-top: 140%;
 	height : 0;
 	margin-right: 15px;
 	overflow: hidden;
@@ -62,7 +62,7 @@
 }
 .movie figcaption {
   z-index: 1;
-  padding: 30px;
+  padding: 25px 30px;
 }
 .movie h3,
 .movie .links {
@@ -71,7 +71,6 @@
   padding: 0;
 }
 .movie h3 {
-    font-family: 'NanumSquareRoundBold';    
   line-height: 1.2em;
   font-weight: 700;
   font-size: 1.4em;
@@ -79,8 +78,9 @@
   opacity: 0;
 }
 .movie p {
-    font-family: 'NanumSquareRound';
+  font-family: 'Nanum Gothic', sans-serif;
   font-size: 0.8em;
+  line-height : 1.2em;
   font-weight: 300;
   letter-spacing: 1px;
   opacity: 0;
@@ -127,16 +127,43 @@
   left: 10px;
   right: 10px;
 }
+
+
+
+.slide-click.clickBox{
+	display : flex;
+	align-items: center;
+	position: absolute;
+ 	bottom: 5px;
+	left: 15px;
+  	padding : 0px;
+  	opacity: 0;
+  	-webkit-transform: translateY(10px);
+  	transform: translateY(10px);
+}
+.slide-Click .addClick{
+	margin-left: -1rem;
+}
+
+.movie:hover .slide-click.clickBox{
+	opacity: 1;
+  	-webkit-transform: translate(0px, 0px);
+  	transform: translate(0px, 0px);
+}
+
+
 .movie:hover h3,
 .movie.hover h3,
 .movie:hover p,
 .movie.hover p,
 .movie:hover i,
-.movie.hover i {
+.movie.hover i{
   -webkit-transform: translate(0px, 0px);
   transform: translate(0px, 0px);
   opacity: 1; 									
 }
+
+
   /*마우스 호버 효과 끝*/
 
 
@@ -158,12 +185,16 @@
     cursor:pointer;
 }
 .seeMoreMovies-container{
-	display : inline;
+	transform: translateX(40px);
+	display: inline-block;
 	}
+.seeMoreMovies, .seeMoreMoviesLink{
+	
+	font-family: 'Hahmlet', serif;
+    font-weight: 600;
+}	
 .seeMoreMovies-container:hover .seeMoreMoviesLink{
-
-		 width : 6rem;
-		 
+		 width : 6rem;	 
 }
 
 .nonExist{

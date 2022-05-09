@@ -10,6 +10,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.geekmovie.board.vo.PageVo" alias="pagination"/>
 	    <typeAlias type="com.geekmovie.user.vo.userVO" alias="userVO"/>
 		<typeAlias type="com.geekmovie.onelinereview.vo.OneLineReviewVo" alias="oneLineReviewVo"/>
+		<typeAlias type="com.geekmovie.onelinereview.vo.OneLineReviewLikeVo" alias="oneLineReviewLikeVo"/>
+		<typeAlias type="com.geekmovie.movie.vo.MovieLikeVo" alias="MovieLikeVo"/>
 	</typeAliases>
 	<mappers>
         <mapper resource="/sqlmap/mapper/BoardVO-mapper.xml"/>
@@ -17,5 +19,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         <mapper resource="/sqlmap/mapper/ReplyVO-mapper.xml"/>
         <mapper resource="/sqlmap/mapper/userVO-mapper.xml"/>
         <mapper resource="/sqlmap/mapper/oneLineReviewVo-mapper.xml"/>
+        <mapper resource="/sqlmap/mapper/oneLineReviewLikeVo-mapper.xml"/>
+        <mapper resource="/sqlmap/mapper/movieLikeVo-mapper.xml"/>
     </mappers>
 </configuration>

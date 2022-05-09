@@ -1,12 +1,9 @@
 @charset "UTF-8";
 #detail-bigPicture { /*detail 맨위 배경화면 */
-
 	position: relative;
 	width: 100%;
 	height: 50%;
 	z-index : -1;
-	
-
 }
 
 #detail-movieContainer { /*영화정보 위치 지정*/
@@ -18,13 +15,14 @@
 }
 
 #onleft {
-	flex : 0 0 250px;
+	flex : 0 1 250px;
+	min-width : 120px;
 	margin-left : 30px;
 }
 
 #detail-nonPoster{		
 	display: flex;
-	min-width : 300px;
+	min-width : 200px;
 	width : 1000px;
 	flex-wrap: wrap;
 	align-content : flex-start;
@@ -43,17 +41,32 @@
 }
 
 #detail-title {width : 100%;} /*제목 위치 지정*/
+
 #detail-overview {width: 100%;}
 #release_date{padding-left : 20px; }
 
 .detail-genre {			 /*장르 박스*/
 	border-radius:8px;
 	display:inline-block;
-	font-family: 'NanumSquareRound';
+	font-family: 'Nanum Gothic', sans-serif;
 	font-size:0.9rem;
 	padding:6px 13px;
 	margin : 5px;
 }
+#detail-country{
+	width : 100%;
+}
+
+.detail-Click{
+	display : flex;
+	align-items: center;
+	margin-right : 2rem;
+	margin-left: -1rem;
+}
+.detail-Click .addClick{
+	margin-left: -1rem;
+}
+
 
 .movie img { /*이미지 전부 채우게 함*/
 	width: 100%;
@@ -69,7 +82,7 @@
 
 
 #overview {
-	font-family: 'NanumSquareRound';
+	font-family: 'Nanum Gothic', sans-serif;
 	color: #fff;
 	padding : 10px 20px 0px 30px;
 	line-height : 130%;
@@ -103,6 +116,7 @@
     hsl(0,0%,90%) 47%, 
     hsl(0,0%,78%) 53%,
     hsl(0,0%,70%) 100%);
+    flex-shrink : 0.5;
 }
 #scoreGeek{
 	width: 60%;

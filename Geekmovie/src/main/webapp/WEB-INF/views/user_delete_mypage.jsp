@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <% 
 	String id = (String)session.getAttribute("id");
 	String oldpassword = (String)session.getAttribute("password");
 	System.out.println("기존 아이디 : "+id);
 	System.out.println("기존 비밀번호 : "+oldpassword);
-	
-	
 %>
 
 <%if(id==null){%>
@@ -28,12 +27,12 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-   <div id="regist_wrap" class="wrap">
-      <div>
-         <h1>회원 탈퇴</h1>
-         <!-- form method : post 방식 -->
-         <form method="post" name="regiform" id="regist_form" class="form"
-            onsubmit="return signUpCheck()">
+	<div id="regist_wrap" class="wrap">
+		<div>
+			<h1>회원탈퇴</h1>
+			<!-- form method : post 방식 -->
+			<form method="post" name="regiform" id="regist_form" class="form"
+				onsubmit="return signUpCheck()">
 
 				<!-- id 적용 -->
 				<div>
@@ -43,27 +42,32 @@
 
 				<!-- password 적용 -->
 				<div>
-					<input type="text" name="password" id="password" placeholder="비밀번호"> 
+					<input type="text" name="password" id="password"
+						placeholder="비밀번호"> 
 					<span class="error_next_box" id="passwordError"></span>
 				</div>
 
 				<!-- passwordCheck 적용 -->
 				<div>
-					<input type="text" name="passwordCheck" id="passwordCheck" placeholder="비밀번호 재입력"> 
+					<input type="text" name="passwordCheck" id="passwordCheck"
+						placeholder="비밀번호 재입력"> 
 					<span class="error_next_box" id="passwordCheckError"></span>
+					<c:if test="${msg == 'failure'}">
+						<div style="color:red">
+						비밀번호가 일치하지 않습니다.
+					</div>
+					</c:if>
 				</div>
+				<!-- pass -->
 				<p>
-					<input type="submit" value="회원 탈퇴" class="signup_btn">
+					<input type="submit" value="회원탈퇴" class="signup_btn">
 				</p>
 			</form>
 		</div>
 	</div>
 </body>
-<!-- sumbit 누르지 않고 실시간 동작 : signup2.js -->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/delete_signup2.js?ver=1"></script>
 <!-- sumbit 눌렀을때 동작 : signup.js -->
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/delete_signup.js?ver=1"></script>
+	src="${pageContext.request.contextPath}/resources/js/delete_signup.js?ver=2"></script>
 
 </html>

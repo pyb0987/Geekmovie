@@ -37,6 +37,7 @@ public class userVOServiceImpl implements userVOService {
 			session.setAttribute("id", vo2.getId());
 			session.setAttribute("password", vo2.getPassword());
 			session.setAttribute("name", vo2.getName());
+			session.setAttribute("birthday", vo2.getBirthday());
 			session.setAttribute("gender", vo2.getGender());
 		}
 		return result;

@@ -1,6 +1,6 @@
 
 
-function InputSearch(inputBoxId, movieBoxId, checkImgId, searchModeId, searchButtonId, SearchResultsContainerId, language, pageContext, searchUrl){		//모달창 있어야함
+function InputSearch(inputBoxId, movieBoxId, checkImgId, searchModeId, searchButtonId, SearchResultsContainerId, language, pageContext, SearchUrl){		//모달창 있어야함
 
 		var genreMap = new Map([[28,'액션'],	//genreMap
 		[12, '모험'],
@@ -30,6 +30,7 @@ function InputSearch(inputBoxId, movieBoxId, checkImgId, searchModeId, searchBut
 	document.getElementById(inputBoxId).className = "movieSelected";
 	document.getElementById(inputBoxId).readOnly = true;
 	document.getElementById(checkImgId).className = "visualized";
+	$("#"+SearchResultsContainerId).empty();
 	$(".modal").fadeOut();
 	};
 	
@@ -37,7 +38,7 @@ function InputSearch(inputBoxId, movieBoxId, checkImgId, searchModeId, searchBut
 		searchMovieSelect(e.currentTarget.dataset.id, e.currentTarget.dataset.title)
 
 	})
-	$(document).on("click", ".search-result", function(e){
+	$(document).on("click", "#"+SearchResultsContainerId+" .search-result", function(e){
 		searchMovieSelect(e.currentTarget.dataset.id, e.currentTarget.dataset.title)
 
 	})

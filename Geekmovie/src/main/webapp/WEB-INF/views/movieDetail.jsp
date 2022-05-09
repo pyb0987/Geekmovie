@@ -10,15 +10,17 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GeekMovie</title>
+<title>GeekMovieDetail</title>
 
-<link rel="stylesheet" href="${path}/resources/css/movieDetail.css?"/>
-<link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=1"/>
+<link rel="stylesheet" href="${path}/resources/css/movieDetail.css?ver=1"/>
+<link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=2"/>
 <link rel="stylesheet" href="${path}/resources/css/movieCast.css?"/>
 <link rel="stylesheet" href="${path}/resources/css/movieCrew.css?"/>
 
-<link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
+<link rel="stylesheet" href="${path}/resources/css/movieLike.css"/>
+
 
 <style>
 @import
@@ -57,18 +59,41 @@ background-color : white;
 .creditName{
 padding-left: 30px;
 }
+.seeMoreBoard{
+	font-size : 1.6rem;
+	display : inline-block;
+}
 
+.seeMoreBoardLink{
+	color : #f8efc5;
+	display : inline-block;
+	 white-space : nowrap;
+	 width : 0;
+	 overflow : hidden;
+	 transform : translateY(1.6rem);
+	 margin-left : 1rem;
+    transition : width 1s;
+    cursor:pointer;
+}
+.seeMoreBoard-container{
+	transform: translateX(20px);
+	display: inline-block;
+	}
+
+.seeMoreBoard-container:hover .seeMoreBoardLink{
+		 width : 6rem;	 
+}
 </style>
 
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/throttle.js"></script>
+	<script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
 	
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fontResize.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieSlide.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieListAjax.js?ver=1"></script>
+	<script type="text/javascript" src="${path}/resources/js/fontResize.js"></script>
+	<script type="text/javascript" src="${path}/resources/js/movieLike.js"></script>
+	<script type="text/javascript" src="${path}/resources/js/movieSlide.js"></script>
+	<script type="text/javascript" src="${path}/resources/js/movieListAjax.js?ver=2"></script>
 	
 <script>
 	$(document).ready(function() {
@@ -118,9 +143,9 @@ padding-left: 30px;
 		const RecommendMovieContainer = document.querySelector("#recommend-movie .movies-container");
 		movieSlideController(SimilarMovieContainer);					//movieSlide.js
 		movieSlideController(RecommendMovieContainer);				
-		
-		
-		
+			
+		movieLike('${sessionScope.id}');	//영화좋아요/add 적용 
+
 		
 		$.ajax({							//받아온 영화 정보 디테일로 만들기
         	type: 'GET',
@@ -172,6 +197,9 @@ padding-left: 30px;
         		let str9 = '<h6>제작국가 : '+countryAry.join(' ,')+'</h6>'
         		$("#detail-country").html(str9);
         		$("#scoreImdb .Score").html(data.vote_average);    //imdb 점수 표시
+        		$(".detail-Click.clickBox").data("id", '${movieId}');
+        	   	$(".detail-Click.clickBox").activeLikeMovie();
+ 
         		return false;
         	}
         	,
@@ -214,10 +242,7 @@ padding-left: 30px;
         	},
             error: function(request, status, error){
             	console.log(request, status, error)
-            }
-        		
-
-        			
+            }		
         })
         return false;
 		}
@@ -262,9 +287,11 @@ padding-left: 30px;
 
                 
 
-				
-
-		
+	
+	
+        
+ 
+        
 		
 		
 
@@ -297,8 +324,16 @@ padding-left: 30px;
 			<div id="detail-genres"></div>
 			<div id="detail-release"></div>
 			<div class="spacing"
-				style="width: 95%; height: 120px; display: flex; justify-content: space-between; ">
+				style="width: 95%; height: 120px; display: flex;">
 				<div id="detail-country"></div>
+				<div class="detail-Click clickBox">
+				<div class="heartClickBig heartClick"><div class="heartClickBigClicker heartClickClicker"></div></div>
+				<div class="addClick addClickBig">
+            		<svg viewBox="0 0 44 44">
+                		<path d="M14,24 L21,31 L39.7428882,11.5937758 C35.2809627,6.53125861 30.0333333,4 24,4 C12.95,4 4,12.95 4,24 C4,35.05 12.95,44 24,44 C35.05,44 44,35.05 44,24 C44,19.3 42.5809627,15.1645919 39.7428882,11.5937758" transform="translate(-2.000000, -2.000000)"></path>
+            		</svg>
+        		</div>
+        		</div>
 				<div id="detail-vote">
 					<div id="scoreGeek">
 						<div class="siteName">GeekScore</div>
@@ -330,13 +365,16 @@ padding-left: 30px;
 		</div>
 	</div>
 	<div id="userSpace">
+
 	<div class="board-container">
-	<h3>게시판</h3>
-	<div class="board"><div>게시판이 들어갈 곳</div></div>
+	<div class="seeMoreBoard-container"><h3 class="seeMoreBoard">영화리뷰</h3><h5 class="seeMoreBoardLink" OnClick="location.href ='boardList?SearchType=M_id&bKeyword=${movieId}&page=1'">더 보기 >></h5></div>
+
+	<div class="board"><div>리뷰가 들어갈 곳</div></div>
 	</div>
 	<div class="board-container">
-	<h3>영화리뷰</h3>
-	<div class="board"><div>리뷰가 들어갈 곳</div></div>
+	<div class="seeMoreBoard-container"><h3 class="seeMoreBoard">한줄평</h3><h5 class="seeMoreBoardLink" OnClick="location.href ='oneLineReview?SearchMode=movie&query=${movieId}&language=ko-KR&page=1'">더 보기 >></h5></div>
+
+	<div class="board"><div>게시판이 들어갈 곳</div></div>
 	</div>
 	</div>
 	

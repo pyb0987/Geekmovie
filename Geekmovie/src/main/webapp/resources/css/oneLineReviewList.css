@@ -9,6 +9,7 @@
     flex-direction: column;
     margin : 0 auto;
     margin-bottom : 30px;
+    padding-top: 50px;
 }
 .oneLineReviewOuterContainer{
 	display: flex;
@@ -35,8 +36,18 @@
 .oneLineReview-Title h3, .oneLineReview-Score h3, .oneLineReview-userId h5, .oneLineReview-gendate h6{
 	margin-top : 1rem;
 	margin-bottom: 0.7rem;
-
 }
+.oneLineReview-gendate h6{
+		font-weight: 500;
+}
+.oneLineReview-Title h3{
+	display : inline-block;
+	cursor: pointer; 
+}
+.oneLineReview-Title h3:hover{
+	color : #999;
+}
+
 
 .oneLineReview-pictureContainer{
 	max-width : 220px;
@@ -79,6 +90,8 @@
 }
 .oneLineReview-quoteInside{
 	margin-bottom: 0;
+	font-weight: 500;
+
 }
 
 .oneLineReview-userId{
@@ -122,6 +135,11 @@
   border : solid 3px white;
 }
 
+.like-dislike-button.active{
+  background: skyblue;
+  border : solid 3px white;
+}
+
 .like-dislike-button:active{
   background: rgb(219, 228, 231);
 }
@@ -135,4 +153,5 @@
 	height: 50%;
 	object-fit: contain;
 }
+
 

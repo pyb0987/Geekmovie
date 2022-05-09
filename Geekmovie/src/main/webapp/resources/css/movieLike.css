@@ -1,0 +1,319 @@
+@charset "UTF-8";
+.heartClickClicker{
+	position : absolute;
+	  cursor: pointer;
+}
+
+.heartClick {
+	position : relative;
+  background: url("https://cssanimation.rocks/images/posts/steps/heart.png") no-repeat;
+  opacity : 0.5;
+  background-position: 0 0;
+  transition: background-position 1s steps(28);
+  transition-duration: 0s;
+}
+
+
+
+
+/*---------------------------------------------*/
+
+.addClick {
+  cursor: pointer;
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+  transition: transform 0.14s ease;
+}
+.addClick:active {  transform: rotateX(30deg);}
+.addClick {
+  border-radius: 50%;
+  position: relative;
+  box-sizing: border-box;
+}
+.addClick svg {
+  fill: none;
+  stroke-width: 3.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+  z-index: 1;
+  stroke-dashoffset: 124.6;
+  stroke-dasharray: 0 162.6 133 29.6;
+  transition: all 0.4s ease 0s;
+}
+.addClick:before, .addClick:after {
+  content: "";
+  background: #fff;
+  position: absolute;
+  box-sizing: border-box;
+  left: 50%;
+  top: 50%;
+  border-radius: 5px;
+}
+.addClick:before {
+  opacity: 0;
+  transform: scale(0.3) translate(-50%, -50%) rotate(45deg);
+  -webkit-animation: bounceInBefore 0.3s linear forwards 0.3s;
+          animation: bounceInBefore 0.3s linear forwards 0.3s;
+}
+.addClick:after {
+  opacity: 0;
+  transform: scale(0.3) translate(-50%, -50%) rotate(-45deg);
+  -webkit-animation: bounceInAfter 0.3s linear forwards 0.3s;
+          animation: bounceInAfter 0.3s linear forwards 0.3s;
+}
+.addClick.is-active svg {
+  stroke-dashoffset: 162.6;
+  stroke-dasharray: 0 162.6 28 134.6;
+  transition: all 0.4s ease 0.2s;
+  stroke: rgba(255, 255, 255);
+}
+.addClick.is-active:before {
+  opacity: 0;
+  transform: scale(0.3) translate(-50%, -50%);
+  -webkit-animation: bounceInBeforeDont 0.3s linear forwards 0s;
+          animation: bounceInBeforeDont 0.3s linear forwards 0s;
+}
+.addClick.is-active:after {
+  opacity: 0;
+  transform: scale(0.3) translate(-50%, -50%) rotate(-90deg);
+  -webkit-animation: bounceInAfterDont 0.3s linear forwards 0s;
+          animation: bounceInAfterDont 0.3s linear forwards 0s;
+}
+
+@-webkit-keyframes bounceInBefore {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translate(-50%, -50%);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1) translate(-50%, -50%);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(0.89) translate(-50%, -50%);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
+  }
+}
+
+@keyframes bounceInBefore {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translate(-50%, -50%);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1) translate(-50%, -50%);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(0.89) translate(-50%, -50%);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
+  }
+}
+@-webkit-keyframes bounceInAfter {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translate(-50%, -50%) rotate(90deg);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1) translate(-50%, -50%) rotate(90deg);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(0.89) translate(-50%, -50%) rotate(90deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%) rotate(90deg);
+  }
+}
+@keyframes bounceInAfter {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translate(-50%, -50%) rotate(90deg);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1) translate(-50%, -50%) rotate(90deg);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(0.89) translate(-50%, -50%) rotate(90deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%) rotate(90deg);
+  }
+}
+@-webkit-keyframes bounceInBeforeDont {
+  0% {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3) translate(-50%, -50%);
+  }
+}
+@keyframes bounceInBeforeDont {
+  0% {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3) translate(-50%, -50%);
+  }
+}
+@-webkit-keyframes bounceInAfterDont {
+  0% {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%) rotate(90deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3) translate(-50%, -50%) rotate(90deg);
+  }
+}
+@keyframes bounceInAfterDont {
+  0% {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%) rotate(90deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3) translate(-50%, -50%) rotate(90deg);
+  }
+}
+
+
+
+
+/*-------------------------------------*/
+.addClickBig {
+  border: 3px solid rgba(51,51,51);
+  width: 30px;
+  height: 30px;
+}
+.addClickBig svg {
+	stroke: rgba(51,51,51);
+  width: 30px;
+  height: 30px;
+  left: -3px;
+  top: -3px;
+  right: -3px;
+  bottom: -3px;
+}
+.addClickBig:before, .addClickBig:after {
+  width: 3px;
+  height: 16px;
+  border-radius: 5px;
+}
+
+.heartClickBig.is-active {
+  transition-duration: 1s;
+  background-position: -2520px 0;
+  opacity : 1;
+}
+.heartClickBigClicker{
+	  width : 40px;
+	  height : 40px;
+	  left : 25px;
+	  top : 25px;
+}
+.heartClickBig {
+  width: 90px;
+  height: 90px;
+  background-position: 0 0;
+  background-size : auto 90px;
+}
+
+.addClickSmall {
+	border: 3px solid rgba(51,51,51, 0.4);
+  width: 25px;
+  height: 25px;
+}
+.addClickSmall svg {
+		stroke: rgba(51,51,51, 0.4);
+  width: 25px;
+  height: 25px;
+  left: -3px;
+  top: -3px;
+  right: -3px;
+  bottom: -3px;
+}
+.addClickSmall:before, .addClickSmall:after {
+  width: 3px;
+  height: 13px;
+  border-radius: 5px;
+}
+
+.heartClickSmallClicker{
+	  width : 30px;
+	  height : 30px;
+	  left : 20px;
+	  top : 20px;
+}
+.heartClickSmall {
+  width: 70px;
+  height: 70px;
+  background-position: 0 0;
+  background-size : auto 70px;
+}
+.heartClickSmall.is-active {
+  transition-duration: 1s;
+  background-position: -1960px 0;
+  opacity : 1;
+}
+
+
+
+
+.addClickExtraSmall {
+	border: 3px solid rgba(51,51,51, 0.4);
+  width: 2.2rem;
+  height: 2.2rem;
+}
+.addClickExtraSmall svg {
+		stroke: rgba(51,51,51, 0.4);
+  width: 2.2rem;
+  height: 2.2rem;
+  left: -3px;
+  top: -3px;
+  right: -3px;
+  bottom: -3px;
+}
+.addClickExtraSmall:before, .addClickExtraSmall:after {
+  width: 3px;
+  height: 1.5rem;
+  border-radius: 5px;
+}
+
+.heartClickExtraSmallClicker{
+	  width : 2rem;
+	  height : 2rem;
+	  left : 1.5rem;
+	  top : 1.5rem;
+}
+.heartClickExtraSmall {
+  width: 5rem;
+  height: 5rem;
+  background-position: 0 0;
+  background-size : auto 5rem;
+}
+.heartClickExtraSmall.is-active {
+  transition-duration: 1s;
+  background-position: -140rem 0;
+  opacity : 1;
+}

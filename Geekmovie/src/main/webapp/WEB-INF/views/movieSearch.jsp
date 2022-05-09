@@ -15,10 +15,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GeekMovieFinder</title>
 <link rel="stylesheet" href="${path}/resources/css/pagination.css"/>
-<link rel="stylesheet" href="${path}/resources/css/movieSearch.css"/>
+<link rel="stylesheet" href="${path}/resources/css/movieSearch.css?ver=1"/>
 
-<link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
+<link rel="stylesheet" href="${path}/resources/css/movieLike.css"/>
 <style>
 @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 
@@ -28,22 +29,70 @@ body {
 	margin : 0;
 	padding-top : 100px;
 }
-h1{
-	font-family: 'NanumSquareRoundBold';				/*글꼴*/
-	color: #fff;
-	font-size : 1.8rem;
-	}
 
 
+.movie-searchContainer figcaption{
+	background-color: rgba(0, 0, 0, 0.72);
+	opacity: 0;
+	padding : 0;
+	position: relative;
+	width : 100%;
+	height : 100%;
+}
 
 
+.movie-searchContainer:hover figcaption{
+	opacity: 1;
+}
 
+.search-click.clickBox{
+	display : flex;
+	align-items: center;
+	position: absolute;
+	width : 100%;
+	bottom : -0.8rem;
+	right : 5px;
+  	opacity: 0;
+  -webkit-transition: all 0.35s ease;
+  transition: all 0.35s ease;
+}
+.search-Click .heartClick{
+	left : -1.5rem;
+	margin-left : 20%;
+	margin-right: -1.5rem;
+}
+
+.movie-searchContainer:hover .search-click.clickBox{
+	opacity: 1;
+}
+
+.heartClickClicker, .addClick{
+	z-index : 2;
+}
+
+#searchText h1 {
+    padding-left: 20px;
+    margin: 50px;
+}
+#searchText{
+    width: 80%;
+    margin: 0 auto;
+}
+
+
+.movies-searchInnerContainer{
+    padding-top: 50px;
+    border-top: 3px solid red;
+}
 </style>
 
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/throttle.js"></script>
+	 
+	 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fontResize.js"></script>
+	 <script type="text/javascript" src="${path}/resources/js/movieLike.js?ver=1"></script>
 <script>
 	$(document).ready(function() {
 			
@@ -69,22 +118,7 @@ h1{
 
 		
 		var windowResize = function(){					//리사이징 함수
-			console.log(window.innerWidth)
-			if(window.innerWidth>1800){   //폰트 리사이징
-				$("html").css("fontSize", "16px")
-			}else if(window.innerWidth>1500){
-				$("html").css("fontSize", "14.5px")
-			}else if(window.innerWidth>1000){
-				$("html").css("fontSize", "13px")
-			}else if(window.innerWidth>700){
-				$("html").css("fontSize", "11.5px")
-			}
-			else if(window.innerWidth>600){
-				$("html").css("fontSize", "10px")
-			}else{
-				$("html").css("fontSize", "8px")
-
-		}
+			fontResize();
 		}
 		
 		windowResize();
@@ -92,6 +126,10 @@ h1{
 		window.addEventListener('resize', throttle(function() {				//리사이징에 throttle 적용
 			 windowResize();
 		}, 400), true);	
+		
+		
+		movieLike('${sessionScope.id}');	//영화좋아요/add 적용 
+		
 		
 		var movieNameOn = false;
 		if('${data.searchMode}'==='movie'){								//분류 작업
@@ -152,9 +190,10 @@ h1{
 					}
 					
 
-        			str += '<div class="movie-searchContainer" OnClick="location.href =\'/movie/movieDetail?movieId='+item.id+`&language=${data.language}\'" style="cursor:pointer;"><div class="movie-pictureContainer"><div class="movie-picture" style="background: url(\'`;
-        			str +=	imageUrl+'\'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>';
-					str += '</div><div class="movie-title-container"><div class="movie-title prevent-flow">';
+        			str += '<div class="movie-searchContainer" data-id="'+item.id+'" style="cursor:pointer;"><div class="movie-pictureContainer"><div class="movie-picture" style="background: url(\'';
+        			str +=	imageUrl+'\'); background-size: contain; background-repeat: no-repeat; background-position: center center;">';
+					str += "<figcaption><div class='search-click clickBox' data-id='"+item.id+"'><div class='heartClickExtraSmall heartClick'><div class='heartClickExtraSmallClicker heartClickClicker clickCheck'></div></div><div class='addClick addClickExtraSmall clickCheck'><svg class='clickCheck' viewBox='0 0 44 44'><path class='clickCheck' d='M14,24 L21,31 L39.7428882,11.5937758 C35.2809627,6.53125861 30.0333333,4 24,4 C12.95,4 4,12.95 4,24 C4,35.05 12.95,44 24,44 C35.05,44 44,35.05 44,24 C44,19.3 42.5809627,15.1645919 39.7428882,11.5937758' transform='translate(-2.000000, -2.000000)'></path></svg></div></div></figcaption>";
+        			str += '</div></div><div class="movie-title-container"><div class="movie-title prevent-flow">';
 					str += item.title+'</div></div><div class="movie-year prevent-flow">'
 					str += year+'</div><div class="movie-genre prevent-flow">'
 					str += genreAry.join(' ,')+'</div><div class="movie-vote prevent-flow">'+item.vote_average+'</div>'					//나중에 geekmovie자체점수로 변경필요
@@ -165,6 +204,17 @@ h1{
 					str += '<div class="fake-searchContainer"></div>'.repeat(Math.max(20-count, 0))
 					str += '<div class="pagination-container" style="grid-column: 1 / span 4;"><div class="pagination"></div></div>'
         			$(".movies-searchInnerContainer").html(str)
+        			 $(".search-click.clickBox").activeLikeMovie();
+					$(".movie-searchContainer").each(function(i, e){
+						$(this).click(function(e){
+							if(!(e.target.classList.contains('clickCheck'))){
+							location.href ='/movie/movieDetail?movieId='+$(e.currentTarget).data('id')+`&language=${data.language}`
+							}
+								
+							});
+						})
+					
+					
 				makePagination(data.total_pages);
         		return false;
         	}
@@ -230,7 +280,6 @@ h1{
 		
 		
 
-        
 		
 	})
 </script>
