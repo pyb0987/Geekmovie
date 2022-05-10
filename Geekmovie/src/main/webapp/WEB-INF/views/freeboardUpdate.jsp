@@ -285,7 +285,9 @@ grid-column: 3 / 6;
 
 <div class="spacing" style="height:200px"></div>
 
-
+<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="<%=language%>"/>  
+</jsp:include>  
 
 </body>
 </html>

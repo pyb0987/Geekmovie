@@ -34,6 +34,7 @@ PageVo pagination = (PageVo)request.getAttribute("pagination");
 <head>
 <meta charset="UTF-8">
 <title>GeekReview</title>
+
 <link rel="stylesheet" href="${path}/resources/css/globalModal.css?"/>
 <link rel="stylesheet" href="${path}/resources/css/movieSearch.css"/>
 <script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
@@ -718,6 +719,8 @@ font-size : 1rem;
 	</div>
 	</div>
 </section>
-
+<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="<%=language%>"/>  
+</jsp:include>  
 </body>
 </html>

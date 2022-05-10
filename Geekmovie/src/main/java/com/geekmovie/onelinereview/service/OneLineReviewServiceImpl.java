@@ -77,4 +77,8 @@ public class OneLineReviewServiceImpl implements OneLineReviewService{
 	public List<OneLineReviewVo> SelectMovie(Map<String, Object> map) {
 		return oneLineReviewDao.SelectMovie(map);
 	}
+
+	public Map<String, Object> AverageScore(int movieId){
+		return oneLineReviewDao.AverageScore(movieId);
+	}
 }

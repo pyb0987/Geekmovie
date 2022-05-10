@@ -6,13 +6,13 @@ import com.geekmovie.board.vo.ReplyVo;
 
 public interface BoardReplyService {
 	
-	List<ReplyVo> rList(int seq);
+	public List<ReplyVo> rList(int seq);
 	
-	void rCreate(ReplyVo replyVo);
+	public void rCreate(ReplyVo replyVo);
 	
-	void rUpdate(ReplyVo replyVo);
+	public void rUpdate(ReplyVo replyVo);
 	
-	void rDelete(int reply_seq);
+	public void rDelete(int reply_seq);
 	
 	
 	

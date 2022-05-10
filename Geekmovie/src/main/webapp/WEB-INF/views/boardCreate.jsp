@@ -107,6 +107,7 @@ body {
 #wrap{
 margin-top: 100px;
 }
+
 	.BoardHeader h1 {
 		padding-left : 50px;
 		margin : 30px;
@@ -122,6 +123,7 @@ top : 3rem;
     padding: 50px;
     background-color: white;
 	}
+
 .BoardHeader {
 		border-top: 3px solid red;
 }
@@ -168,6 +170,7 @@ grid-column: 1 / 5;
     padding: 0 2%;
      border: solid 2px #444;
     border-radius: 10px;
+
 min-height : 500px;
 }
 
@@ -182,6 +185,7 @@ box-sizing : border-box;
 padding: 0 10px;
     border: 1px solid black;
     margin: 1px;
+
 }
 .BoardColored h5, .BoardColored h4{
 font-weight : 400;
@@ -315,6 +319,7 @@ border: solid 1px;
 	
 	<div id="wrap">
 		<div class="BoardContainer">
+
 	<form name="bCreateForm" method="post" onsubmit="return checkValue()">
 	<div class="BoardWrap">
 	<div class="BoardHeader">
@@ -378,7 +383,9 @@ border: solid 1px;
 	</div>
 	</div>
 	</form>
+
 	</div>
+
 
 	<div class="modal">
 		<div class="modalExit"><img id="modalExitImage" src="${path}/resources/img/x.png" alt="exit"></div>
@@ -392,5 +399,8 @@ border: solid 1px;
 	</div>
 	</div>
 	<div class="spacing" style="height:200px"></div>
+	<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="<%=language%>"/>  
+</jsp:include>  
 </body>
 </html>

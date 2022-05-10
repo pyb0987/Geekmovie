@@ -1,26 +1,35 @@
 package com.geekmovie.board;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.geekmovie.board.service.FreeBoardLikeService;
 import com.geekmovie.board.service.FreeBoardService;
 import com.geekmovie.board.vo.FreeVo;
 import com.geekmovie.board.vo.PageVo;
+import com.geekmovie.onelinereview.vo.OneLineReviewVo;
 
 @Controller
 public class FreeBoardController {
 	
 	@Autowired
 	FreeBoardService fBoardService;
+	
+	@Autowired
+	FreeBoardLikeService freeBoardLikeService; 
 	
 	public FreeBoardController() {
 		System.out.println("@FreeBoardController active");
@@ -194,5 +203,46 @@ public class FreeBoardController {
 		
 		return mav;
 	}
+	
+	@RequestMapping(value = "/freeboardList/like/{userId}", method = RequestMethod.GET)//특정 유저가 좋아하는 자유게시글
+	public ModelAndView freeBoardLike(HttpSession session, @PathVariable("userId") String userId,
+			@RequestParam(required = false, defaultValue = "1") int curPage,  
+			@RequestParam(required = false, defaultValue = "ko-KR") String language) {
+		String sessionId = (String)session.getAttribute("id");
+
+		ModelAndView mav = new ModelAndView();
+		if(!sessionId.equals(userId)) {
+			mav.setViewName("redirect:/");
+			return mav;
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("mode", 1);
+		int cnt = freeBoardLikeService.CountUserLike(map);	
+		PageVo pagevo = new PageVo();
+		int range= (curPage+9)/10;
+		pagevo.pageInfo(curPage, range, cnt);
+		Map<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("userId", userId);
+		map2.put("nowPageStart", pagevo.getStartList());
+		map2.put("Size", pagevo.getListSize());
+		
+		List<FreeVo> list = fBoardService.UserLike(map2);
+		String sType = "TC";
+		String kWord = "";
+		
+		mav.addObject("data", list);
+		mav.addObject("pagevo", pagevo);
+		mav.addObject("searchType", sType);
+		mav.addObject("keyword", kWord);
+		mav.addObject("curPage", curPage);
+		mav.addObject("range", range);
+		mav.setViewName("freeboardListLike");
+		
+		return mav;
+		
+		
+	}
+	
 	
 }

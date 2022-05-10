@@ -138,5 +138,7 @@
             order by oneLineReviewId DESC limit #{nowPageStart}, #{Size};
 		]]>
 	</select>
-
+	<select id="score-average" parameterType="int" resultType="HashMap">
+		select sum(score) score, count(score) cnt from onelinereview where movieId=#{movieId};
+	</select>
 </mapper>

@@ -257,7 +257,7 @@ height: 2rem;
 							<div class="BoardColored toList">
 								<h4>
 									<a
-										href="boardList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}">목록</a>
+										href="freeboardList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}">목록</a>
 								</h4>
 							</div>
 							<div class="BoardColored writer">
@@ -275,5 +275,8 @@ height: 2rem;
 	</div>
 
 	<div class="spacing" style="height: 200px"></div>
+	<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="<%=language%>"/>  
+</jsp:include>  
 </body>
 </html>

@@ -89,7 +89,7 @@
 	
 	<select id="free_detail" parameterType="freeVo" resultType="freeVo">
 		<![CDATA[
-			select seq, title, writer, contents, regdate, movie_id
+			select seq, title, writer, contents, regdate, movie_id, cnt, likes
 			from free_board  
 			where seq = #{seq}
 		]]>
@@ -119,5 +119,42 @@
 			where seq = #{seq}
 		]]>
 	</delete>
+	
+	<update id="like_update" parameterType="HashMap">  
+	    <![CDATA[  
+	        update free_board set  likes = #{likes}
+	        where seq = #{seq}  
+		    ]]>  
+	</update>
+
+	<resultMap type="freeLikeVo" id="freeJoinTarget">
+			<result column="freeId" property="freeId" />
+			<result column="userId" property="userId" />
+			<!--<result column="mode" property="mode" />-->
+	</resultMap>
+	
+	<resultMap type="freeVo" id="freeJoin">
+		<result column="seq" property="seq" />
+		<result column="title" property="title" />
+		<result column="writer" property="writer" />
+		<result column="regdate" property="regdate" />
+		<result column="likes" property="likes" />
+		<result column="movie_id" property="movie_id" />
+		<collection property="freeLikeVo" resultMap="freeJoinTarget"/>
+	</resultMap>
+	
+		<select id="UserLike" parameterType="HashMap" resultMap="freeJoin">
+	<![CDATA[
+			select a.seq, a.title, a.writer, a.regdate, a.likes, a.movie_id
+			from free_board as a
+			join
+			freelike as b
+			on a.seq = b.freeId
+            where b.userId=#{userId}  and b.mode=1 
+            order by b.seq DESC limit #{nowPageStart}, #{Size};
+		]]>
+	</select>
+
+
 
 </mapper>

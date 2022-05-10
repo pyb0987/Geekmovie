@@ -1,6 +1,7 @@
 package com.geekmovie.board.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.geekmovie.board.vo.BoardVo;
 
@@ -23,4 +24,6 @@ public interface BoardService {
 	public List<BoardVo> boardRecommend(BoardVo boardVo);
 	
 	public int boardRecommendCnt(BoardVo boardvo);
+	
+	public Map<String, Object> AverageScore(int movieId);
 	}

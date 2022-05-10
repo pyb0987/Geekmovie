@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace : package + classname -->
+<mapper namespace="FreeLikeVo">
+	
+	
+	<select id="Check" parameterType="HashMap" resultType="int">
+		<![CDATA[
+				select count(userId) from freelike where userId=#{userId} and freeId=#{freeId} and mode=#{mode};
+			]]>
+			
+	</select>
+	
+	<insert id="Add" parameterType="HashMap">
+		insert into freelike(userId, freeId, mode)
+		values(#{userId}, #{freeId}, #{mode})
+		ON duplicate key update
+		`mode` = if(values(mode) = mode, -1, #{mode});
+	</insert>
+	
+	
+	<select id="CountfreeLike" parameterType="HashMap" resultType="int">
+		select count(userId) from freelike where freeId=#{freeId} and mode=#{mode};
+	</select>
+
+	<select id="CountUserLike" parameterType="HashMap" resultType="int">
+		select count(freeId) from freelike where userId=#{userId} and mode=#{mode};
+	</select>
+	
+	
+	
+	
+</mapper>

@@ -13,15 +13,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.geekmovie.board.service.BoardReplyService;
 import com.geekmovie.board.service.BoardService;
 import com.geekmovie.board.vo.BoardVo;
 import com.geekmovie.board.vo.PageVo;
+import com.geekmovie.board.vo.ReplyVo;
 
 @Controller
 public class BoardController {
 	
 	@Autowired
 	BoardService boardService;
+	
+	@Autowired
+	private BoardReplyService replyService;
 	
 	public BoardController() {
 		System.out.println("@BoardController 생성");
@@ -118,7 +123,9 @@ public class BoardController {
 			@RequestParam(required = false, defaultValue = "1") int range,
 			@RequestParam(required = false, defaultValue = "TC") String searchType,
 			@RequestParam(required = false, defaultValue = "") String bKeyword,
-			@RequestParam(required = false, defaultValue = "false") String recommend) {
+			@RequestParam(required = false, defaultValue = "false") String recommend,
+			@RequestParam("seq") int seq) {
+
 		System.out.println("board detail");
 		
 		boardService.bCnt(boardVo);
@@ -127,6 +134,8 @@ public class BoardController {
 		String sType = boardVo.getSearchType();
 		String kWord = boardVo.getbKeyword();
 		
+		List<ReplyVo> reply = replyService.rList(seq);
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("data", detail);
 		mav.addObject("searchType",sType);
@@ -134,6 +143,7 @@ public class BoardController {
 		mav.addObject("curpage", curPage);
 		mav.addObject("range", range);
 		mav.addObject("recommend", recommend);
+		mav.addObject("reply", reply);
 		mav.setViewName("boardDetail");
 		return mav;
 	}

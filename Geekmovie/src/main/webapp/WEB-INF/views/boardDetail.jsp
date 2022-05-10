@@ -1,3 +1,6 @@
+
+<%@page import="java.util.List"%>
+<%@page import="com.geekmovie.board.vo.ReplyVo"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="com.geekmovie.board.service.BoardService"%>
@@ -10,6 +13,7 @@
 
 <% BoardVo data = (BoardVo)request.getAttribute("data"); %>
 <% String wr = data.getWriter(); 
+
 String id = (String)session.getAttribute("id"); 
 Timestamp gendate = data.getRegdate();
 String formattedgenDate = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(gendate);
@@ -23,6 +27,7 @@ String language = "ko-KR";
 <head>
 <meta charset="UTF-8">
 <title>GeekReviewDetail</title>
+
 
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
@@ -54,6 +59,19 @@ function modifyCheck(){
 		}
 	}else{
 		location.href = 'boardUpdate?seq=${data.seq}';
+	}
+};
+
+// 로그인 회원만 글 작성하게
+function replyWriteCheck(){
+	if('${sessionScope.id}' == '') {
+		var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
+		if(result) {
+			location.href = 'user_join';
+		}
+	} else {
+		var replywriteform = document.replywriteform;
+		replywriteform.submit();
 	}
 };
 
@@ -216,6 +234,7 @@ top : 3rem;
     border-radius: 10px;
     padding: 50px;
     background-color: white;
+
 	}
 	.BoardHeader {
 		border-top: 3px solid red;
@@ -223,6 +242,7 @@ top : 3rem;
 	.Boardbody{
 		display : grid;
 		grid-template-columns: repeat(5, auto);
+
 	}
 	#detail-bigPictureContainer{
 	position : relative;
@@ -315,6 +335,7 @@ text-align: end;
 display : flex;
 justify-content: space-between;
 grid-column: 1 / 6;
+
 }
 .movieLikes, .movieWatchCount{
     text-align: end;
@@ -354,6 +375,7 @@ box-sizing : border-box;
 padding: 0 10px;
     border: 1px solid black;
     margin: 1px;
+
 }
 .BoardColored h5, .BoardColored h4{
 font-weight : 400;
@@ -383,6 +405,7 @@ display : flex;
 	align-items: center;
 	justify-content: center;
 	margin-bottom: 20px; 
+
 	
 }
 
@@ -441,7 +464,7 @@ justify-content: center;
 
 .writer button:hover h5, input:hover{
 	color : #f2f5dccc;
-}
+
 </style>
 </head>
 <body>
@@ -475,6 +498,7 @@ justify-content: center;
 	
 	<div id="spacing"></div>
 	<div class="BoardContainer">
+
 	<div class="BoardWrap">
 	<div class="BoardHeader">
 			<h1>${data.title}</h1>
@@ -485,6 +509,7 @@ justify-content: center;
 		<h4>작성자 : ${data.writer}</h4><h4 class="movieName"></h4>
 	</div>
 	<div class="BoardColored BoardDate">
+
 	<h5><%=formattedgenDate %></h5>
 	</div>
 	<div class="movieScore BoardColored">
@@ -509,6 +534,7 @@ justify-content: center;
 	</div>
 	
 	<div class="BoardColored toList">
+
 	<a class="toListButton"><h4>목록</h4></a>
 	</div>
 
@@ -517,6 +543,7 @@ justify-content: center;
 		<button id="b_modify" onclick=" modifyCheck();"><h5>게시글 수정</h5></button>
 	</div>	
 	<div class="BoardColored writer">
+
 		<form name='deleteform' id="b_delete" action="boardDelete" method="post">
 			<input type="hidden" name="seq" value="${data.seq}" />
 			<h5><input type="button" value="삭제" onclick="deleteCheck();" ></h5>
@@ -524,14 +551,45 @@ justify-content: center;
 	<%} %>
 	</div>
 	</div>
+
+	<!-- 댓글 -->
+	<div id="comments-container">
+		<p>댓글 목록</p>
+		<div>
+			<form name="replywriteform" method="post" action="/movie/write" >
+				<p>
+					${sessionScope.id} <input type="hidden" name="writer" value="${sessionScope.id}">
+				</p>
+				<p>
+					<textarea rows="3" cols="50" name="content"></textarea>
+				</p>
+				<p>
+					<input type="hidden" name="seq" value="${data.seq}">
+					<input type="button" id="reply_write" onclick="replyWriteCheck();" value="작성">
+				</p>
+			</form>
+		</div>
+		<div>
+			<c:forEach items="${reply}" var="reply">
+					<div>
+						<p>
+							|| ${reply.content}  || ${reply.writer}  |  <fmt:formatDate value="${reply.regDate}" pattern="yyyy-MM-dd"/>
+								<button id="r_modify" onclick="RmodifyCheck();">수정</button>
+								<form name="replydeleteform" method="post" action="/movie/delete">
+									<input type="hidden" name="rno" value="${data.rno}"/>
+									<button>삭제</button>
+								</form>
+						</p>
+					</div>
+			</c:forEach>
+		</div>
+		
 	</div>
-	<div id="comments-container"></div>
-	
 	<div class="spacing" style="height:200px"></div>
 
-
-		
-		
+		<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="<%=language%>"/>  
+</jsp:include>  
 
 </div>
 </body>
