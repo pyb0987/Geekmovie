@@ -28,5 +28,8 @@ public interface FreeBoardService {
 
 	public int likeUpdate(Map<String, Object> map);
 	
+	
+	public int replyUpdate(Map<String, Object> map);
+	
 	public List<FreeVo> UserLike(Map<String, Object> map);
 	}

@@ -57,6 +57,10 @@ public class FreeBoardDao {
 	public int likeUpdate(Map<String, Object> map) {
 		return sqlSessionTemplate.update("freeVo.like_update", map);
 	}
+	
+	public int replyUpdate(Map<String, Object> map) {
+		return sqlSessionTemplate.update("freeVo.reply_update", map);
+	}
 
 	public List<FreeVo> UserLike(Map<String, Object> map) {
 		return 	sqlSessionTemplate.selectList("freeVo.UserLike", map);	

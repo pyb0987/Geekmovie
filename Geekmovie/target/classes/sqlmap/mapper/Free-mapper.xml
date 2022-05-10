@@ -6,7 +6,7 @@
 
 	<select id="free_list" parameterType="freeVo" resultType="freeVo">
 		<![CDATA[
-			select seq, movie_id, title, writer, regdate, cnt, likes
+			select seq, movie_id, title, writer, regdate, cnt, likes, reply
 			from free_board
 			where 1 = 1
 		]]>
@@ -123,6 +123,13 @@
 	<update id="like_update" parameterType="HashMap">  
 	    <![CDATA[  
 	        update free_board set  likes = #{likes}
+	        where seq = #{seq}  
+		    ]]>  
+	</update>
+	
+	<update id="reply_update" parameterType="HashMap">  
+	    <![CDATA[  
+	        update free_board set  reply = #{reply}
 	        where seq = #{seq}  
 		    ]]>  
 	</update>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace : package + classname -->
+<mapper namespace="freeReplyVo">
+
+	<insert id="insert" parameterType="freeReplyVo">
+		<![CDATA[
+			insert into freereply(boardId, ancestorId, depth, orderserial, content, writer) 
+			values(#{boardId}, #{ancestorId}, #{depth}, #{orderserial}, #{content}, #{writer});
+		]]>
+	
+	</insert>
+	
+	<select id="boardShow" parameterType="HashMap" resultType="freeReplyVo">
+	select replyId, ancestorId, depth, orderserial, content, writer, deleted, create_date, update_date, likes
+	from freereply where boardId=#{boardId} order by ancestorId desc, orderserial limit #{start}, #{size}
+	</select>
+	
+	<select id="boardCount" parameterType="int" resultType="int">
+	select count(replyId)
+	from freereply where boardId=#{boardId};
+	</select>
+	
+	<select id="boardAncestorSet" parameterType="int" resultType="int">
+	select ifnull(max(replyId), 0)
+	from freereply where boardId=#{boardId} and depth=0;
+	</select>
+	
+	<select id="boardOrderserialfind" parameterType="freeReplyVo" resultType="String">
+	select ifnull(max(orderserial), concat(#{orderserial}, '0000'))
+	from freereply where boardId=#{boardId} and ancestorId=#{ancestorId} and depth=#{depth}, writer='' and orderserial like concat(#{orderserial},'%');
+	</select>
+	
+	<update id="like_update" parameterType="HashMap">  
+	    <![CDATA[  
+	        update freereply set  likes = #{likes}
+	        where replyId = #{replyId}  ;
+		    ]]>  
+	</update>
+	
+	<update id="delete" parameterType="int">
+	   <![CDATA[ 
+			update freereply set content='', deleted='Y',likes='0' where replyId = #{replyId};
+			    ]]>  
+	</update>
+	
+	<select id="childDeleteCheck" parameterType="freeReplyVo">
+	   <![CDATA[ 
+			select count(replyId) from freereply where boardId=#{boardId} and ancestorId=#{ancestorId} and orderserial like concat(#{orderserial},'%') and deleted='N';
+			    ]]>  
+	</select>
+	
+		<delete id="childDelete" parameterType="freeReplyVo">	<!-- 삭제할때 like도 삭제할것 -->
+	   <![CDATA[ 
+			delete from freereply where boardId=#{boardId} and ancestorId=#{ancestorId} and orderserial like concat(#{orderserial},'%') and deleted='N';	
+			    ]]>  
+	</delete>
+	
+	<update id="update" parameterType="freeReplyVo">
+				<![CDATA[
+			update freereply set content=#{content} where replyId=#{replyId};
+			]]>
+	</update>
+</mapper>

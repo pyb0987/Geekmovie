@@ -626,6 +626,10 @@ color : black;
 text-align: center;
 font-size : 1rem;
 }
+
+.hover:hover{
+	color : #f2f5dccc;
+}
 </style>
 
 
@@ -662,7 +666,7 @@ font-size : 1rem;
 					<tr>
 						<td>${b.seq}</td>
 						<td class="movieId">${b.movie_id}</td>
-						<td><a href="boardDetail?seq=${b.seq}&searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}">${b.title}</a></td>
+						<td><a class="hover" href="boardDetail?seq=${b.seq}&searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}">${b.title}</a></td>
 						<td>${b.writer}</td>
 						<td class="timeStamp">${b.regdate}</td>
 						<td>${b.cnt}</td>

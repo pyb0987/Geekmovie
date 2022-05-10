@@ -67,6 +67,10 @@ public class FreeBoardServiceImpl implements FreeBoardService{
 	public int likeUpdate(Map<String, Object> map) {
 		return dao.likeUpdate(map);
 	}
+	
+	public int replyUpdate(Map<String, Object> map) {
+		return dao.replyUpdate(map);
+	}
 
 	public List<FreeVo> UserLike(Map<String, Object> map) {
 		return dao.UserLike(map);

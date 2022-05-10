@@ -67,7 +67,7 @@ PageVo pagevo = (PageVo)request.getAttribute("pagevo");
 			}
 		};
 		
-		oneLineReviewMakePagination( Number(`<%=startPage %>`), Number(`<%=endPage %>`), Number(`${curpage}`), Number(`<%=pageCnt %>`), '${searchType}', '${keyword}')
+		oneLineReviewMakePagination( Number(`<%=startPage %>`), Number(`<%=endPage %>`), Number(`<%=curPage %>`), Number(`<%=pageCnt %>`), '${searchType}', '${keyword}')
 
 		function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searchMode, query){               //한줄평 페이징 기능 구현
 		    var str ='';
@@ -262,6 +262,10 @@ color : black;
 		color: white;
 		background-color: #696565;
 	}
+	
+	.hover:hover{
+	color : #f2f5dccc;
+}
 </style>
 <link rel="stylesheet" href="${path}/resources/css/pagination.css?ver=1"/>
 </head>
@@ -295,7 +299,7 @@ color : black;
 			<c:forEach var="f" items="${data}">
 					<tr>
 						<td>${f.seq}</td>
-						<td><a href="freeboardDetail?seq=${f.seq }&searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}">${f.title}</a></td>
+						<td ><a class="hover" href="freeboardDetail?seq=${f.seq }&searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}">${f.title}(+${f.reply})</a></td>
 						<td class="movieId">${f.movie_id}</td>
 				<td>${f.writer}</td>
 				<td class="timeStamp">${f.regdate}</td>
