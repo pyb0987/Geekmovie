@@ -27,7 +27,7 @@
     background-color: darkred;
     align-items: center;
     position : fixed;
-    z-index : 4;
+    z-index : 8;
 }
 
     /*-- menu button --*/
@@ -231,7 +231,7 @@ color : #555555;
  top : 100px;
 left : 0;
  position : fixed;
- z-index : 3;
+ z-index : 6;
  background-color : #252525;
  border-right : solid 10px #1D1D1D;
  
@@ -255,7 +255,10 @@ flex-direction: column;
 .menuButton{
 box-sizing: border-box;
  width : 100%;
- height : 80px;
+ height : 10%;
+ display: flex;
+     align-items: center;
+    justify-content: center;
  line-height : 80px;
  color : white;
  font-family: 'NanumSquareRound';
@@ -290,7 +293,7 @@ box-shadow: -1px 1px 16px rgba(0, 0, 0, 0.6);
  height : 100vh;
  position : fixed;
  display : none;
-  z-index : 2;
+  z-index : 4;
 }
 
 #screen.active-menu{
@@ -501,9 +504,9 @@ if(!!form.query && form.query.value !=""){
 		<div id="foldMenu">
 		<!--<div class="menuButton">최신영화</div>-->
 		<div class="menuButton"  onclick="location.href='search?searchMode=popularmovie&page=1&language=<%=request.getParameter("language")%>';">인기영화</div>
-		<div class="menuButton">장르별 영화보기</div>
+		<div class="menuButton" onclick="location.href='boardRecommendList?';">추천리뷰</div>
 
-		<div class="menuButton" onclick="location.href='boardList?';">최신게시글</div>
+		<div class="menuButton" onclick="location.href='boardList?';">최신리뷰</div>
 		<div class="menuButton" onclick="location.href='freeboardList?';">자유게시글</div>
 		<div class="menuButton" onclick="location.href='/movie/oneLineReview?page=1&language=<%=request.getParameter("language")%>';">한줄평</div>
 		<div class="menuButton" onclick="location.href='/movie/randomMovieDetail?language=<%=request.getParameter("language")%>';">랜덤영화</div>

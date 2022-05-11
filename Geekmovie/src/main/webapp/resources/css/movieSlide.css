@@ -17,7 +17,7 @@
 
 .movie {
 	position: relative;
-	padding-top: 135%;
+	padding-top: 140%;
 	height : 0;
 	margin-right: 15px;
 	overflow: hidden;
@@ -71,7 +71,6 @@
   padding: 0;
 }
 .movie h3 {
-    font-family: 'NanumSquareRoundBold';    
   line-height: 1.2em;
   font-weight: 700;
   font-size: 1.4em;
@@ -79,7 +78,7 @@
   opacity: 0;
 }
 .movie p {
-    font-family: 'NanumSquareRound';
+  font-family: 'Nanum Gothic', sans-serif;
   font-size: 0.8em;
   line-height : 1.2em;
   font-weight: 300;
@@ -186,12 +185,16 @@
     cursor:pointer;
 }
 .seeMoreMovies-container{
-	display : inline;
+	transform: translateX(40px);
+	display: inline-block;
 	}
+.seeMoreMovies, .seeMoreMoviesLink{
+	
+	font-family: 'Hahmlet', serif;
+    font-weight: 600;
+}	
 .seeMoreMovies-container:hover .seeMoreMoviesLink{
-
-		 width : 6rem;
-		 
+		 width : 6rem;	 
 }
 
 .nonExist{

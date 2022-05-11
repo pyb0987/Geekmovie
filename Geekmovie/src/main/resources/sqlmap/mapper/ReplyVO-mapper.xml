@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="replyVo">
+
+	<select id="reply_list" parameterType="int" resultType="ReplyVo">
+		<![CDATA[
+			SELECT rno, seq, writer, content, regDate FROM b_reply
+			WHERE seq = #{seq}
+		]]>
+	</select>
+	
+	<insert id="reply_create" parameterType="replyVo">
+		<![CDATA[
+			INSERT INTO b_reply (seq, content, writer, regDate)
+			VALUES (#{seq}, #{content}, #{writer}, #{regDate})
+		]]>
+	</insert>
+	
+	<update id="reply_update" parameterType="replyVo">
+		<![CDATA[
+			UPDATE b_reply SET 
+			content = #{content}
+			WHERE rno = #{rno} and seq = #{seq}
+		]]>
+	</update>
+
+	<delete id="reply_delete">
+		<![CDATA[
+			DELETE FROM b_reply
+			WHERE rno = #{rno} and seq = #{seq}
+		]]>
+	</delete>
+	
+</mapper>

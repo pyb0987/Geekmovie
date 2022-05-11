@@ -1,6 +1,5 @@
 package com.geekmovie.board.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.geekmovie.board.dao.BoardDao;
 import com.geekmovie.board.vo.BoardVo;
-import com.geekmovie.onelinereview.vo.OneLineReviewLikeVo;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -55,5 +53,20 @@ public class BoardServiceImpl implements BoardService{
 	public int bDelete(BoardVo boardvo) {
 		return dao.boardDelete(boardvo);
 	}
+	
+	public List<BoardVo> boardRecommend(BoardVo boardVo) {
+		return dao.boardRecommend(boardVo);
+	}
+	public int boardRecommendCnt(BoardVo boardvo) {
+		return dao.boardRecommendCnt(boardvo);
+	}
+	
+	public Map<String, Object> AverageScore(int movieId){
+		return dao.AverageScore(movieId);
+	}
 
+	@Override
+	public int likeUpdate(Map<String, Object> map) {
+		return dao.likeUpdate(map);
+	}
 }

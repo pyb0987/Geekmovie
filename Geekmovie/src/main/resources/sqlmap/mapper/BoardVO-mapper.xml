@@ -4,15 +4,17 @@
 <!-- namespace : package + classname -->
 <mapper namespace="boardVo">
 
-	<select id="board_list" parameterType="boardVo" resultType="boardVo">
+	<select id="board_list" parameterType="boardVo"
+		resultType="boardVo">
 		<![CDATA[
-			select seq, movie_id, title, writer, regdate, cnt, likes
+			select seq, movie_id, title, writer, regdate, cnt, likes, b_score
 			from review_board 
 			where 1 = 1 
 		]]>
 		<if test="searchType == 'TC' and bKeyword != null">
 			AND title LIKE CONCAT ('%',#{bKeyword},'%')
-			OR contents LIKE CONCAT ('%',#{bKeyword},'%')
+			OR contents
+			LIKE CONCAT ('%',#{bKeyword},'%')
 		</if>
 		<if test="searchType == 'Wr' and bKeyword != null">
 			AND writer LIKE CONCAT ('%',#{bKeyword},'%')
@@ -20,10 +22,49 @@
 		<if test="searchType == 'M_id' and bKeyword != null">
 			AND movie_id LIKE CONCAT ('%',#{bKeyword},'%')
 		</if>
-			ORDER BY seq DESC
-			Limit #{startList}, #{listSize}
+		ORDER BY seq DESC
+		Limit #{startList}, #{listSize}
 	</select>
-	
+
+
+	<select id="board_recommend" parameterType="boardVo"
+		resultType="boardVo">
+		<![CDATA[
+			select seq, movie_id, title, writer, regdate, cnt, likes, b_score
+			from review_board 
+			where likes>9
+		]]>
+		<if test="searchType == 'TC' and bKeyword != null">
+			AND (title LIKE CONCAT ('%',#{bKeyword},'%')
+			OR contents
+			LIKE CONCAT ('%',#{bKeyword},'%'))
+		</if>
+		<if test="searchType == 'Wr' and bKeyword != null">
+			AND writer LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'M_id' and bKeyword != null">
+			AND movie_id LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		ORDER BY seq DESC
+		Limit #{startList}, #{listSize}
+	</select>
+	<select id="boardrecommendCnt" resultType="int">
+		<![CDATA[
+			select count(*) 
+			from review_board
+			where likes>9
+		]]>
+		<if test="searchType == 'TC' and bKeyword != null">
+			AND title LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'Wr' and bKeyword != null">
+			AND writer LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'M_id' and bKeyword != null">
+			AND movie_id LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+	</select>
+
 	<select id="boardListCnt" resultType="int">
 		<![CDATA[
 			select count(*) 
@@ -39,47 +80,62 @@
 		<if test="searchType == 'M_id' and bKeyword != null">
 			AND movie_id LIKE CONCAT ('%',#{bKeyword},'%')
 		</if>
-		
+
 	</select>
 
 	<insert id="board_insert" parameterType="boardVo">
 		<![CDATA[
-			 insert into review_board (title, writer, contents, movie_id)
-			 values (#{title}, #{writer}, #{contents}, #{movie_id})			 
+			 insert into review_board (title, writer, contents, movie_id, b_score)
+			 values (#{title}, #{writer}, #{contents}, #{movie_id}, #{b_score})			 
 		]]>
 	</insert>
-	
-	<select id="board_detail" parameterType="boardVo" resultType="boardVo">
+
+	<select id="board_detail" parameterType="boardVo"
+		resultType="boardVo">
 		<![CDATA[
-			select seq, title, writer, contents, regdate, movie_id
+
+			select seq, title, writer, contents, regdate, movie_id, b_score, cnt
 			from review_board  
 			where seq = #{seq}
 		]]>
 	</select>
-	
+
 	<update id="board_update" parameterType="boardVo">  
 	    <![CDATA[  
 	        update review_board set  
-	        title = #{title}, contents = #{contents}, movie_id = #{movie_id}
+	        title = #{title}, contents = #{contents}, movie_id = #{movie_id}, b_score = #{b_score}
 	        where  
 	        seq = #{seq}  
-		    ]]>  
+		    ]]>
 	</update>
-	
+
 	<update id="board_cntIncrease" parameterType="boardVo">  
 	    <![CDATA[  
 	        update review_board set  
 	        cnt = cnt + 1
 	        where  
 	        seq = #{seq}  
-		    ]]>  
+		    ]]>
 	</update>
-	
+
 	<delete id="board_delete" parameterType="boardVo">
 		<![CDATA[
 			delete from review_board
 			where seq = #{seq}
 		]]>
 	</delete>
-	
+
+	<select id="score-average" parameterType="int"
+		resultType="HashMap">
+		select sum(b_score) score, count(b_score) cnt from
+		review_board where movie_id=#{movieId};
+	</select>
+
+	<update id="like_update" parameterType="HashMap">  
+	    <![CDATA[  
+	        update review_board set  likes = #{likes}
+	        where seq = #{seq}  
+		    ]]>
+	</update>
+
 </mapper>

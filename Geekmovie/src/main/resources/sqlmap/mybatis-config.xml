@@ -5,22 +5,25 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.geekmovie.board.vo.BoardVo" alias="boardVo"/>
-		<!--<typeAlias type="com.geekmovie.board.like.vo.BoardVo" alias="boardLikeVo"/>-->
-		<!--<typeAlias type="com.geekmovie.board.vo.FreeVo" alias="freeVo"/>-->
+		<typeAlias type="com.geekmovie.board.vo.FreeVo" alias="freeVo"/>
+		<typeAlias type="com.geekmovie.board.vo.ReplyVo" alias="replyVo"/>
 		<typeAlias type="com.geekmovie.board.vo.PageVo" alias="pagination"/>
 	    <typeAlias type="com.geekmovie.user.vo.userVO" alias="userVO"/>
-	    
 		<typeAlias type="com.geekmovie.onelinereview.vo.OneLineReviewVo" alias="oneLineReviewVo"/>
 		<typeAlias type="com.geekmovie.onelinereview.vo.OneLineReviewLikeVo" alias="oneLineReviewLikeVo"/>
 		<typeAlias type="com.geekmovie.movie.vo.MovieLikeVo" alias="MovieLikeVo"/>
+		<typeAlias type="com.geekmovie.board.vo.FreeLikeVo" alias="FreeLikeVo"/>
+		<typeAlias type="com.geekmovie.board.like.vo.BoardLikeVo" alias="BoardLikeVo"/>		
 	</typeAliases>
 	<mappers>
         <mapper resource="/sqlmap/mapper/BoardVO-mapper.xml"/>
-        <!--<mapper resource="/sqlmap/mapper/BoardLikeVO-mapper.xml"/> -->
-        <!--<mapper resource="/sqlmap/mapper/Free-mapper.xml"/>-->
+        <mapper resource="/sqlmap/mapper/Free-mapper.xml"/>
+        <mapper resource="/sqlmap/mapper/ReplyVO-mapper.xml"/>
         <mapper resource="/sqlmap/mapper/userVO-mapper.xml"/>
         <mapper resource="/sqlmap/mapper/oneLineReviewVo-mapper.xml"/>
         <mapper resource="/sqlmap/mapper/oneLineReviewLikeVo-mapper.xml"/>
         <mapper resource="/sqlmap/mapper/movieLikeVo-mapper.xml"/>
+        <mapper resource="/sqlmap/mapper/FreeLikeVo-mapper.xml"/>
+        <mapper resource="/sqlmap/mapper/BoardLikeVO-mapper.xml"/>
     </mappers>
 </configuration>

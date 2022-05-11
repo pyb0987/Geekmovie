@@ -3,6 +3,7 @@ package com.geekmovie.movie;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -26,7 +27,7 @@ public class MovieLikeControllerApi {
 	MovieLikeService movieLikeService;
 	
 	@RequestMapping(value = "/Like/{movieId}", method = RequestMethod.GET)
-	public int oneLineReviewLikeGET(@PathVariable("movieId") int movieId,			//해당하는 유저의 좋아요가 있는지 판별
+	public int MovieLikeGET(@PathVariable("movieId") int movieId,			//해당하는 유저의 좋아요가 있는지 판별
 			@RequestParam String userId, 
 			@RequestParam int mode ) {		//#{userId}, #{mode}
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -38,9 +39,20 @@ public class MovieLikeControllerApi {
 	
 	@RequestMapping(value = "/Like/{movieId}", method = RequestMethod.POST)
 	@ResponseBody
-	public int oneLineReviewLikePOST(@RequestBody Map<String, Object> map, @PathVariable("movieId") int movieId) {		//좋아요 버튼 누르면 반영  #{userId}, #{mode}
+	public int MoiveLikePOST(@RequestBody Map<String, Object> map, @PathVariable("movieId") int movieId) {		//좋아요 버튼 누르면 반영  #{userId}, #{mode}
 		map.put("movieId", movieId);
 		return movieLikeService.Add(map);
+	}
+	
+	@RequestMapping(value = "/Like/User/{userId}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Map<String, Object>> UserMovieLikeGET(@RequestParam int mode,@RequestParam int start,@RequestParam int size, @PathVariable("userId") String userId) {		//좋아요 버튼 누르면 반영  #{userId}, #{mode}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("mode", mode);
+		map.put("userId", userId);
+		map.put("start", start);
+		map.put("size", size);
+		return movieLikeService.UserMovieLike(map);
 	}
 	
 }

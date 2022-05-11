@@ -13,16 +13,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.geekmovie.board.service.BoardReplyService;
 import com.geekmovie.board.service.BoardService;
 import com.geekmovie.board.vo.BoardVo;
 import com.geekmovie.board.vo.PageVo;
-import com.geekmovie.onelinereview.vo.OneLineReviewLikeVo;
+import com.geekmovie.board.vo.ReplyVo;
 
 @Controller
 public class BoardController {
 	
 	@Autowired
 	BoardService boardService;
+	
+	@Autowired
+	private BoardReplyService replyService;
 	
 	public BoardController() {
 		System.out.println("@BoardController 생성");
@@ -51,8 +55,8 @@ public class BoardController {
 		String sType = boardVo.getSearchType();
 		String kWord = boardVo.getbKeyword();
 		
-		mav.addObject("pagination", pagevo);
 		mav.addObject("data", list);
+		mav.addObject("pagination", pagevo);
 		mav.addObject("searchType",sType);
 		mav.addObject("keyword", kWord);
 		mav.addObject("curpage", curPage);
@@ -61,6 +65,36 @@ public class BoardController {
 		
 		return mav;
 	}
+	@RequestMapping("/boardRecommendList")          //게시판
+	public ModelAndView boardRecommend(BoardVo boardVo,	@RequestParam(required = false, defaultValue = "1") int curPage,
+			@RequestParam(required = false, defaultValue = "1") int range,
+			@RequestParam(required = false, defaultValue = "TC") String searchType,
+			@RequestParam(required = false, defaultValue = "") String bKeyword) {
+		
+		if(boardVo.getSearchType() == null) boardVo.setSearchType("TC");
+		
+		int listCnt = boardService.boardRecommendCnt(boardVo);
+		
+		ModelAndView mav = new ModelAndView();
+		PageVo pagevo = new PageVo();
+		pagevo.pageInfo(curPage, range, listCnt);
+		boardVo.setStartList(pagevo.getStartList());
+		boardVo.setListSize(pagevo.getListSize());
+		
+		List<BoardVo> list = boardService.boardRecommend(boardVo);
+		String sType = boardVo.getSearchType();
+		String kWord = boardVo.getbKeyword();
+		mav.addObject("pagination", pagevo);
+		mav.addObject("data", list);
+		mav.addObject("searchType",sType);
+		mav.addObject("keyword", kWord);
+		mav.addObject("curpage", curPage);
+		mav.addObject("range", range);
+		mav.setViewName("boardRecommendList");
+		
+		return mav;
+	}
+	
 	
 	@GetMapping("/boardCreate")
 	public String boardCreate(HttpSession session) {
@@ -88,7 +122,10 @@ public class BoardController {
 			@RequestParam(required = false, defaultValue = "1") int curPage,
 			@RequestParam(required = false, defaultValue = "1") int range,
 			@RequestParam(required = false, defaultValue = "TC") String searchType,
-			@RequestParam(required = false, defaultValue = "") String bKeyword) {
+			@RequestParam(required = false, defaultValue = "") String bKeyword,
+			@RequestParam(required = false, defaultValue = "false") String recommend,
+			@RequestParam("seq") int seq) {
+
 		System.out.println("board detail");
 		
 		boardService.bCnt(boardVo);
@@ -97,14 +134,17 @@ public class BoardController {
 		String sType = boardVo.getSearchType();
 		String kWord = boardVo.getbKeyword();
 		
+		List<ReplyVo> reply = replyService.rList(seq);
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("data", detail);
 		mav.addObject("searchType",sType);
 		mav.addObject("keyword", kWord);
 		mav.addObject("curpage", curPage);
 		mav.addObject("range", range);
+		mav.addObject("recommend", recommend);
+		mav.addObject("reply", reply);
 		mav.setViewName("boardDetail");
-		
 		return mav;
 	}
 	
@@ -154,5 +194,4 @@ public class BoardController {
 		}
 		return mav;
 	}
-	
 }

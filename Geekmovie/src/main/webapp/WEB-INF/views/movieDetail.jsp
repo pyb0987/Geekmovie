@@ -10,14 +10,14 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GeekMovie</title>
+<title>GeekMovieDetail</title>
 
 <link rel="stylesheet" href="${path}/resources/css/movieDetail.css?ver=1"/>
 <link rel="stylesheet" href="${path}/resources/css/movieSlide.css?ver=2"/>
 <link rel="stylesheet" href="${path}/resources/css/movieCast.css?"/>
 <link rel="stylesheet" href="${path}/resources/css/movieCrew.css?"/>
 
-<link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
 <link rel="stylesheet" href="${path}/resources/css/movieLike.css"/>
 
@@ -43,35 +43,147 @@ body {
 }
 
 
+
 .board-container{
 display : flex;
 flex-direction: column;
 width : 50%;
 padding : 30px;
+align-items: flex-start;
 }
 
 .board{
 width : 100%;
 height : 100%;
-background-color : white;
+border-top : solid 1px white;
+display : grid;
+flex-grow : 1;
+grid-template-rows : repeat(6, 1fr);
+}
+
+.seeMoreBoard{
+	font-size : 1.6rem;
+	display : inline-block;
+}
+
+.seeMoreBoardLink{
+	color : #f8efc5;
+	display : inline-block;
+	 white-space : nowrap;
+	 width : 0;
+	 overflow : hidden;
+	 transform : translateY(1.6rem);
+	 margin-left : 1rem;
+    transition : width 1s;
+    cursor:pointer;
+}
+.seeMoreBoard-container{
+	transform: translateX(20px);
+	display: inline-block;
+	}
+
+.seeMoreBoard-container:hover .seeMoreBoardLink{
+		 width : 6rem;	 
+}
+.user-container-title{
+	margin: 2.5rem 4rem;
+	display : flex;
+	justify-content: space-between;
+	flex-grow : 0;
+}
+.user-container-contents{
+	border-top : solid 1px white;
+	border-bottom : solid 1px white;
+}
+#user-movieLike-container, #user-movieAdd-container{
+	grid-column: 1 / span 2;
+}
+.user-container-content{
+	cursor : pointer;
+	display: flex;
+	align-items: center;
+	height: 80px;
+	flex-wrap: wrap;
+	border: solid 1px #333;
+}
+.user-container-content:hover{
+	background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(13,40,38,1) 50%, rgba(0,0,0,1) 100%);
+}
+
+.user-content-title{
+width: 80%;
+    margin-left: 3%; 
+}
+
+.user-content-title h5{font-size: 1.4rem;}
+.user-content-recommend{width : 17%;}
+.user-content-movie{width : 40%;margin-left: 4%; }
+.user-content-score{width : 34%;}
+.user-content-gendate{width : 22%;}
+.user-container-content div{display : inline-block;}
+.user-container-content h5{
+margin : 0;
+display : inline;
+}
+.user-content-title h5, .user-content-movie h5, .user-content-gendate h5, .user-content-recommend h5{
+	overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+	font-weight: 400;
+}
+
+
+.star-rating, .star-rating > * {
+    height: 1.7rem; 
+    background: url(${path}/resources/img/star.png);
+    background-size : 1.6rem auto;		/* 별점 너비는 1.6rem*/
+    background-position: 0 -1.7rem;
+    background-repeat: repeat-x; 
+    width: 8rem;
+    display: inline-block;
+}
+ 
+.star-rating > * {
+    background-position: 0 0;
+    max-width:8rem; 
 }
 
 .creditName{
 padding-left: 30px;
 }
+.seeMoreBoard{
+	font-size : 1.6rem;
+	display : inline-block;
+}
 
+.seeMoreBoardLink{
+	color : #f8efc5;
+	display : inline-block;
+	 white-space : nowrap;
+	 width : 0;
+	 overflow : hidden;
+	 transform : translateY(1.6rem);
+	 margin-left : 1rem;
+    transition : width 1s;
+    cursor:pointer;
+}
+.seeMoreBoard-container{
+	transform: translateX(20px);
+	display: inline-block;
+	}
+
+.seeMoreBoard-container:hover .seeMoreBoardLink{
+		 width : 6rem;	 
+}
 </style>
 
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/throttle.js"></script>
+	<script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
 	
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/fontResize.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieLike.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieSlide.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/movieListAjax.js?ver=2"></script>
+	<script type="text/javascript" src="${path}/resources/js/fontResize.js"></script>
+	<script type="text/javascript" src="${path}/resources/js/movieLike.js"></script>
+	<script type="text/javascript" src="${path}/resources/js/movieSlide.js"></script>
+	<script type="text/javascript" src="${path}/resources/js/movieListAjax.js?ver=2"></script>
 	
 <script>
 	$(document).ready(function() {
@@ -177,7 +289,24 @@ padding-left: 30px;
         		$("#scoreImdb .Score").html(data.vote_average);    //imdb 점수 표시
         		$(".detail-Click.clickBox").data("id", '${movieId}');
         	   	$(".detail-Click.clickBox").activeLikeMovie();
- 
+        	   	$.ajax({							//긱무비 내부점수 얻기	
+        	    	type: 'GET',
+        	    	url: `score?movieId=${movieId}`,
+        	    	traditional: true,
+        	    	dataType : 'json',
+        	    	success: function(data){
+        	    		if(data[1]>2){
+        	    		$("#scoreGeek .Score").html((data[0]/data[1]).toFixed(2)); 
+        	    		$("#scoreGeek .Score").attr('title',data[1].toFixed(0)+'명의 투표결과 입니다.')
+        	    		}else{
+        	    			$("#scoreGeek .Score").html("?");
+        	    			$("#scoreGeek .Score").attr('title','점수는 3개 이상의 리뷰가 있어야 공개됩니다.')
+        	    		}
+        	    	},
+        	    	error: function(request, status, error){
+        	        	console.log(request, status, error)
+        	        }
+        			}); 
         		return false;
         	}
         	,
@@ -263,13 +392,118 @@ padding-left: 30px;
         movieListAjax('similar-movie', `/movie/getSimilarMovieList?movieId=${movieId}&page=1&language=${language}`, `${language}`);				//getSimilarMovieList 출력
         movieListAjax('recommend-movie', `/movie/getRecommendMovieList?movieId=${movieId}&page=1&language=${language}`, `${language}`);				//getSimilarMovieList 출력
 
-                
+        $.ajax({							//한줄평 정보 받아오기
+			url: `oneLineReview/movie/${movieId}`,
+			dataType : 'json',
+			contentType : 'application/json', 
+			success: function(data){
+				console.log(data)
+		    	$(".oneLineReview .user-container-content").each(function(i, e){
+				if(!!data[i]){
+					$(e).data("olrid",data[i].oneLineReviewId);
+    			$(e).children(".user-content-title").html("<h5>"+data[i].comment+"</h5>");
+    			$(e).children(".user-content-recommend").html("<h5>"+"[+"+data[i].likes+"]"+"</h5>");
+    			$(e).children(".user-content-movie").html("<h5>"+data[i].movieId+"</h5>");
+    			$(e).children(".user-content-score").html("<span class='star-rating'></span>");
+    			$(e).find(".star-rating").data("score",data[i].score);
+    			var date = new Date(data[i].gendate);
+    			$(e).children(".user-content-gendate").html("<h5>"+date.toLocaleDateString()+"</h5>");
+    			}else{
+    				$(e).removeClass("user-container-content");
+    				}
+		    	})
+    			$('.oneLineReview .star-rating').generateStars();		//별점생성함수 호출
+    			movieData('oneLineReview');
+			},
+				error: function(request, status, error){
+					console.log(request, status, error)
+				}
+			})
 
+    	$.ajax({							//관련리뷰정보 받아오기
+			url: `/movie/boardList/movie/${movieId}`,
+			dataType : 'json',
+			contentType : 'application/json', 
+			success: function(data){
+		    	$(".userReview .user-container-content").each(function(i, e){
+				if(!!data[i]){
+	    			$(e).data("reviewId",data[i].seq);
+	    			$(e).children(".user-content-movie").data("movieId", data[i].movie_id);
+	    			$(e).children(".user-content-title").html("<h5>"+data[i].title+"</h5>");
+	    			$(e).children(".user-content-recommend").html("<h5>"+"[+"+data[i].likes+"]"+"</h5>");
+	    			$(e).children(".user-content-movie").html("<h5>"+data[i].movie_id+"</h5>");
+	    			$(e).children(".user-content-score").html("<span class='star-rating'></span>");
+	    			$(e).find(".star-rating").data("score",data[i].b_score);
+	    			var date = new Date(data[i].regdate);
+	    			$(e).children(".user-content-gendate").html("<h5>"+date.toLocaleDateString()+"</h5>");
+	    			}else{
+	    				$(e).removeClass("user-container-content");
+	    			}
+			});
+    			$('.userReview .star-rating').generateStars();		//별점생성함수 호출
+    			movieData('userReview');
+		    	
+			}
+		,
+		error: function(request, status, error){
+			console.log(request, status, error)
+		}
+	})
+			$(document).on("click", ".userReview .user-container-content", function(e){			//리뷰 링크 연결
+		let seq = $(e.currentTarget).data("reviewId");
+		if(!!seq){
+			location.href = '/movie/boardDetail?seq='+seq+'&searchType=Wr&bKeyword=&curPage=1&range=1';
+		   
+		}
+	})
+		$(document).on("click", ".oneLineReview .user-container-content", function(e){			//한줄평 링크 연결
+		let olrId = $(e.currentTarget).data("olrid");
+		if(!!olrId){
+			$.ajax({							
+		    	type: 'GET',
+		    	url: `oneLineReview/page/`+olrId,
+		    	dataType : 'text',
+		    	success: function(data){
+				location.href = '/movie/oneLineReview?page='+data+'&language=${language}&focus='+olrId;
+		    	},
+		    	error: function(request, status, error){
+		        	console.log(request, status, error)
+		        }
+				});
+		}
+	})
 	
 	
-        
+	var starSize=1.6;
+    	$.fn.generateStars = function() {			//별점생성함수 - 크기는 1.6rem
+        	return this.each(function(i,e){
+        		let score = $(e).data("score")
+        		$(e).html($('<span/>').width(score*starSize/2+'rem'));
+      			$(e)[0].dataset.score = score;
+        	});
+        	}	
+    	function movieData(containerClass){			//movieId로부터 영화제목 가져오기
+    		$("."+containerClass+" .user-content-movie h5").each(function(i, e){
+    			var movieId = $(e).html()
+    			$.ajax({	
+    	        	type: 'GET',
+    	        	url: `/movie/getMovieData?movieId=`+movieId+`&language=${language}`,
+    	        	dataType : 'json',
+    	        	contentType : 'application/json', 
+    	        	success: function(data){
+    	        			$(e).html(data.title);	
+    	        	}
+    	        
+    	        	,
+    	        	error: function(request, status, error){
+    	        		console.log(request, status, error)
+    	        	}
+    	        })
+    		
+    		})
+    		}   
  
-        
+ 
 		
 		
 
@@ -315,7 +549,7 @@ padding-left: 30px;
 				<div id="detail-vote">
 					<div id="scoreGeek">
 						<div class="siteName">GeekScore</div>
-						<div class="Score">7.5</div>
+						<div class="Score"></div>
 					</div>
 					<div id="scoreImdb">
 						<div class="siteName">IMDB</div>
@@ -343,13 +577,29 @@ padding-left: 30px;
 		</div>
 	</div>
 	<div id="userSpace">
+
 	<div class="board-container">
-	<h3>게시판</h3>
-	<div class="board"><div>게시판이 들어갈 곳</div></div>
+	<div class="seeMoreBoard-container"><h3 class="seeMoreBoard">한줄평</h3><h5 class="seeMoreBoardLink" OnClick="location.href ='boardList?SearchType=M_id&bKeyword=${movieId}&page=1'">더 보기 >></h5></div>
+
+	<div class="board oneLineReview">
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-movie"></div><div class="user-content-score"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-movie"></div><div class="user-content-score"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-movie"></div><div class="user-content-score"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-movie"></div><div class="user-content-score"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-movie"></div><div class="user-content-score"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-movie"></div><div class="user-content-score"></div><div class="user-content-gendate"></div></div>		
+	</div>
 	</div>
 	<div class="board-container">
-	<h3>영화리뷰</h3>
-	<div class="board"><div>리뷰가 들어갈 곳</div></div>
+	<div class="seeMoreBoard-container"><h3 class="seeMoreBoard">관련된 리뷰</h3><h5 class="seeMoreBoardLink" OnClick="location.href ='boardRecommendList'">더 보기 >></h5></div>
+	<div class="board userReview">
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-movie"></div><div class="user-content-score"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-movie"></div><div class="user-content-score"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-movie"></div><div class="user-content-score"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-movie"></div><div class="user-content-score"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-movie"></div><div class="user-content-score"></div><div class="user-content-gendate"></div></div>
+	<div class="user-container-content"><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-movie"></div><div class="user-content-score"></div><div class="user-content-gendate"></div></div>		
+	</div>
 	</div>
 	</div>
 	
@@ -411,6 +661,8 @@ padding-left: 30px;
 	</div>
 
 
-
+<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="ko-KR"/>  
+</jsp:include>  
 </body>
 </html>

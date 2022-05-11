@@ -1,65 +1,61 @@
 package com.geekmovie.board.like.vo;
 
 public class BoardLikeVo {
-	// 좋아요 번호 
-	private String likeno;
-	// 게시판 seq
-	private int boardno;
-	// users id
-	private String mno;
-	// 좋아요 체크
-	private String like_check;
+	
+	private String userId;
+	private int likeCheck;
+	private int mod;
+	private int seq;
 	
 	public BoardLikeVo() {
 		
 	}
 
-	public BoardLikeVo(String likeno, int boardno, String mno, String like_check) {
+	public BoardLikeVo(String userId, int likeCheck, int mod, int seq) {
 		super();
-		this.likeno = likeno;
-		this.boardno = boardno;
-		this.mno = mno;
-		this.like_check = like_check;
+		this.userId = userId;
+		this.likeCheck = likeCheck;
+		this.mod = mod;
+		this.seq = seq;
 	}
 
-	public String getLikeno() {
-		return likeno;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setLikeno(String likeno) {
-		this.likeno = likeno;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public int getBoardno() {
-		return boardno;
+	public int getLikeCheck() {
+		return likeCheck;
 	}
 
-	public void setBoardno(int boardno) {
-		this.boardno = boardno;
+	public void setLikeCheck(int likeCheck) {
+		this.likeCheck = likeCheck;
 	}
 
-	public String getMno() {
-		return mno;
+	public int getMod() {
+		return mod;
 	}
 
-	public void setMno(String mno) {
-		this.mno = mno;
+	public void setMod(int mod) {
+		this.mod = mod;
 	}
 
-	public String getLike_check() {
-		return like_check;
+	public int getSeq() {
+		return seq;
 	}
 
-	public void setLike_check(String like_check) {
-		this.like_check = like_check;
+	public void setSeq(int seq) {
+		this.seq = seq;
 	}
 
 	@Override
 	public String toString() {
-		return "BoardLikeVo [likeno=" + likeno + ", boardno=" + boardno + ", mno=" + mno + ", like_check=" + like_check
-				+ "]";
+		return "BoardLikeVo [userId=" + userId + ", likeCheck=" + likeCheck + ", mod=" + mod + ", seq=" + seq + "]";
 	}
-
+	
 	
 	
 }

@@ -1,29 +1,21 @@
 package com.geekmovie.onelinereview.vo;
 
 public class OneLineReviewLikeVo {
-	// pk값
-	private int userId;
-	
-	// 게시글 번호
+	private String userId;
 	private int oneLineReviewId;
-	
-	// 좋아요
 	private int mode;
-	
 	public OneLineReviewLikeVo() {
-		
 	}
-	
-	public OneLineReviewLikeVo(int userId, int oneLineReviewId, int mode) {
+	public OneLineReviewLikeVo(String userId, int oneLineReviewId, int mode) {
 		super();
 		this.userId = userId;
 		this.oneLineReviewId = oneLineReviewId;
 		this.mode = mode;
 	}
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public int getOneLineReviewId() {
@@ -43,7 +35,6 @@ public class OneLineReviewLikeVo {
 		return "OneLineReviewLikeVo [userId=" + userId + ", oneLineReviewId=" + oneLineReviewId + ", mode=" + mode
 				+ "]";
 	}
-	
 	
 	
 }

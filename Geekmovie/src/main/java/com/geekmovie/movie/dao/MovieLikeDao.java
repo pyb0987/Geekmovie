@@ -1,5 +1,6 @@
 package com.geekmovie.movie.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -25,6 +26,10 @@ public class MovieLikeDao {
 	
 	public int CountMovieLike(Map<String, Object> map){
 		return sqlSessionTemplate.selectOne("MovieLikeVo.CountMovieLike", map);
+	}
+	
+	public List<Map<String, Object>> UserMovieLike(Map<String, Object> map){
+		return sqlSessionTemplate.selectList("MovieLikeVo.UserMovieLike", map);
 	}
 	
 

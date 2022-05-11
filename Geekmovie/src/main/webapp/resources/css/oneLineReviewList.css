@@ -9,6 +9,7 @@
     flex-direction: column;
     margin : 0 auto;
     margin-bottom : 30px;
+    padding-top: 50px;
 }
 .oneLineReviewOuterContainer{
 	display: flex;
@@ -35,7 +36,9 @@
 .oneLineReview-Title h3, .oneLineReview-Score h3, .oneLineReview-userId h5, .oneLineReview-gendate h6{
 	margin-top : 1rem;
 	margin-bottom: 0.7rem;
-
+}
+.oneLineReview-gendate h6{
+		font-weight: 500;
 }
 .oneLineReview-Title h3{
 	display : inline-block;
@@ -87,6 +90,8 @@
 }
 .oneLineReview-quoteInside{
 	margin-bottom: 0;
+	font-weight: 500;
+
 }
 
 .oneLineReview-userId{
@@ -148,4 +153,5 @@
 	height: 50%;
 	object-fit: contain;
 }
+
 

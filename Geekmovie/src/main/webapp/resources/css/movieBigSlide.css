@@ -78,6 +78,8 @@ align-items: center;
  	 flex-grow : 0;
  	 transform: translateX(-3rem);
  	  cursor: pointer;  
+ 	      white-space: nowrap;
+ 	  
 }
 .bigMovieLink:hover{
  	 color : #999;

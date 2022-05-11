@@ -2,6 +2,7 @@ package com.geekmovie.onelinereview.service;
 
 
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class OneLineReviewLikeServiceImpl implements OneLineReviewLikeService{
 		return oneLineReviewLikeDao.Add(map);
 	}
 	
-
+	public int CountUserLike(Map<String, Object> map) {
+		return oneLineReviewLikeDao.CountUserLike(map);
+	}
 
 }

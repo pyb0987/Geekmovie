@@ -1,13 +1,13 @@
 package com.geekmovie.board.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.geekmovie.board.vo.BoardVo;
-import com.geekmovie.onelinereview.vo.OneLineReviewLikeVo;
 
 @Repository
 public class BoardDao {
@@ -46,8 +46,19 @@ public class BoardDao {
 	public int boardDelete(BoardVo boardvo) {
 		return sqlSessionTemplate.delete("boardVo.board_delete", boardvo);
 	}
+
+	public List<BoardVo> boardRecommend(BoardVo boardvo) {
+		return sqlSessionTemplate.selectList("boardVo.board_recommend", boardvo);
+	}
+	public int boardRecommendCnt(BoardVo boardvo) {
+		return sqlSessionTemplate.selectOne("boardVo.boardrecommendCnt", boardvo);
+	}
 	
-	public OneLineReviewLikeVo findHeart(BoardVo boardVo) {
-		return sqlSessionTemplate.selectOne("boardVo.board_findheart",boardVo);
+	public Map<String, Object> AverageScore(int movieId) {
+		return sqlSessionTemplate.selectOne("boardVo.score-average", movieId);
+	}
+
+	public int likeUpdate(Map<String, Object> map) {
+		return sqlSessionTemplate.update("boardVo.like_update",map);
 	}
 }

@@ -54,4 +54,27 @@ public class OneLineReviewDao {
 	public String SelectAny(Map<String, Object> map) {		//#{oneLineReviewId}의 아무거나(#{query}) 가져감
 		return sqlSessionTemplate.selectOne("oneLineReviewVo.SelectAny", map);
 	};
+	
+	public List<OneLineReviewVo> SelectUser(String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		List<OneLineReviewVo> list = sqlSessionTemplate.selectList("oneLineReviewVo.SelectUser", map);	
+		return list;
+	}
+	
+	public int GetPage(int oneLineReviewId) {
+		return 	sqlSessionTemplate.selectOne("oneLineReviewVo.GetPage", oneLineReviewId);	
+	}
+	
+	public List<OneLineReviewVo> UserLike(Map<String, Object> map) {
+		return 	sqlSessionTemplate.selectList("oneLineReviewVo.UserLike", map);	
+	}
+	
+	public List<OneLineReviewVo> SelectMovie(Map<String, Object> map) {
+		return 	sqlSessionTemplate.selectList("oneLineReviewVo.SelectMovie", map);	
+	}
+
+	public Map<String, Object> AverageScore(int movieId) {
+		return sqlSessionTemplate.selectOne("oneLineReviewVo.score-average", movieId);
+	}
 }

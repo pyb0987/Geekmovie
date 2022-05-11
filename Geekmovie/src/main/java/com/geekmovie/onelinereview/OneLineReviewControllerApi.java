@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,5 +58,37 @@ public class OneLineReviewControllerApi {
 		return 	oneLineReviewService.Update(map);
 	}
 
+	@RequestMapping(value = "/oneLineReview/user/{userId}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<OneLineReviewVo> oneLineReviewUserGET( @PathVariable("userId") String userId) {
+		List<OneLineReviewVo> list = oneLineReviewService.SelectUser(userId);
+		return list; 
+	}
 	
+	@RequestMapping(value = "/oneLineReview/page/{olrId}", method = RequestMethod.GET)
+	@ResponseBody
+	public int oneLineReviewUserGET( @PathVariable("olrId") int olrId) {
+		return oneLineReviewService.GetPage(olrId);
+	}
+	
+
+	@RequestMapping(value = "/oneLineReview/user/{userId}/like", method = RequestMethod.GET)
+	@ResponseBody
+	public List<OneLineReviewVo> oneLineReviewUserGET(HttpServletRequest request, @PathVariable("userId") String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("nowPageStart", Integer.parseInt(request.getParameter("nowPageStart")));
+		map.put("Size", Integer.parseInt(request.getParameter("Size")));
+		return oneLineReviewService.UserLike(map);
+	}
+	
+	@RequestMapping(value = "/oneLineReview/movie/{movieId}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<OneLineReviewVo> oneLineReviewMovieGET(@PathVariable("movieId") String movieId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("movieId", movieId);
+		map.put("nowPageStart", 0);
+		map.put("Size", 6);
+		return oneLineReviewService.SelectMovie(map);
+	}
 }

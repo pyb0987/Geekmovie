@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.geekmovie.onelinereview.vo.OneLineReviewVo"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -9,6 +10,9 @@
 <% 
 List<OneLineReviewVo> oneLineReviewList = (List<OneLineReviewVo>)request.getAttribute("data");
 String UserId = (String)session.getAttribute("id");
+
+String SearchMode = (String)request.getAttribute("SearchMode");
+String query = (String)request.getAttribute("query");
 %>   
 <!DOCTYPE html>
 <html>
@@ -19,7 +23,7 @@ String UserId = (String)session.getAttribute("id");
 <script type="text/javascript" src="${path}/resources/js/debounce.js"></script>
 <script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
 <script type="text/javascript" src="${path}/resources/js/fontResize.js"></script>
-<script type="text/javascript" src="${path}/resources/js/InputSearch.js?ver=1"></script>
+<script type="text/javascript" src="${path}/resources/js/InputSearch.js?ver=2"></script>
 
 
 <script>
@@ -415,8 +419,14 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
         })
 	
 	})
+	
+	if('${focus}'!=''){			//포커스가 있으면 거기로 이동
+		document.querySelector("[data-olrId='${focus}']").scrollIntoView()
+	}
 
 });
+
+
 
 </script>
 
@@ -427,7 +437,7 @@ function oneLineReviewMakePagination(pageFirst,pageLast, pageNow, pageNum, searc
 <link rel="stylesheet" href="${path}/resources/css/oneLineReviewSearch.css?ver=2"/>
 <link rel="stylesheet" href="${path}/resources/css/globalModal.css?ver=1"/>
 
-<link	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">  <!-- 글꼴설정 -->
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
 
 
@@ -496,13 +506,13 @@ span.star-rating > * {
 /*한줄평 입력 텍스트*/
 
 #quote-input{
-	font-family: 'NanumSquareRoundBold';
+	font-family: 'Nanum Gothic', sans-serif;
 	width : 100%;
 	font-size : 1rem;
 	
 }
 #olrCreate-Title{
-	font-family: 'NanumSquareRoundBold';
+	font-family: 'Nanum Gothic', sans-serif;
     border: none;
     width : 100%;
     height: 2.4rem;
@@ -554,6 +564,26 @@ z-index : 2;
 
 }
 
+#head{
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 50px;
+        display: flex;
+       flex-direction: column;
+}
+#writeButton{
+    border-top: solid 3px red;
+    text-align: end;
+    
+}
+#oneLineReviewCreate{
+cursor : pointer;
+display : inline-block;
+}
+#oneLineReviewCreate:hover{
+	color : #999;
+}
 
 </style>
 </head>
@@ -564,8 +594,14 @@ z-index : 2;
 <jsp:param name="language" value="${language}"/>  
 </jsp:include>  
 
-
-	<h1>한줄평</h1><h3 id="oneLineReviewCreate">쓰기</h3>
+	<div id="head">
+	<div id="title">
+	<h1>한줄평</h1>
+	</div>
+	<div id="writeButton">
+	<h3 id="oneLineReviewCreate">새로 쓰기</h3>
+	</div>
+	</div>
 
 	<div id="oneLineReviewsContainer">
 	<%
@@ -582,8 +618,10 @@ z-index : 2;
 			<div class="oneLineReview-quote"><h5 class="oneLineReview-quoteInside"><%=oneLineReview.getComment() %></h5>
 			<div class="oneLineReview-userId"><h5>- <span class="userId"><%=oneLineReview.getUserId() %></span> -</h5></div>
 			</div>
-
-			<div class="oneLineReview-gendate"><h6>작성 : <%=oneLineReview.getGendate() %></h6><% if (oneLineReview.getModdate()!=null){ %><h6>수정 : <%=oneLineReview.getModdate() %><% }%> &nbsp;</h6></div>
+<% String formattedgenDate = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(oneLineReview.getGendate()); %>
+			<div class="oneLineReview-gendate"><h6>작성 : <%=formattedgenDate %></h6><% if (oneLineReview.getModdate()!=null){ 
+				String formattedmodDate = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(oneLineReview.getModdate());
+			%><h6>수정 : <%=formattedmodDate %><% }%> &nbsp;</h6></div>
 			<div class="like-dislike">
 				<div class="like-button like-dislike-button"><span class="like-button-span like-dislike-button-span" data-olrId='<%=oneLineReview.getOneLineReviewId() %>'><%=oneLineReview.getLikes() %></span><img class="like-icon" src="${path}/resources/img/like.png"></div>
 				<div class="dislike-button like-dislike-button"><span class="dislike-button-span like-dislike-button-span" data-olrId='<%=oneLineReview.getOneLineReviewId() %>'><%=oneLineReview.getDislikes() %></span><img class="dislike-icon" src="${path}/resources/img/dislike.png"></div>
@@ -608,12 +646,12 @@ z-index : 2;
 				<div id="oneLineReviewSearchbox">
 	<form method="get" name="oneLineReviewSearch" id="oneLineReviewSearch" accept-charset="utf-8">
 		<select name="searchMode" id="oneLineReviewSearchMode">
-							<option value="movie">영화제목</option>
-							<option value="keyword">내용</option>
-							<option value="author">작성자</option>
+							<option value="movie" <% if (SearchMode!=null && SearchMode.equals("movie")){ %>selected <% } %>>영화제목</option>
+							<option value="keyword" <% if (SearchMode!=null && SearchMode.equals("keyword")){ %>selected <% } %>>내용</option>
+							<option value="author" <% if (SearchMode!=null && SearchMode.equals("author")){ %>selected <% } %>>작성자</option>
 						</select> 
 						<div id="oneLineReviewInputbox-container">  
-						<input type="text" id="oneLineReviewInputbox" name="query" autocomplete='off' maxlength=50 placeholder="검색할 키워드를 입력하세요">
+						<input type="text" id="oneLineReviewInputbox" name="query" autocomplete='off' maxlength=50 placeholder="검색할 키워드를 입력하세요" <% if (query!=null && SearchMode!=null && !SearchMode.equals("movie")){ %>value="<%=query %>" <% } %>>
 						<input type="hidden" id="oneLineReviewInputboxMovieId" name="movieId" value="">
 						<input type="hidden" name="language" value="${language}">
 						<input type="hidden" name="page" value="1">
@@ -645,7 +683,9 @@ z-index : 2;
 		</div>
 	</div>
 	
-
+<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="ko-KR"/>  
+</jsp:include>  
 
 </body>
 </html>
