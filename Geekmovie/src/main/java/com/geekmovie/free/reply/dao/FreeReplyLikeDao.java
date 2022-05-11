@@ -27,4 +27,9 @@ public class FreeReplyLikeDao {
 	public int CountUserLike(Map<String, Object> map) {
 		return sqlSessionTemplate.selectOne("FreeReplyLikeVo.CountUserLike",map);
 	}		//#{userId} #{mode}
+	
+	public int delete(int freereplyId) {
+		return sqlSessionTemplate.delete("FreeReplyLikeVo.deletefree",freereplyId);
+	}	
+
 }

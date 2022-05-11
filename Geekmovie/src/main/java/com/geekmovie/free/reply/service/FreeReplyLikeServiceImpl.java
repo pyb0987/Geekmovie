@@ -29,4 +29,8 @@ public class FreeReplyLikeServiceImpl implements FreeReplyLikeService{
 	public int CountUserLike(Map<String, Object> map) {
 		return freeReplyLikeDao.CountUserLike(map);
 	}
+	
+	public int delete(int freereplyId) {
+		return freeReplyLikeDao.delete(freereplyId);
+	}
 }

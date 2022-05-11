@@ -22,4 +22,10 @@ public interface FreeReplyService {
 	public int delete(int replyId);
 	
 	public int update(FreeReplyVo freeReplyVo);
+	
+	public List<FreeReplyVo> UserReplyLike(Map<String, Object> map);
+	
+	public List<FreeReplyVo> UserReply(Map<String, Object> map);
+	
+	public int ReplyShow(Map<String, Object> map);
 }

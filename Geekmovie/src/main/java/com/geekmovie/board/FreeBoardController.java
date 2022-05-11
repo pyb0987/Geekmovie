@@ -109,7 +109,8 @@ public class FreeBoardController {
 			@RequestParam(required = false, defaultValue = "1") int curPage,
 			@RequestParam(required = false, defaultValue = "1") int range,
 			@RequestParam(required = false, defaultValue = "TC") String searchType,
-			@RequestParam(required = false, defaultValue = "") String bKeyword) {
+			@RequestParam(required = false, defaultValue = "") String bKeyword,
+			@RequestParam(required = false, defaultValue = "") String focus) {
 		System.out.println("FBD");
 		
 		fBoardService.fCnt(freeVo);
@@ -125,6 +126,7 @@ public class FreeBoardController {
 		mav.addObject("keyword", kWord);
 		mav.addObject("curpage", curPage);
 		mav.addObject("range", range);
+		mav.addObject("focus", focus);
 		mav.setViewName("freeboardDetail");
 		
 		return mav;

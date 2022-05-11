@@ -46,16 +46,13 @@ section{
 }
 
 .user-container-contents{
-	border-top : solid 1px white;
+	border-top : double 4px white;
 	display : grid;
 	flex-grow : 1;
 	grid-template-rows : repeat(10, 1fr);
 }
 
-.user-container-contents{
-	border-top : solid 1px white;
-	border-bottom : solid 1px white;
-}
+
 #user-movieLike-container, #user-movieAdd-container{
 	grid-column: 1 / span 2;
 }
@@ -164,8 +161,22 @@ color : black;
 .user-content-gendate{
 	width : 17%;
 }
+.user-content-replycontent{
+	margin-left : 2%;
+	width : 57%;
+}
+.user-content-replyrecommend{
+	width : 18%;
+}
+.user-content-freereplydate{
+	width : 23%;
+}
+
+
+
 .user-content-title h5, .user-content-movie h5, .user-content-gendate h5, .user-content-recommend h5, 
-.user-content-freetitle h5, .user-content-freemovie h5, .user-content-freerecommend h5{
+.user-content-freetitle h5, .user-content-freemovie h5, .user-content-freerecommend h5,
+.user-content-replycontent h5, .user-content-replyrecommend h5, .user-content-freereplydate h5{
 
 	overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 	font-weight: 400;
