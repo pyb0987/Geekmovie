@@ -42,6 +42,15 @@ function deleteCheck(){
 	}
 };
 
+function modifyCheck(){
+	if('${sessionScope.id}'!='${data.writer}'){
+		var result = confirm("작성자만 이용하실 수 있습니다.");
+		if(result){
+		}
+	}else{
+		location.href = 'freeboardUpdate?seq=${data.seq}';
+	}
+};
 
 window.onload = function(){	
 	
@@ -897,7 +906,7 @@ margin : 20px auto;
 				if (id != null && id.equals(wr)) {
 				%>
 				<div class="BoardColored writer">
-					<button id="f_modify">
+					<button id="f_modify" onclick=" modifyCheck();">
 						<h5>게시글 수정</h5>
 					</button>
 				</div>
