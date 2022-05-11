@@ -39,7 +39,6 @@ public class BoardController {
 			@RequestParam(required = false, defaultValue = "TC") String searchType,
 			@RequestParam(required = false, defaultValue = "") String bKeyword) {
 		System.out.println("board List");
-		
 		if(boardVo.getSearchType() == null) boardVo.setSearchType("TC");
 		
 		int listCnt = boardService.boardListCnt(boardVo);

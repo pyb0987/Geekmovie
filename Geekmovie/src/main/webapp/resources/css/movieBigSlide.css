@@ -69,6 +69,7 @@ align-items: center;
  	flex-grow : 1;
  	transform: translateX(4rem) translateY(-9rem);
  	line-height : 8rem;
+ 	min-width: 100px;
 }
 
 .bigMovieLink{

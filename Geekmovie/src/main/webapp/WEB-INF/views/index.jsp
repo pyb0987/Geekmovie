@@ -189,14 +189,23 @@ display : inline;
 			
 			bmc.adjust();
 			movieContainerResize()			//movieSlide.js
-
+			
+			if(window.innerWidth>900){   //폰트 리사이징
+				$(".bigMovieTitle").css("fontSize", "7rem").css("line-height", "8rem")
+			}else if(window.innerWidth>750){
+				$(".bigMovieTitle").css("fontSize", "6rem").css("line-height", "7rem")
+			}else if(window.innerWidth>550){
+				$(".bigMovieTitle").css("fontSize", "5rem").css("line-height", "6rem")
+			}else if(window.innerWidth>350){
+				$(".bigMovieTitle").css("fontSize", "3rem").css("line-height", "5rem")
+			}
 			
 		}
 		windowResize();
 
 		window.addEventListener('resize', throttle(function() {
 			windowResize();
-			  }, 100), true);										//윈도우 사이즈 변경때마다 리사이징 실행 - throttle
+			  }, 200), true);										//윈도우 사이즈 변경때마다 리사이징 실행 - throttle
 
 			  
 		movieLike('${sessionScope.id}');	//영화좋아요/add 적용 
