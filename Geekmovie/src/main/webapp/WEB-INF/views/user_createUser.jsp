@@ -27,14 +27,14 @@
 
 				<!-- password 적용 -->
 				<div>
-					<input type="text" name="password" id="password"
+					<input type="password" name="password" id="password"
 						placeholder="Password"> <span class="error_next_box"
 						id="passwordError"></span>
 				</div>
 
 				<!-- passwordCheck 적용 -->
 				<div>
-					<input type="text" name="passwordCheck" id="passwordCheck"
+					<input type="password" name="passwordCheck" id="passwordCheck"
 						placeholder="Password Check"> <span class="error_next_box"
 						id="passwordCheckError"></span>
 				</div>
@@ -92,7 +92,7 @@
 					<input type="submit" value="Sign Up" class="signup_btn">
 				</p>
 				<p class="pre_btn">
-					Are you join? <a href="join">Login.</a>
+					Are you a member? <a href="join">Login.</a>
 				</p>
 			</form>
 		</div>

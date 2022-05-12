@@ -105,7 +105,7 @@ grid-template-rows : repeat(6, 1fr);
 	align-items: center;
 	height: 80px;
 	flex-wrap: wrap;
-	border: solid 1px #333;
+	border-bottom: solid 1px #999;
 }
 .user-container-content:hover{
 	background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(13,40,38,1) 50%, rgba(0,0,0,1) 100%);
@@ -205,7 +205,9 @@ display : inline;
 
 		window.addEventListener('resize', throttle(function() {
 			windowResize();
+
 			  }, 200), true);										//윈도우 사이즈 변경때마다 리사이징 실행 - throttle
+
 
 			  
 		movieLike('${sessionScope.id}');	//영화좋아요/add 적용 

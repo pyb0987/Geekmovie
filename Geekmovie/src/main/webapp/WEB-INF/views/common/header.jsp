@@ -86,7 +86,7 @@
 #searchbox{
 	display: flex;
     width : 70%;
-    min-width : 340px;
+    min-width : 280px;
 	max-width : 650px;
     margin : auto;
     height: 40px;

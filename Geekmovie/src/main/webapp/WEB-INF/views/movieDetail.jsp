@@ -113,9 +113,11 @@ grid-template-rows : repeat(6, 1fr);
 .user-content-title{
 width: 80%;
     margin-left: 3%; 
+    
 }
 
-.user-content-title h5{font-size: 1.4rem;}
+.user-content-title h5{font-size: 1.4rem;
+width: calc((50vw - 60px) * 0.8);}
 .user-content-recommend{width : 17%;}
 .user-content-movie{width : 40%;margin-left: 4%; }
 .user-content-score{width : 34%;}
@@ -123,7 +125,6 @@ width: 80%;
 .user-container-content div{display : inline-block;}
 .user-container-content h5{
 margin : 0;
-display : inline;
 }
 .user-content-title h5, .user-content-movie h5, .user-content-gendate h5, .user-content-recommend h5{
 	overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
