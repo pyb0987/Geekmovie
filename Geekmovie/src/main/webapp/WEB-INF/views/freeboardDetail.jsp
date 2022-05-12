@@ -42,6 +42,15 @@ function deleteCheck(){
 	}
 };
 
+function modifyCheck(){
+	if('${sessionScope.id}'!='${data.writer}'){
+		var result = confirm("작성자만 이용하실 수 있습니다.");
+		if(result){
+		}
+	}else{
+		location.href = 'freeboardUpdate?seq=${data.seq}';
+	}
+};
 
 window.onload = function(){	
 	
@@ -176,6 +185,25 @@ $(document).on("click", ".like-button, .dislike-button", function(e){		//좋아�
  
  // ======================댓글기능
  var PageNow = 1;
+ var InPageReply = 0;
+ var FirstLoad = false;
+if('${focus}'!=''){//포커스 이동
+	$.ajax({
+		 url: 'freeboard/reply/find/${data.seq}?replyId=${focus}',
+		method: "GET",
+		async: false,
+        success: function(data){
+        	console.log('${data.seq} ${focus}')
+        	console.log(data)
+        	PageNow = parseInt((data+19)/20)
+        	InPageReply = (data+19)%20
+       	},
+       	error: function(request, status, error){
+        	console.log(request, status, error)
+       	}
+      });
+	
+}
 
 $(document).on("click", ".pagination a", function(e){		//페이징 버튼 누를때 이벤트
 	var button = e.currentTarget;
@@ -225,14 +253,14 @@ function refreshReply(pageNow){				//댓글 로드(refresh)
     			   var stylestr = 'style="background-color: #fafafa; border-left: solid 4.2px #777; margin-left : '+(20*(reply.depth))+'px"'
     		   }
     		    
-    		   str += '<div class="comment-container"'+stylestr +' data-replyId="'+reply.replyId+'" data-ancesterid="'+reply.ancestorId+'" data-depth="'+reply.depth+'" data-orderserial="'+reply.orderserial+'">';
     		   if(reply.deleted=="Y"){
-    			   str += '삭제된 댓글입니다.</div>'
+    		   str += '<div class="comment-container deleted-container"'+stylestr +' data-replyId="'+reply.replyId+'" data-ancesterid="'+reply.ancestorId+'" data-depth="'+reply.depth+'" data-orderserial="'+reply.orderserial+'">';
+    			  str += '삭제된 댓글입니다.</div>'
     		   }else{
     			let date = new Date(reply.create_date) 
     			var functionstr = '';
     			if('${sessionScope.id}'==reply.writer){functionstr = '<div class="update-button comment-function"><span>수정</span></div><div class="delete-button comment-function"><span>삭제</span></div>';}
-    			
+     		   str += '<div class="comment-container"'+stylestr +' data-replyId="'+reply.replyId+'" data-ancesterid="'+reply.ancestorId+'" data-depth="'+reply.depth+'" data-orderserial="'+reply.orderserial+'">';
     		   str += '<div class="comment-id">'+reply.writer+'</div><div class="comment-content">'+reply.content+'</div><div class="comment-like"><span class="like-button-span like-dislike-button-span">'
     		   str += reply.likes+'</span><img class="like-icon" src="${path}/resources/img/like.png"></div><div class="comment-pack"><div class="comment-gendate">'
     		   str += date.toLocaleString('ko-KR')+'</div>'+functionstr+'</div></div>'
@@ -244,6 +272,12 @@ function refreshReply(pageNow){				//댓글 로드(refresh)
     	   makePagination(data.endPage, pageNow);
     		if('${sessionScope.id}'!=''){
     			$(".comment-container .comment-like").activeReplyLikeButtons();
+    		}
+    		
+    		if('${focus}'!='' && !FirstLoad){
+    			 FirstLoad = true;
+    			 document.querySelectorAll(".comment-container")[InPageReply].scrollIntoView();
+    			 
     		}
 	 },
 	error: function(request, status, error){
@@ -324,11 +358,61 @@ $(document).on("click", ".comment-function.delete-button", function(e){		//삭�
 		          });
 		        };
 		 });
+$(document).on("click", ".comment-function.update-button", function(e){		//수정 버튼 누를때 이벤트
+	var container = e.currentTarget.parentElement.parentElement;
+	var containerHtml = container.innerHTML;
+	var content = container.querySelector(".comment-content").innerText;
+	str = '<div class="comment-write-id">${sessionScope.id}</div><div class="comment-write-content">'
+	str +='<textarea rows=4 cols=40 placeholder="게시물 작성자에게 댓글은 큰 힘이 됩니다.">'+content+'</textarea></div><div class="comment-pack"><div class="comment-update-submit comment-function"><span>수정</span></div><div class="comment-update-cancel comment-function"><span>취소</span></div></div>'
+	$(container).html(str)
+	
+	$(".comment-update-cancel.comment-function").click(function(e){		//수정 취소버튼 누를때 이벤트
+		var result = confirm("취소하면 복구할 수 없습니다. \n그래도 취소 하시겠습니까?");
+		if(result){
+			$(container).html(containerHtml);
+		}
+		
+		});
+		
+	
+ });
 
-
+$(document).on("click", ".comment-update-submit.comment-function", function(e){		//수정 확인버튼 누를때 이벤트
+	 if('${sessionScope.id}'==''){
+			var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
+			if(result){
+			    location.href = 'user_join';
+			}
+	 }else{
+		var result2 = confirm("이대로 수정하시겠습니까?");
+		if(result2){
+		var button = e.currentTarget;	
+		if(button.parentElement.parentElement.querySelector("textarea").value!=""){
+			var replyData = {};
+			var replyId = button.parentElement.parentElement.dataset.replyid;
+			replyData["content"]=button.parentElement.parentElement.querySelector("textarea").value;
+			$.ajax({
+				   url: 'freeboard/reply/'+replyId,
+				   method: "PUT",
+				   data: JSON.stringify(replyData),
+		           dataType: "json",
+		           contentType:"application/json;charset=UTF-8",
+		           success: function(data){
+		        	   if(data==1){
+		        		   refreshReply(PageNow);
+		        	   }
+		           },
+		          	error: function(request, status, error){
+		            	console.log(request, status, error)
+		           	}  
+			})
+		}
+		}
+		}
+})
 
  $(document).on("dblclick", ".comment-container", function(e){
-	 if('${sessionScope.id}'!='' && e.currentTarget.dataset.depth<5){
+	 if('${sessionScope.id}'!='' && e.currentTarget.dataset.depth<5 && !e.currentTarget.classList.contains("deleted-container")){
 		 $('#comments-container .comment-write').remove();
 		str = '<div class="comment-write" style="margin-left : '+(20*(Number(e.currentTarget.dataset.depth)+1))+'px"><div class="comment-write-id">${sessionScope.id}</div><div class="comment-write-content">'
 		str +='<textarea rows=4 cols=40 placeholder="게시물 작성자에게 댓글은 큰 힘이 됩니다."></textarea></div><button class="comment-write-submit commentButton" data-depth="'+(Number(e.currentTarget.dataset.depth)+1)+'" data-ancestorid="'+e.currentTarget.dataset.ancesterid+'" data-orderserial="'+e.currentTarget.dataset.orderserial+'">작성</button></div>'
@@ -616,6 +700,9 @@ justify-content: center;
 	flex-direction: column;
 
 }
+.comment-container .comment-write{
+width : 100%;
+}
 #comments-header ~ .comment-write{
 width : 95%;
 }
@@ -683,6 +770,8 @@ margin: 0.3rem;
 .comment-gendate{
 	font-size : 0.8rem;
 	margin-left : 10px;
+	white-space: nowrap;
+	letter-spacing: -0.6px;
 }
 #comments-header{
 	background-color: #666;
@@ -692,6 +781,9 @@ margin: 0.3rem;
    padding: 7px 20px;
     margin: 20px 0;
 
+}
+.comment-pack{
+flex: 1 1 80px;
 }
 
 button.commentButton {
@@ -814,7 +906,7 @@ margin : 20px auto;
 				if (id != null && id.equals(wr)) {
 				%>
 				<div class="BoardColored writer">
-					<button id="f_modify">
+					<button id="f_modify" onclick=" modifyCheck();">
 						<h5>게시글 수정</h5>
 					</button>
 				</div>

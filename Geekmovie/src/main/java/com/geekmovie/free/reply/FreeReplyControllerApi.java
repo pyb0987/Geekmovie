@@ -20,6 +20,7 @@ import com.geekmovie.board.service.FreeBoardService;
 import com.geekmovie.board.vo.BoardVo;
 import com.geekmovie.board.vo.FreeVo;
 import com.geekmovie.board.vo.PageVo;
+import com.geekmovie.free.reply.service.FreeReplyLikeService;
 import com.geekmovie.free.reply.service.FreeReplyService;
 import com.geekmovie.free.reply.vo.FreeReplyVo;
 import com.geekmovie.onelinereview.vo.OneLineReviewPageVo;
@@ -33,6 +34,8 @@ public class FreeReplyControllerApi {
 	OneLineReviewPageVo pageVo;
 	@Autowired
 	FreeBoardService freeBoardService;
+	@Autowired
+	FreeReplyLikeService freeReplyLikeService;
 	
 	@RequestMapping(value= "/freeboard/{boardId}/reply", method = RequestMethod.POST)          //게시판 userId가 작성한 글 insert 
 	@ResponseBody
@@ -46,7 +49,7 @@ public class FreeReplyControllerApi {
 		if(NewDepth==0) {	// 댓글 바깥에 답장(depth 안들어감)
 			NewAnsesterId = freeReplyService.boardAncestorCount(boardId)+1;
 			freeReplyVo.setAncestorId(NewAnsesterId);
-			NewOrder = "";
+			NewOrder = "1";
 		}else{		//댓글 안에 답장(dept 들어감)
 
 			NewAnsesterId = freeReplyVo.getAncestorId();
@@ -99,12 +102,50 @@ public class FreeReplyControllerApi {
 	@RequestMapping(value = "/freeboard/reply/{replyId}", method = RequestMethod.DELETE)
 	public int freeboardReplyDelete(@PathVariable("replyId") int replyId) {
 		int rs = freeReplyService.delete(replyId);			//rest api
+		
+		if(rs == 1) {
+			freeReplyLikeService.delete(replyId);
+		}
 		return 	rs;
 	}
 	
 	@RequestMapping(value = "/freeboard/reply/{replyId}", method = RequestMethod.PUT)
 	@ResponseBody
-	public int freeboardReplyPOST(@RequestBody FreeReplyVo freeReplyVo) {
+	public int freeboardReplyPUT(@RequestBody FreeReplyVo freeReplyVo, @PathVariable("replyId") int replyId) {
+		freeReplyVo.setReplyId(replyId);
 		return 	freeReplyService.update(freeReplyVo);
+	}
+	
+	@RequestMapping(value = "/freeboard/reply/userlike/{userId}", method = RequestMethod.GET)		//특정 유저가 좋아하는 댓글을 반환
+	public List<FreeReplyVo> UserReplyLike(HttpServletRequest request, @PathVariable("userId") String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("nowPageStart", Integer.parseInt(request.getParameter("nowPageStart")));
+		map.put("Size", Integer.parseInt(request.getParameter("Size")));
+
+		return freeReplyService.UserReplyLike(map);
+	}
+	
+	@RequestMapping(value = "/freeboard/reply/user/{userId}", method = RequestMethod.GET)		//특정 유저가 작성한 댓글을 반환
+	public List<FreeReplyVo> UserReply(HttpServletRequest request, @PathVariable("userId") String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("writer", userId);
+		map.put("start", Integer.parseInt(request.getParameter("start")));
+		map.put("size", Integer.parseInt(request.getParameter("size")));
+		
+		System.out.println(userId);
+		System.out.println(request.getParameter("size"));
+
+		return freeReplyService.UserReply(map);
+	}
+	
+	@RequestMapping(value = "/freeboard/reply/find/{boardId}", method = RequestMethod.GET)		//특정 유저가 작성한 댓글을 반환
+	public int ReplyShow(HttpServletRequest request, @PathVariable("boardId") String boardId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("boardId", boardId);
+		map.put("replyId", Integer.parseInt(request.getParameter("replyId")));
+		
+
+		return freeReplyService.ReplyShow(map);
 	}
 }

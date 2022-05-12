@@ -226,8 +226,6 @@ $(document).ready(function() {
         				$(e).removeClass("user-container-content");
         			}
     		});
-    		$('#user-freeboardLike-container .star-rating').generateStars();		//별점생성함수 호출
-    		movieData('user-freeboardLike-container');
     		},
         	error: function(request, status, error){
         		console.log(request, status, error)
@@ -235,7 +233,33 @@ $(document).ready(function() {
     	
 	})
 	
-	
+			$.ajax({							//내가 작성한 댓글
+    	type: 'GET',
+    	url: `/movie/freeboard/reply/user/<%=id%>?start=0&size=10`,
+    	dataType : 'json',
+    	contentType : 'application/json', 
+    	success: function(data){
+    			console.log(data)
+    		$("#user-freeboardComment-container .user-container-content").each(function(i, e){
+    			if(!!data[i]){
+    				$(e).data("replyId",data[i].replyId);
+    				$(e).data("boardId",data[i].boardId);
+        			$(e).children(".user-content-replycontent").html("<h5>"+data[i].content+"</h5>");
+        			$(e).children(".user-content-replyrecommend").html("<h5>"+"[+"+data[i].likes+"]"+"</h5>");
+        			var date = new Date(data[i].create_date);
+        			$(e).children(".user-content-freereplydate").html("<h5>"+date.toLocaleDateString()+"</h5>");
+    				
+        			}else{
+        				$(e).removeClass("user-container-content");
+        			}
+    		});
+    		},
+        	error: function(request, status, error){
+        		console.log(request, status, error)
+        	}
+    	
+	})
+
 	$.ajax({							//내가 작성한 한줄평
     	type: 'GET',
     	url: `/movie/oneLineReview/user/<%=id%>`,
@@ -373,6 +397,25 @@ $(document).ready(function() {
 		}
 	})
 	
+	$(document).on("click", "#user-freeboard-container .user-container-content, #user-freeboardLike-container .user-container-content", function(e){			//자유게시글 링크 연결
+		let seq = $(e.currentTarget).data("reviewId");
+		if(!!seq){
+			location.href = '/movie/freeboardDetail?seq='+seq+'&searchType=Wr&bKeyword=<%=id%>&curPage=1&range=1';
+		   
+		}
+	})
+	
+	$(document).on("click", "#user-freeboardComment-container .user-container-content", function(e){			//자유게시글 댓글 링크 연결
+
+		let replyId = $(e.currentTarget).data("replyId");
+		let boardId = $(e.currentTarget).data("boardId");
+		if(!!boardId){
+			location.href = '/movie/freeboardDetail?seq='+boardId+'&searchType=Wr&bKeyword=<%=id%>&curPage=1&range=1&focus='+replyId;
+		   
+		}
+	})
+	
+	
 	
 	$(document).on("click", "#user-olr-container .user-container-content, #user-olrLike-container .user-container-content", function(e){			//한줄평 링크 연결
 		let olrId = $(e.currentTarget).data("olrid");
@@ -457,7 +500,6 @@ $(document).ready(function() {
 
 				</div>
 			</div>
-			<div id="user-boardLike-container" class="user-container"></div>
 			<div id="user-freeboardLike-container" class="user-container">
 				<div class="user-container-title">
 					<h3>내가 좋아한 자유게시글</h3>
@@ -474,11 +516,27 @@ $(document).ready(function() {
 				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
 				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
 				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
-
 				</div>
 			</div>
+			<div id="user-freeboardComment-container" class="user-container">
+				<div class="user-container-title">
+					<h3>최근에 작성한 댓글</h3>
+				</div>
+				<div class="user-container-contents">
+				<div class=user-container-content><div class="user-content-replycontent"></div><div class="user-content-replyrecommend"></div><div class="user-content-freereplydate"></div></div>
+				<div class=user-container-content><div class="user-content-replycontent"></div><div class="user-content-replyrecommend"></div><div class="user-content-freereplydate"></div></div>
+				<div class=user-container-content><div class="user-content-replycontent"></div><div class="user-content-replyrecommend"></div><div class="user-content-freereplydate"></div></div>
+				<div class=user-container-content><div class="user-content-replycontent"></div><div class="user-content-replyrecommend"></div><div class="user-content-freereplydate"></div></div>
+				<div class=user-container-content><div class="user-content-replycontent"></div><div class="user-content-replyrecommend"></div><div class="user-content-freereplydate"></div></div>
+				<div class=user-container-content><div class="user-content-replycontent"></div><div class="user-content-replyrecommend"></div><div class="user-content-freereplydate"></div></div>
+				<div class=user-container-content><div class="user-content-replycontent"></div><div class="user-content-replyrecommend"></div><div class="user-content-freereplydate"></div></div>
+				<div class=user-container-content><div class="user-content-replycontent"></div><div class="user-content-replyrecommend"></div><div class="user-content-freereplydate"></div></div>
+				<div class=user-container-content><div class="user-content-replycontent"></div><div class="user-content-replyrecommend"></div><div class="user-content-freereplydate"></div></div>
+				<div class=user-container-content><div class="user-content-replycontent"></div><div class="user-content-replyrecommend"></div><div class="user-content-freereplydate"></div></div>
+				</div>
+			</div>
+			<div id="user-boardLike-container" class="user-container"></div>
 			<div id="user-boardComment-container" class="user-container"></div>
-			<div id="user-freeboardComment-container" class="user-container"></div>
 			<div id="user-olr-container" class="user-container">
 				<div class="user-container-title">
 					<h3>내가 작성한 한줄평</h3>

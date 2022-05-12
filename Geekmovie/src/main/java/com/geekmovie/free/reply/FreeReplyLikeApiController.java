@@ -1,7 +1,10 @@
 package com.geekmovie.free.reply;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.geekmovie.board.service.FreeBoardLikeService;
 import com.geekmovie.board.service.FreeBoardService;
+import com.geekmovie.board.vo.FreeVo;
 import com.geekmovie.free.reply.service.FreeReplyLikeService;
 import com.geekmovie.free.reply.service.FreeReplyService;
+import com.geekmovie.free.reply.vo.FreeReplyVo;
 
 @RestController
 public class FreeReplyLikeApiController {
@@ -54,11 +59,14 @@ public class FreeReplyLikeApiController {
 		return likeNum;
 	}
 	
-	@RequestMapping(value = "/freeboard/reply{userId}/userCount", method = RequestMethod.GET)
+	@RequestMapping(value = "/freeboard/reply/{userId}/userCount", method = RequestMethod.GET)
 	public int CountUserLike(@PathVariable("userId") int userId){			//해당하는 유저의 좋아요 개수
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userId",  userId);
 		map.put("mode", 1);
 		return freeReplyLikeService.CountUserLike(map);
 	}
+	
+	
+
 }

@@ -29,7 +29,7 @@
 	
 	<select id="boardOrderserialfind" parameterType="freeReplyVo" resultType="String">
 	select ifnull(max(orderserial), concat(#{orderserial}, '0000'))
-	from freereply where boardId=#{boardId} and ancestorId=#{ancestorId} and depth=#{depth}, writer='' and orderserial like concat(#{orderserial},'%');
+	from freereply where boardId=#{boardId} and ancestorId=#{ancestorId} and depth=#{depth} and writer='' and orderserial like concat(#{orderserial},'%');
 	</select>
 	
 	<update id="like_update" parameterType="HashMap">  
@@ -62,4 +62,46 @@
 			update freereply set content=#{content} where replyId=#{replyId};
 			]]>
 	</update>
+	
+	<resultMap type="freeReplyLikeVo" id="freeReplyJoinTarget">
+			<result column="freereplyId" property="freereplyId" />
+			<result column="userId" property="userId" />
+			<!--<result column="mode" property="mode" />-->
+	</resultMap>
+	
+	<resultMap type="freeReplyVo" id="freeReplyJoin">
+		<result column="replyId" property="replyId" />
+		<result column="boardId" property="boardId" />
+		<result column="content" property="content" />
+		<result column="writer" property="writer" />
+		<result column="create_date" property="create_date" />
+		<result column="likes" property="likes" />
+		<collection property="freeReplyLikeVo" resultMap="freeReplyJoinTarget"/>
+	</resultMap>
+	
+		<select id="UserReplyLike" parameterType="HashMap" resultMap="freeReplyJoin">
+	<![CDATA[
+			select a.replyId, a.boardId, a.content ,a.writer, create_date, a.likes
+			from freereply as a
+			join
+			freereplylike as b
+			on a.replyId = b.freereplyId
+            where b.userId=#{userId}  and b.mode=1 
+            order by b.seq DESC limit #{nowPageStart}, #{Size};
+		]]>
+	</select>
+	
+			<select id="UserReply" parameterType="HashMap" resultType="freeReplyVo">
+	<![CDATA[
+			select replyId, boardId, content, create_date, likes
+			from freereply where writer=#{writer} and deleted='N' order by replyId desc, orderserial limit #{start}, #{size}
+		]]>
+	</select>
+	
+	<select id="ReplyShow" parameterType="HashMap" resultType="int">	<!-- 특정 댓글이 위치한 곳을 반환 -->
+	select ranking from (
+	select replyId, rank() over(order by ancestorId desc, orderserial) as ranking from freereply where boardId=#{boardId}) a
+	where replyId=#{replyId};
+	</select>
+	
 </mapper>

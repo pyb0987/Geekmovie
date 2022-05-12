@@ -454,11 +454,12 @@ if(!!form.query && form.query.value !=""){
 				<div id="searchbox">
 					<form id="keywordSearch" name="keywordSearch" accept-charset="utf-8" action="search" method="get">
 						<select name="searchMode" id="searchMode">
-							<option value="movie">영화제목</option>
-							<option value="keyword">게시글</option>
+							<option value="movie" <%if ((String)request.getAttribute("searchMode")!=null && ((String)request.getAttribute("searchMode")).equals("movie")) {%> selected <% } %>>영화제목 </option>
+							<option value="review" <%if ((String)request.getAttribute("searchMode")!=null && ((String)request.getAttribute("searchMode")).equals("review")) {%> selected <% } %>>리뷰</option>
+							<option value="free" <%if ((String)request.getAttribute("searchMode")!=null && ((String)request.getAttribute("searchMode")).equals("free")) {%> selected <% } %>>자유글</option>
 						</select> 
 						<div id="inputbox-container">  
-						<input type="text" id="inputbox" name="query" autocomplete='off' maxlength=50 placeholder="검색할 키워드를 입력하세요">
+						<input type="text" id="inputbox" name="query" autocomplete='off' maxlength=50 placeholder="검색할 키워드를 입력하세요" <%if ((String)request.getAttribute("query")!=null) {%> value="<%=(String)request.getAttribute("query") %>" <% } %>>
 						<input type="hidden" name="language" value="<%=request.getParameter("language") %>">
 						<input type="hidden" name="page" value="1">
 						<div id="search-results-container">
@@ -505,6 +506,7 @@ if(!!form.query && form.query.value !=""){
 		<div class="menuButton"  onclick="location.href='search?searchMode=popularmovie&page=1&language=<%=request.getParameter("language")%>';">인기영화</div>
 		<div class="menuButton" onclick="location.href='boardRecommendList?';">추천리뷰</div>
 		<div class="menuButton" onclick="location.href='boardList?';">최신리뷰</div>
+		<div class="menuButton" onclick="location.href='freeboardRecommendList?';">추천게시글</div>
 		<div class="menuButton" onclick="location.href='freeboardList?';">자유게시글</div>
 		<div class="menuButton" onclick="location.href='/movie/oneLineReview?page=1&language=<%=request.getParameter("language")%>';">한줄평</div>
 		<div class="menuButton" onclick="location.href='/movie/randomMovieDetail?language=<%=request.getParameter("language")%>';">랜덤영화</div>

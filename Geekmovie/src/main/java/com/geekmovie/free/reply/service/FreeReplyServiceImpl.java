@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.geekmovie.board.dao.FreeBoardLikeDao;
+import com.geekmovie.board.vo.FreeVo;
 import com.geekmovie.free.reply.dao.FreeReplyDao;
 import com.geekmovie.free.reply.vo.FreeReplyVo;
 
@@ -48,4 +49,15 @@ public class FreeReplyServiceImpl implements FreeReplyService{
 		return freeReplyDao.update(freeReplyVo);
 	}
 	
+	public List<FreeReplyVo> UserReplyLike(Map<String, Object> map) {
+		return freeReplyDao.UserReplyLike(map);
+	}
+	
+	public List<FreeReplyVo> UserReply(Map<String, Object> map) {
+		return freeReplyDao.UserReply(map);
+	}
+	
+	public int ReplyShow(Map<String, Object> map) {
+		return freeReplyDao.ReplyShow(map);
+	}
 }

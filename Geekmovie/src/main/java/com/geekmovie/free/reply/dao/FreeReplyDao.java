@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.geekmovie.board.vo.FreeVo;
 import com.geekmovie.free.reply.vo.FreeReplyVo;
 
 @Repository
@@ -45,5 +46,17 @@ public class FreeReplyDao {
 	
 	public int update(FreeReplyVo freeReplyVo) {
 		return sqlSessionTemplate.update("freeReplyVo.update", freeReplyVo);
+	}
+	
+	public List<FreeReplyVo> UserReplyLike(Map<String, Object> map) {
+		return 	sqlSessionTemplate.selectList("freeReplyVo.UserReplyLike", map);	
+	}
+	
+	public List<FreeReplyVo> UserReply(Map<String, Object> map) {
+		return 	sqlSessionTemplate.selectList("freeReplyVo.UserReply", map);	
+	}
+	
+	public int ReplyShow(Map<String, Object> map) {
+		return 	sqlSessionTemplate.selectOne("freeReplyVo.ReplyShow", map);	
 	}
 }

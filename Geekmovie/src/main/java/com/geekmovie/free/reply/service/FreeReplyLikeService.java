@@ -10,4 +10,6 @@ public interface FreeReplyLikeService {
 	public int CountfreeLike(Map<String, Object> map);
 	
 	public int CountUserLike(Map<String, Object> map);
+			
+	public int delete(int freereplyId);
 }

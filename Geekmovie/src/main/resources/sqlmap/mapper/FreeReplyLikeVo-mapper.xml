@@ -28,6 +28,10 @@
 		select count(freeId) from freereplylike where userId=#{userId} and mode=1;
 	</select>
 	
+	<delete id="deletefree" parameterType="int">
+		delete from freereplylike where freereplyId=#{freereplyId};
+	</delete>
+	
 	
 	
 	

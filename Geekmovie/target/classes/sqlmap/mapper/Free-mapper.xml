@@ -61,7 +61,7 @@
 	
 		<select id="free_recommend" parameterType="freeVo" resultType="freeVo">
 		<![CDATA[
-			select seq, movie_id, title, writer, regdate, cnt, likes
+			select seq, movie_id, title, writer, regdate, cnt, likes, reply
 			from free_board
 			where likes>9
 		]]>
@@ -147,12 +147,13 @@
 		<result column="regdate" property="regdate" />
 		<result column="likes" property="likes" />
 		<result column="movie_id" property="movie_id" />
+		<result column="reply" property="reply" />
 		<collection property="freeLikeVo" resultMap="freeJoinTarget"/>
 	</resultMap>
 	
 		<select id="UserLike" parameterType="HashMap" resultMap="freeJoin">
 	<![CDATA[
-			select a.seq, a.title, a.writer, a.regdate, a.likes, a.movie_id
+			select a.seq, a.title, a.writer, a.regdate, a.likes, a.movie_id, a.reply
 			from free_board as a
 			join
 			freelike as b
