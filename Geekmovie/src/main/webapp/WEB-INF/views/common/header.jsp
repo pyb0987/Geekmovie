@@ -86,7 +86,7 @@
 #searchbox{
 	display: flex;
     width : 70%;
-    min-width : 340px;
+    min-width : 280px;
 	max-width : 650px;
     margin : auto;
     height: 40px;
@@ -502,16 +502,13 @@ if(!!form.query && form.query.value !=""){
 	<div id='screen'></div>
 	<div id="foldMenuContainer">
 		<div id="foldMenu">
-		<!--<div class="menuButton">최신영화</div>-->
 		<div class="menuButton"  onclick="location.href='search?searchMode=popularmovie&page=1&language=<%=request.getParameter("language")%>';">인기영화</div>
 		<div class="menuButton" onclick="location.href='boardRecommendList?';">추천리뷰</div>
-
 		<div class="menuButton" onclick="location.href='boardList?';">최신리뷰</div>
 		<div class="menuButton" onclick="location.href='freeboardList?';">자유게시글</div>
 		<div class="menuButton" onclick="location.href='/movie/oneLineReview?page=1&language=<%=request.getParameter("language")%>';">한줄평</div>
 		<div class="menuButton" onclick="location.href='/movie/randomMovieDetail?language=<%=request.getParameter("language")%>';">랜덤영화</div>
 		<div class="menuButton" id="myPage">마이페이지</div>
-		<div class="menuButton">lanuguage</div>
 		</div>
 	</div>
 	

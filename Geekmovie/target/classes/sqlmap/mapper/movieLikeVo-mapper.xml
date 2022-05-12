@@ -17,9 +17,6 @@
 		`mode` = -1;
 	</insert>
 	
-	<delete id="DeleteDuple">
-		delete from movielike where mode=-1;
-	</delete>
 	
 	<select id="CountMovieLike" parameterType="HashMap" resultType="int">
 		select count(userId) from movielike where movieId=#{movieId} and mode=#{mode};
@@ -30,5 +27,9 @@
 		order by seq DESC
 		Limit #{start}, #{size};
 	</select>
+
+	<delete id="DeleteDuple">
+		delete from movielike where mode=-1;
+	</delete>
 
 </mapper>
