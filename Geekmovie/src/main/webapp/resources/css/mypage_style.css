@@ -10,7 +10,10 @@ body {
 	background-color: #000000;
 	margin : 0;
 	padding-top : 100px;
+}
+section{
 	display: flex;
+	width : 100%;
 }
 
 
@@ -128,22 +131,42 @@ color : black;
 	margin-left : 2%;
 	width : 27%;
 }
+
+.user-content-freetitle{
+	margin-left : 2%;
+	width : 27%;
+}
 .user-content-recommend{
+	width : 6%;
+}
+.user-content-freerecommend{
 	width : 6%;
 }
 .user-content-score{
 	width : 20%;
 }
+.user-content-freereply{
+	width : 10%;
+}
+.user-content-freeid{
+	width : 15%;
+}
 .user-content-movie{
 	width : 28%;
+}
+.user-content-freemovie{
+	width : 23%;
 }
 .user-content-movie h5:hover{
 	 color : #999;
 }
+
 .user-content-gendate{
 	width : 17%;
 }
-.user-content-title h5, .user-content-movie h5, .user-content-gendate h5, .user-content-recommend h5{
+.user-content-title h5, .user-content-movie h5, .user-content-gendate h5, .user-content-recommend h5, 
+.user-content-freetitle h5, .user-content-freemovie h5, .user-content-freerecommend h5{
+
 	overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 	font-weight: 400;
 	margin: 5px 0;

@@ -17,12 +17,17 @@ public class FreeVo {
 	private String searchType;
 	private String bKeyword;
 	
+	private FreeLikeVo freeLikeVo;
+	
 	public FreeVo() {
 
 	}
 
+	
+
 	public FreeVo(int seq, String title, String writer, String contents, String reply, Timestamp regdate, int cnt,
-			int likes, String movie_id, int startList, int listSize, String searchType, String bKeyword, int b_score) {
+			int likes, String movie_id, int startList, int listSize, String searchType, String bKeyword,
+			FreeLikeVo freeLikeVo) {
 		super();
 		this.seq = seq;
 		this.title = title;
@@ -37,7 +42,22 @@ public class FreeVo {
 		this.listSize = listSize;
 		this.searchType = searchType;
 		this.bKeyword = bKeyword;
+		this.freeLikeVo = freeLikeVo;
 	}
+
+
+
+	public FreeLikeVo getFreeLikeVo() {
+		return freeLikeVo;
+	}
+
+
+
+	public void setFreeLikeVo(FreeLikeVo freeLikeVo) {
+		this.freeLikeVo = freeLikeVo;
+	}
+
+
 
 	public int getSeq() {
 		return seq;
@@ -143,12 +163,16 @@ public class FreeVo {
 		this.bKeyword = bKeyword;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "FreeVo [seq=" + seq + ", title=" + title + ", writer=" + writer + ", contents=" + contents + ", reply="
 				+ reply + ", regdate=" + regdate + ", cnt=" + cnt + ", likes=" + likes + ", movie_id=" + movie_id
 				+ ", startList=" + startList + ", listSize=" + listSize + ", searchType=" + searchType + ", bKeyword="
-				+ bKeyword + "]";
+				+ bKeyword + ", freeLikeVo=" + freeLikeVo + "]";
 	}
+
+	
 	
 }

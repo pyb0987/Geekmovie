@@ -683,7 +683,9 @@ display : inline-block;
 		</div>
 	</div>
 	
-
+<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="ko-KR"/>  
+</jsp:include>  
 
 </body>
 </html>

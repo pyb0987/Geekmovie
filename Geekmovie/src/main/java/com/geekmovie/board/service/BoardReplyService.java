@@ -8,11 +8,11 @@ public interface BoardReplyService {
 	
 	public List<ReplyVo> rList(int seq);
 	
-	public void rCreate(ReplyVo replyVo);
+	public int rCreate(ReplyVo replyVo);
 	
-	public void rUpdate(ReplyVo replyVo);
+	public int rUpdate(ReplyVo replyVo);
 	
-	public void rDelete(int reply_seq);
+	public int rDelete(int rno);
 	
 	
 	

@@ -1,6 +1,7 @@
 package com.geekmovie.board.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,4 +47,14 @@ public class BoardDao {
 		return sqlSessionTemplate.delete("boardVo.board_delete", boardvo);
 	}
 
+	public List<BoardVo> boardRecommend(BoardVo boardvo) {
+		return sqlSessionTemplate.selectList("boardVo.board_recommend", boardvo);
+	}
+	public int boardRecommendCnt(BoardVo boardvo) {
+		return sqlSessionTemplate.selectOne("boardVo.boardrecommendCnt", boardvo);
+	}
+	
+	public Map<String, Object> AverageScore(int movieId) {
+		return sqlSessionTemplate.selectOne("boardVo.score-average", movieId);
+	}
 }

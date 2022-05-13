@@ -1,6 +1,7 @@
 package com.geekmovie.board.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,5 +52,16 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int bDelete(BoardVo boardvo) {
 		return dao.boardDelete(boardvo);
+	}
+	
+	public List<BoardVo> boardRecommend(BoardVo boardVo) {
+		return dao.boardRecommend(boardVo);
+	}
+	public int boardRecommendCnt(BoardVo boardvo) {
+		return dao.boardRecommendCnt(boardvo);
+	}
+	
+	public Map<String, Object> AverageScore(int movieId){
+		return dao.AverageScore(movieId);
 	}
 }

@@ -31,7 +31,7 @@
 <title>My page Test</title>
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
-<link rel="stylesheet" href="${path}/resources/css/mypage_style.css?ver=2">
+<link rel="stylesheet" href="${path}/resources/css/mypage_style.css?ver=4">
 <style>
 .star-rating, .star-rating > * {
     height: 1.4rem; 
@@ -158,7 +158,7 @@ $(document).ready(function() {
     			$(e).children(".user-content-title").html("<h5>"+data[i].title+"</h5>");
     			$(e).children(".user-content-recommend").html("<h5>"+"[+"+data[i].likes+"]"+"</h5>");
     			$(e).children(".user-content-score").html("<span class='star-rating'></span>");
-    			$(e).find(".star-rating").html(data[i].score);
+    			$(e).find(".star-rating").html(data[i].b_score);
     			$(e).children(".user-content-movie").html("<h5>"+data[i].movie_id+"</h5>");
     			var date = new Date(data[i].regdate);
     			$(e).children(".user-content-gendate").html("<h5>"+date.toLocaleDateString()+"</h5>");
@@ -172,6 +172,66 @@ $(document).ready(function() {
         error: function(request, status, error){
         	console.log(request, status, error)
         }
+    	
+	})
+	
+	$.ajax({							//내가 작성한 자유게시글
+    	type: 'GET',
+    	url: `/movie/freeboardList/<%=id%>`,
+    	dataType : 'json',
+    	contentType : 'application/json', 
+    	success: function(data){
+    		$("#user-freeboard-container .user-container-content").each(function(i, e){
+    			if(!!data[i]){
+    			$(e).data("reviewId",data[i].seq);
+    			$(e).children(".user-content-movie").data("movieId", data[i].movie_id);
+    			$(e).children(".user-content-freetitle").html("<h5>"+data[i].title+"</h5>");
+    			$(e).children(".user-content-freerecommend").html("<h5>"+"[+"+data[i].likes+"]"+"</h5>");
+    			$(e).children(".user-content-freereply").html("<h5>(+"+data[i].reply+")</h5>");
+    			$(e).children(".user-content-freeid").html("<h5>"+data[i].writer+"</h5>");
+    			$(e).children(".user-content-freemovie").html("<h5>"+data[i].movie_id+"</h5>");
+    			var date = new Date(data[i].regdate);
+    			$(e).children(".user-content-gendate").html("<h5>"+date.toLocaleDateString()+"</h5>");
+    			}else{
+    				$(e).removeClass("user-container-content");
+    			}
+    		});
+    	},
+        error: function(request, status, error){
+        	console.log(request, status, error)
+        }
+    	
+	})
+	
+	
+	
+		$.ajax({							//내가 좋아한 자유게시글
+    	type: 'GET',
+    	url: `/movie/freeboard/user/<%=id%>?nowPageStart=0&Size=10`,
+    	dataType : 'json',
+    	contentType : 'application/json', 
+    	success: function(data){
+    		$("#user-freeboardLike-container .user-container-content").each(function(i, e){
+    			if(!!data[i]){
+    				$(e).data("reviewId",data[i].seq);
+        			$(e).children(".user-content-movie").data("movieId", data[i].movie_id);
+        			$(e).children(".user-content-freetitle").html("<h5>"+data[i].title+"</h5>");
+        			$(e).children(".user-content-freerecommend").html("<h5>"+"[+"+data[i].likes+"]"+"</h5>");
+        			$(e).children(".user-content-freereply").html("<h5>(+"+data[i].reply+")</h5>");
+        			$(e).children(".user-content-freeid").html("<h5>"+data[i].writer+"</h5>");
+        			$(e).children(".user-content-freemovie").html("<h5>"+data[i].movie_id+"</h5>");
+        			var date = new Date(data[i].regdate);
+        			$(e).children(".user-content-gendate").html("<h5>"+date.toLocaleDateString()+"</h5>");
+        			}else{
+        				$(e).removeClass("user-container-content");
+        			}
+    		});
+    		$('#user-freeboardLike-container .star-rating').generateStars();		//별점생성함수 호출
+    		movieData('user-freeboardLike-container');
+    		},
+        	error: function(request, status, error){
+        		console.log(request, status, error)
+        	}
     	
 	})
 	
@@ -245,7 +305,6 @@ $(document).ready(function() {
     	dataType : 'json',
     	contentType : 'application/json', 
     	success: function(data){
-    		console.log(data.length)
     		if(data.length<moviesize){
     			$(movieContainer).children(".more-button-container").empty();
     		}
@@ -358,7 +417,7 @@ $(document).ready(function() {
 <jsp:param name="session" value='<%=(String)session.getAttribute("UserVo")%>'/>  
 <jsp:param name="language" value="<%=Language %>"/>  
 </jsp:include>
-
+<section>
 	<div id="content-container">
 		<div id="content-grid">
 			<div id="user-board-container" class="user-container">
@@ -379,10 +438,46 @@ $(document).ready(function() {
 				<div class=user-container-content><div class="user-content-title"></div><div class="user-content-recommend"></div><div class="user-content-score"></div><div class="user-content-movie"></div><div class="user-content-gendate"></div></div>
 				</div>
 			</div>
-			<div id="user-freeboard-container" class="user-container"></div>
+			<div id="user-freeboard-container" class="user-container">
+				<div class="user-container-title">
+					<h3>내가 작성한 자유게시글</h3>
+					<h4 class="seeMoreLink" onclick="location.href = 'freeboardList?searchType=Wr&bKeyword=<%=id%>&curPage=1'">&#43;더 보기</h4>
+				</div>
+				<div class="user-container-contents">
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+
+				</div>
+			</div>
 			<div id="user-boardLike-container" class="user-container"></div>
+			<div id="user-freeboardLike-container" class="user-container">
+				<div class="user-container-title">
+					<h3>내가 좋아한 자유게시글</h3>
+					<h4 class="seeMoreLink" onclick="location.href = 'freeboardList/like/<%=id%>?curPage=1'">&#43;더 보기</h4>
+				</div>
+				<div class="user-container-contents">
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+
+				</div>
+			</div>
 			<div id="user-boardComment-container" class="user-container"></div>
-			<div id="user-freeboardLike-container" class="user-container"></div>
 			<div id="user-freeboardComment-container" class="user-container"></div>
 			<div id="user-olr-container" class="user-container">
 				<div class="user-container-title">
@@ -482,8 +577,10 @@ $(document).ready(function() {
 	
 	</div>
 	
-	
-	
+</section>
+<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="ko-KR"/>  
+</jsp:include>  
 	
 </body>
 </html>

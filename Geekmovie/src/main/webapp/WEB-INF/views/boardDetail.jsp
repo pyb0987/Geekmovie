@@ -1,3 +1,4 @@
+
 <%@page import="java.util.List"%>
 <%@page import="com.geekmovie.board.vo.ReplyVo"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -10,12 +11,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-<% BoardVo data = (BoardVo)request.getAttribute("data"); %>
-<% String wr = data.getWriter();
+<% BoardVo data = (BoardVo)request.getAttribute("data"); 
+	List<ReplyVo> replyList = (List<ReplyVo>)request.getAttribute("reply");
+%>
+<% String wr = data.getWriter(); %>
+
+<%
 String id = (String)session.getAttribute("id"); 
 Timestamp gendate = data.getRegdate();
 String formattedgenDate = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(gendate);
-
 
 String language = "ko-KR";
 %>
@@ -24,7 +28,8 @@ String language = "ko-KR";
 <html>
 <head>
 <meta charset="UTF-8">
-<title>BoardDetail</title>
+<title>GeekReviewDetail</title>
+
 
 <link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
 <link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
@@ -59,7 +64,7 @@ function modifyCheck(){
 	}
 };
 
-// 로그인 회원만 글 작성하게
+// 로그인 회원만 댓글 작성하게
 function replyWriteCheck(){
 	if('${sessionScope.id}' == '') {
 		var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
@@ -72,11 +77,86 @@ function replyWriteCheck(){
 	}
 };
 
+// 댓글 삭제 기능
+function replydeleteCheck(){
+	console.log("reply delete");
+		var result = confirm("삭제하면 복구할 수 없습니다. \n 그래도 삭제 하시겠습니까?");
+		if(result){
+		    var deleteform = document.replydeleteform;
+		    deleteform.submit();
+		}
+};
+
+// 댓글 수정 기능
+function replyModify(f) {
+	console.log("reply modify");
+	var result = confirm("저장 하시겠습니까?");
+	if(result) {
+		f.submit();
+	}
+	
+	
+};
+
+	function modal(i){
+
+	console.log(i);
+	var zIndex = 9999;
+	
+	// 모달 뒷배경 레이어
+	var bg = document.createElement('div');
+	bg.setStyle({
+		position: 'fixed',
+		zIndex: zIndex,
+		left: '0px',
+		top: '0px',
+		width: '100%',
+		height: '100%',
+		overflow: 'auto',
+		// 레이어 색상 변경
+		backgroundColor: 'rgba(0,0,0,0.4)'
+	});
+	document.body.append(bg);
+	
+	//const close = document.querySelector('.modal_close_btn');
+	
+	var doc = document.getElementById("modify_modal");
+	
+	for(var j =0 ; j <doc.length; j++){
+		// 닫기 버튼 처리, 레이어 & 모달 삭제
+		doc[j].addEventListener('click', function(){
+			bg.remove();
+			doc[j].style.display = 'none';
+		});
+		
+		 doc[j].setStyle({
+			position: 'fixed',
+			display: 'block',
+			boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+			
+			zIndex: zIndex + 1, // 레이어 위에 위치
+			
+			// div center 정렬
+			top: '50%',
+			left: '50%',
+			transform: 'translate(-50%, -50%)',
+			mtransform: 'translate(-50%, -50%)',
+			webkitTransform: 'translate(-50%, -50%)'
+		});
+	}
+	
+}
+
+
+// Element에 style 한번에 오브젝트로 설정하는 함수 추가
+Element.prototype.setStyle = function(styles) {
+	for (var k in styles) this.style[k] = styles[k];
+	return this;
+};
+
 
 window.onload = function(){	
-
-
-
+	
 var windowResize = function(){					//리사이징 함수
 
 	fontResize()
@@ -175,21 +255,19 @@ $.ajax({							//받아온 영화 정보 디테일로 만들기
 })
 
 
+ document.querySelector(".toListButton").addEventListener('click', function(){
+	if('${recommend}'=='true'){
+		location.href="boardRecommendList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"
+	}else{		
+		location.href="boardList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"
+	}
+ })
 
+} // window onload
 
-
-
-
-
-
-
-
-}
 </script>
 
 <style>
-
-
 span.star-rating, span.star-rating > * {
     height: 2rem; 
     background: url(${path}/resources/img/star.png);
@@ -214,18 +292,27 @@ body {
 	.BoardHeader h1 {
 		padding-left : 50px;
 		margin : 30px;
+		color : black;
 	}
+	
+.BoardContainer{
+width : 80%;
+margin : 0 auto;
+top : 3rem;
+}	
 	.BoardWrap {
-		top : 3rem;
-		width : 70%;
-		margin : 0 auto;
+    border-radius: 10px;
+    padding: 50px;
+    background-color: white;
+
 	}
 	.BoardHeader {
 		border-top: 3px solid red;
 	}
 	.Boardbody{
 		display : grid;
-		grid-template-columns: repeat(4, auto);
+		grid-template-columns: repeat(5, auto);
+
 	}
 	#detail-bigPictureContainer{
 	position : relative;
@@ -295,7 +382,6 @@ body {
 }
 #detail-poster img { /*이미지 전부 채우게 함*/
 	border: ridge #eee 8px;
-	padding: 2px;
 	width: 100%;
 	object-fit: cover;
 	max-width: 100%;
@@ -318,7 +404,8 @@ text-align: end;
 .Detail-body-header{
 display : flex;
 justify-content: space-between;
-grid-column: 1 / 5;
+grid-column: 1 / 6;
+
 }
 .movieLikes, .movieWatchCount{
     text-align: end;
@@ -337,23 +424,28 @@ grid-column: 1 / 5;
 }
 
 .movieContent{
-grid-column: 1 / 5;
+grid-column: 1 / 6;
     margin: 3% 0;
     padding: 0 2%;
-    border-left: double 7px brown;
-    border-right: double 7px brown;
+     border: solid 2px #444;
+    border-radius: 10px;
 min-height : 500px;
 }
 
 .movieContent h5{
 	    font-weight: 400;
+	    color : black;
 }
-
+.BoardDate{
+grid-column: 1 / 3;
+}
 .BoardColored{
-background-color: #696565;
-border : 1px solid black;
+background-color: #555;
 box-sizing : border-box;
 padding: 0 10px;
+    border: 1px solid black;
+    margin: 1px;
+
 }
 .BoardColored h5, .BoardColored h4{
 font-weight : 400;
@@ -362,7 +454,7 @@ color: #f2f5dc;
 
 .toList{
     text-align: center;
-	grid-column: 4 / 5;
+	grid-column: 5 / 6;
 	grid-row: 5 / 6;
 }
 .toList a{
@@ -381,7 +473,9 @@ display : flex;
 	grid-column: 3 / span 2;
 	display : flex;
 	align-items: center;
-	justify-content: center; 
+	justify-content: center;
+	margin-bottom: 20px; 
+
 	
 }
 
@@ -440,11 +534,115 @@ justify-content: center;
 
 .writer button:hover h5, input:hover{
 	color : #f2f5dccc;
-	
 }
 
 #comments-container {
 	background-color: white;
+	margin-top: 10px;
+	padding: 15px;
+	border-radius: 0.6rem;
+	border: solid 2px #000000;
+}
+
+#comments-container h5 {
+	color: #000000;
+	font-size: 22px;
+}
+
+#replywriteform {
+	background-color: #474040;
+	padding: 8px;
+}
+
+#r_writer {
+	font-size: 18px;
+	margin-bottom: 10px;
+	color: #f2f5dc;
+}
+
+#replywritebox {
+	/* 
+	background-color: red;
+	*/
+	display: flex;
+	padding: 10px;
+}
+
+#replywritebox textarea {
+	width: 90%;
+	border-radius: 0.6rem;
+	border: solid 2px #000000;
+	resize: none;
+}
+
+#replywritebox textarea::placeholder {
+}
+
+#reply_write {
+    background-color: #555;
+    box-sizing: border-box;
+    border: 1px solid black;
+    margin-left: 8px;
+    height: 40px; width: 60px;
+}
+
+#reply_box{
+	background-color: #3d3d40;
+	padding: 10px;
+}
+
+#reply_data {
+	display : flex;
+	height: 60px;
+	background-color: #454343;
+	margin: 5px;
+	border: solid 0.05px #30302e;
+	color: #f2f5dc;
+	font-size: 16px;
+}
+
+.r1 {
+	margin: auto;
+	padding-left: 10px;
+	width: 60%
+}
+
+.r2 {
+	margin: auto;
+	text-align: center;
+	width: 20%
+}
+
+.r3 {
+	margin: auto;
+	text-align: center;
+	width: 10%
+}
+
+.r4 {
+	width: 10%;
+	margin: auto;
+}
+
+.modify_modal {
+		display: none;
+		width: 600px;
+		padding: 10px 30px;
+		background-color: #333131;
+		border: 1px solid #888;
+		border-radius: 
+	}
+	
+.modify_modal .modal_close_btn{
+		position: absolute;
+		top: 10px;
+		right: 10px;
+	}
+
+.modal_open_btn {
+	background: none;
+	border: none;
+	color: #f2f5dc;
 }
 
 </style>
@@ -479,6 +677,7 @@ justify-content: center;
 	</div>
 	
 	<div id="spacing"></div>
+	<div class="BoardContainer">
 
 	<div class="BoardWrap">
 	<div class="BoardHeader">
@@ -486,84 +685,107 @@ justify-content: center;
 	</div>
 	
 	<div class="Boardbody">
-		<div class="Detail-body-header BoardColored">
-		<h4>작성자 : ${data.writer}</h4><h4 class="movieName"></h4>
-	</div>
-	<div class="BoardColored">
-	<h5><%=formattedgenDate %></h5>
-	</div>
-	<div class="movieScore BoardColored">
-	<h5>평가 : </h5><span class="star-rating">${data.b_score}</span>
-	</div>
-	<div class="BoardColored">
-	<h5 class="movieWatchCount">조회수 : ${data.cnt}</h5>
-	</div>
-	<div class="BoardColored">
-	<h5 class="movieLikes">좋아요 : ${data.likes}</h5>
-	</div>
-
-	<div class="movieContent">
-	<h5>${data.contents} </h5>
-	</div>
+			<div class="Detail-body-header BoardColored">
+			<h4>작성자 : ${data.writer}</h4><h4 class="movieName"></h4>
+		</div>
+		<div class="BoardColored BoardDate">
 	
-	<div class="Detail-body-header likedislike">
-	<div class="like-dislike">
-				<div class="like-button like-dislike-button"><span class="like-button-span like-dislike-button-span">${data.likes}</span><img class="like-icon" src="${path}/resources/img/like.png"></div>
-				<div class="dislike-button like-dislike-button"><span class="dislike-button-span like-dislike-button-span">${data.likes}</span><img class="dislike-icon" src="${path}/resources/img/dislike.png"></div>
-			</div>
-	</div>
+		<h5><%=formattedgenDate %></h5>
+		</div>
+		<div class="movieScore BoardColored">
+		<h5>평가 : </h5><span class="star-rating">${data.b_score}</span>
+		</div>
+		<div class="BoardColored">
+		<h5 class="movieWatchCount">조회수 : ${data.cnt}</h5>
+		</div>
+		<div class="BoardColored">
+		<h5 class="movieLikes">좋아요 : ${data.likes}</h5>
+		</div>
 	
-	<div class="BoardColored toList">
-	<a href="boardList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"><h4>목록</h4></a>
-	</div>
-	
-	<%if(id != null && id.equals(wr)) {%>
-	<div class="BoardColored writer">
-		<button id="b_modify" onclick="modifyCheck();"><h5>게시글 수정</h5></button>
+		<div class="movieContent">
+		<h5>${data.contents} </h5>
+		</div>
 		
-		<form name='deleteform' id="b_delete" action="boardDelete" method="post">
-			<input type="hidden" name="seq" value="${data.seq}" />
-			<h5><input type="button" value="삭제" onclick="deleteCheck();" ></h5>
-		</form>
-	<%} %>
-	</div>
-	</div>
-	<!-- 댓글 -->
-	<div id="comments-container">
-		<p>댓글 목록</p>
-		<div>
-			<form name="replywriteform" method="post" action="/movie/write" >
-				<p>
-					${sessionScope.id} <input type="hidden" name="writer" value="${sessionScope.id}">
-				</p>
-				<p>
-					<textarea rows="3" cols="50" name="content"></textarea>
-				</p>
-				<p>
-					<input type="hidden" name="seq" value="${data.seq}">
-					<input type="button" id="reply_write" onclick="replyWriteCheck();" value="작성">
-				</p>
+		<div class="Detail-body-header likedislike">
+		<div class="like-dislike">
+					<div class="like-button like-dislike-button"><span class="like-button-span like-dislike-button-span">${data.likes}</span><img class="like-icon" src="${path}/resources/img/like.png"></div>
+					<div class="dislike-button like-dislike-button"><span class="dislike-button-span like-dislike-button-span">${data.likes}</span><img class="dislike-icon" src="${path}/resources/img/dislike.png"></div>
+				</div>
+		</div>
+		
+		<div class="BoardColored toList">
+	
+		<a class="toListButton"><h4>목록</h4></a>
+		</div>
+	
+		<%if(id != null && id.equals(wr)) {%>
+		<div class="BoardColored writer">
+			<button id="b_modify" onclick=" modifyCheck();"><h5>게시글 수정</h5></button>
+		</div>	
+		<div class="BoardColored writer">
+	
+			<form name='deleteform' id="b_delete" action="boardDelete" method="post">
+				<input type="hidden" name="seq" value="${data.seq}" />
+				<h5><input type="button" value="삭제" onclick="deleteCheck();" ></h5>
 			</form>
+		<%} %>
 		</div>
-		<div>
-			<c:forEach items="${reply}" var="reply">
-					<div>
-						<p>
-							|| ${reply.content}  || ${reply.writer}  |  <fmt:formatDate value="${reply.regDate}" pattern="yyyy-MM-dd"/>
-								<button id="r_modify" onclick="RmodifyCheck();">수정</button>
-								<form name="replydeleteform" method="post" action="/movie/delete">
-									<input type="hidden" name="rno" value="${data.rno}"/>
-									<button>삭제</button>
-								</form>
-						</p>
-					</div>
-			</c:forEach>
-		</div>
-		
 	</div>
-	<div class="spacing" style="height:200px"></div>
-		
 
+	<!-- 댓글 부분 -->
+	<div id="comments-container">
+		<h5>댓글 목록</h5>
+		<form id="replywriteform" name="replywriteform" method="post" action="/movie/write">
+			<label id="r_writer">
+				${sessionScope.id}님 <input type="hidden" name="writer" value="${sessionScope.id}" />
+			</label>
+			<div id="replywritebox">
+				<textarea id="reply_text" rows="2" cols="80" name="content" placeholder="댓글을 남겨주세요."></textarea>
+				<input type="hidden" name="seq" value="${data.seq}" />
+				<input type="button" id="reply_write" onclick="replyWriteCheck();" value="작성">
+			</div>
+		</form>
+		<div id="reply_box">
+			<%for(ReplyVo reply : replyList) {%>
+				<div id="reply_data">
+					<div class="r1"><%=reply.getContent() %></div>
+					<div class="r2"><%=reply.getWriter() %></div>
+					<div class="r3"><fmt:formatDate value="<%=reply.getRegDate() %>" pattern="yy-MM-dd"/></div>
+					<%if(id != null && id.equals(reply.getWriter()) ) {%>
+					<div class="r4">
+						<div class="modify_modal" id="modify_modal">
+							<h4><%=reply.getRno() %></h4>
+							<a class="modal_close_btn">X</a>
+							<div id="modal_reply_writer"><%=reply.getWriter() %>님</div>
+							<div class="reply-modify">
+								<form name="replymodifyform" data-rno="<%=reply.getRno()%>" method="post" action="/movie/modify">
+									<textarea rows="2" cols="80" name="content" placeholder="댓글을 입력해주세요"></textarea>
+									<input type="hidden" name="seq" value="<%=reply.getSeq()%>">
+									<input type="hidden" name="rno" value="<%=reply.getRno()%>">
+									<input type="button" onclick="replyModify(this.form);" value="저장"/>
+								</form>
+							</div>
+						</div>
+						<input type="button" data-rno="<%=reply.getRno()%>" id="modal_open_btn<%=reply.getRno()%>" class="modal_open_btn_" onclick="modal(this.id);" value="<%=reply.getRno()%>"/>
+						<form name="replydeleteform" action="/movie/delete" method="post">
+							<input type="hidden" name="rno" value="<%=reply.getRno()%>">
+							<input type="hidden" name="seq" value="<%=reply.getSeq()%>">
+							<input type="button" data-rno="<%=reply.getRno()%>" value="삭제" onclick="replydeleteCheck();"/>
+						</form>
+					</div>
+					<%} %>
+				</div>
+			 
+			<%} %>
+		</div>
+	</div>
+
+	<div class="spacing" style="height:200px"></div>
 </div>
+		<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="<%=language%>"/>  
+</jsp:include>  
+
 </body>
+
 </html>

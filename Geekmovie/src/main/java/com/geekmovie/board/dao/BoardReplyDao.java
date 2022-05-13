@@ -22,16 +22,17 @@ public class BoardReplyDao {
 		return sqlSessionTemplate.selectList("replyVo.reply_list", seq);
 	}
 	
-	public void replyCreate(ReplyVo replyVo) {
-		sqlSessionTemplate.insert("replyVo.reply_create", replyVo);
+	public int replyCreate(ReplyVo replyVo) {
+		return sqlSessionTemplate.insert("replyVo.reply_create", replyVo);
 	}
 	
-	public void replyUpdate(ReplyVo replyVo) {
-		sqlSessionTemplate.update("replyVo.reply_update", replyVo);
+	public int replyUpdate(ReplyVo replyVo) {
+		return sqlSessionTemplate.update("replyVo.reply_update", replyVo);
 	}
 	
-	public void replyDelete(int reply_seq) {
-		sqlSessionTemplate.delete("replyVo.reply_delete", reply_seq);
+	public int replyDelete(int rno) {
+		System.out.println("삭제 DAO");
+		return sqlSessionTemplate.delete("replyVo.reply_delete", rno);
 	}
 
 }

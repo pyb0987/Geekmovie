@@ -41,6 +41,44 @@
 		</if>
 		
 	</select>
+	
+	<select id="freerecommendCnt" resultType="int">
+		<![CDATA[
+			select count(*) 
+			from free_board
+			where likes>9
+		]]>	
+		<if test="searchType == 'TC' and bKeyword != null">
+			AND title LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'Wr' and bKeyword != null">
+			AND writer LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'M_id' and bKeyword != null">
+			AND movie_id LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+	</select>
+	
+		<select id="free_recommend" parameterType="freeVo" resultType="freeVo">
+		<![CDATA[
+			select seq, movie_id, title, writer, regdate, cnt, likes
+			from free_board
+			where likes>9
+		]]>
+		<if test="searchType == 'TC' and bKeyword != null">
+			AND title LIKE CONCAT ('%',#{bKeyword},'%')
+			OR contents LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'Wr' and bKeyword != null">
+			AND writer LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+		<if test="searchType == 'M_id' and bKeyword != null">
+			AND movie_id LIKE CONCAT ('%',#{bKeyword},'%')
+		</if>
+			ORDER BY seq DESC
+			Limit #{startList}, #{listSize}
+	</select>
+	
 
 	<insert id="free_insert" parameterType="freeVo">
 		<![CDATA[
@@ -51,7 +89,7 @@
 	
 	<select id="free_detail" parameterType="freeVo" resultType="freeVo">
 		<![CDATA[
-			select seq, title, writer, contents, regdate, movie_id
+			select seq, title, writer, contents, regdate, movie_id, cnt, likes
 			from free_board  
 			where seq = #{seq}
 		]]>
@@ -81,5 +119,42 @@
 			where seq = #{seq}
 		]]>
 	</delete>
+	
+	<update id="like_update" parameterType="HashMap">  
+	    <![CDATA[  
+	        update free_board set  likes = #{likes}
+	        where seq = #{seq}  
+		    ]]>  
+	</update>
+
+	<resultMap type="freeLikeVo" id="freeJoinTarget">
+			<result column="freeId" property="freeId" />
+			<result column="userId" property="userId" />
+			<!--<result column="mode" property="mode" />-->
+	</resultMap>
+	
+	<resultMap type="freeVo" id="freeJoin">
+		<result column="seq" property="seq" />
+		<result column="title" property="title" />
+		<result column="writer" property="writer" />
+		<result column="regdate" property="regdate" />
+		<result column="likes" property="likes" />
+		<result column="movie_id" property="movie_id" />
+		<collection property="freeLikeVo" resultMap="freeJoinTarget"/>
+	</resultMap>
+	
+		<select id="UserLike" parameterType="HashMap" resultMap="freeJoin">
+	<![CDATA[
+			select a.seq, a.title, a.writer, a.regdate, a.likes, a.movie_id
+			from free_board as a
+			join
+			freelike as b
+			on a.seq = b.freeId
+            where b.userId=#{userId}  and b.mode=1 
+            order by b.seq DESC limit #{nowPageStart}, #{Size};
+		]]>
+	</select>
+
+
 
 </mapper>

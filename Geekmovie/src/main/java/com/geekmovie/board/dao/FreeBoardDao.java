@@ -1,6 +1,7 @@
 package com.geekmovie.board.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +48,17 @@ public class FreeBoardDao {
 		return sqlSessionTemplate.update("freeVo.free_cntIncrease", freeVo);
 	}
 
+	public List<FreeVo> freeRecommend(FreeVo freeVo) {
+		return sqlSessionTemplate.selectList("freeVo.free_recommend", freeVo);
+	}
+	public int freeRecommendCnt(FreeVo freeVo) {
+		return sqlSessionTemplate.selectOne("freeVo.freerecommendCnt", freeVo);
+	}
+	public int likeUpdate(Map<String, Object> map) {
+		return sqlSessionTemplate.update("freeVo.like_update", map);
+	}
+
+	public List<FreeVo> UserLike(Map<String, Object> map) {
+		return 	sqlSessionTemplate.selectList("freeVo.UserLike", map);	
+	}
 }

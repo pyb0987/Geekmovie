@@ -14,7 +14,7 @@
 	<insert id="reply_create" parameterType="replyVo">
 		<![CDATA[
 			INSERT INTO b_reply (seq, content, writer, regDate)
-			VALUES (#{seq}, #{content}, #{writer}, #{regDate})
+			VALUES (#{seq}, #{content}, #{writer}, now())
 		]]>
 	</insert>
 	
@@ -29,7 +29,7 @@
 	<delete id="reply_delete">
 		<![CDATA[
 			DELETE FROM b_reply
-			WHERE rno = #{rno} and seq = #{seq}
+			WHERE rno = #{rno}
 		]]>
 	</delete>
 	

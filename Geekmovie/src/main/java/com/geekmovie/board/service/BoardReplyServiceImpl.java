@@ -20,18 +20,19 @@ public class BoardReplyServiceImpl implements BoardReplyService{
 	}
 	
 	@Override
-	public void rCreate(ReplyVo replyVo) {
-		dao.replyCreate(replyVo);
+	public int rCreate(ReplyVo replyVo) {
+		return dao.replyCreate(replyVo);
 	}
 	
 	@Override
-	public void rUpdate(ReplyVo replyVo) {
-		dao.replyUpdate(replyVo);
+	public int rUpdate(ReplyVo replyVo) {
+		return dao.replyUpdate(replyVo);
 	}
 	
 	@Override
-	public void rDelete(int reply_seq) {
-		dao.replyDelete(reply_seq);
+	public int rDelete(int rno) {
+		System.out.println("삭제 서비스");
+		return dao.replyDelete(rno);
 	}
 	
 }

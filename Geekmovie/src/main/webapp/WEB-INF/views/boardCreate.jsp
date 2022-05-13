@@ -107,15 +107,23 @@ body {
 #wrap{
 margin-top: 100px;
 }
-.BoardHeader h1 {
+
+	.BoardHeader h1 {
 		padding-left : 50px;
 		margin : 30px;
+		color : black;
 	}
-.BoardWrap {
-		top : 3rem;
-		width : 70%;
-		margin : 0 auto;
-}
+.BoardContainer{
+width : 80%;
+margin : 0 auto;
+top : 3rem;
+}	
+	.BoardWrap {
+    border-radius: 10px;
+    padding: 50px;
+    background-color: white;
+	}
+
 .BoardHeader {
 		border-top: 3px solid red;
 }
@@ -160,20 +168,24 @@ position: relative;
 grid-column: 1 / 5;
     margin: 3% 0;
     padding: 0 2%;
-    border-left: double 7px brown;
-    border-right: double 7px brown;
+     border: solid 2px #444;
+    border-radius: 10px;
+
 min-height : 500px;
 }
 
 .movieContent h5{
 	    font-weight: 400;
+	    color : black;
 }
 
 .BoardColored{
-background-color: #696565;
-border : 1px solid black;
+background-color: #555;
 box-sizing : border-box;
 padding: 0 10px;
+    border: 1px solid black;
+    margin: 1px;
+
 }
 .BoardColored h5, .BoardColored h4{
 font-weight : 400;
@@ -213,7 +225,7 @@ display : flex;
 #bContent{
 width : 100%;
 height : 500px;
-background-color: #eee;
+border: none;
 }	
 
 
@@ -290,6 +302,9 @@ height: 2rem;
 #SearchResultsContainer{
 position : absolute;
 width : 100%;
+    z-index: 2;
+border: solid 1px;
+    box-sizing: border-box;
 }
 </style>
 </head>
@@ -303,6 +318,8 @@ width : 100%;
 	
 	
 	<div id="wrap">
+		<div class="BoardContainer">
+
 	<form name="bCreateForm" method="post" onsubmit="return checkValue()">
 	<div class="BoardWrap">
 	<div class="BoardHeader">
@@ -367,6 +384,9 @@ width : 100%;
 	</div>
 	</form>
 
+	</div>
+
+
 	<div class="modal">
 		<div class="modalExit"><img id="modalExitImage" src="${path}/resources/img/x.png" alt="exit"></div>
 		<div class="modal-content" title="영화를 선택하세요.">
@@ -379,5 +399,8 @@ width : 100%;
 	</div>
 	</div>
 	<div class="spacing" style="height:200px"></div>
+	<jsp:include page="./common/footer.jsp">  
+<jsp:param name="language" value="<%=language%>"/>  
+</jsp:include>  
 </body>
 </html>

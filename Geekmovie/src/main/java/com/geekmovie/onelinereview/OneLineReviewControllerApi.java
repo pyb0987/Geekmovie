@@ -71,6 +71,7 @@ public class OneLineReviewControllerApi {
 		return oneLineReviewService.GetPage(olrId);
 	}
 	
+
 	@RequestMapping(value = "/oneLineReview/user/{userId}/like", method = RequestMethod.GET)
 	@ResponseBody
 	public List<OneLineReviewVo> oneLineReviewUserGET(HttpServletRequest request, @PathVariable("userId") String userId) {
@@ -79,5 +80,15 @@ public class OneLineReviewControllerApi {
 		map.put("nowPageStart", Integer.parseInt(request.getParameter("nowPageStart")));
 		map.put("Size", Integer.parseInt(request.getParameter("Size")));
 		return oneLineReviewService.UserLike(map);
+	}
+	
+	@RequestMapping(value = "/oneLineReview/movie/{movieId}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<OneLineReviewVo> oneLineReviewMovieGET(@PathVariable("movieId") String movieId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("movieId", movieId);
+		map.put("nowPageStart", 0);
+		map.put("Size", 6);
+		return oneLineReviewService.SelectMovie(map);
 	}
 }
