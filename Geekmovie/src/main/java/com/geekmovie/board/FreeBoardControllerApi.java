@@ -69,13 +69,4 @@ public class FreeBoardControllerApi {
 	}
 	
 	
-	@RequestMapping(value = "/freeboard/user/{userId}", method = RequestMethod.GET)		//특정 유저가 좋아하는 리뷰를 반환
-	public List<FreeVo> UserLike(HttpServletRequest request, @PathVariable("userId") String userId) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("userId", userId);
-		map.put("nowPageStart", Integer.parseInt(request.getParameter("nowPageStart")));
-		map.put("Size", Integer.parseInt(request.getParameter("Size")));
-
-		return fBoardService.UserLike(map);
-	}
 }

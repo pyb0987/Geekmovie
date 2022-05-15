@@ -12,8 +12,8 @@
 
 <%
 BoardVo data = (BoardVo) request.getAttribute("data");
-%>
-<%
+List<ReplyVo> replyList = (List<ReplyVo>)request.getAttribute("reply");
+
 String wr = data.getWriter();
 
 String id = (String) session.getAttribute("id");
