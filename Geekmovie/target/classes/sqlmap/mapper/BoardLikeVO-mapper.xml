@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace : package + classname -->
+<mapper namespace="BoardLikeVo">
+	
+	<!-- 좋아요 체크 쿼리문 -->
+	<select id="likeCheck" parameterType="HashMap" resultType="int">
+	<![CDATA[
+		select count(userId) from boardlike where userId = #{userId} and likeCheck=#{likeCheck} and mode = #{mode};
+	]]>
+	</select>
+	
+	<!-- 좋아요 업데이트 쿼리문 -->
+	<insert id="Add" parameterType="HashMap">
+	<![CDATA[
+		insert into boardlike(userId, likeCheck, mode)
+    	value(#{userId}, #{likeCheck}, #{mode})
+    	on duplicate key update
+    	`mode` = if(values(mode) = mode, -1, #{mode});
+	]]>
+	</insert>
+	
+	<!-- 좋아요 카운트 수 -->
+	<select id="CountBoardLike" parameterType="HashMap" resultType="int">
+	<![CDATA[
+		select count(userId) from boardlike where likeCheck=#{likeCheck} and mode=#{mode};
+	]]>
+	</select>
+	
+	<!--  -->
+	<select id="CountUserLike" parameterType="HashMap" resultType="int">
+	<![CDATA[
+		select count(userId) from boardlike where userId=#{userId} and mode=#{mode};
+	]]>
+	</select>
+		
+</mapper>

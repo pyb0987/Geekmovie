@@ -64,4 +64,9 @@ public class BoardServiceImpl implements BoardService{
 	public Map<String, Object> AverageScore(int movieId){
 		return dao.AverageScore(movieId);
 	}
+
+	@Override
+	public int likeUpdate(Map<String, Object> map) {
+		return dao.likeUpdate(map);
+	}
 }

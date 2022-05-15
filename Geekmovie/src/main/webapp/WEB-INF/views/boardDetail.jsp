@@ -1,4 +1,3 @@
-
 <%@page import="java.util.List"%>
 <%@page import="com.geekmovie.board.vo.ReplyVo"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -6,18 +5,18 @@
 <%@page import="com.geekmovie.board.service.BoardService"%>
 <%@page import="com.geekmovie.board.vo.BoardVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
-
-<% BoardVo data = (BoardVo)request.getAttribute("data"); 
-	List<ReplyVo> replyList = (List<ReplyVo>)request.getAttribute("reply");
-%>
-<% String wr = data.getWriter(); %>
+<c:set var="path" value="${pageContext.request.contextPath}" />
 
 <%
-String id = (String)session.getAttribute("id"); 
+BoardVo data = (BoardVo) request.getAttribute("data");
+%>
+<%
+String wr = data.getWriter();
+
+String id = (String) session.getAttribute("id");
 Timestamp gendate = data.getRegdate();
 String formattedgenDate = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(gendate);
 
@@ -31,11 +30,15 @@ String language = "ko-KR";
 <title>GeekReviewDetail</title>
 
 
-<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">  <!-- 글꼴설정 -->
-<link rel="stylesheet" href="${path}/resources/css/globalFont.css"/>
-<link rel="stylesheet" href="${path}/resources/css/movieLike.css"/>
+<link
+	href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&family=Nanum+Gothic:wght@400;700;800&display=swap"
+	rel="stylesheet">
+<!-- 글꼴설정 -->
+<link rel="stylesheet" href="${path}/resources/css/globalFont.css" />
+<link rel="stylesheet" href="${path}/resources/css/movieLike.css" />
 
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="${path}/resources/js/throttle.js"></script>
 <script type="text/javascript" src="${path}/resources/js/fontResize.js"></script>
 <script type="text/javascript" src="${path}/resources/js/movieLike.js"></script>
@@ -64,7 +67,7 @@ function modifyCheck(){
 	}
 };
 
-// 로그인 회원만 댓글 작성하게
+// 로그인 회원만 글 작성하게
 function replyWriteCheck(){
 	if('${sessionScope.id}' == '') {
 		var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
@@ -155,71 +158,72 @@ Element.prototype.setStyle = function(styles) {
 };
 
 
-window.onload = function(){	
+
+window.onload = function(){
+		
+		var windowResize = function(){					//리사이징 함수
+		
+			fontResize()
+		
+		}
 	
-var windowResize = function(){					//리사이징 함수
+		windowResize();
+		var ResizeTimer;
+		window.addEventListener('resize', throttle(function() {				//리사이징에 throttle 적용
+	 		windowResize();
+		}, 20), true);	
 
-	fontResize()
-	
-}
-
-windowResize();
-var ResizeTimer;
-window.addEventListener('resize', throttle(function() {				//리사이징에 throttle 적용
-	 windowResize();
-}, 20), true);	
-
-movieLike('${sessionScope.id}');	//영화좋아요/add 적용 
+		movieLike('${sessionScope.id}');	//영화좋아요/add 적용 
 
 
-var starSize = 1.8;
-var colorMap = new Map([[28,["#44c76750","#18ab2950", "#ffffff", "#2f6627"]],	//genreColorMap
-	[12, ["#7892c250","#4e609650", "#ffffff", "#283966"]],
-	[16, ["#33bdef50","#057fd050", "#ffffff","#5b6178"]],
-	[35, ["#dbe6c450","#b2b8ad50", "#ffffff", "#ced9bf"]],
-	[80, ["#f2453750","#d0271850", "#ffffff", "#810e05"]],
-	[99, ["#ffffff50","#dcdcdc50", "ffffff", "#ffffff"]],
-	[18, ["#e4685d50","#ffffff50", "#ffffff", "#b23e35"]],
-	[10751, ["#ffec6450","#ffaa2250", "#ffffff", "#ffee66"]],
-	[14, ["#599bb350","#29668f50", "#ffffff", "#3d768a"]],
-	[36, ["#2dabf950","#0b0e0750", "#ffffff", "#263666"]],
-	[27, ["#d0451b50","#94291150", "#ffffff", "#854629"]],
-	[10402, ["#ededed50","#d6bcd650", "ffffff", "#e1e2ed"]],
-	[9648, ["#2e466e50","#1f2f4750", "#ffffff", "#263666"]],
-	[10749, ["#79bbff50","#337bc450", "#ffffff", "#5b8a3c"]],
-	[878, ["#5d53ed50","#84bbf350", "#ffffff", "#2a67a3"]],
-	[10770, ["#7d5d3b50","#54381e50", "#ffffff", "#4d3534"]],
-	[53, ["#fc8d8350","#d8352650", "#ffffff", "#b23e35"]],
-	[10752, ["#768d8750","#56696350", "#ffffff", "#2b665e"]],
-	[37, ["#77b55a50","#4b8f2950", "#ffffff", "#5b8a3c"]]]);  
+	var starSize = 1.8;
+	var colorMap = new Map([[28,["#44c76750","#18ab2950", "#ffffff", "#2f6627"]],	//genreColorMap
+		[12, ["#7892c250","#4e609650", "#ffffff", "#283966"]],
+		[16, ["#33bdef50","#057fd050", "#ffffff","#5b6178"]],
+		[35, ["#dbe6c450","#b2b8ad50", "#ffffff", "#ced9bf"]],
+		[80, ["#f2453750","#d0271850", "#ffffff", "#810e05"]],
+		[99, ["#ffffff50","#dcdcdc50", "ffffff", "#ffffff"]],
+		[18, ["#e4685d50","#ffffff50", "#ffffff", "#b23e35"]],
+		[10751, ["#ffec6450","#ffaa2250", "#ffffff", "#ffee66"]],
+		[14, ["#599bb350","#29668f50", "#ffffff", "#3d768a"]],
+		[36, ["#2dabf950","#0b0e0750", "#ffffff", "#263666"]],
+		[27, ["#d0451b50","#94291150", "#ffffff", "#854629"]],
+		[10402, ["#ededed50","#d6bcd650", "ffffff", "#e1e2ed"]],
+		[9648, ["#2e466e50","#1f2f4750", "#ffffff", "#263666"]],
+		[10749, ["#79bbff50","#337bc450", "#ffffff", "#5b8a3c"]],
+		[878, ["#5d53ed50","#84bbf350", "#ffffff", "#2a67a3"]],
+		[10770, ["#7d5d3b50","#54381e50", "#ffffff", "#4d3534"]],
+		[53, ["#fc8d8350","#d8352650", "#ffffff", "#b23e35"]],
+		[10752, ["#768d8750","#56696350", "#ffffff", "#2b665e"]],
+		[37, ["#77b55a50","#4b8f2950", "#ffffff", "#5b8a3c"]]]);  
 
-$.fn.generateStars = function() {			//별점생성함수 - 크기는 1.8rem
-	return this.each(function(i,e){
-		let score = $(e).text()
-		$(e).html($('<span/>').width(score*starSize/2+'rem'));
-			$(e)[0].dataset.score = score;
-	});
+		$.fn.generateStars = function() {			//별점생성함수 - 크기는 1.8rem
+			return this.each(function(i,e){
+				let score = $(e).text()
+				$(e).html($('<span/>').width(score*starSize/2+'rem'));
+				$(e)[0].dataset.score = score;
+		});
 	}
 
-$.ajax({							//받아온 영화 정보 디테일로 만들기
-	type: 'GET',
-	url: `/movie/getMovieData?movieId=${data.movie_id}&language=<%=language %>`,
-	dataType : 'json',
-	contentType : 'application/json', 
-	success: function(data){
-		let str1;
-		let str2;
-		if(!!data.backdrop_path){
-		str1 = 'https://image.tmdb.org/t/p/original/'+data.backdrop_path ;			//백드랍 이미지
-		}else{        		
-			str1 = '${path}/resources/img/wall.jpg' ;	
-		}
-		if(!!data.poster_path){
-		str2 = "<img src='https://image.tmdb.org/t/p/w500/"+data.poster_path+"'>"    //포스터
-		}else{
-			str2 = "<img src='${path}/resources/img/noImage.jpg'>"
-		}
-		let str3 = "<h1 style='text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000; margin-bottom: 0;'>"+data.title+"</h1>"      //제목
+	$.ajax({							//받아온 영화 정보 디테일로 만들기
+		type: 'GET',
+		url: `/movie/getMovieData?movieId=${data.movie_id}&language=<%=language%>`,
+		dataType : 'json',
+		contentType : 'application/json', 
+		success: function(data){
+			let str1;
+			let str2;
+			if(!!data.backdrop_path){
+				str1 = 'https://image.tmdb.org/t/p/original/'+data.backdrop_path ;			//백드랍 이미지
+			}else{        		
+				str1 = '${path}/resources/img/wall.jpg' ;	
+			}
+			if(!!data.poster_path){
+				str2 = "<img src='https://image.tmdb.org/t/p/w500/"+data.poster_path+"'>"    //포스터
+			}else{
+				str2 = "<img src='${path}/resources/img/noImage.jpg'>"
+			}
+				let str3 = "<h1 style='text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000; margin-bottom: 0;'>"+data.title+"</h1>"      //제목
 		let str7 = "<h6 id='release_date'>"+data.release_date+" 개봉</h6>"
 		
 		   		
@@ -243,25 +247,136 @@ $.ajax({							//받아온 영화 정보 디테일로 만들기
 	   	$(".movieName").html(data.title);
 	   	
 	   	$(".movieName").click(function(){
-	   		location.href='http://localhost:8080/movie/movieDetail?movieId=${data.movie_id}&language=<%=language %>';
-	   	});
-		return false;
-	}
-	,
-	error: function(request, status, error){
-		console.log(request, status, error)
+	   		location.href='http://localhost:8080/movie/movieDetail?movieId=${data.movie_id}&language=<%=language%>';
+										});
+						return false;
+					},
+					error : function(request, status, error) {
+						console.log(request, status, error)
+					}
+
+				})
+
+		document.querySelector(".toListButton").addEventListener('click',function() {
+							if ('${recommend}' == 'true') {
+								location.href = "boardRecommendList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"
+							} else {
+								location.href = "boardList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"
+							}
+						})
+		//===========================좋아요 기능
+
+		$.fn.activeLikeButtons = function() { // - 이미 눌린 좋아요 버튼 active효과주기
+		this.each(function(i, e) {
+	
+						let mode = Number($(e).hasClass("like-button"));
+						$.ajax({
+									url : 'board/like/${data.seq}?userId=${sessionScope.id}&mode='+ mode,
+									method : "GET",
+									success : function(data) {
+										if (data == 1) {
+											$(e).addClass("active");
+										} else {
+											$(e).removeClass("active");
+										}
+									},
+									error : function(request, status, error) {
+										console.log(request, status, error)
+									}
+								});
+					});
+		}
+	if ('${sessionScope.id}' != '') {
+		$(".like-button, .dislike-button").activeLikeButtons();
 	}
 	
-})
+	$.ajax({ //로드완료하면 좋아요 개수 세기
+		url : 'board/freeCount/${data.seq}?mode=1',
+		method : "GET",
+		success : function(data) {
+			document.querySelector(".like-button .like-dislike-button-span").innerText = data;
+		},
+		error : function(request, status, error) {
+			console.log(request, status, error)
+		}
+	});
+	
+	$.ajax({ //로드완료하면 싫어요 개수 세기
+		url : 'board/freeCount/${data.seq}?mode=0',
+		method : "GET",
+		success : function(data) {
+			document
+					.querySelector(".dislike-button .like-dislike-button-span").innerText = data;
+		},
+		error : function(request, status, error) {
+			console.log(request, status, error)
+		}
+	});
+	
+	$(document).on("click",".like-button, .dislike-button",function(e) { //좋아요 버튼 누를때 이벤트
+		if ('${sessionScope.id}' == '') {
+			var result = confirm("로그인이 필요한 서비스 입니다. \n로그인 페이지로 이동 하시겠습니까?");
+				if (result) {
+					location.href = 'user_join';
+				}
+				} else {
+					var button = e.currentTarget;
+					var likeData = {};
+					var likeButton = button.parentElement
+							.querySelector(".like-button");
+					var dislikeButton = button.parentElement
+							.querySelector(".dislike-button");
+					likeData['mode'] = Number(button.classList
+							.contains("like-button"));
+					likeData['userId'] = '${sessionScope.id}';
+					
+					$.ajax({
+						url : 'board/like/${data.seq}',
+						method : "POST",
+						data : JSON.stringify(likeData),
+						dataType : "json",
+						contentType : "application/json;charset=UTF-8",
+						success : function(data) {
+							if (data == 1 || data == 2) { //성공시 정보 업데이트
+								$.ajax({
+									url : 'board/freeCount/${data.seq}?mode=1',
+									method : "GET",
+									success : function(data) {
+										likeButton.querySelector(".like-dislike-button-span").innerText = data;
+										document.querySelector('.movieLikes').innerText = "좋아요 : " + data;},
+										error : function(request,status,error) {
+										console.log(request,status,error)}
+												});
+										$.ajax({
+										url : 'board/freeCount/${data.seq}?mode=0',
+										method : "GET",
+										success : function(data) {
+												dislikeButton.querySelector(".like-dislike-button-span").innerText = data;
+												},
+												error : function(request,status,error) {
+												console.log(request,status,error)
+													}
+												});
+										$(likeButton).activeLikeButtons();
+										$(dislikeButton).activeLikeButtons();
+									} else {
+										console.log(data)
+										alert("존재하지 않는 대상입니다.");
+									}
+								},
+								error : function() {
+									alert("의견이 반영되지 않았습니다.");
+								}
+							});
+
+				}
+
+			})
+
+	
+	
 
 
- document.querySelector(".toListButton").addEventListener('click', function(){
-	if('${recommend}'=='true'){
-		location.href="boardRecommendList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"
-	}else{		
-		location.href="boardList?searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}"
-	}
- })
 
 } // window onload
 

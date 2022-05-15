@@ -25,5 +25,7 @@ public interface BoardService {
 	
 	public int boardRecommendCnt(BoardVo boardvo);
 	
+	public int likeUpdate(Map<String, Object> map);
+	
 	public Map<String, Object> AverageScore(int movieId);
 	}

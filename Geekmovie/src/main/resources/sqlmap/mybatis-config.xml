@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.geekmovie.board.vo.FreeLikeVo" alias="FreeLikeVo"/>
 		<typeAlias type="com.geekmovie.free.reply.vo.FreeReplyVo" alias="FreeReplyVo"/>
 		<typeAlias type="com.geekmovie.free.reply.vo.FreeReplyLikeVo" alias="FreeReplyLikeVo"/>
+		<typeAlias type="com.geekmovie.board.like.vo.BoardLikeVo" alias="BoardLikeVo"/>		
 	</typeAliases>
 	<mappers>
         <mapper resource="/sqlmap/mapper/BoardVO-mapper.xml"/>
@@ -27,5 +28,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         <mapper resource="/sqlmap/mapper/FreeLikeVo-mapper.xml"/>
         <mapper resource="/sqlmap/mapper/FreeReplyVo-mapper.xml"/>
         <mapper resource="/sqlmap/mapper/FreeReplyLikeVo-mapper.xml"/>
+        <mapper resource="/sqlmap/mapper/BoardLikeVO-mapper.xml"/>
     </mappers>
 </configuration>

@@ -57,4 +57,8 @@ public class BoardDao {
 	public Map<String, Object> AverageScore(int movieId) {
 		return sqlSessionTemplate.selectOne("boardVo.score-average", movieId);
 	}
+
+	public int likeUpdate(Map<String, Object> map) {
+		return sqlSessionTemplate.update("boardVo.like_update",map);
+	}
 }
