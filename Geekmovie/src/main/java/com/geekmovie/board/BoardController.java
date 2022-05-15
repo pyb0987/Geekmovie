@@ -31,6 +31,12 @@ public class BoardController {
 	public BoardController() {
 		System.out.println("@BoardController 생성");
 	}
+	
+	@GetMapping("/test")
+	public String testpage() {
+		System.out.println("테스트 페이지 생성");
+		return "test";
+	}
 
 	@RequestMapping("/boardList")          //게시판
 	public ModelAndView boardList(BoardVo boardVo,
@@ -65,7 +71,8 @@ public class BoardController {
 		return mav;
 	}
 	@RequestMapping("/boardRecommendList")          //게시판
-	public ModelAndView boardRecommend(BoardVo boardVo,	@RequestParam(required = false, defaultValue = "1") int curPage,
+	public ModelAndView boardRecommend(BoardVo boardVo,	
+			@RequestParam(required = false, defaultValue = "1") int curPage,
 			@RequestParam(required = false, defaultValue = "1") int range,
 			@RequestParam(required = false, defaultValue = "TC") String searchType,
 			@RequestParam(required = false, defaultValue = "") String bKeyword) {

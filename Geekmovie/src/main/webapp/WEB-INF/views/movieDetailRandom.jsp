@@ -183,7 +183,6 @@ width: 80%;
     margin-left: 3%; 
 }
 
-
 .user-content-recommend{width : 17%;}
 .user-content-movie{width : 40%;margin-left: 4%; }
 .user-content-score{width : 34%;}

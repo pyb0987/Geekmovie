@@ -137,6 +137,20 @@ display : inline;
 	font-weight: 400;
 }
 
+.star-rating, .star-rating > * {
+    height: 1.7rem; 
+    background: url(${path}/resources/img/star.png);
+    background-size : 1.6rem auto;		/* 별점 너비는 1.6rem*/
+    background-position: 0 -1.7rem;
+    background-repeat: repeat-x; 
+    width: 8rem;
+    display: inline-block;
+}
+ 
+.star-rating > * {
+    background-position: 0 0;
+    max-width:8rem; 
+}
 
 .star-rating, .star-rating > * {
     height: 1.7rem; 

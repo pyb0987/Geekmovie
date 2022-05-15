@@ -536,6 +536,25 @@ $(document).ready(function() {
 				</div>
 			</div>
 			<div id="user-boardLike-container" class="user-container"></div>
+			<div id="user-freeboardLike-container" class="user-container">
+				<div class="user-container-title">
+					<h3>내가 좋아한 자유게시글</h3>
+					<h4 class="seeMoreLink" onclick="location.href = 'freeboardList/like/<%=id%>?curPage=1'">&#43;더 보기</h4>
+				</div>
+				<div class="user-container-contents">
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+				<div class=user-container-content><div class="user-content-freetitle"></div><div class="user-content-freerecommend"></div><div class="user-content-freereply"></div><div class="user-content-freeid"></div><div class="user-content-freemovie"></div><div class="user-content-gendate"></div></div>
+
+				</div>
+			</div>
 			<div id="user-boardComment-container" class="user-container"></div>
 			<div id="user-olr-container" class="user-container">
 				<div class="user-container-title">
