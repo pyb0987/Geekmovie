@@ -911,7 +911,7 @@ margin : 20px auto;
 					</button>
 				</div>
 				<div class="BoardColored writer">
-					<form name='deleteform' id="f_delete" action="boardDelete"
+					<form name='deleteform' id="f_delete" action="freeboardDelete"
 						method="post">
 						<input type="hidden" name="seq" value="${data.seq}" />
 						<h5>

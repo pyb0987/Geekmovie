@@ -29,7 +29,7 @@
 	
 	<select id="boardOrderserialfind" parameterType="freeReplyVo" resultType="String">
 	select ifnull(max(orderserial), concat(#{orderserial}, '0000'))
-	from freereply where boardId=#{boardId} and ancestorId=#{ancestorId} and depth=#{depth} and writer='' and orderserial like concat(#{orderserial},'%');
+	from freereply where boardId=#{boardId} and ancestorId=#{ancestorId} and depth=#{depth} and orderserial like concat(#{orderserial},'%');
 	</select>
 	
 	<update id="like_update" parameterType="HashMap">  

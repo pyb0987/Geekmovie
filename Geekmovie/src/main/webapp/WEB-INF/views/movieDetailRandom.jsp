@@ -172,7 +172,7 @@ grid-template-rows : repeat(6, 1fr);
 	align-items: center;
 	height: 80px;
 	flex-wrap: wrap;
-	border: solid 1px #333;
+	border-bottom: solid 1px #999;
 }
 .user-container-content:hover{
 	background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(13,40,38,1) 50%, rgba(0,0,0,1) 100%);
@@ -183,8 +183,7 @@ width: 80%;
     margin-left: 3%; 
 }
 
-.user-content-title h5{font-size: 1.4rem;
-width: calc((50vw - 60px) * 0.8);}
+
 .user-content-recommend{width : 17%;}
 .user-content-movie{width : 40%;margin-left: 4%; }
 .user-content-score{width : 34%;}
@@ -197,6 +196,9 @@ margin : 0;
 	overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 	font-weight: 400;
 }
+.user-content-title h5{font-size: 1.2rem;
+font-weight: 700;
+width: calc((50vw - 60px) * 0.8);}
 
 
 .star-rating, .star-rating > * {

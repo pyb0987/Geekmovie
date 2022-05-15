@@ -266,6 +266,18 @@ color : black;
 	.hover:hover{
 	color : #f2f5dccc;
 }
+.boardtitle{
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 20rem;
+}
+.whitespace{
+    white-space: nowrap;
+}    
+    
 </style>
 <link rel="stylesheet" href="${path}/resources/css/pagination.css?ver=1"/>
 </head>
@@ -299,7 +311,7 @@ color : black;
 			<c:forEach var="f" items="${data}">
 					<tr>
 						<td>${f.seq}</td>
-						<td ><a class="hover" href="freeboardDetail?seq=${f.seq }&searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}">${f.title}(+${f.reply})</a></td>
+						<td class="whitespace"><a class="hover boardtitle" href="freeboardDetail?seq=${f.seq }&searchType=${searchType}&bKeyword=${keyword}&curPage=${curpage}&range=${range}">${f.title}</a>(+${f.reply})</td>
 						<td class="movieId">${f.movie_id}</td>
 				<td>${f.writer}</td>
 				<td class="timeStamp">${f.regdate}</td>

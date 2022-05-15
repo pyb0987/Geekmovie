@@ -23,7 +23,7 @@
 				</div>
 				<!-- password 적용 -->
 				<div>
-					<input type="text" name="password" id="password" placeholder="Password"> 
+					<input type="password" name="password" id="password" placeholder="Password"> 
 					<span class="error_next_box" id="passwordError"></span>
 					<c:if test="${msg == 'failure'}">
 						<div style="color:red">
@@ -34,7 +34,7 @@
 				
 				<!-- 로그인 페이지 -->
 				<p>
-					<input type="submit" value="Sign Up" class="signup_btn">
+					<input type="submit" value="Log In" class="signup_btn">
 				</p>
 			</form>
 		</div>
