@@ -11,5 +11,4 @@ ppt폰트파일 : kopub
 사용프레임워크 : Spring 4.2D<br>
 DB : MySQL<br>
 
-
-![Index](https://github.com/pyb0987/pictures/tree/main/geekmovie/indexShow.gif "index")
+<img src="https://github.com/pyb0987/pictures/tree/main/geekmovie/indexShow.gif" width="40" height="40" />
