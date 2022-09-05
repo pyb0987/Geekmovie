@@ -13,6 +13,7 @@ DB : MySQL<br>
 
 
 <h6>메인화면</h6>
+<br>
 ![](img/indexShow.gif)
 
 헤더 : 검색기능, 로그인<br>
