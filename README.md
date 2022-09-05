@@ -13,8 +13,8 @@ DB : MySQL<br>
 외부 DB(TMDb) api를 연동하여 영화 정보 제공<br><br>
 
 <h5>* 메인화면</h5>
-<img src="img/indexShow.gif" width="500"/>
-<img src="img/HeaderShow.gif" width="500"/>
+<img src="img/indexShow.gif" width="900"/>
+<img src="img/HeaderShow.gif" width="900"/>
 헤더 : 검색기능, 로그인<br>
 페이지 크기에 따른 폰트 및 엘리먼트 리사이징 plain script로 구현<br>
 슬라이드 구현 : 레이지 로딩 적용<br>
@@ -23,7 +23,7 @@ DB : MySQL<br>
 <br><br>
 
 <h5>* 영화 검색</h5>
-<img src="img/MovieSearchShow.gif" width="500"/>
+<img src="img/MovieSearchShow.gif" width="900"/>
 헤더에서 영화를 검색했을 때 오는 페이지<br>
 검색한 쿼리와 관련된 영화 20개씩 제공<br>
 페이징, 좋아요, 찜기능 구현<br>
@@ -31,7 +31,7 @@ DB : MySQL<br>
 <br><br>
 
 <h5>* 영화 디테일</h5>
-<img src="img/MovieDetailShow.gif" width="500"/>
+<img src="img/MovieDetailShow.gif" width="900"/>
 관련영화 링크 제공<br>
 외부링크의 평점과 본 사이트의 평점 제공(참여자가 3명 이상일 경우에)<br>
 한줄평과 관련된 리뷰 표시<br>
