@@ -12,9 +12,8 @@ ppt폰트파일 : kopub
 DB : MySQL<br>
 
 
-
-<br>
-![](img/indexShow.gif)
+<h6>메인화면</h6>
+<img src="img/indexShow.gif" width="128"/>
 
 헤더 : 검색기능, 로그인<br>
 페이지 크기에 따른 폰트 및 엘리먼트 리사이징 plain script로 구현<br>
