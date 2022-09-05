@@ -12,7 +12,7 @@ ppt폰트파일 : kopub
 DB : MySQL<br>
 
 
-<h6>메인화면</h6>
+
 <br>
 ![](img/indexShow.gif)
 
