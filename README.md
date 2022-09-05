@@ -65,12 +65,12 @@ DB : MySQL<br>
 <br><br><br><br>
 
 
-<h5>* 리뷰, 자유 게시판</h5>
+<h5>* 게시글 디테일</h5>
 <img src="img/FreeDetailShow.gif" width="900"/>
 <ul>
   <li>게시글과 댓글에 좋아요 기능을 포함</li>
   <li>RESTful하게 댓글 및 대댓글 기능 구현</li>
-  <li>댓글의 계층과 페이징 기능
+  <li>댓글의 계층과 페이징 기능<br>
   -통상적으로 댓글 0단계는 최신순으로, 댓글 1단계 이후로는 따라 읽어나가기 쉽도록 그 반대로 정렬되는 경우가 많다는 점에 착안.
 Serial Varchar field를 내림차순 정렬하여 결과 반환.<br>
 -level 1의 댓글의 경우 Serial은 auto increment와 같음<br>
@@ -82,3 +82,14 @@ Serial Varchar field를 내림차순 정렬하여 결과 반환.<br>
 </ul>
 
 <br><br><br><br>
+
+<h5>* 마이페이지</h5>
+<img src="img/MyPageShow.gif" width="900"/>
+<ul>
+  <li>내가 작성한 또는 좋아한 리뷰, 게시글, 댓글, 한줄평, 영화 등 모든 정보 확인 가능</li>
+  <li>댓글과 한줄평은 링크 연결시 포커싱 기능</li>
+  <li>회원정보 수정과 탈퇴 기능 구현</li>
+</ul>
+
+<br><br><br><br>
+
