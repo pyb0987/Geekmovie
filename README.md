@@ -12,4 +12,4 @@ ppt폰트파일 : kopub
 DB : MySQL<br>
 
 
-![Index](https://github.com/pyb0987/pictures/tree/main/geekmovie/indexShow.git)
+![Index](https://github.com/pyb0987/pictures/tree/main/geekmovie/indexShow.gif "index")
