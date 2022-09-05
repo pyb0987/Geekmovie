@@ -14,9 +14,7 @@ DB : MySQL<br>
 
 <h6>메인화면</h6>
 ![](img/HeaderShow.gif)
-<br>
-<br>
-<br>
+
 헤더 : 검색기능, 로그인<br>
 페이지 크기에 따른 폰트 및 엘리먼트 리사이징 plain script로 구현<br>
 슬라이드 구현 : 레이지 로딩 적용<br>
