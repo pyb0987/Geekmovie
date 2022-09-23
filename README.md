@@ -8,16 +8,17 @@ ppt폰트파일 : kopub
 <br><br>
 제작기간 : 2022.04.17~2022.05.15(1달)<br>
 제작인원 : 3명<br>
-사용프레임워크 : Spring 4.2D<br>
+사용프레임워크 : Spring v4.2<br>
 DB : MySQL<br>
 외부 DB(TMDb) api를 연동하여 영화 정보 제공<br><br>
+
 
 <h5>* 메인화면</h5>
 <img src="img/indexShow.gif" width="900"/>
 <img src="img/HeaderShow.gif" width="900"/>
 <ul>
   <li>헤더 : 검색기능, 로그인</li>
-  <li>페이지 크기에 따른 폰트 및 엘리먼트 리사이징 plain script로 구현</li>
+  <li>페이지 크기에 따른 폰트 및 엘리먼트 리사이징 plain js로 구현</li>
   <li>슬라이드 구현 : 레이지 로딩 적용</li>
   <li>모든 영화 포스터 : DB테이블을 연동한 좋아요와 찜기능</li>
   <li>게시글 : 추천수가 10 이상인 리뷰와 자유게시글 표시</li>
